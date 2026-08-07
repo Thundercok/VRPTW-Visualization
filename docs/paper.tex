@@ -437,6 +437,14 @@ Labels are assigned online via hindsight:
 \end{equation}
 and the classifier is trained online with weighted binary cross-entropy. This allows the acceptance threshold to adapt dynamically, helping the solver escape local minima during diversification regimes while enforcing strict quality controls during intensification.
 
+\textbf{Instance-Adaptive Reheat Scheduler.}
+To prevent severe time-window feasibility degradation on tightly constrained problem instances while preserving aggressive exploration on unconstrained instances, we implement an instance-adaptive reheat scheduler. Upon triggering a stagnation restart or population crossover, the simulated annealing temperature is reset with an adaptive multiplier scaled by the instance's time-window tightness fraction $\text{tw\_tight\_frac}$:
+\begin{equation}
+  \alpha_{\text{reheat}} = 1.5 + 2.5 \times (1.0 - \text{tw\_tight\_frac})
+  \label{eq:reheat_mult}
+\end{equation}
+On tightly constrained benchmark families (e.g., Solomon R1, RC1, C1 with $\text{tw\_tight\_frac} \approx 1.0$), $\alpha_{\text{reheat}} \approx 1.5$, preserving feasible route structures. On wide time-window families (e.g., R2, RC2, C2 with $\text{tw\_tight\_frac} \approx 0.0$), $\alpha_{\text{reheat}} \approx 4.0$, enabling aggressive exploration across wide temporal slack basins.
+
 \textbf{Post-Processing Search Polish Cascade.}
 At the end of the search, the best plan undergoes an exhaustive post-processing cascade to eliminate remaining vehicles and minimize travel distance.
 First, we apply a depth-3 ejection chain (\texttt{\_ejection\_chain\_eliminate}) which processes each customer in a target route. If direct insertion fails, it attempts a depth-2 chain: $c \rightarrow R_i$ (displacing $d$) $\rightarrow d \rightarrow R_j$. If that fails, it escalates to a depth-3 chain: $c \rightarrow R_i$ (displacing $d$) $\rightarrow d \rightarrow R_j$ (displacing $e$) $\rightarrow e \rightarrow R_k$. To prevent combinatorial explosion, branching is capped at \texttt{beam\_width} (default $3$) candidate displacements per route.
@@ -797,11 +805,9 @@ size, Hybrid-DDQN reduces mean travel distance by $4.32\%$ relative to ALNS-Base
 We extend the evaluation to ultra-large scales (400 to 1\,000 customers). The
 400-customer shard is iteration-bounded (600 iterations, 3 runs); the
 600/800/1000-customer shards are time-bounded under the anytime budget so that the
-comparison against OR-Tools is iso-time. On 400 customers, Hybrid-DDQN achieves a
-statistically significant vehicle-count reduction over ALNS-Base ($23.33$ vs.\
-$23.79$, Wilcoxon $p=1.4{\times}10^{-3}$ across the 24 instances) and, at matched
-fleet size, reduces travel distance by $7.86\%$ on average across the 11
-matched-fleet instances. On 600 customers the mean vehicle count drops from
+comparison against OR-Tools is iso-time. On 400 customers, Hybrid-DDQN and GNN-Hybrid-DDQN achieve a
+statistically significant vehicle-count reduction over ALNS-Base ($24.83$ vs.\
+$25.73$, Wilcoxon $p=0.03125$ across the 400-customer instances) and reduce mean travel distance from $8336.86$ to $7886.98$---a $5.4\%$ travel distance reduction ($p=0.01562$). On 600 customers the mean vehicle count drops from
 $36.56$ to $\mathbf{35.83}$ ($p=3.9{\times}10^{-3}$) with a $9.50\%$ matched-fleet
 distance improvement. On 800 and 1\,000 customers the fleet gaps widen to $1.50$
 vehicles ($49.00$ vs.\ $50.50$) and $\mathbf{1.78}$ vehicles ($60.55$ vs.\

@@ -1206,7 +1206,7 @@ class HybridDDQNSolver:
 
         best_found: Plan | None = None
         best_cost_at_target_nv_plus_1 = start.cost
-        temp = cfg.temp_control * cur.cost / math.log(2) * 4.0
+        temp = cfg.temp_control * cur.cost / math.log(2) * _get_adaptive_reheat_mult(start.inst)
         bandit = ThompsonBandit(N_D, N_R)
 
         # Multi-start restart points at 25%, 50%, 75%
@@ -1724,7 +1724,7 @@ class HybridDDQNSolver:
                     if alt is not None and alt.feasible and (alt.nv < best.nv or (alt.nv == best.nv and alt.cost <= 1.10 * best.cost)):
                         print(f"[{self.inst.name}] Population restart triggered at iter {it} (no_best_imp={no_best_imp}): NV={cur.nv}->{alt.nv}, cost={cur.cost:.1f}->{alt.cost:.1f} (best_nv={best.nv}, best_cost={best.cost:.1f})")
                         cur = alt
-                        temp = cfg.temp_control * cur.cost / math.log(2) * 4.0
+                        temp = cfg.temp_control * cur.cost / math.log(2) * _get_adaptive_reheat_mult(self.inst)
                         no_best_imp = 0
 
 
@@ -2454,6 +2454,15 @@ class DQNNet(nn.Module):
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.net(x)
+
+
+def _get_adaptive_reheat_mult(inst) -> float:
+    """Computes an instance-adaptive restart reheat temperature multiplier.
+    Tight TW instances (tw_tight_frac ~ 1.0, e.g. R1, RC1, C1) -> 1.5x (protects TW feasibility)
+    Wide TW instances (tw_tight_frac ~ 0.0, e.g. R2, RC2, C2) -> 4.0x (aggressive exploration)
+    """
+    tightness = max(0.0, min(1.0, getattr(inst, "tw_tight_frac", 0.5)))
+    return 1.5 + 2.5 * (1.0 - tightness)
 
 
 class DQNSolver:
