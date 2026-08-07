@@ -749,3 +749,74 @@ class LearnedAcceptanceCriterion:
                 updates[bare] = v.to(DEVICE)
         sd.update(updates)
         self.net.load_state_dict(sd)
+
+
+# ---------------------------------------------------------------------------
+# 3-Tier Hierarchical MARL: MILP Column Controller (DDQN-3)
+# ---------------------------------------------------------------------------
+class MILPColumnController:
+    """3rd Tier Neural Agent in Hierarchical MARL: Dynamically selects MILP set-partitioning parameters."""
+
+    N_ACTIONS = 8  # 8 Discrete MILP Configuration Modes
+
+    def __init__(self, cfg: Config, use_rl: bool = True):
+        self.cfg = cfg
+        self.use_rl = use_rl
+        self.state_dim = 14
+        if use_rl:
+            self.q = QNet(self.state_dim, self.N_ACTIONS, hidden_dim=64).to(DEVICE)
+            self.q_t = QNet(self.state_dim, self.N_ACTIONS, hidden_dim=64).to(DEVICE)
+            self.q_t.load_state_dict(self.q.state_dict())
+            self.opt = optim.Adam(self.q.parameters(), lr=1e-3)
+            self.buf = PrioritizedReplayBuffer(2000, expected_steps=1000)
+            self.eps = 0.30
+            self.step = 0
+
+    def get_action_spec(self, action: int) -> dict:
+        """Maps discrete action mode (0..7) to MILP configuration parameters."""
+        specs = {
+            0: {"p_vehicle": 100.0, "max_time": 4.0, "route_filter": "fleet_top25"},
+            1: {"p_vehicle": 200.0, "max_time": 6.0, "route_filter": "fleet_top10"},
+            2: {"p_vehicle": 0.0, "max_time": 3.0, "route_filter": "cost_top25"},
+            3: {"p_vehicle": 20.0, "max_time": 2.0, "route_filter": "balanced_top50"},
+            4: {"p_vehicle": 30.0, "max_time": 5.0, "route_filter": "balanced_top50"},
+            5: {"p_vehicle": 15.0, "max_time": 3.0, "route_filter": "diversity_sample"},
+            6: {"p_vehicle": 10.0, "max_time": 1.0, "route_filter": "fast_top20"},
+            7: {"p_vehicle": 50.0, "max_time": 8.0, "route_filter": "all_routes"},
+        }
+        return specs.get(action, specs[0])
+
+    def act(self, state: np.ndarray, frozen: bool = False) -> int:
+        if not self.use_rl or frozen:
+            return 0  # Default Fleet-Min mode
+        if random.random() < self.eps:
+            return random.randint(0, self.N_ACTIONS - 1)
+        with torch.no_grad():
+            s_t = torch.as_tensor(state, dtype=torch.float32, device=DEVICE).unsqueeze(0)
+            q = self.q(s_t)[0].cpu().numpy()
+            return int(q.argmax())
+
+    def observe(self, s, a, r, ns, done=0.0):
+        if self.use_rl:
+            self.buf.push(s, a, r, ns, done)
+
+    def train_step(self) -> None:
+        if not self.use_rl or len(self.buf) < 32:
+            return
+        (s, a, r, ns, d), idxs, is_w = self.buf.sample(32)
+        s = torch.tensor(s).to(DEVICE)
+        a = torch.tensor(a, dtype=torch.long).to(DEVICE)
+        r = torch.tensor(r).to(DEVICE)
+        ns = torch.tensor(ns).to(DEVICE)
+        d = torch.tensor(d).to(DEVICE)
+        qp = self.q(s).gather(1, a.unsqueeze(1)).squeeze(1)
+        with torch.no_grad():
+            best_a = self.q(ns).argmax(1).unsqueeze(1)
+            qn = self.q_t(ns).gather(1, best_a).squeeze(1)
+            target = r + 0.95 * qn * (1 - d)
+        loss = (is_w * F.smooth_l1_loss(qp, target, reduction="none")).mean()
+        self.opt.zero_grad()
+        loss.backward()
+        self.opt.step()
+        self.eps = max(0.05, self.eps * 0.995)
+

@@ -110,9 +110,24 @@ class GNNEdgePredictor(nn.Module):
 
         # Bilinear source/target head. Scoring pairs from node embeddings keeps the
         # output dense without ever building an (N, N, hidden) tensor.
+        # Bilinear source/target head. Scoring pairs from node embeddings keeps the
+        # output dense without ever building an (N, N, hidden) tensor.
         self.src_proj = nn.Linear(hidden_dim, hidden_dim)
         self.dst_proj = nn.Linear(hidden_dim, hidden_dim)
         self.edge_bias = nn.Parameter(torch.zeros(1))
+
+        # Contrastive projection head for Contrastive Graph RL (InfoNCE Loss)
+        self.contrastive_dim = 32
+        self.contrastive_src_proj = nn.Sequential(
+            nn.Linear(hidden_dim, hidden_dim // 2),
+            nn.ReLU(),
+            nn.Linear(hidden_dim // 2, self.contrastive_dim),
+        )
+        self.contrastive_dst_proj = nn.Sequential(
+            nn.Linear(hidden_dim, hidden_dim // 2),
+            nn.ReLU(),
+            nn.Linear(hidden_dim // 2, self.contrastive_dim),
+        )
 
     def forward(
         self, x_nodes: torch.Tensor, x_edges: torch.Tensor, nbr_idx: torch.Tensor
@@ -129,6 +144,49 @@ class GNNEdgePredictor(nn.Module):
         scale = self.hidden_dim**0.5
         logits = torch.matmul(src, dst.transpose(-2, -1)) / scale + self.edge_bias
         return logits  # (B, N, N)
+
+    def get_contrastive_embeddings(
+        self, x_nodes: torch.Tensor, x_edges: torch.Tensor, nbr_idx: torch.Tensor
+    ) -> tuple[torch.Tensor, torch.Tensor]:
+        """Returns L2-normalized source and target node embeddings for InfoNCE loss."""
+        h_nodes = self.node_embed(x_nodes)
+        h_edges = self.edge_embed(x_edges)
+        for layer in self.layers:
+            h_nodes, h_edges = layer(h_nodes, h_edges, nbr_idx)
+
+        z_src = nn.functional.normalize(self.contrastive_src_proj(h_nodes), p=2, dim=-1)
+        z_dst = nn.functional.normalize(self.contrastive_dst_proj(h_nodes), p=2, dim=-1)
+        return z_src, z_dst
+
+    def compute_contrastive_loss(
+        self,
+        z_src: torch.Tensor,
+        z_dst: torch.Tensor,
+        pos_edges: torch.Tensor,
+        neg_edges: torch.Tensor,
+        tau: float = 0.1,
+    ) -> torch.Tensor:
+        """Computes InfoNCE Contrastive Loss between positive (elite) and negative (violating) edges."""
+        # z_src, z_dst: (1, N, 32)
+        # pos_edges: (M_pos, 2), neg_edges: (M_neg, 2)
+        if pos_edges.shape[0] == 0:
+            return torch.tensor(0.0, device=z_src.device, requires_grad=True)
+
+        src_pos = z_src[0, pos_edges[:, 0]]  # (M_pos, 32)
+        dst_pos = z_dst[0, pos_edges[:, 1]]  # (M_pos, 32)
+        pos_sim = (src_pos * dst_pos).sum(dim=-1) / tau  # (M_pos,)
+
+        if neg_edges.shape[0] > 0:
+            src_neg = z_src[0, neg_edges[:, 0]]  # (M_neg, 32)
+            dst_neg = z_dst[0, neg_edges[:, 1]]  # (M_neg, 32)
+            neg_sim = (src_neg * dst_neg).sum(dim=-1) / tau  # (M_neg,)
+            denom = torch.exp(pos_sim) + torch.exp(neg_sim).mean()
+        else:
+            denom = torch.exp(pos_sim)
+
+        loss = -torch.log(torch.exp(pos_sim) / (denom + 1e-8)).mean()
+        return loss
+
 
 
 def get_gnn_features(inst: Inst, k: int = DEFAULT_K) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:

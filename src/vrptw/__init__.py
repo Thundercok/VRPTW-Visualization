@@ -38,6 +38,7 @@ from .rl import (
     EliteArchive,
     LearnedAcceptanceCriterion,
     LSBudgetController,
+    MILPColumnController,
     UCBActionAugmenter,
     WelfordRewardNormalizer,
 )

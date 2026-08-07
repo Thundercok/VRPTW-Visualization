@@ -10,144 +10,144 @@
       "solver": "Hybrid-DDQN",
       "seed": 1,
       "nv": 19,
-      "cost": 1657.5679515236523,
+      "cost": 1657.4404996124886,
       "feasible": true,
-      "wall_time": 10.262
+      "wall_time": 2.463
     },
     {
       "instance": "R101",
       "solver": "Hybrid-DDQN",
       "seed": 7,
       "nv": 19,
-      "cost": 1656.8392102410928,
+      "cost": 1653.9923154785356,
       "feasible": true,
-      "wall_time": 8.529
+      "wall_time": 2.751
     },
     {
       "instance": "R101",
       "solver": "ALNS-Base",
       "seed": 1,
       "nv": 19,
-      "cost": 1707.484148062876,
+      "cost": 1705.711639433697,
       "feasible": true,
-      "wall_time": 1.347
+      "wall_time": 0.704
     },
     {
       "instance": "R101",
       "solver": "ALNS-Base",
       "seed": 7,
       "nv": 20,
-      "cost": 1747.3246140514605,
+      "cost": 1717.5155000309958,
       "feasible": true,
-      "wall_time": 1.203
+      "wall_time": 0.531
     },
     {
       "instance": "RC207",
       "solver": "Hybrid-DDQN",
       "seed": 1,
       "nv": 3,
-      "cost": 1093.8977089574346,
+      "cost": 1111.180116736323,
       "feasible": true,
-      "wall_time": 26.979
+      "wall_time": 7.187
     },
     {
       "instance": "RC207",
       "solver": "Hybrid-DDQN",
       "seed": 7,
       "nv": 3,
-      "cost": 1161.399400579472,
+      "cost": 1167.0617488318453,
       "feasible": true,
-      "wall_time": 21.882
+      "wall_time": 9.836
     },
     {
       "instance": "RC207",
       "solver": "ALNS-Base",
       "seed": 1,
       "nv": 4,
-      "cost": 1124.6137288028754,
+      "cost": 1119.4201797841615,
       "feasible": true,
-      "wall_time": 1.341
+      "wall_time": 0.433
     },
     {
       "instance": "RC207",
       "solver": "ALNS-Base",
       "seed": 7,
       "nv": 4,
-      "cost": 1045.9416729384338,
+      "cost": 1047.4771748506244,
       "feasible": true,
-      "wall_time": 1.254
+      "wall_time": 0.276
     },
     {
       "instance": "C101",
       "solver": "Hybrid-DDQN",
       "seed": 1,
       "nv": 10,
-      "cost": 828.9368669428338,
+      "cost": 828.936866942834,
       "feasible": true,
-      "wall_time": 5.425
+      "wall_time": 1.246
     },
     {
       "instance": "C101",
       "solver": "Hybrid-DDQN",
       "seed": 7,
       "nv": 10,
-      "cost": 828.9368669428338,
+      "cost": 828.936866942834,
       "feasible": true,
-      "wall_time": 5.629
+      "wall_time": 1.465
     },
     {
       "instance": "C101",
       "solver": "ALNS-Base",
       "seed": 1,
       "nv": 10,
-      "cost": 828.9368669428338,
+      "cost": 828.936866942834,
       "feasible": true,
-      "wall_time": 1.144
+      "wall_time": 0.209
     },
     {
       "instance": "C101",
       "solver": "ALNS-Base",
       "seed": 7,
       "nv": 10,
-      "cost": 828.9368669428338,
+      "cost": 828.936866942834,
       "feasible": true,
-      "wall_time": 1.141
+      "wall_time": 0.215
     },
     {
       "instance": "r1_2_1",
       "solver": "Hybrid-DDQN",
       "seed": 1,
       "nv": 20,
-      "cost": 4959.39177186056,
+      "cost": 5010.251084094672,
       "feasible": true,
-      "wall_time": 25.792
+      "wall_time": 6.601
     },
     {
       "instance": "r1_2_1",
       "solver": "Hybrid-DDQN",
       "seed": 7,
       "nv": 20,
-      "cost": 5104.620968451966,
+      "cost": 4958.936201618531,
       "feasible": true,
-      "wall_time": 26.229
+      "wall_time": 9.66
     },
     {
       "instance": "r1_2_1",
       "solver": "ALNS-Base",
       "seed": 1,
-      "nv": 21,
-      "cost": 5696.860073933757,
-      "feasible": true,
-      "wall_time": 3.966
-    },
-    {
-      "instance": "r1_2_1",
-      "solver": "ALNS-Base",
-      "seed": 7,
       "nv": 22,
-      "cost": 5251.889232403752,
+      "cost": 5408.834004357041,
       "feasible": true,
-      "wall_time": 3.709
+      "wall_time": 0.761
+    },
+    {
+      "instance": "r1_2_1",
+      "solver": "ALNS-Base",
+      "seed": 7,
+      "nv": 21,
+      "cost": 5486.564277755519,
+      "feasible": true,
+      "wall_time": 1.064
     }
   ]
 }
