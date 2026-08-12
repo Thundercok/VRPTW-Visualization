@@ -249,7 +249,7 @@ def load_edge_predictor(model_path: str, device) -> "GNNEdgePredictor | None":
         state_dict = torch.load(model_path, map_location=device)
 
     try:
-        model.load_state_dict(state_dict)
+        model.load_state_dict(state_dict, strict=False)
     except RuntimeError as e:
         if any(k.startswith("edge_predictor.") for k in state_dict):
             raise RuntimeError(

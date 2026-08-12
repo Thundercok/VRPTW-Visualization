@@ -418,13 +418,17 @@ class HybridDDQNSolver:
                 if not hasattr(plan, '_recent_improving') and hasattr(self, 'no_imp'):
                     recent_improving = (self.no_imp == 0)
 
-                if recent_improving:
+                no_imp_cnt = getattr(self, "no_imp", 0)
+                if recent_improving and no_imp_cnt == 0:
+                    # Accelerate local search during successful exploitation
                     pruning_threshold = t_start * (1.0 - frac * 0.5)
                 else:
-                    pruning_threshold = t_end + (t_start - t_end) * (1.0 - frac) * 0.3
+                    # Soft-Edge Relaxation: When stagnant (no_imp > 0), drop pruning threshold to 0.0
+                    # to grant 100% unconstrained search access to long-distance shortcut edges
+                    pruning_threshold = 0.0
                 kwargs["pruning_threshold"] = pruning_threshold
             else:
-                kwargs["pruning_threshold"] = getattr(self.cfg, "gnn_pruning_threshold_end", 0.003)
+                kwargs["pruning_threshold"] = 0.0
         return local_search(plan, **kwargs)
 
     def clone_weights(self) -> dict:

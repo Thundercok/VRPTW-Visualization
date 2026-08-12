@@ -58,16 +58,18 @@
 \citation{Solomon1987}
 \citation{Gehring1999}
 \citation{welford1962}
-\citation{schaul2016prioritized}
 \newlabel{eq:score}{{10}{4}{Operator Selection and Acceptance}{equation.10}{}}
 \newlabel{eq:score@cref}{{[equation][10][]10}{[1][3][]4}{}{}{}}
 \newlabel{eq:lac}{{11}{4}{Operator Selection and Acceptance}{equation.11}{}}
 \newlabel{eq:lac@cref}{{[equation][11][]11}{[1][4][]4}{}{}{}}
+\newlabel{eq:reheat_mult}{{12}{4}{Operator Selection and Acceptance}{equation.12}{}}
+\newlabel{eq:reheat_mult@cref}{{[equation][12][]12}{[1][4][]4}{}{}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Training and Infrastructure}{4}{subsection.3.3}\protected@file@percent }
 \newlabel{sec:training}{{\mbox  {III-C}}{4}{Training and Infrastructure}{subsection.3.3}{}}
 \newlabel{sec:training@cref}{{[subsection][3][3]\mbox  {III-C}}{[1][4][]4}{}{}{}}
-\newlabel{eq:welford}{{12}{4}{Training and Infrastructure}{equation.12}{}}
-\newlabel{eq:welford@cref}{{[equation][12][]12}{[1][4][]4}{}{}{}}
+\citation{schaul2016prioritized}
+\newlabel{eq:welford}{{13}{5}{Training and Infrastructure}{equation.13}{}}
+\newlabel{eq:welford@cref}{{[equation][13][]13}{[1][4][]5}{}{}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}Graph Neural Network Guided Routing}{5}{subsection.3.4}\protected@file@percent }
 \newlabel{sec:gnn_guidance}{{\mbox  {III-D}}{5}{Graph Neural Network Guided Routing}{subsection.3.4}{}}
 \newlabel{sec:gnn_guidance@cref}{{[subsection][4][3]\mbox  {III-D}}{[1][5][]5}{}{}{}}
@@ -82,16 +84,15 @@
 \newlabel{sec:results}{{IV}{6}{Experimental Results}{section.4}{}}
 \newlabel{sec:results@cref}{{[section][4][]IV}{[1][6][]6}{}{}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Setup}{6}{subsection.4.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Ablation Analysis: Component contributions (overall $N=62$ instances). NV Diff (mean fleet gap to BKS) falls monotonically as components are added. Raw TD Gap rises in lock-step --- an arithmetic consequence of fewer vehicles covering the same customers, \emph  {not} a quality loss; the valid, vehicle-matched distance comparison is the strict fair intersection of Table~\ref {tab:distance_summary}, where Hybrid-DDQN attains the lowest gap ($+0.575\%$).}}{6}{table.2}\protected@file@percent }
-\newlabel{tab:ablation}{{II}{6}{Ablation Analysis: Component contributions (overall $N=62$ instances). NV Diff (mean fleet gap to BKS) falls monotonically as components are added. Raw TD Gap rises in lock-step --- an arithmetic consequence of fewer vehicles covering the same customers, \emph {not} a quality loss; the valid, vehicle-matched distance comparison is the strict fair intersection of Table~\ref {tab:distance_summary}, where Hybrid-DDQN attains the lowest gap ($+0.575\%$)}{table.2}{}}
-\newlabel{tab:ablation@cref}{{[table][2][]II}{[1][6][]6}{}{}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Ablation Analysis}{6}{subsection.4.2}\protected@file@percent }
 \citation{Ropke2006}
 \citation{pisinger2007general}
 \citation{Gehring1999}
 \citation{Ropke2006}
 \citation{ortools}
-\citation{Gehring1999}
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Ablation Analysis: Component contributions (overall $N=62$ instances). NV Diff (mean fleet gap to BKS) falls monotonically as components are added. Raw TD Gap rises in lock-step --- an arithmetic consequence of fewer vehicles covering the same customers, \emph  {not} a quality loss; the valid, vehicle-matched distance comparison is the strict fair intersection of Table~\ref {tab:distance_summary}, where Hybrid-DDQN attains the lowest gap ($+0.575\%$).}}{7}{table.2}\protected@file@percent }
+\newlabel{tab:ablation}{{II}{7}{Ablation Analysis: Component contributions (overall $N=62$ instances). NV Diff (mean fleet gap to BKS) falls monotonically as components are added. Raw TD Gap rises in lock-step --- an arithmetic consequence of fewer vehicles covering the same customers, \emph {not} a quality loss; the valid, vehicle-matched distance comparison is the strict fair intersection of Table~\ref {tab:distance_summary}, where Hybrid-DDQN attains the lowest gap ($+0.575\%$)}{table.2}{}}
+\newlabel{tab:ablation@cref}{{[table][2][]II}{[1][7][]7}{}{}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces $NV_{\text  {diff}}$ on Solomon. Lower is better; $0.000{=}$BKS.}}{7}{table.3}\protected@file@percent }
 \newlabel{tab:nv_summary}{{III}{7}{$NV_{\text {diff}}$ on Solomon. Lower is better; $0.000{=}$BKS}{table.3}{}}
 \newlabel{tab:nv_summary@cref}{{[table][3][]III}{[1][7][]7}{}{}{}}
@@ -106,21 +107,16 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-E}}Head-to-Head vs.\ OR-Tools}{7}{subsection.4.5}\protected@file@percent }
 \newlabel{subsec:ortools_baseline}{{\mbox  {IV-E}}{7}{Head-to-Head vs.\ OR-Tools}{subsection.4.5}{}}
 \newlabel{subsec:ortools_baseline@cref}{{[subsection][5][4]\mbox  {IV-E}}{[1][7][]7}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-F}}Gehring--Homberger Scalability}{7}{subsection.4.6}\protected@file@percent }
+\citation{Gehring1999}
 \citation{pisinger2007general}
-\citation{wang2016dueling}
 \@writefile{lot}{\contentsline {table}{\numberline {VI}{\ignorespaces Gehring--Homberger~\cite  {Gehring1999} 200-customer results at 800 iterations. Format: $NV/TD\,\text  {Gap}\%$. ${}^\dagger $: $NV>NV_{\text  {BKS}}$ --- negative gaps reflect over-allocation.}}{8}{table.6}\protected@file@percent }
 \newlabel{tab:gh200}{{VI}{8}{Gehring--Homberger~\cite {Gehring1999} 200-customer results at 800 iterations. Format: $NV/TD\,\text {Gap}\%$. ${}^\dagger $: $NV>NV_{\BKS }$ --- negative gaps reflect over-allocation}{table.6}{}}
 \newlabel{tab:gh200@cref}{{[table][6][]VI}{[1][7][]8}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-F}}Gehring--Homberger Scalability}{8}{subsection.4.6}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-G}}GNN Edge Predictor: Scalability and an Honest Guidance Ablation}{8}{subsection.4.7}\protected@file@percent }
 \newlabel{subsec:gnn_validation}{{\mbox  {IV-G}}{8}{GNN Edge Predictor: Scalability and an Honest Guidance Ablation}{subsection.4.7}{}}
 \newlabel{subsec:gnn_validation@cref}{{[subsection][7][4]\mbox  {IV-G}}{[1][8][]8}{}{}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {VII}{\ignorespaces Sparse $k$-NN vs.\ dense GNN Edge Predictor: cost of a single forward pass. The sparse architecture is what makes edge prediction feasible at ultra-large scale; the dense variant runs out of memory at $N{=}1000$.}}{8}{table.7}\protected@file@percent }
-\newlabel{tab:gnn_comparison}{{VII}{8}{Sparse $k$-NN vs.\ dense GNN Edge Predictor: cost of a single forward pass. The sparse architecture is what makes edge prediction feasible at ultra-large scale; the dense variant runs out of memory at $N{=}1000$}{table.7}{}}
-\newlabel{tab:gnn_comparison@cref}{{[table][7][]VII}{[1][8][]8}{}{}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {V}Discussion}{8}{section.5}\protected@file@percent }
-\newlabel{sec:discussion}{{V}{8}{Discussion}{section.5}{}}
-\newlabel{sec:discussion@cref}{{[section][5][]V}{[1][8][]8}{}{}{}}
+\citation{wang2016dueling}
 \citation{tobin2017domain}
 \citation{Solomon1987}
 \citation{kool2019attention}
@@ -133,6 +129,19 @@
 \bibcite{Solomon1987}{5}
 \bibcite{Gehring1999}{6}
 \bibcite{welford1962}{7}
+\@writefile{lot}{\contentsline {table}{\numberline {VII}{\ignorespaces Sparse $k$-NN vs.\ dense GNN Edge Predictor: cost of a single forward pass. The sparse architecture is what makes edge prediction feasible at ultra-large scale; the dense variant runs out of memory at $N{=}1000$.}}{9}{table.7}\protected@file@percent }
+\newlabel{tab:gnn_comparison}{{VII}{9}{Sparse $k$-NN vs.\ dense GNN Edge Predictor: cost of a single forward pass. The sparse architecture is what makes edge prediction feasible at ultra-large scale; the dense variant runs out of memory at $N{=}1000$}{table.7}{}}
+\newlabel{tab:gnn_comparison@cref}{{[table][7][]VII}{[1][8][]9}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {V}Discussion}{9}{section.5}\protected@file@percent }
+\newlabel{sec:discussion}{{V}{9}{Discussion}{section.5}{}}
+\newlabel{sec:discussion@cref}{{[section][5][]V}{[1][8][]9}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}Learned State-Conditioned Neighborhood Selection}{9}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Computational Cost and Suboptimal Scaling Behavior}{9}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Limitations}{9}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Conclusion}{9}{section.6}\protected@file@percent }
+\newlabel{sec:conclusion}{{VI}{9}{Conclusion}{section.6}{}}
+\newlabel{sec:conclusion@cref}{{[section][6][]VI}{[1][9][]9}{}{}{}}
+\@writefile{toc}{\contentsline {section}{References}{9}{section*.2}\protected@file@percent }
 \bibcite{wang2016dueling}{8}
 \bibcite{schaul2016prioritized}{9}
 \bibcite{tobin2017domain}{10}
@@ -142,12 +151,5 @@
 \bibcite{nazari2018reinforcement}{14}
 \bibcite{ortools}{15}
 \bibcite{nagata2009ges}{16}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}Learned State-Conditioned Neighborhood Selection}{9}{subsection.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Computational Cost and Suboptimal Scaling Behavior}{9}{subsection.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Limitations}{9}{subsection.5.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {VI}Conclusion}{9}{section.6}\protected@file@percent }
-\newlabel{sec:conclusion}{{VI}{9}{Conclusion}{section.6}{}}
-\newlabel{sec:conclusion@cref}{{[section][6][]VI}{[1][9][]9}{}{}{}}
-\@writefile{toc}{\contentsline {section}{References}{9}{section*.2}\protected@file@percent }
 \bibcite{nagata2010srex}{17}
 \gdef \@abspage@last{10}

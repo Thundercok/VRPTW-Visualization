@@ -116,21 +116,38 @@ def train_gnn(epochs: int = 150, lr: float = 1e-3, save_path: str = "docs/model/
                 node_feats.to(device), edge_feats.to(device), nbr_idx.to(device)
             )[0]  # (N+1, N+1)
 
-            # Weighted BCE loss calculation
-            # Positive edges are sparse (approx 1 in N), so we weigh positive samples by N
+            # Joint BCE + Contrastive InfoNCE Loss
             n_nodes = inst.n + 1
             pos_weight = torch.tensor([n_nodes], dtype=torch.float32, device=device)
             loss_fn = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
 
-            loss = loss_fn(logits, targets)
-            loss.backward()
+            loss_bce = loss_fn(logits, targets)
+
+            # Extract positive and negative edge indices for contrastive learning
+            pos_mask = (targets == 1.0)
+            neg_mask = (targets == 0.0)
+            pos_edges = pos_mask.nonzero()
+            neg_edges = neg_mask.nonzero()
+
+            # Sample subset of negative edges to balance batch
+            if neg_edges.shape[0] > pos_edges.shape[0] * 3:
+                perm = torch.randperm(neg_edges.shape[0], device=device)[:pos_edges.shape[0] * 3]
+                neg_edges = neg_edges[perm]
+
+            z_src, z_dst = model.get_contrastive_embeddings(
+                node_feats.to(device), edge_feats.to(device), nbr_idx.to(device)
+            )
+            loss_cl = model.compute_contrastive_loss(z_src, z_dst, pos_edges, neg_edges, tau=0.1)
+
+            total_loss = loss_bce + 0.25 * loss_cl
+            total_loss.backward()
             optimizer.step()
 
-            epoch_loss += loss.item()
+            epoch_loss += total_loss.item()
 
         avg_loss = epoch_loss / len(training_data)
         if epoch % 10 == 0 or epoch == 1:
-            print(f"Epoch {epoch:3d}/{epochs} | Avg Loss: {avg_loss:.5f}")
+            print(f"Epoch {epoch:3d}/{epochs} | Joint BCE+Contrastive Loss: {avg_loss:.5f}")
 
     # 5. Save model
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
