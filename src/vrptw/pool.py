@@ -293,8 +293,14 @@ def _milp_recombine(
 ) -> Plan | None:
     if not MILP_OK or not route_records:
         return None
-    _MILP_MAX_COLS = 400  # cap columns to prevent SciPy O(N²) extraction hang
+    _MILP_MAX_COLS = getattr(cfg, "milp_max_cols", 800)
+    pool_size_before = len(route_records)
     route_records = _select_milp_columns(route_records, inst, _MILP_MAX_COLS)
+    if getattr(cfg, "log_milp_cols", False):
+        print(
+            f"[MILP_COLS] pool_size={pool_size_before}, selected={len(route_records)}, capped={pool_size_before > _MILP_MAX_COLS}",
+            flush=True,
+        )
     # _select_milp_columns may overflow the cap: it must never strand a customer,
     # so it stops displacing head columns once none are droppable, and the excess
     # is bounded only by the number of uncovered customers. Measured at 0
@@ -338,10 +344,12 @@ def _milp_recombine(
     row_sums = np.asarray(cover.sum(axis=1)).flatten()
     if np.any(row_sums == 0):
         return None
-    constraints = [LinearConstraint(cover, lb=np.ones(inst.n), ub=np.ones(inst.n))]
+    # Try 1: Exact Set Partitioning (ub = 1)
+    constraints_sp = [LinearConstraint(cover, lb=np.ones(inst.n), ub=np.ones(inst.n))]
     if nv_ceiling is not None:
         cover_nv = csc_matrix(np.ones((1, n_routes), dtype=float))
-        constraints.append(LinearConstraint(cover_nv, lb=np.array([0.0]), ub=np.array([float(nv_ceiling)])))
+        constraints_sp.append(LinearConstraint(cover_nv, lb=np.array([0.0]), ub=np.array([float(nv_ceiling)])))
+
     penalty = vehicle_penalty if vehicle_penalty is not None else _sp_vehicle_penalty(inst, cfg)
     costs = []
     for rec in route_records:
@@ -357,13 +365,28 @@ def _milp_recombine(
                 r_cost = rec.cost * (1.0 - alpha * gnn_score)
         costs.append(penalty + r_cost)
     costs = np.array(costs)
+
     result = milp(
         c=costs,
-        constraints=constraints,
+        constraints=constraints_sp,
         integrality=np.ones(n_routes, dtype=int),
         bounds=Bounds(np.zeros(n_routes), np.ones(n_routes)),
-        options={"time_limit": float(cfg.sp_time_limit), "disp": False, "threads": 1},
+        options={"time_limit": float(cfg.sp_time_limit), "disp": False},
     )
+
+    # Try 2: Set Covering Relaxation (ub = inf) + Duplicate Cleanup if exact partitioning failed
+    if result is None or result.x is None or getattr(result, "status", 1) != 0:
+        constraints_sc = [LinearConstraint(cover, lb=np.ones(inst.n), ub=np.full(inst.n, np.inf))]
+        if nv_ceiling is not None:
+            constraints_sc.append(LinearConstraint(cover_nv, lb=np.array([0.0]), ub=np.array([float(nv_ceiling)])))
+        result = milp(
+            c=costs,
+            constraints=constraints_sc,
+            integrality=np.ones(n_routes, dtype=int),
+            bounds=Bounds(np.zeros(n_routes), np.ones(n_routes)),
+            options={"time_limit": float(cfg.sp_time_limit), "disp": False},
+        )
+
     if _stats is not None:
         _stats["calls"] = _stats.get("calls", 0) + 1
         if result is not None and getattr(result, "status", None) == 1:
@@ -371,15 +394,49 @@ def _milp_recombine(
         _stats["milp_fired"] = True
         _stats["milp_cadence_skip"] = 0
 
-    # Relax success check: if the solver hits the time limit but returns a valid
-    # integer solution x, we should still accept it. We verify feasibility below.
     if result is None or result.x is None:
-        _milp_cache_store(_cache, cache_key, ())  # remember "no solution" too
+        _milp_cache_store(_cache, cache_key, ())
         return None
+
     chosen = [list(route_records[i].nodes) for i, v in enumerate(result.x) if v >= 0.5]
+    if not _is_exact_cover(Plan(chosen, inst, "SP-RECOMBINE")):
+        chosen = _cleanup_duplicate_nodes(chosen, inst)
+
     plan = Plan(chosen, inst, "SP-RECOMBINE")
     _milp_cache_store(_cache, cache_key, tuple(tuple(r) for r in chosen))
     return plan if plan.feasible and _is_exact_cover(plan) else None
+
+
+def _cleanup_duplicate_nodes(routes: list[list[int]], inst: Inst) -> list[list[int]]:
+    """Remove duplicate customer visits from Set Covering routes while maintaining feasibility."""
+    cleaned = [r[:] for r in routes if r]
+    node_counts: dict[int, int] = {}
+    for r in cleaned:
+        for node in r:
+            node_counts[node] = node_counts.get(node, 0) + 1
+
+    duplicates = [node for node, count in node_counts.items() if count > 1]
+    if not duplicates:
+        return cleaned
+
+    for dup in duplicates:
+        occurrences = []
+        for r_idx, r in enumerate(cleaned):
+            if dup in r:
+                pos = r.index(dup)
+                r_without = r[:pos] + r[pos + 1 :]
+                old_cost = _route_cost_list(r, inst)
+                new_cost = _route_cost_list(r_without, inst) if r_without else 0.0
+                saved_cost = old_cost - new_cost
+                occurrences.append((saved_cost, r_idx, pos))
+
+        occurrences.sort(key=lambda x: x[0], reverse=True)
+        to_remove = occurrences[:-1]
+        for _, r_idx, _pos in to_remove:
+            if dup in cleaned[r_idx]:
+                cleaned[r_idx].remove(dup)
+
+    return [r for r in cleaned if r]
 
 
 def _greedy_recombine(route_records: list[RouteRecord], incumbent: Plan, nv_ceiling: int | None = None) -> Plan:

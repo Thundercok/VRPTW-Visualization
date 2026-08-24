@@ -22,6 +22,7 @@ _REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(_REPO, "scripts"))
 
 from capture_golden import _make_cfg, load_instance  # noqa: E402
+
 from vrptw.solvers import ALNSSolver, HybridDDQNSolver  # noqa: E402
 
 GOLDEN_PATH = os.path.join(_REPO, "tests", "golden", "baseline.json")

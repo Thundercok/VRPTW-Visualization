@@ -322,8 +322,8 @@ class SplitController:
 
     def try_split(self, plan: Plan, incumbent_nv: int) -> Plan | None:
         """
-        Standalone method that takes a Plan, extracts a giant tour, runs SplitController, 
-        evaluates feasibility, computes rewards, trains SplitController, and returns 
+        Standalone method that takes a Plan, extracts a giant tour, runs SplitController,
+        evaluates feasibility, computes rewards, trains SplitController, and returns
         the new Plan if it strictly dominates the original.
         """
         if not plan.routes:

@@ -1,0 +1,1403 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.8.21)  24 AUG 2026 11:55
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**docs/main.tex
+(./docs/main.tex
+LaTeX2e <2026-06-01>
+L3 programming layer <2026-05-26>
+(docs/ieeeaccess.cls (docs/IEEEtran.cls
+Document Class: IEEEtran 2015/08/26 V1.8b by Michael Shell
+-- See the "IEEEtran_HOWTO" manual for usage information.
+-- http://www.michaelshell.org/tex/ieeetran/
+\@IEEEtrantmpdimenA=\dimen150
+\@IEEEtrantmpdimenB=\dimen151
+\@IEEEtrantmpdimenC=\dimen152
+\@IEEEtrantmpcountA=\count276
+\@IEEEtrantmpcountB=\count277
+\@IEEEtrantmpcountC=\count278
+\@IEEEtrantmptoksA=\toks17
+LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 503.
+(/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/psnfss/ot1ptm.fd
+File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
+)
+-- Using 8.5in x 11in (letter) paper.
+-- Using PDF output.
+\@IEEEnormalsizeunitybaselineskip=\dimen153
+-- This is a 10 point document.
+LaTeX Encoding Info:    Redeclaring text command \textunderscore (encoding ?) on input line 937.
+\CLASSINFOnormalsizebaselineskip=\dimen154
+\CLASSINFOnormalsizeunitybaselineskip=\dimen155
+\IEEEnormaljot=\dimen156
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <11> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <11> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <17> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <17> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <20> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <20> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <24> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <24> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+\IEEEquantizedlength=\dimen157
+\IEEEquantizedlengthdiff=\dimen158
+\IEEEquantizedtextheightdiff=\dimen159
+\IEEEilabelindentA=\dimen160
+\IEEEilabelindentB=\dimen161
+\IEEEilabelindent=\dimen162
+\IEEEelabelindent=\dimen163
+\IEEEdlabelindent=\dimen164
+\IEEElabelindent=\dimen165
+\IEEEiednormlabelsep=\dimen166
+\IEEEiedmathlabelsep=\dimen167
+\IEEEiedtopsep=\skip49
+\c@section=\count279
+\c@subsection=\count280
+\c@subsubsection=\count281
+\c@paragraph=\count282
+\c@IEEEsubequation=\count283
+\abovecaptionskip=\skip50
+\belowcaptionskip=\skip51
+\c@figure=\count284
+\c@table=\count285
+\@IEEEeqnnumcols=\count286
+\@IEEEeqncolcnt=\count287
+\@IEEEsubeqnnumrollback=\count288
+\@IEEEquantizeheightA=\dimen168
+\@IEEEquantizeheightB=\dimen169
+\@IEEEquantizeheightC=\dimen170
+\@IEEEquantizeprevdepth=\dimen171
+\@IEEEquantizemultiple=\count289
+\@IEEEquantizeboxA=\box53
+\@IEEEtmpitemindent=\dimen172
+\IEEEPARstartletwidth=\dimen173
+\c@IEEEbiography=\count290
+\@IEEEtranrubishbin=\box54
+) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/generic/iftex/ifpdf.sty
+Package: ifpdf 2019/10/25 v3.4 ifpdf legacy package. Use iftex instead.
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2024/12/12 v1.0g TeX engine tests
+)) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+Package: xkeyval 2025/11/04 v2.10 package option processing (HA)
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/generic/xkeyval/xkeyval.tex (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+\XKV@toks=\toks18
+\XKV@tempa@toks=\toks19
+\XKV@tempb@toks=\toks20
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/generic/xkeyval/keyval.tex))
+\XKV@depth=\count291
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+)){/Users/thundercock2/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{docs/t1-times.map}{docs/t1-formata.map}{docs/t1-giovannistd.map}
+\@draftversionrule=\dimen174
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/graphics/color.sty
+Package: color 2026-05-17 v1.3f Standard LaTeX Color (DPC)
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package color Info: Driver file: pdftex.def on input line 149.
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2025/09/29 v1.2d Graphics/color driver for pdftex
+) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/graphics/mathcolor.ltx)) (docs/spotcolor.sty
+Package: spotcolor 2006/11/15 v1.2 Package for adding Spot Color support to pdfLaTeX.
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2026-05-17 v1.4h Standard LaTeX Graphics (DPC,SPQR)
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
+) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 106.
+)
+\thecolorprofile=\count292
+\thecolor=\count293
+)
+\PANTONE=\toks21
+Package color Info: Redefining color black on input line 134.
+\figbox=\box55
+\titlewidth=\skip52
+\abstractwidth=\skip53
+\c@addrCtr=\count294
+\abstractbox=\box56
+\indexbox=\box57
+\absht=\dimen175
+\kwdht=\dimen176
+\@tempcntc=\count295
+\titlepgskip=\skip54
+\maketitlebox=\box58
+) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/cite/cite.sty
+LaTeX Info: Redefining \cite on input line 302.
+LaTeX Info: Redefining \nocite on input line 332.
+Package: cite 2015/02/27  v 5.5
+) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2026/05/19 v2.18d AMS math features
+\@mathmargin=\skip55
+
+For additional information on amsmath, use the `?' option.
+(/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2024/11/17 v2.01 AMS text
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks22
+\ex@=\dimen177
+)) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen178
+) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2022/04/08 v2.04 operator names
+)
+\inf@bad=\count296
+LaTeX Info: Redefining \frac on input line 233.
+\uproot@=\count297
+\leftroot@=\count298
+LaTeX Info: Redefining \overline on input line 398.
+LaTeX Info: Redefining \colon on input line 409.
+\classnum@=\count299
+\DOTSCASE@=\count300
+LaTeX Info: Redefining \ldots on input line 495.
+LaTeX Info: Redefining \dots on input line 498.
+LaTeX Info: Redefining \cdots on input line 619.
+\Mathstrutbox@=\box59
+\strutbox@=\box60
+LaTeX Info: Redefining \big on input line 721.
+LaTeX Info: Redefining \Big on input line 722.
+LaTeX Info: Redefining \bigg on input line 723.
+LaTeX Info: Redefining \Bigg on input line 724.
+\big@size=\dimen179
+LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
+\macc@depth=\count301
+LaTeX Info: Redefining \bmod on input line 904.
+LaTeX Info: Redefining \pmod on input line 909.
+LaTeX Info: Redefining \smash on input line 939.
+LaTeX Info: Redefining \relbar on input line 969.
+LaTeX Info: Redefining \Relbar on input line 970.
+\c@MaxMatrixCols=\count302
+\dotsspace@=\muskip17
+\c@parentequation=\count303
+\dspbrk@lvl=\count304
+\tag@help=\toks23
+\row@=\count305
+\column@=\count306
+\maxfields@=\count307
+\andhelp@=\toks24
+\eqnshift@=\dimen180
+\alignsep@=\dimen181
+\tagshift@=\dimen182
+\tagwidth@=\dimen183
+\totwidth@=\dimen184
+\lineht@=\dimen185
+\@envbody=\toks25
+\multlinegap=\skip56
+\multlinetaggap=\skip57
+\mathdisplay@stack=\toks26
+LaTeX Info: Redefining \[ on input line 2965.
+LaTeX Info: Redefining \] on input line 2966.
+) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/tools/bm.sty
+Package: bm 2025/10/21 v1.2g Bold Symbol Support (DPC/FMi)
+\symboldoperators=\mathgroup6
+\symboldletters=\mathgroup7
+\symboldsymbols=\mathgroup8
+Package bm Info: No bold for \OMX/cmex/m/n, using \pmb.
+Package bm Info: No bold for \U/msa/m/n, using \pmb.
+Package bm Info: No bold for \U/msb/m/n, using \pmb.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 149.
+) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/algorithms/algorithm.sty
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating environment
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count308
+\float@exts=\toks27
+\float@box=\box61
+\@float@everytoks=\toks28
+\@floatcapt=\box62
+) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
+)
+\@float@every@algorithm=\toks29
+\c@algorithm=\count309
+) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
+Package: algpseudocode 
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
+Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
+
+Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
+\c@ALG@line=\count310
+\c@ALG@rem=\count311
+\c@ALG@nested=\count312
+\ALG@tlm=\skip58
+\ALG@thistlm=\skip59
+\c@ALG@Lnr=\count313
+\c@ALG@blocknr=\count314
+\c@ALG@storecount=\count315
+\c@ALG@tmpcounter=\count316
+\ALG@tmplength=\skip60
+)
+Document Style - pseudocode environments for use with the `algorithmicx' style
+) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2026-05-17 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
+\Gin@req@height=\dimen186
+\Gin@req@width=\dimen187
+) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/base/textcomp.sty
+Package: textcomp 2024/04/24 v2.1b Standard LaTeX package
+) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/booktabs/booktabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen188
+\lightrulewidth=\dimen189
+\cmidrulewidth=\dimen190
+\belowrulesep=\dimen191
+\belowbottomsep=\dimen192
+\aboverulesep=\dimen193
+\abovetopsep=\dimen194
+\cmidrulesep=\dimen195
+\cmidrulekern=\dimen196
+\defaultaddspace=\dimen197
+\@cmidla=\count317
+\@cmidlb=\count318
+\@aboverulesep=\dimen198
+\@belowrulesep=\dimen199
+\@thisruleclass=\count319
+\@lastruleclass=\count320
+\@thisrulewidth=\dimen256
+) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/tools/tabularx.sty
+Package: tabularx 2023/12/11 v2.12a `tabularx' package (DPC)
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/tools/array.sty
+Package: array 2026/02/24 v2.7b Tabular extension package (FMi)
+\col@sep=\dimen257
+\ar@mcellbox=\box63
+\extrarowheight=\dimen258
+\NC@list=\toks30
+\extratabsurround=\skip61
+\backup@length=\skip62
+\ar@cellbox=\box64
+)
+\TX@col@width=\dimen259
+\TX@old@table=\dimen260
+\TX@old@col=\dimen261
+\TX@target=\dimen262
+\TX@delta=\dimen263
+\TX@cols=\count321
+\TX@ftn=\toks31
+) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/multirow/multirow.sty
+Package: multirow 2024/11/12 v2.9 Span multiple rows of a table
+\multirow@colwidth=\skip63
+\multirow@cntb=\count322
+\multirow@dima=\skip64
+\bigstrutjot=\dimen264
+) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/makecell/makecell.sty
+Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
+\rotheadsize=\dimen265
+\c@nlinenum=\count323
+\TeXr@lab=\toks32
+) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2026-04-24 v7.01q Hypertext links for LaTeX
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
+) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
+) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/hycolor/hycolor.sty
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2026-01-29 v2.58 Cross-referencing by name of section
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
+))
+\c@section@level=\count324
+) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2025/10/02 v2.5m e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count325
+) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/generic/stringenc/stringenc.sty
+Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO)
+)
+\@linkdim=\dimen266
+\Hy@linkcounter=\count326
+\Hy@pagecounter=\count327
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2026-04-24 v7.01q Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+) (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/generic/intcalc/intcalc.sty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+)
+\Hy@SavedSpaceFactor=\count328
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def
+File: puenc.def 2026-04-24 v7.01q Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+)
+Package hyperref Info: Hyper figures OFF on input line 4199.
+Package hyperref Info: Link nesting OFF on input line 4204.
+Package hyperref Info: Hyper index ON on input line 4207.
+Package hyperref Info: Plain pages OFF on input line 4214.
+Package hyperref Info: Backreferencing OFF on input line 4219.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4466.
+\c@Hy@tempcnt=\count329
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip18
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 4805.
+\XeTeXLinkMargin=\dimen267
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/generic/bitset/bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
+))
+\Fld@menulength=\count330
+\Field@Width=\dimen268
+\Fld@charsize=\dimen269
+Package hyperref Info: Hyper figures OFF on input line 6091.
+Package hyperref Info: Link nesting OFF on input line 6096.
+Package hyperref Info: Hyper index ON on input line 6099.
+Package hyperref Info: backreferencing OFF on input line 6106.
+Package hyperref Info: Link coloring OFF on input line 6111.
+Package hyperref Info: Link coloring with OCG OFF on input line 6116.
+Package hyperref Info: PDF/A mode OFF on input line 6121.
+\Hy@abspage=\count331
+\c@Item=\count332
+\c@Hfootnote=\count333
+)
+Package hyperref Info: Driver (autodetected): hpdftex.
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2026-04-24 v7.01q Hyperref driver for pdfTeX
+\Fld@listcount=\count334
+\c@bookmark@seq@number=\count335
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+Package: rerunfilecheck 2025-06-21 v1.11 Rerun checks for auxiliary files (HO)
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 284.
+)
+\Hy@SectionHShift=\skip65
+)
+\xfigwd=\dimen270
+\c@biography=\count336
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2026-02-18 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count337
+) (docs/main.aux)
+\openout1 = `main.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+
+-- Lines per column: 56 (exact).
+LaTeX Font Info:    Trying to load font information for T1+ptm on input line 51.
+(/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/psnfss/t1ptm.fd
+File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
+)
+
+LaTeX Font Warning: Font shape `T1/ptm/n/n' undefined
+(Font)              using `T1/ptm/m/n' instead on input line 51.
+
+(/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
+))
+Package hyperref Info: Link coloring OFF on input line 51.
+ (docs/main.out) (docs/main.out)
+\@outlinefile=\write3
+\openout3 = `main.out'.
+
+LaTeX Font Info:    Redeclaring math version `bold' on input line 51.
+LaTeX Font Info:    Encoding `OT1' has changed to `T1' for symbol font
+(Font)              `operators' in the math version `bold' on input line 51.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/m/n --> T1/times/b/n on input line 51.
+LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `bold'
+(Font)                  T1/times/b/n --> T1/times/b/n on input line 51.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/m/it --> T1/times/b/it on input line 51.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
+(Font)                  OT1/cmr/bx/n --> T1/times/b/n on input line 51.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
+(Font)                  OT1/cmtt/m/n --> OT1/pcr/b/n on input line 51.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
+(Font)                  OMS/cmsy/m/n --> OMS/cmsy/b/n on input line 51.
+<bullet.png, id=205, 12.045pt x 35.38219pt>
+File: bullet.png Graphic file (type png)
+<use bullet.png>
+Package pdftex.def Info: bullet.png  used on input line 72.
+(pdftex.def)             Requested size: 5.0pt x 14.6871pt.
+LaTeX Font Info:    Trying to load font information for T1+phv on input line 72.
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/psnfss/t1phv.fd
+File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
+)
+
+LaTeX Font Warning: Font shape `T1/phv/n/n' undefined
+(Font)              using `T1/phv/m/n' instead on input line 72.
+
+LaTeX Font Info:    Trying to load font information for U+msa on input line 73.
+(/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 73.
+ (/Users/thundercock2/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+File: bullet.png Graphic file (type png)
+<use bullet.png>
+Package pdftex.def Info: bullet.png  used on input line 76.
+(pdftex.def)             Requested size: 5.0pt x 14.6871pt.
+LaTeX Font Info:    Calculating math sizes for size <9.9> on input line 83.
+LaTeX Font Info:    Calculating math sizes for size <6.6> on input line 83.
+
+Overfull \hbox (9.2679pt too wide) in paragraph at lines 83--83
+[]  
+ []
+
+
+Overfull \hbox (9.2679pt too wide) in paragraph at lines 83--83
+[]  
+ []
+
+(docs/sections/01_introduction.tex
+
+LaTeX Warning: Citation `Dantzig1959' on page 1 undefined on input line 4.
+
+
+LaTeX Warning: Citation `Solomon1987' on page 1 undefined on input line 4.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 4--5
+\T1/ptm/n/n/10 The Ve-hi-cle Rout-ing Prob-lem with Time Win-dows
+ []
+
+
+LaTeX Warning: Citation `Toth2014' on page 1 undefined on input line 6.
+
+
+LaTeX Warning: Citation `braysy2005vehicle' on page 1 undefined on input line 6.
+
+
+Underfull \vbox (badness 4024) has occurred while \output is active []
+
+<Logo.png, id=206, 120.45pt x 30.1125pt>
+File: Logo.png Graphic file (type png)
+<use Logo.png>
+Package pdftex.def Info: Logo.png  used on input line 14.
+(pdftex.def)             Requested size: 91.32pt x 22.83058pt.
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+[1{/Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}
+
+
+ <docs/Logo.png (PNG copy)> <docs/bullet.png>]
+
+LaTeX Warning: Citation `Ropke2006' on page 2 undefined on input line 15.
+
+
+LaTeX Warning: Citation `pisinger2007general' on page 2 undefined on input line 15.
+
+
+Underfull \hbox (badness 2865) in paragraph at lines 17--18
+[]\T1/ptm/b/n/10 Stateless Op-er-a-tor Se-lec-tion\T1/ptm/n/n/10 : Heuris-tic se-lec-tion
+ []
+
+
+Underfull \hbox (badness 1509) in paragraph at lines 17--18
+\T1/ptm/n/n/10 weights de-pend solely on his-tor-i-cal scores across
+ []
+
+
+Underfull \hbox (badness 6078) in paragraph at lines 18--19
+[]\T1/ptm/b/n/10 Myopic Plateau Stag-na-tion\T1/ptm/n/n/10 : Clas-si-cal se-lec-tion
+ []
+
+
+LaTeX Warning: Citation `vinyals2015pointer' on page 2 undefined on input line 21.
+
+
+LaTeX Warning: Citation `kool2019attention' on page 2 undefined on input line 21.
+
+
+LaTeX Warning: Citation `nazari2018reinforcement' on page 2 undefined on input line 21.
+
+
+LaTeX Warning: Citation `falkner2020learning' on page 2 undefined on input line 23.
+
+
+LaTeX Warning: Citation `lin2021deep' on page 2 undefined on input line 23.
+
+
+Underfull \hbox (badness 2529) in paragraph at lines 25--26
+[]\T1/ptm/b/n/10 Out-of-Distribution Sen-si-tiv-ity\T1/ptm/n/n/10 : Pure con-struc-tive
+ []
+
+
+Underfull \hbox (badness 2318) in paragraph at lines 28--29
+[]\T1/ptm/n/n/10 To bridge these paradigms, this pa-per presents Tri-
+ []
+
+
+LaTeX Font Warning: Font shape `T1/ptm/n/it' undefined
+(Font)              using `T1/ptm/n/n' instead on input line 32.
+
+
+Underfull \hbox (badness 2237) in paragraph at lines 32--33
+[]\T1/ptm/b/n/10 Hierarchical Con-trol Ar-chi-tec-ture\T1/ptm/n/it/10 : We for-mu-late
+ []
+
+
+Underfull \hbox (badness 4013) in paragraph at lines 32--33
+\T1/ptm/n/it/10 meta-heuris-tic search man-age-ment as a Hi-er-ar-chi-
+ []
+
+
+Underfull \hbox (badness 1478) in paragraph at lines 32--33
+\T1/ptm/n/it/10 cal Markov De-ci-sion Pro-cess (HMDP), de-cou-pling
+ []
+
+
+Underfull \hbox (badness 1990) in paragraph at lines 33--34
+[]\T1/ptm/b/n/10 State-Conditioned Mi-cro Se-lec-tion with En-tropy
+ []
+
+
+Underfull \hbox (badness 1701) in paragraph at lines 35--36
+[]\T1/ptm/b/n/10 Rigorous Scale-Aware Bench-mark across 74 In-
+ []
+
+) (docs/sections/02_related_work.tex
+
+LaTeX Warning: Citation `Ropke2006' on page 2 undefined on input line 150.
+
+
+LaTeX Warning: Citation `pisinger2007general' on page 2 undefined on input line 150.
+
+
+LaTeX Warning: Citation `christiaens2020slack' on page 2 undefined on input line 150.
+
+
+LaTeX Warning: Citation `vidal2013hybrid' on page 2 undefined on input line 150.
+
+
+LaTeX Warning: Citation `kool2019attention' on page 2 undefined on input line 150.
+
+
+LaTeX Warning: Citation `nazari2018reinforcement' on page 2 undefined on input line 150.
+
+
+LaTeX Warning: Citation `falkner2020learning' on page 2 undefined on input line 150.
+
+
+LaTeX Warning: Citation `lin2021deep' on page 2 undefined on input line 150.
+
+
+LaTeX Warning: Citation `lu2020learning' on page 2 undefined on input line 150.
+
+
+LaTeX Warning: Citation `son2023learning' on page 2 undefined on input line 150.
+
+
+LaTeX Warning: Citation `hottung2020neural' on page 2 undefined on input line 150.
+
+
+LaTeX Warning: Citation `braysy2005vehicle' on page 2 undefined on input line 157.
+
+
+LaTeX Warning: Citation `Solomon1987' on page 2 undefined on input line 158.
+
+
+LaTeX Warning: Citation `shaw1998using' on page 2 undefined on input line 159.
+
+
+LaTeX Warning: Citation `Ropke2006' on page 2 undefined on input line 160.
+
+
+LaTeX Warning: Citation `pisinger2007general' on page 2 undefined on input line 160.
+
+
+LaTeX Warning: Citation `pisinger2010large' on page 2 undefined on input line 160.
+
+
+LaTeX Warning: Citation `nagata2009ges' on page 2 undefined on input line 167.
+
+
+LaTeX Warning: Citation `nagata2010srex' on page 2 undefined on input line 168.
+
+
+LaTeX Warning: Citation `rochat1995probabilistic' on page 2 undefined on input line 170.
+
+
+LaTeX Warning: Citation `alvarenga2007genetic' on page 2 undefined on input line 172.
+
+
+LaTeX Warning: Citation `subramanian2013hybrid' on page 2 undefined on input line 172.
+
+
+LaTeX Warning: Citation `vidal2013hybrid' on page 2 undefined on input line 172.
+
+
+LaTeX Warning: Citation `christiaens2020slack' on page 2 undefined on input line 174.
+
+<notaglineLogo.png, id=229, 120.45pt x 30.1125pt>
+File: notaglineLogo.png Graphic file (type png)
+<use notaglineLogo.png>
+Package pdftex.def Info: notaglineLogo.png  used on input line 177.
+(pdftex.def)             Requested size: 91.32pt x 22.83058pt.
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+[2 <docs/notaglineLogo.png (PNG copy)>]
+
+LaTeX Warning: Citation `turkes2021meta' on page 3 undefined on input line 187.
+
+
+Underfull \hbox (badness 1496) in paragraph at lines 178--192
+[]\T1/ptm/n/it/10 Despite this em-pir-i-cal suc-cess, the adap-tive layer of
+ []
+
+
+LaTeX Warning: Citation `vinyals2015pointer' on page 3 undefined on input line 198.
+
+
+LaTeX Warning: Citation `bello2016neural' on page 3 undefined on input line 199.
+
+
+LaTeX Warning: Citation `nazari2018reinforcement' on page 3 undefined on input line 200.
+
+
+LaTeX Warning: Citation `kool2019attention' on page 3 undefined on input line 202.
+
+
+LaTeX Warning: Citation `khalil2017learning' on page 3 undefined on input line 205.
+
+
+LaTeX Warning: Citation `joshi2019efficient' on page 3 undefined on input line 205.
+
+
+Underfull \hbox (badness 1430) in paragraph at lines 196--207
+\T1/ptm/n/it/10 In par-al-lel with clas-si-cal heuris-tics, Neu-ral Com-bi-na-to-
+ []
+
+
+Underfull \hbox (badness 1540) in paragraph at lines 196--207
+\T1/ptm/n/it/10 mark, lever-ag-ing Transformer-style self-attention with a
+ []
+
+
+LaTeX Warning: Citation `falkner2020learning' on page 3 undefined on input line 209.
+
+
+LaTeX Warning: Citation `lin2021deep' on page 3 undefined on input line 209.
+
+
+Underfull \hbox (badness 2556) in paragraph at lines 224--229
+[]\T1/ptm/b/n/10 Out-of-Distribution (OOD) Scal-a-bil-ity Col-lapse\T1/ptm/n/it/10 :
+ []
+
+
+Underfull \hbox (badness 1533) in paragraph at lines 229--233
+\T1/ptm/n/it/10 en-tire rout-ing plan via end-to-end neu-ral for-ward
+ []
+
+
+LaTeX Warning: Citation `bengio2021machine' on page 3 undefined on input line 238.
+
+
+LaTeX Warning: Citation `syberfeldt2009reinforcement' on page 3 undefined on input line 238.
+
+
+LaTeX Warning: Citation `lu2020learning' on page 3 undefined on input line 238.
+
+
+LaTeX Warning: Citation `chen2019learning' on page 3 undefined on input line 238.
+
+
+LaTeX Warning: Citation `hottung2020neural' on page 3 undefined on input line 238.
+
+
+LaTeX Warning: Citation `son2023learning' on page 3 undefined on input line 238.
+
+
+Underfull \hbox (badness 1383) in paragraph at lines 238--239
+\T1/ptm/n/it/10 paradigm [\T1/ptm/b/n/10 ?\T1/ptm/n/it/10 ] em-beds ma-chine learn-ing mod-els di-rectly
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 242--243
+[]\T1/ptm/b/n/10 Single-Level De-ci-sion Ar-chi-tec-ture\T1/ptm/n/it/10 : Prior RL-
+ []
+
+File: notaglineLogo.png Graphic file (type png)
+<use notaglineLogo.png>
+Package pdftex.def Info: notaglineLogo.png  used on input line 243.
+(pdftex.def)             Requested size: 91.32pt x 22.83058pt.
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+[3]) (docs/sections/03_formulation.tex
+Underfull \hbox (badness 10000) in paragraph at lines 4--5
+\T1/ptm/n/it/10 The Ve-hi-cle Rout-ing Prob-lem with Time Win-dows
+ []
+
+
+Overfull \hbox (4.99414pt too wide) detected at line 36
+[]
+ []
+
+) (docs/sections/04_methodology.tex
+File: notaglineLogo.png Graphic file (type png)
+<use notaglineLogo.png>
+Package pdftex.def Info: notaglineLogo.png  used on input line 6.
+(pdftex.def)             Requested size: 91.32pt x 22.83058pt.
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+[4]
+Overfull \hbox (201.62288pt too wide) in paragraph at lines 28--28
+[][] []
+ []
+
+
+Overfull \hbox (6.88678pt too wide) detected at line 78
+[]
+ []
+
+
+LaTeX Warning: Citation `ng1999policy' on page 5 undefined on input line 79.
+
+
+Overfull \hbox (34.1775pt too wide) detected at line 84
+[]
+ []
+
+File: notaglineLogo.png Graphic file (type png)
+<use notaglineLogo.png>
+Package pdftex.def Info: notaglineLogo.png  used on input line 84.
+(pdftex.def)             Requested size: 91.32pt x 22.83058pt.
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+[5]
+Underfull \hbox (badness 2409) in paragraph at lines 123--123
+[]|\T1/ptm/m/n/8 Inter-route spa-tial sep-a-ra-tion in-dex $\OMS/cmsy/m/n/8 2
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 123--123
+[]|\T1/ptm/m/n/8 Route pool fill ra-tio
+ []
+
+
+LaTeX Warning: Citation `shaw1998using' on page 6 undefined on input line 129.
+
+
+LaTeX Warning: Citation `wang2016dueling' on page 6 undefined on input line 134.
+
+
+Overfull \hbox (4.28947pt too wide) detected at line 138
+[][][]\OML/cmm/m/it/10 Q\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 s; a\OT1/cmr/m/n/10 ; \OML/cmm/m/it/10 ^^R\OT1/cmr/m/n/10 ) = \OML/cmm/m/it/10 V\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 s\OT1/cmr/m/n/10 ; \OML/cmm/m/it/10 ^^R[]\OT1/cmr/m/n/10 ) + []
+ []
+
+File: notaglineLogo.png Graphic file (type png)
+<use notaglineLogo.png>
+Package pdftex.def Info: notaglineLogo.png  used on input line 151.
+(pdftex.def)             Requested size: 91.32pt x 22.83058pt.
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+[6]
+Underfull \hbox (badness 1472) in paragraph at lines 151--153
+\T1/ptm/n/it/10 ban-dit mean score $[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 a\OT1/cmr/m/n/10 )$\T1/ptm/n/it/10 , $\OML/cmm/m/it/10 c[] \OT1/cmr/m/n/10 = 1\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 0$ \T1/ptm/n/it/10 gov-erns the
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--189
+[]|\T1/ptm/m/n/8 MLP: In-put(12)
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--189
+\OMS/cmsy/m/n/8 !$ \T1/ptm/m/n/8 FC(128)
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--189
+\OMS/cmsy/m/n/8 !$ \T1/ptm/m/n/8 Lay-er-Norm
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--189
+\OMS/cmsy/m/n/8 !$ \T1/ptm/m/n/8 FC(128) $\OMS/cmsy/m/n/8 !$
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--189
+[]|\T1/ptm/m/n/8 Prioritized
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--189
+\T1/ptm/m/n/8 Re-play: 2,000
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--189
+\T1/ptm/m/n/8 seg-ments, Batch
+ []
+
+
+Underfull \hbox (badness 6575) in paragraph at lines 189--189
+[]|\T1/ptm/m/n/8 Polyak soft up-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--189
+[]|\T1/ptm/m/n/8 MLP: In-put(20)
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--189
+\OMS/cmsy/m/n/8 !$ \T1/ptm/m/n/8 FC(128) $\OMS/cmsy/m/n/8 !$
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--189
+\T1/ptm/m/n/8 Lay-er-Norm $\OMS/cmsy/m/n/8 !$
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--189
+[]|\T1/ptm/m/n/8 Prioritized
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--189
+\T1/ptm/m/n/8 Re-play: 30,000
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--189
+[]|$\OML/cmm/m/it/8 [] \OT1/cmr/m/n/8 =
+ []
+
+
+Underfull \hbox (badness 7362) in paragraph at lines 189--189
+\OT1/cmr/m/n/8 0\OML/cmm/m/it/8 :\OT1/cmr/m/n/8 35\OML/cmm/m/it/8 ;  ^^L[] \OT1/cmr/m/n/8 =
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--189
+\OMS/cmsy/m/n/8 !$ \T1/ptm/m/n/8 FC(32) $\OMS/cmsy/m/n/8 !$
+ []
+
+
+Underfull \hbox (badness 2951) in paragraph at lines 189--189
+\T1/ptm/m/n/8 ReLU $\OMS/cmsy/m/n/8 !$ \T1/ptm/m/n/8 FC(1)
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--189
+[]|\T1/ptm/m/n/8 Class-Weighted
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--189
+\T1/ptm/m/n/8 Bi-nary Cross-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--189
+[]|\T1/ptm/m/n/8 25 near-est
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--189
+\T1/ptm/m/n/8 spa-tiotem-po-ral
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--189
+[]|\T1/ptm/m/n/8 Dynamic:
+ []
+
+
+Underfull \hbox (badness 1888) in paragraph at lines 189--189
+[]|$\OT1/cmr/m/n/8 4\OML/cmm/m/it/8 :\OT1/cmr/m/n/8 0[]$ \T1/ptm/m/n/8 per HiGHS
+ []
+
+
+LaTeX Warning: Citation `savelsbergh1992general' on page 7 undefined on input line 229.
+
+
+Underfull \vbox (badness 2894) has occurred while \output is active []
+
+File: notaglineLogo.png Graphic file (type png)
+<use notaglineLogo.png>
+Package pdftex.def Info: notaglineLogo.png  used on input line 235.
+(pdftex.def)             Requested size: 91.32pt x 22.83058pt.
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+[7]
+
+LaTeX Warning: Citation `toth2003granular' on page 8 undefined on input line 237.
+
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 259.
+
+Underfull \hbox (badness 10000) in paragraph at lines 280--281
+[] \T1/ptm/n/it/10 Se-lect op-er-a-tor pair $\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 d; r\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10  
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 294--295
+[] \T1/ptm/n/it/10 Com-pute re-ward $\OML/cmm/m/it/10 R[]$\T1/ptm/n/it/10 ; store tran-si-tion
+ []
+
+
+Underfull \hbox (badness 2012) in paragraph at lines 299--300
+[] \T1/ptm/n/it/10 Store macro tran-si-tion $\OT1/cmr/m/n/10 (\OT1/cmr/bx/n/10 s[]\OML/cmm/m/it/10 ; a[]; R[]; \OT1/cmr/bx/n/10 s[]\OT1/cmr/m/n/10 )$ \T1/ptm/n/it/10 in
+ []
+
+) (docs/sections/05_experiments.tex
+Underfull \hbox (badness 7064) in paragraph at lines 8--9
+[]\T1/ptm/b/n/10 RQ1 (State-Conditioned Se-lec-tion)\T1/ptm/n/it/10 : Does state-
+ []
+
+File: notaglineLogo.png Graphic file (type png)
+<use notaglineLogo.png>
+Package pdftex.def Info: notaglineLogo.png  used on input line 11.
+(pdftex.def)             Requested size: 91.32pt x 22.83058pt.
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+[8]
+Underfull \hbox (badness 1354) in paragraph at lines 20--21
+[]\T1/ptm/b/n/10 Strict In-de-pen-dent Cold-Starts\T1/ptm/n/it/10 : Ev-ery in-di-vid-ual
+ []
+
+
+Underfull \hbox (badness 2573) in paragraph at lines 20--21
+\T1/ptm/n/it/10 solver ex-e-cu-tion is con-ducted within an iso-lated
+ []
+
+
+Underfull \hbox (badness 3128) in paragraph at lines 21--22
+\T1/ptm/n/it/10 ini-tial-izes iso-lated ran-dom seeds across Python's
+ []
+
+
+Underfull \hbox (badness 2884) in paragraph at lines 21--22
+\T1/phv/n/n/9 ran-dom\T1/ptm/n/it/10 , \T1/phv/n/n/9 numpy\T1/ptm/n/it/10 , and Py-Torch (\T1/phv/n/n/9 torch.manual_seed
+ []
+
+
+LaTeX Warning: Citation `vidal2013hybrid' on page 9 undefined on input line 31.
+
+
+LaTeX Warning: Citation `christiaens2020slack' on page 9 undefined on input line 31.
+
+
+LaTeX Warning: Citation `Ropke2006' on page 9 undefined on input line 31.
+
+
+LaTeX Warning: Citation `kool2019attention' on page 9 undefined on input line 32.
+
+
+LaTeX Warning: Citation `lin2021neural' on page 9 undefined on input line 32.
+
+
+LaTeX Warning: Citation `lu2020learning' on page 9 undefined on input line 33.
+
+
+LaTeX Warning: Citation `son2023learning' on page 9 undefined on input line 33.
+
+
+Underfull \hbox (badness 4726) in paragraph at lines 33--34
+[]\T1/ptm/b/n/10 Learning-Augmented Hy-brids\T1/ptm/n/it/10 : Single-Agent RL-
+ []
+
+
+LaTeX Warning: Citation `vidal2013hybrid' on page 9 undefined on input line 49.
+
+
+LaTeX Warning: Citation `christiaens2020slack' on page 9 undefined on input line 50.
+
+
+LaTeX Warning: Citation `Ropke2006' on page 9 undefined on input line 51.
+
+
+LaTeX Warning: Citation `kool2019attention' on page 9 undefined on input line 54.
+
+
+LaTeX Warning: Citation `lin2021neural' on page 9 undefined on input line 54.
+
+
+LaTeX Warning: Citation `lu2020learning' on page 9 undefined on input line 57.
+
+
+LaTeX Warning: Citation `son2023learning' on page 9 undefined on input line 57.
+
+
+Overfull \hbox (7.69948pt too wide) in alignment at lines 42--60
+[] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] 
+ []
+
+
+LaTeX Warning: Citation `Ropke2006' on page 9 undefined on input line 83.
+
+
+Underfull \hbox (badness 2150) in paragraph at lines 125--126
+\T1/ptm/n/it/10 ti-cal ve-hi-cle counts ($\OML/cmm/m/it/10 N[] \OT1/cmr/m/n/10 = 40\OML/cmm/m/it/10 =\OT1/cmr/m/n/10 74$\T1/ptm/n/it/10 , $\OT1/cmr/m/n/10 54\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 1%$\T1/ptm/n/it/10 ),
+ []
+
+File: notaglineLogo.png Graphic file (type png)
+<use notaglineLogo.png>
+Package pdftex.def Info: notaglineLogo.png  used on input line 126.
+(pdftex.def)             Requested size: 91.32pt x 22.83058pt.
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+[9]
+Underfull \vbox (badness 3746) has occurred while \output is active []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+File: notaglineLogo.png Graphic file (type png)
+<use notaglineLogo.png>
+Package pdftex.def Info: notaglineLogo.png  used on input line 163.
+(pdftex.def)             Requested size: 91.32pt x 22.83058pt.
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+[10]) (docs/sections/06_discussion.tex
+Underfull \hbox (badness 1917) in paragraph at lines 11--12
+\T1/ptm/b/n/10 gence & Dis-tance Dom-i-nance)\T1/ptm/n/it/10 : On Solomon-100
+ []
+
+File: notaglineLogo.png Graphic file (type png)
+<use notaglineLogo.png>
+Package pdftex.def Info: notaglineLogo.png  used on input line 20.
+(pdftex.def)             Requested size: 91.32pt x 22.83058pt.
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+[11]
+
+LaTeX Warning: Citation `Toth2014' on page 12 undefined on input line 24.
+
+
+LaTeX Warning: Citation `braysy2005vehicle' on page 12 undefined on input line 24.
+
+
+Underfull \hbox (badness 7888) in paragraph at lines 48--49
+\T1/ptm/n/it/10 pro-vides a sys-tem-atic pro-gres-sion across ex-plo-ration
+ []
+
+File: notaglineLogo.png Graphic file (type png)
+<use notaglineLogo.png>
+Package pdftex.def Info: notaglineLogo.png  used on input line 62.
+(pdftex.def)             Requested size: 91.32pt x 22.83058pt.
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+[12]) (docs/sections/07_conclusion.tex
+Underfull \hbox (badness 5908) in paragraph at lines 6--7
+[]\T1/ptm/b/n/10 Hierarchical De-ci-sion Ar-chi-tec-ture\T1/ptm/n/it/10 : De-cou-pling
+ []
+
+
+Underfull \hbox (badness 4378) in paragraph at lines 8--9
+[]\T1/ptm/b/n/10 Comprehensive Em-pir-i-cal Val-i-da-tion\T1/ptm/n/it/10 : Ex-ten-sive
+ []
+
+)
+No file main.bbl.
+<profile_Huy.jpg, id=379, 462.528pt x 462.528pt>
+File: profile_Huy.jpg Graphic file (type jpg)
+<use profile_Huy.jpg>
+Package pdftex.def Info: profile_Huy.jpg  used on input line 97.
+(pdftex.def)             Requested size: 72.26982pt x 72.26982pt.
+File: profile_Huy.jpg Graphic file (type jpg)
+<use profile_Huy.jpg>
+Package pdftex.def Info: profile_Huy.jpg  used on input line 97.
+(pdftex.def)             Requested size: 72.26982pt x 72.26982pt.
+<fig6_profileho.jpg, id=382, 462.528pt x 462.528pt>
+File: fig6_profileho.jpg Graphic file (type jpg)
+<use fig6_profileho.jpg>
+Package pdftex.def Info: fig6_profileho.jpg  used on input line 100.
+(pdftex.def)             Requested size: 72.26982pt x 72.26982pt.
+File: fig6_profileho.jpg Graphic file (type jpg)
+<use fig6_profileho.jpg>
+Package pdftex.def Info: fig6_profileho.jpg  used on input line 100.
+(pdftex.def)             Requested size: 72.26982pt x 72.26982pt.
+File: bullet.png Graphic file (type png)
+<use bullet.png>
+Package pdftex.def Info: bullet.png  used on input line 103.
+(pdftex.def)             Requested size: 5.0pt x 14.6871pt.
+File: notaglineLogo.png Graphic file (type png)
+<use notaglineLogo.png>
+Package pdftex.def Info: notaglineLogo.png  used on input line 105.
+(pdftex.def)             Requested size: 91.32pt x 22.83058pt.
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+[13 <docs/profile_Huy.jpg> <docs/fig6_profileho.jpg>] (docs/main.aux)
+ ***********
+LaTeX2e <2026-06-01>
+L3 programming layer <2026-05-26>
+ ***********
+
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+
+LaTeX Warning: There were undefined references.
+
+Package rerunfilecheck Info: File `main.out' has not changed.
+(rerunfilecheck)             Checksum: B3321651BF5C6F56A3B0EBC1196A424D;12716.
+ ) 
+Here is how much of TeX's memory you used:
+ 12675 strings out of 469114
+ 200136 string characters out of 5457616
+ 681300 words of memory out of 5000000
+ 41304 multiletter control sequences out of 15000+600000
+ 745831 words of font info for 200 fonts, out of 8000000 for 9000
+ 36 hyphenation exceptions out of 8191
+ 74i,16n,79p,1987b,575s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvbo8a.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></Users/thundercock2/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on docs/main.pdf (13 pages, 1335338 bytes).
+PDF statistics:
+ 552 PDF objects out of 1000 (max. 8388607)
+ 463 compressed objects within 5 object streams
+ 127 named destinations out of 1000 (max. 500000)
+ 458 words of extra memory for PDF output out of 10000 (max. 10000000)
+

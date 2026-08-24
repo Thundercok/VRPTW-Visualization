@@ -1,0 +1,1424 @@
+{
+  "_metadata": {
+    "timestamp_utc": "2026-08-14T12:26:47Z",
+    "source_portal": "SINTEF Top Project Web VRPTW Benchmarks",
+    "urls": {
+      "Solomon 100": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/",
+      "Homberger 200": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/",
+      "Homberger 400": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "fetch_protocol": "read_url_content agent tool (direct HTML parse from live SINTEF server)",
+    "objective_hierarchy": "Hierarchical (1. Minimize NV, 2. Minimize TD with double precision L2 norm)",
+    "total_instances": 176
+  },
+  "instances": {
+    "C101": {
+      "nv": 10,
+      "td": 828.94,
+      "ref_code": "RT",
+      "full_citation": "Y. Rochat and E.D. Taillard, \"Probabilistic Diversification and Intensification in Local Search for VRPTW\", Journal of Heuristics 1, 147-167, 1995.",
+      "comment": "Detailed solution\u00a0by SAM::OPT",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "C102": {
+      "nv": 10,
+      "td": 828.94,
+      "ref_code": "RT",
+      "full_citation": "Y. Rochat and E.D. Taillard, \"Probabilistic Diversification and Intensification in Local Search for VRPTW\", Journal of Heuristics 1, 147-167, 1995.",
+      "comment": "Detailed solution by SAM::OPT",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "C103": {
+      "nv": 10,
+      "td": 828.06,
+      "ref_code": "RT",
+      "full_citation": "Y. Rochat and E.D. Taillard, \"Probabilistic Diversification and Intensification in Local Search for VRPTW\", Journal of Heuristics 1, 147-167, 1995.",
+      "comment": "Detailed solution by SAM::OPT",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "C104": {
+      "nv": 10,
+      "td": 824.78,
+      "ref_code": "RT",
+      "full_citation": "Y. Rochat and E.D. Taillard, \"Probabilistic Diversification and Intensification in Local Search for VRPTW\", Journal of Heuristics 1, 147-167, 1995.",
+      "comment": "Detailed solution by SAM::OPT",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "C105": {
+      "nv": 10,
+      "td": 828.94,
+      "ref_code": "RT",
+      "full_citation": "Y. Rochat and E.D. Taillard, \"Probabilistic Diversification and Intensification in Local Search for VRPTW\", Journal of Heuristics 1, 147-167, 1995.",
+      "comment": "Detailed solution by SAM::OPT",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "C106": {
+      "nv": 10,
+      "td": 828.94,
+      "ref_code": "RT",
+      "full_citation": "Y. Rochat and E.D. Taillard, \"Probabilistic Diversification and Intensification in Local Search for VRPTW\", Journal of Heuristics 1, 147-167, 1995.",
+      "comment": "Detailed solution by SAM::OPT",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "C107": {
+      "nv": 10,
+      "td": 828.94,
+      "ref_code": "RT",
+      "full_citation": "Y. Rochat and E.D. Taillard, \"Probabilistic Diversification and Intensification in Local Search for VRPTW\", Journal of Heuristics 1, 147-167, 1995.",
+      "comment": "Detailed solution by SAM::OPT",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "C108": {
+      "nv": 10,
+      "td": 828.94,
+      "ref_code": "RT",
+      "full_citation": "Y. Rochat and E.D. Taillard, \"Probabilistic Diversification and Intensification in Local Search for VRPTW\", Journal of Heuristics 1, 147-167, 1995.",
+      "comment": "Detailed solution by SAM::OPT",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "C109": {
+      "nv": 10,
+      "td": 828.94,
+      "ref_code": "RT",
+      "full_citation": "Y. Rochat and E.D. Taillard, \"Probabilistic Diversification and Intensification in Local Search for VRPTW\", Journal of Heuristics 1, 147-167, 1995.",
+      "comment": "Detailed solution by SAM::OPT",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "C201": {
+      "nv": 3,
+      "td": 591.56,
+      "ref_code": "RT",
+      "full_citation": "Y. Rochat and E.D. Taillard, \"Probabilistic Diversification and Intensification in Local Search for VRPTW\", Journal of Heuristics 1, 147-167, 1995.",
+      "comment": "Detailed solution by SAM::OPT",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "C202": {
+      "nv": 3,
+      "td": 591.56,
+      "ref_code": "RT",
+      "full_citation": "Y. Rochat and E.D. Taillard, \"Probabilistic Diversification and Intensification in Local Search for VRPTW\", Journal of Heuristics 1, 147-167, 1995.",
+      "comment": "Detailed solution by SAM::OPT",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "C203": {
+      "nv": 3,
+      "td": 591.17,
+      "ref_code": "RT",
+      "full_citation": "Y. Rochat and E.D. Taillard, \"Probabilistic Diversification and Intensification in Local Search for VRPTW\", Journal of Heuristics 1, 147-167, 1995.",
+      "comment": "Detailed solution by SAM::OPT",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "C204": {
+      "nv": 3,
+      "td": 590.6,
+      "ref_code": "RT",
+      "full_citation": "Y. Rochat and E.D. Taillard, \"Probabilistic Diversification and Intensification in Local Search for VRPTW\", Journal of Heuristics 1, 147-167, 1995.",
+      "comment": "Detailed solution by SAM::OPT",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "C205": {
+      "nv": 3,
+      "td": 588.88,
+      "ref_code": "RT",
+      "full_citation": "Y. Rochat and E.D. Taillard, \"Probabilistic Diversification and Intensification in Local Search for VRPTW\", Journal of Heuristics 1, 147-167, 1995.",
+      "comment": "Detailed solution by SAM::OPT",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "C206": {
+      "nv": 3,
+      "td": 588.49,
+      "ref_code": "RT",
+      "full_citation": "Y. Rochat and E.D. Taillard, \"Probabilistic Diversification and Intensification in Local Search for VRPTW\", Journal of Heuristics 1, 147-167, 1995.",
+      "comment": "Detailed solution by SAM::OPT",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "C207": {
+      "nv": 3,
+      "td": 588.29,
+      "ref_code": "RT",
+      "full_citation": "Y. Rochat and E.D. Taillard, \"Probabilistic Diversification and Intensification in Local Search for VRPTW\", Journal of Heuristics 1, 147-167, 1995.",
+      "comment": "Detailed solution by SAM::OPT",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "C208": {
+      "nv": 3,
+      "td": 588.32,
+      "ref_code": "RT",
+      "full_citation": "Y. Rochat and E.D. Taillard, \"Probabilistic Diversification and Intensification in Local Search for VRPTW\", Journal of Heuristics 1, 147-167, 1995.",
+      "comment": "Detailed solution by SAM::OPT",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "R101": {
+      "nv": 19,
+      "td": 1650.8,
+      "ref_code": "H",
+      "full_citation": "J. Homberger, \"Verteilt-parallele Metaheuristiken zur Tourenplanung\", Gaber, Wiesbaden, 2000.",
+      "comment": "See note below",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "R102": {
+      "nv": 17,
+      "td": 1486.12,
+      "ref_code": "RT",
+      "full_citation": "Y. Rochat and E.D. Taillard, \"Probabilistic Diversification and Intensification in Local Search for VRPTW\", Journal of Heuristics 1, 147-167, 1995.",
+      "comment": "Detailed solution by SAM::OPT",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "R103": {
+      "nv": 13,
+      "td": 1292.68,
+      "ref_code": "LLH",
+      "full_citation": "H. Li, A. Lim, and J. Huang, \"Local Search with Annealing-like Restarts to Solve VRPTW\", NUS Singapore, 2001.",
+      "comment": "Detailed solution by Shobb",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "R104": {
+      "nv": 9,
+      "td": 1007.31,
+      "ref_code": "MBD",
+      "full_citation": "D. Mester, O. Br\u00e4ysy and W. Dullaert, \"A Multi-parametric Evolution Strategies Algorithm for VRP\", University of Haifa, 2005.",
+      "comment": "See note below",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "R105": {
+      "nv": 14,
+      "td": 1377.11,
+      "ref_code": "RT",
+      "full_citation": "Y. Rochat and E.D. Taillard, \"Probabilistic Diversification and Intensification in Local Search for VRPTW\", Journal of Heuristics 1, 147-167, 1995.",
+      "comment": "Detailed solution by SAM::OPT",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "R106": {
+      "nv": 12,
+      "td": 1252.03,
+      "ref_code": "MBD",
+      "full_citation": "D. Mester, O. Br\u00e4ysy and W. Dullaert, \"A Multi-parametric Evolution Strategies Algorithm for VRP\", University of Haifa, 2005.",
+      "comment": "See note below",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "R107": {
+      "nv": 10,
+      "td": 1104.66,
+      "ref_code": "S97",
+      "full_citation": "P. Shaw, \"A New Local Search Algorithm Providing High Quality Solutions to VRPTW\", University of Strathclyde, 1997.",
+      "comment": "Detailed solution by Shobb",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "R108": {
+      "nv": 9,
+      "td": 960.88,
+      "ref_code": "BBB",
+      "full_citation": "J. Berger, M. Barkaoui and O. Br\u00e4ysy, \"A Parallel Hybrid Genetic Algorithm for VRPTW\", DREV Canada, 2001.",
+      "comment": "Detailed solution from BVH",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "R109": {
+      "nv": 11,
+      "td": 1194.73,
+      "ref_code": "HG",
+      "full_citation": "J. Homberger and H. Gehring, \"Two Evolutionary Metaheuristics for VRPTW\", INFOR 37, 297-318, 1999.",
+      "comment": "Detailed solution by Shobb",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "R110": {
+      "nv": 10,
+      "td": 1118.84,
+      "ref_code": "MBD",
+      "full_citation": "D. Mester, O. Br\u00e4ysy and W. Dullaert, \"A Multi-parametric Evolution Strategies Algorithm for VRP\", University of Haifa, 2005.",
+      "comment": "See note below",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "R111": {
+      "nv": 10,
+      "td": 1096.73,
+      "ref_code": "RGP",
+      "full_citation": "L.M. Rousseau, M. Gendreau and G. Pesant, \"Using Constraint-Based Operators to Solve VRPTW\", Journal of Heuristics 8, 43-58, 2002.",
+      "comment": "Detailed solution by Shobb, see note about distance below",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "R112": {
+      "nv": 9,
+      "td": 982.14,
+      "ref_code": "GTA",
+      "full_citation": "L. M. Gambardella, E. Taillard, and G. Agazzi, \"MACS-VRPTW\", New Ideas in Optimization, McGraw-Hill, 63-76, 1999.",
+      "comment": "Detailed solution by Victor Allis",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "R201": {
+      "nv": 4,
+      "td": 1252.37,
+      "ref_code": "HG",
+      "full_citation": "J. Homberger and H. Gehring, \"Two Evolutionary Metaheuristics for VRPTW\", INFOR 37, 297-318, 1999.",
+      "comment": "Detailed solution by SAM::OPT",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "R202": {
+      "nv": 3,
+      "td": 1191.7,
+      "ref_code": "RGP",
+      "full_citation": "L.M. Rousseau, M. Gendreau and G. Pesant, \"Using Constraint-Based Operators to Solve VRPTW\", Journal of Heuristics 8, 43-58, 2002.",
+      "comment": "Detailed solution by Shobb",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "R203": {
+      "nv": 3,
+      "td": 939.5,
+      "ref_code": "WL",
+      "full_citation": "M. Woch, P. Lebkowski, \"Sequential Simulated Annealing for VRPTW\", Decision Making in Manufacturing and Services 3, 87-100, 2009.",
+      "comment": "Detailed solution by Victor Allis",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "R204": {
+      "nv": 2,
+      "td": 825.52,
+      "ref_code": "BVH",
+      "full_citation": "R. Bent and P. Van Hentenryck, \"A Two-Stage Hybrid Local Search for VRPTW\", Brown University CS-01-06, 2001.",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "R205": {
+      "nv": 3,
+      "td": 994.43,
+      "ref_code": "RGP",
+      "full_citation": "L.M. Rousseau, M. Gendreau and G. Pesant, \"Using Constraint-Based Operators to Solve VRPTW\", Journal of Heuristics 8, 43-58, 2002.",
+      "comment": "994.42 reported by RGP is believed to\u00a0result from a rounding error",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "R206": {
+      "nv": 3,
+      "td": 906.14,
+      "ref_code": "SSSD",
+      "full_citation": "G. Schrimpf, J. Schneider, H. Stamm-Wilbrandt and G. Dueck, \"Ruin and Recreate Principle\", JCP 159, 139-171, 2000.",
+      "comment": "Detailed solution by SAM::OPT",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "R207": {
+      "nv": 2,
+      "td": 890.61,
+      "ref_code": "RP",
+      "full_citation": "S. Ropke & D. Pisinger, \"A general heuristic for vehicle routing problems\", University of Copenhagen.",
+      "comment": "Detailed solution by Victor Allis",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "R208": {
+      "nv": 2,
+      "td": 726.82,
+      "ref_code": "MBD",
+      "full_citation": "D. Mester, O. Br\u00e4ysy and W. Dullaert, \"A Multi-parametric Evolution Strategies Algorithm for VRP\", University of Haifa, 2005.",
+      "comment": "See note below",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "R209": {
+      "nv": 3,
+      "td": 909.16,
+      "ref_code": "H",
+      "full_citation": "J. Homberger, \"Verteilt-parallele Metaheuristiken zur Tourenplanung\", Gaber, Wiesbaden, 2000.",
+      "comment": "Detailed solution from BVH",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "R210": {
+      "nv": 3,
+      "td": 939.37,
+      "ref_code": "MBD",
+      "full_citation": "D. Mester, O. Br\u00e4ysy and W. Dullaert, \"A Multi-parametric Evolution Strategies Algorithm for VRP\", University of Haifa, 2005.",
+      "comment": "See note below",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "R211": {
+      "nv": 2,
+      "td": 885.71,
+      "ref_code": "WL",
+      "full_citation": "M. Woch, P. Lebkowski, \"Sequential Simulated Annealing for VRPTW\", Decision Making in Manufacturing and Services 3, 87-100, 2009.",
+      "comment": "Detailed solution by Victor Allis",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "RC101": {
+      "nv": 14,
+      "td": 1696.95,
+      "ref_code": "TBGGP",
+      "full_citation": "E. Taillard, P. Badeau, M. Gendreau, F. Geurtin, and J.Y. Potvin, \"A Tabu Search Heuristic for VRPTW\", Transportation Science 31, 170-186, 1997.",
+      "comment": "1696.94 reported by TBGGP is believed to result from a rounding error",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "RC102": {
+      "nv": 12,
+      "td": 1554.75,
+      "ref_code": "TBGGP",
+      "full_citation": "E. Taillard, P. Badeau, M. Gendreau, F. Geurtin, and J.Y. Potvin, \"A Tabu Search Heuristic for VRPTW\", Transportation Science 31, 170-186, 1997.",
+      "comment": "Detailed solution by Shobb",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "RC103": {
+      "nv": 11,
+      "td": 1261.67,
+      "ref_code": "S98",
+      "full_citation": "P. Shaw, \"Using Constraint Programming and Local Search Methods to Solve VRPTW\", CP98, LNCS 147-167, 1998.",
+      "comment": "Detailed solution by Shobb",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "RC104": {
+      "nv": 10,
+      "td": 1135.48,
+      "ref_code": "CLM",
+      "full_citation": "J.-F. Cordeau, G. Laporte, and A. Mercier, \"A Unified Tabu Search Heuristic for VRPTW\", CRT-00-03 Montreal, 2000.",
+      "comment": "Detailed solution by Shobb",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "RC105": {
+      "nv": 13,
+      "td": 1629.44,
+      "ref_code": "BBB",
+      "full_citation": "J. Berger, M. Barkaoui and O. Br\u00e4ysy, \"A Parallel Hybrid Genetic Algorithm for VRPTW\", DREV Canada, 2001.",
+      "comment": "Detailed solution from BVH",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "RC106": {
+      "nv": 11,
+      "td": 1424.73,
+      "ref_code": "BBB",
+      "full_citation": "J. Berger, M. Barkaoui and O. Br\u00e4ysy, \"A Parallel Hybrid Genetic Algorithm for VRPTW\", DREV Canada, 2001.",
+      "comment": "Detailed solution from BVH",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "RC107": {
+      "nv": 11,
+      "td": 1230.48,
+      "ref_code": "S97",
+      "full_citation": "P. Shaw, \"A New Local Search Algorithm Providing High Quality Solutions to VRPTW\", University of Strathclyde, 1997.",
+      "comment": "Detailed solution by Victor Allis",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "RC108": {
+      "nv": 10,
+      "td": 1139.82,
+      "ref_code": "TBGGP",
+      "full_citation": "E. Taillard, P. Badeau, M. Gendreau, F. Geurtin, and J.Y. Potvin, \"A Tabu Search Heuristic for VRPTW\", Transportation Science 31, 170-186, 1997.",
+      "comment": "Detailed solution by Shobb",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "RC201": {
+      "nv": 4,
+      "td": 1406.94,
+      "ref_code": "MBD",
+      "full_citation": "D. Mester, O. Br\u00e4ysy and W. Dullaert, \"A Multi-parametric Evolution Strategies Algorithm for VRP\", University of Haifa, 2005.",
+      "comment": "See note below",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "RC202": {
+      "nv": 3,
+      "td": 1365.65,
+      "ref_code": "GCC",
+      "full_citation": "Agnieszka Debudaj-Grabysz, Zbigniew J. Czech and Piotr Czarnas, Silesia University of Technology & University of Wroclaw, 2004.",
+      "comment": "Detailed solution by Victor Allis",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "RC203": {
+      "nv": 3,
+      "td": 1049.62,
+      "ref_code": "CC",
+      "full_citation": "Z. J. Czech and P. Czarnas, \"A Parallel Simulated Annealing for VRPTW\", Euromicro PDP, 376-383, 2002.",
+      "comment": "Detailed solution by Victor Allis",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "RC204": {
+      "nv": 3,
+      "td": 798.46,
+      "ref_code": "MBD",
+      "full_citation": "D. Mester, O. Br\u00e4ysy and W. Dullaert, \"A Multi-parametric Evolution Strategies Algorithm for VRP\", University of Haifa, 2005.",
+      "comment": "See note below",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "RC205": {
+      "nv": 4,
+      "td": 1297.65,
+      "ref_code": "MBD",
+      "full_citation": "D. Mester, O. Br\u00e4ysy and W. Dullaert, \"A Multi-parametric Evolution Strategies Algorithm for VRP\", University of Haifa, 2005.",
+      "comment": "See note below",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "RC206": {
+      "nv": 3,
+      "td": 1146.32,
+      "ref_code": "H",
+      "full_citation": "J. Homberger, \"Verteilt-parallele Metaheuristiken zur Tourenplanung\", Gaber, Wiesbaden, 2000.",
+      "comment": "Detailed solution from BVH",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "RC207": {
+      "nv": 3,
+      "td": 1061.14,
+      "ref_code": "BVH",
+      "full_citation": "R. Bent and P. Van Hentenryck, \"A Two-Stage Hybrid Local Search for VRPTW\", Brown University CS-01-06, 2001.",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "RC208": {
+      "nv": 3,
+      "td": 828.14,
+      "ref_code": "IKMUY",
+      "full_citation": "T. Ibaraki, M. Kubo, T. Masuda, T. Uno and M. Yagiura, \"Effective Local Search Algorithms for VRPTW\", Kyoto University, 2001.",
+      "comment": "Detailed solution from BVH",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/solomon-benchmark/100-customers/"
+    },
+    "c1_2_1": {
+      "nv": 20,
+      "td": 2704.57,
+      "ref_code": "GH",
+      "full_citation": "SINTEF Record GH",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "c1_2_2": {
+      "nv": 18,
+      "td": 2917.89,
+      "ref_code": "BVH",
+      "full_citation": "R. Bent and P. Van Hentenryck, \"A Two-Stage Hybrid Local Search for VRPTW\", Brown University CS-01-06, 2001.",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "c1_2_3": {
+      "nv": 18,
+      "td": 2707.35,
+      "ref_code": "BSJ2",
+      "full_citation": "SINTEF Record BSJ2",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "c1_2_4": {
+      "nv": 18,
+      "td": 2643.31,
+      "ref_code": "BSJ2",
+      "full_citation": "SINTEF Record BSJ2",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "c1_2_5": {
+      "nv": 20,
+      "td": 2702.05,
+      "ref_code": "GH",
+      "full_citation": "SINTEF Record GH",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "c1_2_6": {
+      "nv": 20,
+      "td": 2701.04,
+      "ref_code": "GH",
+      "full_citation": "SINTEF Record GH",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "c1_2_7": {
+      "nv": 20,
+      "td": 2701.04,
+      "ref_code": "GH",
+      "full_citation": "SINTEF Record GH",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "c1_2_8": {
+      "nv": 19,
+      "td": 2775.48,
+      "ref_code": "BC4",
+      "full_citation": "SINTEF Record BC4",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "c1_2_9": {
+      "nv": 18,
+      "td": 2687.83,
+      "ref_code": "MB",
+      "full_citation": "SINTEF Record MB",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "c1_2_10": {
+      "nv": 18,
+      "td": 2643.51,
+      "ref_code": "MB",
+      "full_citation": "SINTEF Record MB",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "c2_2_1": {
+      "nv": 6,
+      "td": 1931.44,
+      "ref_code": "GH",
+      "full_citation": "SINTEF Record GH",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "c2_2_2": {
+      "nv": 6,
+      "td": 1863.16,
+      "ref_code": "GH",
+      "full_citation": "SINTEF Record GH",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "c2_2_3": {
+      "nv": 6,
+      "td": 1775.08,
+      "ref_code": "NBD",
+      "full_citation": "SINTEF Record NBD",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "c2_2_4": {
+      "nv": 6,
+      "td": 1703.43,
+      "ref_code": "PGDR",
+      "full_citation": "SINTEF Record PGDR",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "c2_2_5": {
+      "nv": 6,
+      "td": 1878.85,
+      "ref_code": "BVH",
+      "full_citation": "R. Bent and P. Van Hentenryck, \"A Two-Stage Hybrid Local Search for VRPTW\", Brown University CS-01-06, 2001.",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "c2_2_6": {
+      "nv": 6,
+      "td": 1857.35,
+      "ref_code": "B",
+      "full_citation": "SINTEF Record B",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "c2_2_7": {
+      "nv": 6,
+      "td": 1849.46,
+      "ref_code": "GH",
+      "full_citation": "SINTEF Record GH",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "c2_2_8": {
+      "nv": 6,
+      "td": 1820.53,
+      "ref_code": "RP",
+      "full_citation": "S. Ropke & D. Pisinger, \"A general heuristic for vehicle routing problems\", University of Copenhagen.",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "c2_2_9": {
+      "nv": 6,
+      "td": 1830.05,
+      "ref_code": "RP",
+      "full_citation": "S. Ropke & D. Pisinger, \"A general heuristic for vehicle routing problems\", University of Copenhagen.",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "c2_2_10": {
+      "nv": 6,
+      "td": 1806.58,
+      "ref_code": "NBD",
+      "full_citation": "SINTEF Record NBD",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "r1_2_1": {
+      "nv": 20,
+      "td": 4784.11,
+      "ref_code": "NBD",
+      "full_citation": "SINTEF Record NBD",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "r1_2_2": {
+      "nv": 18,
+      "td": 4039.86,
+      "ref_code": "MB2",
+      "full_citation": "SINTEF Record MB2",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "r1_2_3": {
+      "nv": 18,
+      "td": 3381.96,
+      "ref_code": "BSJ2",
+      "full_citation": "SINTEF Record BSJ2",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "r1_2_4": {
+      "nv": 18,
+      "td": 3057.81,
+      "ref_code": "NBD",
+      "full_citation": "SINTEF Record NBD",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "r1_2_5": {
+      "nv": 18,
+      "td": 4107.86,
+      "ref_code": "PGDR",
+      "full_citation": "SINTEF Record PGDR",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "r1_2_6": {
+      "nv": 18,
+      "td": 3583.14,
+      "ref_code": "PGDR",
+      "full_citation": "SINTEF Record PGDR",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "r1_2_7": {
+      "nv": 18,
+      "td": 3150.11,
+      "ref_code": "BSJ2",
+      "full_citation": "SINTEF Record BSJ2",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "r1_2_8": {
+      "nv": 18,
+      "td": 2951.99,
+      "ref_code": "NBD",
+      "full_citation": "SINTEF Record NBD",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "r1_2_9": {
+      "nv": 18,
+      "td": 3760.58,
+      "ref_code": "PGDR",
+      "full_citation": "SINTEF Record PGDR",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "r1_2_10": {
+      "nv": 18,
+      "td": 3301.18,
+      "ref_code": "BSJ2",
+      "full_citation": "SINTEF Record BSJ2",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "r2_2_1": {
+      "nv": 4,
+      "td": 4483.16,
+      "ref_code": "BSJ2",
+      "full_citation": "SINTEF Record BSJ2",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "r2_2_2": {
+      "nv": 4,
+      "td": 3621.2,
+      "ref_code": "BSJ2",
+      "full_citation": "SINTEF Record BSJ2",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "r2_2_3": {
+      "nv": 4,
+      "td": 2880.62,
+      "ref_code": "BSJ2",
+      "full_citation": "SINTEF Record BSJ2",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "r2_2_4": {
+      "nv": 4,
+      "td": 1981.29,
+      "ref_code": "MB",
+      "full_citation": "SINTEF Record MB",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "r2_2_5": {
+      "nv": 4,
+      "td": 3366.79,
+      "ref_code": "BSJ2",
+      "full_citation": "SINTEF Record BSJ2",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "r2_2_6": {
+      "nv": 4,
+      "td": 2913.03,
+      "ref_code": "PGDR",
+      "full_citation": "SINTEF Record PGDR",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "r2_2_7": {
+      "nv": 4,
+      "td": 2451.14,
+      "ref_code": "BSJ2",
+      "full_citation": "SINTEF Record BSJ2",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "r2_2_8": {
+      "nv": 4,
+      "td": 1849.87,
+      "ref_code": "MB",
+      "full_citation": "SINTEF Record MB",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "r2_2_9": {
+      "nv": 4,
+      "td": 3092.04,
+      "ref_code": "NBD",
+      "full_citation": "SINTEF Record NBD",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "r2_2_10": {
+      "nv": 4,
+      "td": 2654.97,
+      "ref_code": "BSJ2",
+      "full_citation": "SINTEF Record BSJ2",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "rc1_2_1": {
+      "nv": 18,
+      "td": 3602.8,
+      "ref_code": "PGDR",
+      "full_citation": "SINTEF Record PGDR",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "rc1_2_2": {
+      "nv": 18,
+      "td": 3249.05,
+      "ref_code": "BC4",
+      "full_citation": "SINTEF Record BC4",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "rc1_2_3": {
+      "nv": 18,
+      "td": 3008.33,
+      "ref_code": "BSJ2",
+      "full_citation": "SINTEF Record BSJ2",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "rc1_2_4": {
+      "nv": 18,
+      "td": 2851.68,
+      "ref_code": "NBD",
+      "full_citation": "SINTEF Record NBD",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "rc1_2_5": {
+      "nv": 18,
+      "td": 3371.0,
+      "ref_code": "BC4",
+      "full_citation": "SINTEF Record BC4",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "rc1_2_6": {
+      "nv": 18,
+      "td": 3324.8,
+      "ref_code": "PGDR",
+      "full_citation": "SINTEF Record PGDR",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "rc1_2_7": {
+      "nv": 18,
+      "td": 3189.32,
+      "ref_code": "BSJ2",
+      "full_citation": "SINTEF Record BSJ2",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "rc1_2_8": {
+      "nv": 18,
+      "td": 3083.93,
+      "ref_code": "PGDR",
+      "full_citation": "SINTEF Record PGDR",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "rc1_2_9": {
+      "nv": 18,
+      "td": 3081.13,
+      "ref_code": "NBD",
+      "full_citation": "SINTEF Record NBD",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "rc1_2_10": {
+      "nv": 18,
+      "td": 3000.3,
+      "ref_code": "VCGP",
+      "full_citation": "SINTEF Record VCGP",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "rc2_2_1": {
+      "nv": 6,
+      "td": 3099.53,
+      "ref_code": "BSJ2",
+      "full_citation": "SINTEF Record BSJ2",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "rc2_2_2": {
+      "nv": 5,
+      "td": 2825.24,
+      "ref_code": "PGDR",
+      "full_citation": "SINTEF Record PGDR",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "rc2_2_3": {
+      "nv": 4,
+      "td": 2601.87,
+      "ref_code": "NBD",
+      "full_citation": "SINTEF Record NBD",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "rc2_2_4": {
+      "nv": 4,
+      "td": 2038.56,
+      "ref_code": "BC4",
+      "full_citation": "SINTEF Record BC4",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "rc2_2_5": {
+      "nv": 4,
+      "td": 2911.46,
+      "ref_code": "BSJ2",
+      "full_citation": "SINTEF Record BSJ2",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "rc2_2_6": {
+      "nv": 4,
+      "td": 2873.12,
+      "ref_code": "NBD",
+      "full_citation": "SINTEF Record NBD",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "rc2_2_7": {
+      "nv": 4,
+      "td": 2525.83,
+      "ref_code": "BSJ2",
+      "full_citation": "SINTEF Record BSJ2",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "rc2_2_8": {
+      "nv": 4,
+      "td": 2292.53,
+      "ref_code": "VCGP",
+      "full_citation": "SINTEF Record VCGP",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "rc2_2_9": {
+      "nv": 4,
+      "td": 2175.04,
+      "ref_code": "BSJ2",
+      "full_citation": "SINTEF Record BSJ2",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "rc2_2_10": {
+      "nv": 4,
+      "td": 2015.6,
+      "ref_code": "MB",
+      "full_citation": "SINTEF Record MB",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/200-customers/"
+    },
+    "c1_4_1": {
+      "nv": 40,
+      "td": 7152.02,
+      "ref_code": "MBD",
+      "full_citation": "D. Mester, O. Br\u00e4ysy and W. Dullaert, \"A Multi-parametric Evolution Strategies Algorithm for VRP\", University of Haifa, 2005.",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "c1_4_2": {
+      "nv": 36,
+      "td": 7686.38,
+      "ref_code": "VCGP",
+      "full_citation": "SINTEF Record VCGP",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "c1_4_3": {
+      "nv": 36,
+      "td": 7060.67,
+      "ref_code": "VCGP",
+      "full_citation": "SINTEF Record VCGP",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "c1_4_4": {
+      "nv": 36,
+      "td": 6803.24,
+      "ref_code": "VCGP",
+      "full_citation": "SINTEF Record VCGP",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "c1_4_5": {
+      "nv": 40,
+      "td": 7152.02,
+      "ref_code": "MBD",
+      "full_citation": "D. Mester, O. Br\u00e4ysy and W. Dullaert, \"A Multi-parametric Evolution Strategies Algorithm for VRP\", University of Haifa, 2005.",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "c1_4_6": {
+      "nv": 40,
+      "td": 7153.41,
+      "ref_code": "MBD",
+      "full_citation": "D. Mester, O. Br\u00e4ysy and W. Dullaert, \"A Multi-parametric Evolution Strategies Algorithm for VRP\", University of Haifa, 2005.",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "c1_4_7": {
+      "nv": 39,
+      "td": 7417.92,
+      "ref_code": "PGDR",
+      "full_citation": "SINTEF Record PGDR",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "c1_4_8": {
+      "nv": 37,
+      "td": 7347.23,
+      "ref_code": "BC4",
+      "full_citation": "SINTEF Record BC4",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "c1_4_9": {
+      "nv": 36,
+      "td": 7042.53,
+      "ref_code": "Q",
+      "full_citation": "SINTEF Record Q",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "c1_4_10": {
+      "nv": 36,
+      "td": 6860.63,
+      "ref_code": "BSJ2",
+      "full_citation": "SINTEF Record BSJ2",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "c2_4_1": {
+      "nv": 12,
+      "td": 4116.05,
+      "ref_code": "MBD",
+      "full_citation": "D. Mester, O. Br\u00e4ysy and W. Dullaert, \"A Multi-parametric Evolution Strategies Algorithm for VRP\", University of Haifa, 2005.",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "c2_4_2": {
+      "nv": 12,
+      "td": 3929.89,
+      "ref_code": "MB",
+      "full_citation": "SINTEF Record MB",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "c2_4_3": {
+      "nv": 11,
+      "td": 4018.02,
+      "ref_code": "VCGP",
+      "full_citation": "SINTEF Record VCGP",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "c2_4_4": {
+      "nv": 11,
+      "td": 3702.49,
+      "ref_code": "VCGP",
+      "full_citation": "SINTEF Record VCGP",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "c2_4_5": {
+      "nv": 12,
+      "td": 3938.69,
+      "ref_code": "BSJ2",
+      "full_citation": "SINTEF Record BSJ2",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "c2_4_6": {
+      "nv": 12,
+      "td": 3875.94,
+      "ref_code": "MB",
+      "full_citation": "SINTEF Record MB",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "c2_4_7": {
+      "nv": 12,
+      "td": 3894.13,
+      "ref_code": "MBD",
+      "full_citation": "D. Mester, O. Br\u00e4ysy and W. Dullaert, \"A Multi-parametric Evolution Strategies Algorithm for VRP\", University of Haifa, 2005.",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "c2_4_8": {
+      "nv": 11,
+      "td": 4233.2,
+      "ref_code": "CAINIAO",
+      "full_citation": "SINTEF Record CAINIAO",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "c2_4_9": {
+      "nv": 12,
+      "td": 3864.68,
+      "ref_code": "MB2",
+      "full_citation": "SINTEF Record MB2",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "c2_4_10": {
+      "nv": 11,
+      "td": 3825.67,
+      "ref_code": "SCR",
+      "full_citation": "SINTEF Record SCR",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "r1_4_1": {
+      "nv": 40,
+      "td": 10372.31,
+      "ref_code": "NBD",
+      "full_citation": "SINTEF Record NBD",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "r1_4_2": {
+      "nv": 36,
+      "td": 8898.15,
+      "ref_code": "CAINIAOSCR",
+      "full_citation": "SINTEF Record CAINIAOSCR",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "r1_4_3": {
+      "nv": 36,
+      "td": 7808.34,
+      "ref_code": "Q",
+      "full_citation": "SINTEF Record Q",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "r1_4_4": {
+      "nv": 36,
+      "td": 7282.78,
+      "ref_code": "VCGP",
+      "full_citation": "SINTEF Record VCGP",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "r1_4_5": {
+      "nv": 36,
+      "td": 9222.96,
+      "ref_code": "SCR",
+      "full_citation": "SINTEF Record SCR",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "r1_4_6": {
+      "nv": 36,
+      "td": 8358.69,
+      "ref_code": "Q",
+      "full_citation": "SINTEF Record Q",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "r1_4_7": {
+      "nv": 36,
+      "td": 7616.15,
+      "ref_code": "Q",
+      "full_citation": "SINTEF Record Q",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "r1_4_8": {
+      "nv": 36,
+      "td": 7257.28,
+      "ref_code": "Q",
+      "full_citation": "SINTEF Record Q",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "r1_4_9": {
+      "nv": 36,
+      "td": 8694.78,
+      "ref_code": "SCR",
+      "full_citation": "SINTEF Record SCR",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "r1_4_10": {
+      "nv": 36,
+      "td": 8094.1,
+      "ref_code": "Q",
+      "full_citation": "SINTEF Record Q",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "r2_4_1": {
+      "nv": 8,
+      "td": 9210.15,
+      "ref_code": "NBD",
+      "full_citation": "SINTEF Record NBD",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "r2_4_2": {
+      "nv": 8,
+      "td": 7606.75,
+      "ref_code": "BSJ2",
+      "full_citation": "SINTEF Record BSJ2",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "r2_4_3": {
+      "nv": 8,
+      "td": 5911.07,
+      "ref_code": "VCGP",
+      "full_citation": "SINTEF Record VCGP",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "r2_4_4": {
+      "nv": 8,
+      "td": 4241.47,
+      "ref_code": "NBD",
+      "full_citation": "SINTEF Record NBD",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "r2_4_5": {
+      "nv": 8,
+      "td": 7127.83,
+      "ref_code": "CAINIAOSCR",
+      "full_citation": "SINTEF Record CAINIAOSCR",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "r2_4_6": {
+      "nv": 8,
+      "td": 6122.6,
+      "ref_code": "BC4",
+      "full_citation": "SINTEF Record BC4",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "r2_4_7": {
+      "nv": 8,
+      "td": 5018.53,
+      "ref_code": "BC4",
+      "full_citation": "SINTEF Record BC4",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "r2_4_8": {
+      "nv": 8,
+      "td": 4015.6,
+      "ref_code": "NBD",
+      "full_citation": "SINTEF Record NBD",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "r2_4_9": {
+      "nv": 8,
+      "td": 6400.1,
+      "ref_code": "BC4",
+      "full_citation": "SINTEF Record BC4",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "r2_4_10": {
+      "nv": 8,
+      "td": 5773.17,
+      "ref_code": "SCR",
+      "full_citation": "SINTEF Record SCR",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "rc1_4_1": {
+      "nv": 36,
+      "td": 8571.32,
+      "ref_code": "SCR",
+      "full_citation": "SINTEF Record SCR",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "rc1_4_2": {
+      "nv": 36,
+      "td": 7892.52,
+      "ref_code": "EOE",
+      "full_citation": "SINTEF Record EOE",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "rc1_4_3": {
+      "nv": 36,
+      "td": 7533.05,
+      "ref_code": "Q",
+      "full_citation": "SINTEF Record Q",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "rc1_4_4": {
+      "nv": 36,
+      "td": 7308.55,
+      "ref_code": "Q",
+      "full_citation": "SINTEF Record Q",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "rc1_4_5": {
+      "nv": 36,
+      "td": 8172.64,
+      "ref_code": "Q",
+      "full_citation": "SINTEF Record Q",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "rc1_4_6": {
+      "nv": 36,
+      "td": 8164.98,
+      "ref_code": "EOE",
+      "full_citation": "SINTEF Record EOE",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "rc1_4_7": {
+      "nv": 36,
+      "td": 7948.51,
+      "ref_code": "EOE",
+      "full_citation": "SINTEF Record EOE",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "rc1_4_8": {
+      "nv": 36,
+      "td": 7772.57,
+      "ref_code": "SCR",
+      "full_citation": "SINTEF Record SCR",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "rc1_4_9": {
+      "nv": 36,
+      "td": 7733.35,
+      "ref_code": "CAINIAO",
+      "full_citation": "SINTEF Record CAINIAO",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "rc1_4_10": {
+      "nv": 36,
+      "td": 7596.04,
+      "ref_code": "EOE",
+      "full_citation": "SINTEF Record EOE",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "rc2_4_1": {
+      "nv": 11,
+      "td": 6682.37,
+      "ref_code": "NBD",
+      "full_citation": "SINTEF Record NBD",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "rc2_4_2": {
+      "nv": 9,
+      "td": 6180.62,
+      "ref_code": "BC4",
+      "full_citation": "SINTEF Record BC4",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "rc2_4_3": {
+      "nv": 8,
+      "td": 4930.84,
+      "ref_code": "NBD",
+      "full_citation": "SINTEF Record NBD",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "rc2_4_4": {
+      "nv": 8,
+      "td": 3631.01,
+      "ref_code": "NBD",
+      "full_citation": "SINTEF Record NBD",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "rc2_4_5": {
+      "nv": 8,
+      "td": 6706.44,
+      "ref_code": "SCR",
+      "full_citation": "SINTEF Record SCR",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "rc2_4_6": {
+      "nv": 8,
+      "td": 5766.61,
+      "ref_code": "NBD",
+      "full_citation": "SINTEF Record NBD",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "rc2_4_7": {
+      "nv": 8,
+      "td": 5334.72,
+      "ref_code": "Q",
+      "full_citation": "SINTEF Record Q",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "rc2_4_8": {
+      "nv": 8,
+      "td": 4790.14,
+      "ref_code": "SCR",
+      "full_citation": "SINTEF Record SCR",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "rc2_4_9": {
+      "nv": 8,
+      "td": 4551.11,
+      "ref_code": "Q",
+      "full_citation": "SINTEF Record Q",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    },
+    "rc2_4_10": {
+      "nv": 8,
+      "td": 4278.61,
+      "ref_code": "VCGP",
+      "full_citation": "SINTEF Record VCGP",
+      "comment": "",
+      "source_url": "https://www.sintef.no/projectweb/top/vrptw/homberger-benchmark/400-customers/"
+    }
+  }
+}

@@ -72,7 +72,7 @@ def main() -> None:
                 best, _ = solver.solve(seed=seed)
                 rec[tag] = (best.nv, best.cost, time.time() - t0, best.feasible)
             rows.append(rec)
-            (nv0, td0, t0_, f0), (nv1, td1, t1_, f1) = rec["off"], rec["on"]
+            (nv0, td0, _t0, _f0), (nv1, td1, _t1, _f1) = rec["off"], rec["on"]
             print(f"  {label:8s} s{seed}  GNN off: nv={nv0:3d} td={td0:9.2f}  |  "
                   f"on: nv={nv1:3d} td={td1:9.2f}  | dNV={nv1-nv0:+d} dTD={td1-td0:+8.2f}",
                   flush=True)

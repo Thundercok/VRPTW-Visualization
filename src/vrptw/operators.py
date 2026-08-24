@@ -10,7 +10,6 @@ from .config import MODES, Config
 from .core import Inst, Plan, _invalidate, _route_duration_no_return
 from .heuristics import (
     _NO_HEATMAP,
-    _best_insert_position,
     _insert_costs_column_numba,
     _insert_costs_matrix_numba,
     _insert_feasible_numba,

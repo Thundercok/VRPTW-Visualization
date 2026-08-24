@@ -16,6 +16,7 @@ import random
 
 import numpy as np
 import pytest
+
 from vrptw.core import Inst
 from vrptw.heuristics import build_greedy
 from vrptw.operators import REPAIR, op_random

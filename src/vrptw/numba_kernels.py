@@ -17,6 +17,49 @@ from .core import _route_cost, _route_ok
 # ──────────────────────────────────────────────────────────────────────
 
 
+@njit(cache=True, fastmath=True)
+def _compute_route_forward_slack_numba(
+    route_arr: np.ndarray,
+    dist: np.ndarray,
+    ready: np.ndarray,
+    due: np.ndarray,
+    service: np.ndarray,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    """Compute (arrival, departure, wait, F_slack) for route_arr."""
+    n = len(route_arr)
+    arrival = np.empty(n, dtype=np.float64)
+    departure = np.empty(n, dtype=np.float64)
+    wait = np.empty(n, dtype=np.float64)
+
+    t = 0.0
+    prev = 0
+    for k in range(n):
+        node = route_arr[k]
+        arr = t + dist[prev, node]
+        arrival[k] = arr
+        start = max(arr, ready[node])
+        wait[k] = start - arr
+        dep = start + service[node]
+        departure[k] = dep
+        t = dep
+        prev = node
+
+    F = np.empty(n, dtype=np.float64)
+    if n > 0:
+        last = route_arr[n - 1]
+        latest_start = min(due[last], due[0] - dist[last, 0] - service[last])
+        start_last = max(arrival[n - 1], ready[last])
+        F[n - 1] = latest_start - start_last
+
+        for i in range(n - 2, -1, -1):
+            node = route_arr[i]
+            start_i = max(arrival[i], ready[node])
+            slack_self = due[node] - start_i
+            F[i] = min(slack_self, wait[i + 1] + F[i + 1])
+
+    return arrival, departure, wait, F
+
+
 @njit(cache=True)
 def _two_opt_best_numba(
     route_arr: np.ndarray,
@@ -27,23 +70,13 @@ def _two_opt_best_numba(
     due: np.ndarray,
     service: np.ndarray,
 ):
-    """Return (best_route, improved) after trying every 2-opt reversal."""
+    """Return (best_route, improved) after trying every 2-opt reversal with O(1) Savelsbergh Forward Slack."""
     n = len(route_arr)
     if n < 4:
         return route_arr.copy(), False
 
-    # Precompute arrival times and departure times for the original route
-    arrival = np.empty(n)
-    departure = np.empty(n)
-    t = 0.0
-    prev = 0
-    for k in range(n):
-        node = route_arr[k]
-        t += dist[prev, node]
-        arrival[k] = t
-        t = max(t, ready[node]) + service[node]
-        departure[k] = t
-        prev = node
+    # Precompute arrival, departure, wait, and Savelsbergh forward slack F
+    arrival, departure, wait, F = _compute_route_forward_slack_numba(route_arr, dist, ready, due, service)
 
     best_delta = -1e-9
     best_i = -1
@@ -79,22 +112,17 @@ def _two_opt_best_numba(
             if not feasible:
                 continue
 
-            # Suffix: route_arr[j+1] to route_arr[n-1]
-            for k in range(j + 1, n):
-                node = route_arr[k]
-                arr_time = dep_prev + dist[prev_node, node]
-                if arr_time > due[node]:
-                    feasible = False
-                    break
-                dep_prev = max(arr_time, ready[node]) + service[node]
-                prev_node = node
-
-            if not feasible:
-                continue
-
-            # Return to depot
-            if dep_prev + dist[prev_node, 0] > due[0]:
-                continue
+            # O(1) Suffix feasibility check via Savelsbergh Forward Slack F
+            if j < n - 1:
+                nxt = route_arr[j + 1]
+                new_arr = dep_prev + dist[prev_node, nxt]
+                delta_t = new_arr - arrival[j + 1]
+                if new_arr > due[nxt] or delta_t > F[j + 1]:
+                    continue
+            else:
+                # Return to depot
+                if dep_prev + dist[prev_node, 0] > due[0]:
+                    continue
 
             # If we reach here, it's feasible and improves best_delta
             best_delta = delta
@@ -313,6 +341,95 @@ def _swap_evaluate_numba(
             t2[dp] = r2[dp]
 
     return best_delta, best_sp, best_dp
+
+
+@njit(cache=True)
+def _swap_21_evaluate_numba(
+    r1: np.ndarray,
+    r2: np.ndarray,
+    dist: np.ndarray,
+    demands: np.ndarray,
+    capacity: float,
+    ready: np.ndarray,
+    due: np.ndarray,
+    service: np.ndarray,
+):
+    """
+    Evaluate Swap(2,1) and Swap(1,2) between r1 and r2.
+    Returns (best_delta, move_type, sp, dp)
+    move_type = 21 for 2-from-r1 / 1-from-r2
+    move_type = 12 for 1-from-r1 / 2-from-r2
+    """
+    n1 = len(r1)
+    n2 = len(r2)
+    c1 = _route_cost(r1, dist)
+    c2 = _route_cost(r2, dist)
+    old_cost = c1 + c2
+
+    best_delta = -1e-9
+    best_type = 0
+    best_sp = -1
+    best_dp = -1
+
+    # Part 1: Swap 2 from r1 (sp, sp+1) with 1 from r2 (dp)
+    if n1 >= 2 and n2 >= 1:
+        for sp in range(n1 - 1):
+            n_a = r1[sp]
+            n_b = r1[sp + 1]
+            for dp in range(n2):
+                n_c = r2[dp]
+                t1 = np.empty(n1 - 1, dtype=np.int64)
+                t1[:sp] = r1[:sp]
+                t1[sp] = n_c
+                t1[sp + 1 :] = r1[sp + 2 :]
+
+                t2 = np.empty(n2 + 1, dtype=np.int64)
+                t2[:dp] = r2[:dp]
+                t2[dp] = n_a
+                t2[dp + 1] = n_b
+                t2[dp + 2 :] = r2[dp + 1 :]
+
+                if _route_ok(t1, demands, capacity, ready, due, service, dist) and _route_ok(
+                    t2, demands, capacity, ready, due, service, dist
+                ):
+                    new_cost = _route_cost(t1, dist) + _route_cost(t2, dist)
+                    delta = new_cost - old_cost
+                    if delta < best_delta:
+                        best_delta = delta
+                        best_type = 21
+                        best_sp = sp
+                        best_dp = dp
+
+    # Part 2: Swap 1 from r1 (sp) with 2 from r2 (dp, dp+1)
+    if n1 >= 1 and n2 >= 2:
+        for sp in range(n1):
+            n_c = r1[sp]
+            for dp in range(n2 - 1):
+                n_a = r2[dp]
+                n_b = r2[dp + 1]
+                t1 = np.empty(n1 + 1, dtype=np.int64)
+                t1[:sp] = r1[:sp]
+                t1[sp] = n_a
+                t1[sp + 1] = n_b
+                t1[sp + 2 :] = r1[sp + 1 :]
+
+                t2 = np.empty(n2 - 1, dtype=np.int64)
+                t2[:dp] = r2[:dp]
+                t2[dp] = n_c
+                t2[dp + 1 :] = r2[dp + 2 :]
+
+                if _route_ok(t1, demands, capacity, ready, due, service, dist) and _route_ok(
+                    t2, demands, capacity, ready, due, service, dist
+                ):
+                    new_cost = _route_cost(t1, dist) + _route_cost(t2, dist)
+                    delta = new_cost - old_cost
+                    if delta < best_delta:
+                        best_delta = delta
+                        best_type = 12
+                        best_sp = sp
+                        best_dp = dp
+
+    return best_delta, best_type, best_sp, best_dp
 
 
 # ──────────────────────────────────────────────────────────────────────
@@ -803,7 +920,7 @@ def _cross_tail_pair_numba(
     """
     Evaluate all inter-route tail swaps (exchanging suffixes r1[i:] and r2[j:])
     without reversing the suffixes.
-    
+
     Returns (best_delta, best_i, best_j) or (-1e-9, -1, -1) if no improving swap exists.
     """
     n1 = len(r1)
@@ -1018,7 +1135,7 @@ def _string_relocate_pair_numba(
     """
     Evaluate all inter-route segment relocations of length 2 or 3 from r1 to r2,
     and from r2 to r1 (both orientations: forward and reversed).
-    
+
     Returns (best_delta, direction, p1, length, p2, rev)
     where:
       direction: 1 if r1 -> r2, 2 if r2 -> r1, -1 if no move

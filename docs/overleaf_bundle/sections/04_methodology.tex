@@ -1,0 +1,305 @@
+\section{Proposed Methodology}
+\label{sec:methodology}
+
+This section details the proposed Tri-Level Hybrid DDQN-ALNS framework. The architecture integrates online adaptive reinforcement learning decision layers with operations research search mechanics to optimize the lexicographic VRPTW objective while maintaining operational constraint feasibility.
+
+\subsection{Tri-Level Architecture Overview}
+\label{sec:arch_overview}
+
+The framework decomposes the global routing search into three coordinated operational tiers:
+\begin{enumerate}
+    \item \textbf{Macro Decision Tier (Plateau Controller $\pi_{\text{macro}}$)}: Formulated as a semi-Markov Decision Process (semi-MDP) operating over iteration segments of length $\Delta_{\text{seg}} = 100$. A dedicated Dueling Double Deep Q-Network (Macro DDQN) with Prioritized Experience Replay evaluates convergence velocity, detects stagnation, and transitions among 7 strategic exploration and recombination regimes.
+    \item \textbf{Micro Selection Tier (Operator Controller $\pi_{\text{micro}}$ \& LAC)}: Operates at each individual search iteration $t$. A Micro Dueling DDQN with normalized Softmax-Entropy confidence gating selects composite destroy--repair operator pairings conditioned on a 20-dimensional spatiotemporal state vector. A Learned Acceptance Criterion (LAC) augments Simulated Annealing by evaluating candidate acceptance based on delayed downstream improvement promise.
+    \item \textbf{Heuristic Search Tier (Granular ALNS \& Route-Pool Recombination)}: Executes ruin-and-recreate operations, accelerates feasibility testing via $O(1)$ Savelsbergh forward time slack checks, restricts local moves to top-$k$ ($k=25$) spatiotemporally correlated candidate neighbors, and periodically solves an exact Set Partitioning formulation over accumulated elite routes via HiGHS.
+\end{enumerate}
+
+\begin{figure*}[!t]
+\centering
+\fbox{\parbox{0.96\textwidth}{\centering
+\small
+\textbf{Macro Decision Tier (Semi-MDP)}: Segment State $\mathbf{s}_k^{\text{macro}} \in \mathbb{R}^{12} \longrightarrow \text{Plateau DDQN } \pi_{\text{macro}} \longrightarrow \text{Search Mode } a_k \in \mathcal{A}_{\text{macro}}$ \\
+$\Downarrow$ \\
+\textbf{Micro Selection Tier (Dueling DDQN + LAC)}: Iteration State $\mathbf{s}_t^{\text{micro}} \in \mathbb{R}^{20} \longrightarrow \text{Operator DDQN } \pi_{\text{micro}} \longrightarrow \text{Action } (d, r) \in \mathcal{A}_{\text{micro}}$ \\
+$\Downarrow$ \\
+\textbf{Heuristic Search Muscle}: Ruin \& Recreate $\longrightarrow \text{Granular Local Search } (k=25) \longrightarrow \text{Candidate } s_{\text{cand}}$ \\
+$\Downarrow$ \\
+\textbf{Acceptance \& Recombination}: $\text{Hybrid LAC Evaluation } p_t = \phi_{\text{LAC}}(\mathbf{z}_t) \longrightarrow \text{Feasible Incumbent } (s_{\text{inc}}) \longrightarrow \text{HiGHS Route Pool Recombination } (\mathcal{P})$
+}}
+\caption{Tri-Level Architecture of Hybrid DDQN-ALNS, illustrating the hierarchical information flow from Macro Search Regimes to Micro Operator Selection, Granular Neighborhood Search, and Set Partitioning Recombination.}
+\label{fig:architecture}
+\end{figure*}
+
+\subsection{Macro Level: Plateau Controller (Semi-MDP)}
+\label{sec:macro_controller}
+
+\subsubsection{Macro State Representation}
+At the start of segment $k$, the macro controller observes a 12-dimensional state vector $\mathbf{s}_k^{\text{macro}} \in \mathbb{R}^{12}$, capturing convergence velocity, fleet economics, and solution topology:
+
+\begin{align}  \mathbf{s}_k^{\text{macro}} = \Big[ 
+    &\min\Big(\frac{\text{no\_imp}}{\text{patience}}, 1\Big), \;
+    \min\Big(\frac{C_{\text{cur}} - C_{\text{best}}}{C_{\text{best}}}, 1\Big), \nonumber \\
+    &\min\Big(\frac{T}{T_0}, 1.5\Big), \;
+    \text{imp\_rate}, \;
+    \min\Big(\frac{NV_{\text{cur}}}{NV_{\text{init}}}, 2\Big), \nonumber \\
+    &rb, \; lb, \; \tau_{\text{tight}}, \; \bar{s}, \; \rho_{\text{fill}}, \; \rho_{\text{pool}}, \; \frac{k}{K_{\max}}
+  \Big]
+  \label{eq:macro_state}
+\end{align}
+
+where $\text{no\_imp}$ is the number of consecutive unimproved iterations, $T/T_0$ is the normalized annealing temperature, $rb \in [0, 1]$ and $lb \in [0, 1]$ measure spatial route separation and capacity balance, $\tau_{\text{tight}}$ represents the fraction of tight time-window customers ($l_i - e_i < 0.5 \cdot c_{\max}$), $\bar{s}$ is average forward time slack, $\rho_{\text{fill}}$ is average vehicle capacity utilization, and $\rho_{\text{pool}} = \min(|\mathcal{P}|/\mathcal{P}_{\max}, 1.0)$ tracks route pool fill ratio.
+
+\subsubsection{Macro Action Space \& Search Regimes}
+The macro action space $\mathcal{A}_{\text{macro}}$ comprises 7 distinct search modes ($|\mathcal{A}_{\text{macro}}| = 7$):
+\begin{itemize}
+    \item $a_0$ (\textsf{\small DEFAULT}): Balanced exploration under nominal destroy-repair parameters.
+    \item $a_1$ (\textsf{\small INTENSIFY}): Deep cooling paired with intensified multi-pass local search ($\text{passes}_{\text{LS}} = 1$).
+    \item $a_2$ (\textsf{\small DIVERSIFY}): Thermal reheating ($T \leftarrow 1.5\,T$) paired with expanded destroy fractions ($1.35\times$).
+    \item $a_3$ (\textsf{\small TW\_RESCUE}): Targeted ruin-and-recreate prioritizing tight time-window customer clusters.
+    \item $a_4$ (\textsf{\small POOL\_RECOMBINE}): Exact Set Partitioning optimization across elite routes in Route Pool $\mathcal{P}$ via HiGHS ($\mathbb{I}(\text{recombine}) = 1$).
+    \item $a_5$ (\textsf{\small ROUTE\_REDUCE}): Biased destruction targeting the shortest and most dispersed routes to aggressively drive fleet reduction.
+    \item $a_6$ (\textsf{\small INFEASIBLE\_DESCENT}): Controlled temporal violation relaxation governed by adaptive Lagrangian penalties.
+\end{itemize}
+
+\subsubsection{Multi-Objective Segment Reward \& Macro Training}
+To enforce lexicographic dominance without artificial scaling distortions, the segment reward $R_{\text{seg}}$ balances vehicle reduction gains against distance savings via an adaptive fleet pressure factor $\lambda_{\text{fleet}} \in [0, 1]$:
+\begin{equation}
+  R_{\text{seg}} = \text{Base} + \lambda_{\text{fleet}} \Psi_{NV} + (1 - \lambda_{\text{fleet}}) \Psi_{TD} + \text{Bonus}_{NV} + \Delta \Phi
+  \label{eq:segment_reward}
+\end{equation}
+The baseline penalty term is defined as $\text{Base} = -0.20 - 0.04 \cdot \text{passes}_{\text{LS}} - 0.06 \cdot \mathbb{I}(\text{recombine}) - 0.15 \cdot \mathbb{I}(\text{accepted} \le 0.1 \Delta_{\text{seg}})$, where $\text{passes}_{\text{LS}} \in \{0, 1\}$ penalizes computational runtime spent on local search intensification, $\mathbb{I}(\text{recombine}) \in \{0, 1\}$ penalizes MIP solver invocations, and $\mathbb{I}(\text{accepted} \le 0.1 \Delta_{\text{seg}}) \in \{0, 1\}$ penalizes unproductive segments where fewer than $10\%$ of candidate moves were accepted, signaling search stagnation. The fleet bonus reward is $\text{Bonus}_{NV} = 15.0 \cdot \max(NV_{\text{best}}^{\text{before}} - NV_{\text{best}}^{\text{after}}, 0) + 5.0 \cdot \max(NV_{\text{cur}}^{\text{before}} - NV_{\text{cur}}^{\text{after}}, 0)$. The adaptive fleet pressure factor $\lambda_{\text{fleet}} \in [0, 1]$ dynamically shifts optimization priority toward vehicle reduction whenever surplus fleet capacity exists:
+\begin{equation}
+  \lambda_{\text{fleet}}(s) = \frac{1}{1 + \exp\left(-8.0 \cdot \frac{NV_{\text{cur}} - NV_{\text{best}}}{NV_{\text{init}}}\right)}
+  \label{eq:lambda_fleet}
+\end{equation}
+The performance components $\Psi_{NV}$ and $\Psi_{TD}$ are defined as:
+\begin{align}
+  \Psi_{NV} &= 8.0\,\Delta NV_{\text{best}} + 1.2\,\Delta C_{\text{best}} + 5.0\,\Delta NV_{\text{cur}} + 0.6\,\Delta C_{\text{cur}} \label{eq:psi_nv} \\
+  \Psi_{TD} &= 3.0\,\Delta NV_{\text{best}} + 3.5\,\Delta C_{\text{best}} + 2.0\,\Delta NV_{\text{cur}} + 1.8\,\Delta C_{\text{cur}} \label{eq:psi_td}
+\end{align}
+The linear coefficients in \eqref{eq:psi_nv} and \eqref{eq:psi_td} were calibrated through preliminary grid evaluation on validation subsets (C101, R101, RC101) to ensure strict lexicographic alignment ($\Delta NV \gg \Delta TD$) while preserving continuous gradient feedback during single-vehicle plateau search. Potential-based reward shaping $\Delta \Phi = \gamma\,\Phi(s_{k+1}) - \Phi(s_k)$ is incorporated following Ng et al.\ \cite{ng1999policy} to preserve policy invariance, where the state potential function $\Phi(s)$ is formally defined as:
+\begin{align}
+  \Phi(s) = \; &-\lambda_{\text{fleet}}(s) \cdot \frac{\max(NV - NV_{\text{best}}, 0)}{NV_{\text{init}}} \nonumber \\
+  &- (1 - \lambda_{\text{fleet}}(s)) \cdot 0.5 \cdot \operatorname{clip}\left(\frac{TD - TD_{\text{best}}}{TD_{\text{best}}} \cdot 100, -25, 25\right)
+  \label{eq:potential_function}
+\end{align}
+The Macro Plateau Controller trains a dedicated Dueling Double DQN network ($Q_{\text{macro}}$) with prioritized replay buffer $\mathcal{D}_{\text{macro}}$, executing Adam gradient steps with Cosine Annealing learning rate scheduling at the completion of each macro segment.
+
+\subsection{Micro Level: Operator Controller \& Action Blending}
+\label{sec:micro_controller}
+
+\subsubsection{Micro State Representation}
+At each iteration $t$, the operator controller observes a 20-dimensional state vector $\mathbf{s}_t^{\text{micro}} \in \mathbb{R}^{20}$ (Table~\ref{tab:micro_state}), detailing fine-grained search dynamics and route topology.
+
+\begin{table}[!t]
+\caption{Feature Definition of the 20-Dimensional Micro State $\mathbf{s}_t^{\text{micro}}$}
+\label{tab:micro_state}
+\centering
+\footnotesize
+\begin{tabularx}{\columnwidth}{c l X}
+\toprule
+\textbf{Index} & \textbf{Feature Symbol} & \textbf{Mathematical Definition / Description} \\
+\midrule
+$s_1$ & $\Delta C_{\text{rel}}$ & $\min((C_{\text{cur}} - C_{\text{best}})/\max(C_{\text{best}}, 1), 1.0)$ \\
+$s_2$ & $\text{Ratio}_{NV}$ & $\min(NV_{\text{cur}}/\max(NV_{\text{init}}, 1), 2.0)$ \\
+$s_3$ & $\text{Prog}_{\text{global}}$ & $t / \max(t_{\max}, 1)$ \\
+$s_4$ & $\text{Prog}_{\text{seg}}$ & $(t \bmod \Delta_{\text{seg}}) / \Delta_{\text{seg}}$ \\
+$s_5$ & $T_{\text{norm}}$ & $\min(T / \max(T_0, 10^{-6}), 1.5)$ \\
+$s_6$ & $\text{Stag}_{\text{ratio}}$ & $\min(\text{no\_imp} / \max(\text{patience}, 1), 1.0)$ \\
+$s_7$ & $rb$ & Inter-route spatial separation index $\in [0, 1]$ \\
+$s_8$ & $lb$ & Vehicle capacity load balance metric $\in [0, 1]$ \\
+$s_9$ & $\tau_{\text{tight}}$ & Fraction of customers with tight time windows \\
+$s_{10}$ & $\bar{s}$ & Normalized average forward time slack $\in [0, 1]$ \\
+$s_{11}$ & $\rho_{\text{fill}}$ & Fleet-wide capacity utilization ratio $\in [0, 1]$ \\
+$s_{12}$ & $\rho_{\text{pool}}$ & Route pool fill ratio $\min(|\mathcal{P}|/\mathcal{P}_{\max}, 1.0)$ \\
+$s_{13}$ & $m_{\text{idx}}$ & Active macro mode index $a_k / (|\mathcal{A}_{\text{macro}}| - 1)$ \\
+$s_{14}$ & $\Delta NV_{\text{rel}}$ & $(NV_{\text{cur}} - NV_{\text{best}}) / \max(NV_{\text{init}}, 1)$ \\
+$s_{15}$ & $\text{Imp}_{\text{rec}}$ & Exponentially smoothed recent improvement rate \\
+$s_{16}$ & $\text{Gini}_{\text{len}}$ & Gini coefficient of route customer lengths \\
+$s_{17}$ & $\mu_{\text{slack}}$ & Empirical mean of customer forward time slacks \\
+$s_{18}$ & $\sigma_{\text{slack}}$ & Standard deviation of forward time slacks \\
+$s_{19}$ & $\text{Frac}_{\text{cap}}$ & Fraction of routes exceeding $90\%$ capacity \\
+$s_{20}$ & $\text{Var}_{\text{dist}}$ & Variance of inter-route centroid distances \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{Composite Action Space}
+The micro action space $\mathcal{A}_{\text{micro}}$ comprises $N_D \times N_R = 13 \times 5 = 65$ composite heuristic pairs:
+\begin{itemize}
+    \item \textbf{13 Destroy Operators ($N_D=13$)}: Random, Worst-cost, Shaw spatiotemporal relatedness \cite{shaw1998using}, Route portion removal, Time-window urgency removal, Route elimination, Route dispersion elimination, Costly route elimination, Cross-route Shaw, Route merge sampling, Route absorb disruption, Neural worst, and Neural Shaw.
+    \item \textbf{5 Repair Operators ($N_R=5$)}: Greedy insertion, 2-Regret, 3-Regret, Time-window greedy, and Forward-time-slack greedy (FTS-Greedy).
+\end{itemize}
+
+\subsubsection{Dueling DDQN Architecture \& Confidence-Gated Blending}
+The Micro Q-network adopts a Dueling architecture \cite{wang2016dueling} with layer normalization:
+\begin{equation}
+  Q(s, a; \theta) = V(s; \theta_v) + \left( A(s, a; \theta_a) - \frac{1}{|\mathcal{A}|} \sum_{a'} A(s, a'; \theta_a) \right)
+  \label{eq:dueling_q}
+\end{equation}
+To adaptively balance learned neural predictions with exploration priors, we implement a normalized Softmax-Entropy Confidence Gate. Let $\pi_{\theta}(a \mid s) = \operatorname{softmax}(Q(s, a)/\tau)$ be the Boltzmann policy at temperature $\tau = 1.0$. The normalized Shannon entropy is defined as:
+\begin{equation}
+  \mathcal{H}(\pi_{\theta}(\cdot \mid s)) = -\frac{1}{\ln |\mathcal{A}|} \sum_{a \in \mathcal{A}} \pi_{\theta}(a \mid s) \ln \pi_{\theta}(a \mid s) \in [0, 1]
+  \label{eq:policy_entropy}
+\end{equation}
+The model confidence weight is $w_{\text{conf}}(s) = 1.0 - \mathcal{H}(\pi_{\theta}(\cdot \mid s))$. During cold-start initialization ($t \le 200$), uninformative initial network weights yield high policy entropy ($\mathcal{H} \approx 0.95 \implies w_{\text{conf}} \le 0.05$), smoothly defaulting action selection to domain heuristics and Thompson bandit exploration. As prioritized transitions populate $\mathcal{D}_{\text{micro}}$ and Q-value estimates specialize, $w_{\text{conf}}(s)$ asymptotically rises to $0.80\text{--}0.90$, seamlessly transferring control to the learned neural policy. The effective action-selection score $Q_{\text{eff}}(s, a)$ dynamically interpolates neural Q-values with historical Dirichlet priors and Thompson Sampling:
+\begin{align}
+  Q_{\text{eff}}(s, a) = \; &w_{\text{conf}}(s)\,Q(s, a) \nonumber \\
+  &+ (1 - w_{\text{conf}}(s))\Big[ \alpha_{\text{p}}\ln(P_{\text{prior}}(a) + \epsilon) \nonumber \\
+  &\qquad\qquad\qquad\quad + \beta_{\text{b}}\,\bar{\mu}_{\text{bandit}}(a) \Big] \nonumber \\
+  &+ c_{\text{ucb}}\,\sigma_a \sqrt{\frac{\ln N_t}{N_a(t)}}
+  \label{eq:q_eff_blending}
+\end{align}
+where $\alpha_p = 0.35$ is the prior log-probability scaling coefficient, $\beta_b = 0.65$ weights the decaying historical bandit mean score $\bar{\mu}_{\text{bandit}}(a)$, $c_{\text{ucb}} = 1.0$ governs the Upper Confidence Bound exploration bonus, and $\sigma_a = \sqrt{M_{2, a}/\max(N_a(t) - 1, 1)}$ represents the online sample standard deviation of reward feedback for operator pair $a$, tracked via Welford's incremental algorithm. To ensure numerical stability at initialization, action visit counters are initialized with a pseudocount $N_a(0) = 1$ ($\forall a \in \mathcal{A}$), with global step count $N_t = \sum_{a} N_a(t)$, preventing undefined division prior to first selection.
+
+\begin{table}[!t]
+\caption{Hyperparameter Specification for Macro DDQN, Micro DDQN, LAC, and Heuristic Search Engine}
+\label{tab:hyperparameters}
+\centering
+\footnotesize
+\begin{tabularx}{\columnwidth}{l l X}
+\toprule
+\textbf{Component} & \textbf{Hyperparameter} & \textbf{Value / Specification} \\
+\midrule
+\multirow{4}{*}{\textbf{Macro DDQN}} 
+  & Network Architecture & MLP: Input(12) $\to$ FC(128) $\to$ LayerNorm $\to$ FC(128) $\to$ Modes(7) \\
+  & Optimizer & Adam ($\text{lr} = 5 \times 10^{-4}$, Cosine Annealing to $10^{-5}$) \\
+  & Buffer \& Batch Size & Prioritized Replay: 2,000 segments, Batch 16 \\
+  & Target Update ($\tau_{\text{macro}}$) & Polyak soft update $\tau = 0.005$ \\
+\midrule
+\multirow{5}{*}{\textbf{Micro DDQN}} 
+  & Network Architecture & MLP: Input(20) $\to$ FC(128) $\to$ LayerNorm $\to$ ReLU $\to$ FC(128) $\to$ (Value / Adv) \\
+  & Optimizer & Adam ($\text{lr} = 3 \times 10^{-4}$, Cosine Annealing to $10^{-5}$) \\
+  & Buffer \& Batch Size & Prioritized Replay: 30,000 steps, Batch 64 \\
+  & Discount Factor ($\gamma$) & 0.97 \\
+  & Blending ($\alpha_p, \beta_b, c_{\text{ucb}}$) & $\alpha_p = 0.35, \; \beta_b = 0.65, \; c_{\text{ucb}} = 1.0$ \\
+\midrule
+\multirow{4}{*}{\textbf{LAC Model}} 
+  & Architecture & MLP: Input(9) $\to$ FC(64) $\to$ ReLU $\to$ FC(32) $\to$ ReLU $\to$ FC(1) $\to$ Sigmoid \\
+  & Lookahead Horizon ($H_{\text{lac}}$) & 50 iterations \\
+  & Acceptance Threshold ($\tau_{\text{acc}}$) & 0.50 \\
+  & Loss Function & Class-Weighted Binary Cross-Entropy \\
+\midrule
+\multirow{5}{*}{\textbf{Search Engine}} 
+  & Granular Neighbors ($k$) & 25 nearest spatiotemporal neighbors \\
+  & Granular Temporal Weight ($\alpha$) & $\alpha = 1.0$ \\
+  & Route Pool Limit ($|\mathcal{P}|$) & Dynamic: $\min(2000, 600 + 4n)$ \\
+  & MIP Solve Time Limit & $4.0\text{s}$ per HiGHS call \\
+  & Segment Size ($\Delta_{\text{seg}}$) & 100 iterations \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Learned Acceptance Criterion (LAC)}
+\label{sec:lac_formulation}
+
+Rather than relying strictly on monotonic geometric cooling in Simulated Annealing, the Learned Acceptance Criterion augments Simulated Annealing via a multilayer perceptron $\phi_{\text{LAC}}: \mathbb{R}^9 \to [0, 1]$.
+
+\subsubsection{Feature Representation}
+LAC operates on a 9-dimensional state vector $\mathbf{z}_t \in \mathbb{R}^9$:
+\begin{align}
+  \mathbf{z}_t = \Big[ 
+    &\frac{\Delta C}{C_{\text{cur}}}, \; \frac{T}{T_0}, \; \frac{\text{no\_imp}}{\text{patience}}, \; \Delta \NV, \; \frac{t}{t_{\max}}, \nonumber \\
+    &\tau_{\text{tight}}, \; \rho_{\text{fill}}, \; \bar{s}, \; \exp\Big(-\frac{\max(\Delta C, 0)}{T}\Big)
+  \Big]
+  \label{eq:lac_features}
+\end{align}
+
+\subsubsection{Delayed Supervised Labeling \& Decision Rule}
+Transitions $(\mathbf{z}_t, s_t)$ are stored in a lookahead FIFO queue. After a horizon of $H_{\text{lac}} = 50$ iterations, ground-truth label $y_t$ is assigned according to whether the incumbent improved in lexicographic ordering:
+\begin{equation}
+  y_t = \begin{cases} 1, & \text{if } f(s_{\text{inc}}^{(t + H_{\text{lac}})}) \prec f(s_{\text{inc}}^{(t)}) \\ 0, & \text{otherwise} \end{cases}
+  \label{eq:lac_label}
+\end{equation}
+The LAC network outputs an acceptance probability $p_t = \phi_{\text{LAC}}(\mathbf{z}_t) \in [0, 1]$. A candidate solution $s_{\text{cand}}$ is accepted if:
+\begin{equation}
+  p_t \ge \tau_{\text{acc}} \quad \lor \quad \exp\left(-\frac{\Delta C}{T}\right) > \operatorname{Uniform}(0, 1)
+  \label{eq:lac_decision_rule}
+\end{equation}
+where $\tau_{\text{acc}} = 0.50$. Network weights are updated online via class-weighted Binary Cross-Entropy loss:
+\begin{equation}
+  \mathcal{L}_{\text{LAC}} = -\sum_{i} \left[ w_{\text{pos}}\,y_i \ln \hat{y}_i + (1 - y_i) \ln(1 - \hat{y}_i) \right]
+  \label{eq:lac_loss}
+\end{equation}
+where $w_{\text{pos}} = N_{\text{neg}} / N_{\text{pos}}$ adjusts for class imbalance.
+
+\subsection{Heuristic Search Muscle: Granular Local Search \& Forward Slack}
+\label{sec:search_muscle}
+
+\subsubsection{O(1) Feasibility Testing via Savelsbergh Forward Slack}
+To eliminate $O(m)$ trajectory recalculation during local moves, we maintain the Savelsbergh forward time slack $F_i$ for each node $i$ along route $R = (v_0, v_1, \dots, v_m)$ \cite{savelsbergh1992general}:
+\begin{equation}
+  F_i = \min_{i \le j \le m} \left\{ l_j - \left( w_i + \sum_{k=i}^{j-1} (s_k + t_{k, k+1}) \right) \right\}
+  \label{eq:forward_slack}
+\end{equation}
+A candidate insertion at position $(i, i+1)$ inducing departure delay $\Delta t$ preserves temporal feasibility for all subsequent customers if and only if $\Delta t \le F_{i+1}$, enabling strict feasibility verification in $O(1)$ time.
+
+\subsubsection{Granular Correlated Neighborhood Search (GNS)}
+Following granular search principles \cite{toth2003granular}, inter-route operators restrict candidate evaluations to top-$k$ ($k=25$) correlated neighbors precomputed via spatiotemporal affinity:
+\begin{equation}
+  \mathcal{A}_{ij} = \frac{c_{ij}}{c_{\max}} + \alpha \frac{\max(0, e_j - (l_i + s_i + t_{ij}))}{\text{Horizon}}
+  \label{eq:granular_affinity}
+\end{equation}
+This prunes the pairwise evaluation space from $O(N^2)$ to $O(k N)$, eliminating non-viable move evaluations.
+
+\subsubsection{Feasibility Invariant}
+The search engine may temporarily explore intermediate infeasible states under controlled penalty relaxation during diversification/infeasible descent modes; however, only strictly feasible solutions ($100\%$ compliance with capacity and time windows) are permitted to update the incumbent ($s_{\text{inc}}$), populate the Elite Archive, or enter Route Pool $\mathcal{P}$.
+
+\subsection{Matheuristic Recombination: HiGHS Set Partitioning}
+\label{sec:set_partitioning}
+
+During search stagnation, elite feasible routes accumulated in Route Pool $\mathcal{P}$ are recombined by solving an exact Set Partitioning model:
+\begin{align}
+  \min \quad &\sum_{r \in \mathcal{P}} \left( \lambda_{\text{pen}} \bar{c} + c_r \right) y_r \label{eq:sp_obj} \\
+  \text{s.t.} \quad &\sum_{r \in \mathcal{P} : i \in r} y_r = 1, \quad \forall i \in \mathcal{N} \label{eq:sp_cover} \\
+  &y_r \in \{0, 1\}, \quad \forall r \in \mathcal{P} \label{eq:sp_binary}
+\end{align}
+where $c_r$ is route travel distance and $\bar{c}$ is pool mean cost. The model solves an adaptive logarithmic penalty grid over $\lambda_{\text{pen}} \in \{2.0, 5.0, 12.0, 30.0, 50.0\}\bar{c}$ to systematically explore fleet-reduction regimes without numerical stalling.
+
+\begin{algorithm}[!t]
+\caption{Tri-Level Hybrid DDQN-ALNS for VRPTW}
+\label{alg:hybrid_ddqn_alns}
+\begin{algorithmic}[1]
+\Require Instance $\mathcal{I}$, Hyperparameters $\Theta$, Iteration limit $T_{\max}$
+\Ensure Best feasible routing plan $s^*$
+\State $s_{\text{cur}} \leftarrow \text{BuildGreedyInitialSolution}(\mathcal{I})$
+\State $s^* \leftarrow s_{\text{cur}}$, $s_{\text{inc}} \leftarrow s_{\text{cur}}$, $\mathcal{P} \leftarrow \text{ExtractRoutes}(s_{\text{cur}})$
+\State Initialize Macro DDQN $Q_{\text{macro}}$, Micro DDQN $Q_{\text{micro}}$, Buffers $\mathcal{D}_{\text{macro}}, \mathcal{D}_{\text{micro}}$, LAC $\phi_{\text{LAC}}$
+\For{$t = 1 \to T_{\max}$}
+    \If{$t \bmod \Delta_{\text{seg}} == 1$}
+        \State Extract macro state $\mathbf{s}_k^{\text{macro}} \in \mathbb{R}^{12}$ via \eqref{eq:macro_state}
+        \State Select macro mode $a_k \leftarrow \pi_{\text{macro}}(\mathbf{s}_k^{\text{macro}})$
+        \If{$a_k == \text{\textsf{POOL\_RECOMBINE}}$}
+            \State $s_{\text{sp}} \leftarrow \text{SolveHiGHSSetPartitioning}(\mathcal{P}, \mathcal{I})$
+            \If{$s_{\text{sp}} \text{ is feasible and } f(s_{\text{sp}}) \prec f(s_{\text{inc}})$}
+                \State $s_{\text{cur}} \leftarrow s_{\text{sp}}$, $s_{\text{inc}} \leftarrow s_{\text{sp}}$, $s^* \leftarrow s_{\text{sp}}$
+            \EndIf
+        \EndIf
+    \EndIf
+    \State Extract micro state $\mathbf{s}_t^{\text{micro}} \in \mathbb{R}^{20}$ via Table~\ref{tab:micro_state}
+    \State Compute confidence $w_{\text{conf}}(\mathbf{s}_t^{\text{micro}})$ and blended scores $Q_{\text{eff}}$ via \eqref{eq:q_eff_blending}
+    \State Select operator pair $(d, r) \leftarrow \arg\max_{a} Q_{\text{eff}}(\mathbf{s}_t^{\text{micro}}, a)$
+    \State $s_{\text{cand}} \leftarrow \text{Repair}(\text{Destroy}(s_{\text{cur}}, d), r)$
+    \State $s_{\text{cand}} \leftarrow \text{GranularLocalSearch}(s_{\text{cand}}, k=25)$
+    \State Extract LAC features $\mathbf{z}_t \in \mathbb{R}^9$ via \eqref{eq:lac_features}
+    \State Evaluate acceptance $p_t = \phi_{\text{LAC}}(\mathbf{z}_t)$; decide via \eqref{eq:lac_decision_rule}
+    \If{$s_{\text{cand}}$ is accepted}
+        \State $s_{\text{cur}} \leftarrow s_{\text{cand}}$
+        \If{$s_{\text{cand}} \text{ is strictly feasible}$}
+            \State $\mathcal{P} \leftarrow \mathcal{P} \cup \text{ExtractRoutes}(s_{\text{cand}})$
+            \If{$f(s_{\text{cand}}) \prec f(s^*)$}
+                \State $s^* \leftarrow s_{\text{cand}}$, $s_{\text{inc}} \leftarrow s_{\text{cand}}$
+            \EndIf
+        \EndIf
+    \EndIf
+    \State Compute reward $R_t$; store transition $(\mathbf{s}_t, (d,r), R_t, \mathbf{s}_{t+1})$ in $\mathcal{D}_{\text{micro}}$
+    \State Sample mini-batch from $\mathcal{D}_{\text{micro}}$; update $Q_{\text{micro}}$ via DDQN gradient step
+    \State Update LAC queue and train $\phi_{\text{LAC}}$ on mature labels $y_{t-H_{\text{lac}}}$ via \eqref{eq:lac_loss}
+    \If{$t \bmod \Delta_{\text{seg}} == 0$}
+        \State Compute segment reward $R_{\text{seg}}$ via \eqref{eq:segment_reward}
+        \State Store macro transition $(\mathbf{s}_k, a_k, R_{\text{seg}}, \mathbf{s}_{k+1})$ in $\mathcal{D}_{\text{macro}}$
+        \State Sample mini-batch from $\mathcal{D}_{\text{macro}}$; update $Q_{\text{macro}}$ via DDQN gradient step
+    \EndIf
+\EndFor
+\Return $s^*$
+\end{algorithmic}
+\end{algorithm}

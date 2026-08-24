@@ -62,6 +62,40 @@ def _route_timing_numba(
     return arrivals, latest, first_violation
 
 
+@njit(cache=True, fastmath=True)
+def compute_forward_slack(
+    tw_early: np.ndarray,
+    tw_late: np.ndarray,
+    travel: np.ndarray,
+    service: np.ndarray,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Savelsbergh (1992) Forward Time Slack calculation.
+
+    F_i is the maximum delay that can be absorbed at node i without violating any
+    downstream time window in the route suffix.
+    """
+    n = tw_early.shape[0]
+    b = np.empty(n, dtype=np.float64)
+    wait = np.zeros(n, dtype=np.float64)
+    b[0] = tw_early[0]
+    for i in range(1, n):
+        raw = b[i - 1] + service[i - 1] + travel[i - 1]
+        b[i] = max(raw, tw_early[i])
+        wait[i] = b[i] - raw
+    F = np.empty(n, dtype=np.float64)
+    F[n - 1] = tw_late[n - 1] - b[n - 1]
+    for i in range(n - 2, -1, -1):
+        F[i] = min(wait[i + 1] + F[i + 1], tw_late[i] - b[i])
+    return b, F
+
+
+@njit(cache=True)
+def move_feasible(F: np.ndarray, insert_pos: int, delta_time: float) -> bool:
+    """O(1) feasibility check via Forward Time Slack."""
+    return delta_time <= F[insert_pos]
+
+
+
 @njit(cache=True)
 def _insert_feasible_numba(
     node: int,

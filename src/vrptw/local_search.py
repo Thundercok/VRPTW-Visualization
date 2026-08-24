@@ -24,6 +24,7 @@ from .numba_kernels import (
     _or_opt_intra_numba,
     _string_relocate_pair_numba,
     _string_relocate_pair_pruned_numba,
+    _swap_21_evaluate_numba,
     _swap_evaluate_numba,
     _swap_evaluate_pruned_numba,
     _two_opt_best_numba,
@@ -379,6 +380,75 @@ def _apply_swap(plan: Plan, move: tuple[int, int, int, int]) -> Plan:
     return Plan(routes, plan.inst, plan.algo)
 
 
+def _best_swap_21(
+    plan: Plan,
+    heatmap: np.ndarray | None = None,
+    pruning_threshold: float = 0.0,
+    cache: _PlanCache | None = None,
+):
+    inst = plan.inst
+    best_delta, best_move = -1e-9, None
+    max_dist = max(inst.max_dist, 1.0)
+
+    if cache is None:
+        cache = _PlanCache.from_plan(plan)
+
+    route_arrays = cache.route_arrays
+    centroid_sqdist = cache.centroid_sqdist
+    route_sets = cache.route_sets
+    route_neighbors = cache.route_neighbors
+    route_keys = cache.route_keys
+    scan_memo = cache.scan_memo
+    pair_thresh_sq = (0.65 * max_dist) ** 2
+
+    for si in range(len(plan.routes)):
+        for di in range(si + 1, len(plan.routes)):
+            if route_sets[si].isdisjoint(route_neighbors[di]) and route_sets[di].isdisjoint(route_neighbors[si]):
+                continue
+            if centroid_sqdist[si, di] > pair_thresh_sq:
+                continue
+            mkey = (21, route_keys[si], route_keys[di])
+            hit = scan_memo.get(mkey)
+            if hit is None:
+                hit = _swap_21_evaluate_numba(
+                    route_arrays[si],
+                    route_arrays[di],
+                    inst.dist,
+                    inst.demands,
+                    inst.capacity,
+                    inst.ready_times,
+                    inst.due_times,
+                    inst.service_times,
+                )
+                scan_memo[mkey] = hit
+            delta, mtype, sp, dp = hit
+            if mtype > 0 and delta < best_delta:
+                best_delta = delta
+                best_move = (si, di, int(mtype), int(sp), int(dp))
+    if best_move is None:
+        return None
+    return best_move, best_delta
+
+
+def _apply_swap_21(plan: Plan, move: tuple[int, int, int, int, int]) -> Plan:
+    si, di, mtype, sp, dp = move
+    routes = [r[:] for r in plan.routes]
+    r1, r2 = routes[si], routes[di]
+    if mtype == 21:
+        n_a, n_b = r1[sp], r1[sp + 1]
+        n_c = r2[dp]
+        nr1 = r1[:sp] + [n_c] + r1[sp + 2 :]
+        nr2 = r2[:dp] + [n_a, n_b] + r2[dp + 1 :]
+        routes[si], routes[di] = nr1, nr2
+    elif mtype == 12:
+        n_c = r1[sp]
+        n_a, n_b = r2[dp], r2[dp + 1]
+        nr1 = r1[:sp] + [n_a, n_b] + r1[sp + 1 :]
+        nr2 = r2[:dp] + [n_c] + r2[dp + 2 :]
+        routes[si], routes[di] = nr1, nr2
+    return Plan(routes, plan.inst, plan.algo)
+
+
 def _cross_exchange(
     plan: Plan,
     nv_ceiling: int | None = None,
@@ -427,8 +497,8 @@ def _cross_exchange(
             # Delegate entire (p1, p2, len1, len2) search to JIT
             if heatmap is not None and pruning_threshold > 0.0:
                 old_pair = float(_route_cost(r1_arr, inst.dist)) + float(_route_cost(r2_arr, inst.dist))
-                max_len1 = 3 if len(r1) >= 12 else 2
-                max_len2 = 3 if len(r2) >= 12 else 2
+                max_len1 = 4 if len(r1) >= 20 else (3 if len(r1) >= 12 else 2)
+                max_len2 = 4 if len(r2) >= 20 else (3 if len(r2) >= 12 else 2)
                 delta, p1, len1, p2, len2 = _cross_exchange_pair_pruned_numba(
                     r1_arr,
                     r2_arr,
@@ -449,8 +519,8 @@ def _cross_exchange(
                 hit = scan_memo.get(mkey)
                 if hit is None:
                     old_pair = float(_route_cost(r1_arr, inst.dist)) + float(_route_cost(r2_arr, inst.dist))
-                    max_len1 = 3 if len(r1) >= 12 else 2
-                    max_len2 = 3 if len(r2) >= 12 else 2
+                    max_len1 = 4 if len(r1) >= 20 else (3 if len(r1) >= 12 else 2)
+                    max_len2 = 4 if len(r2) >= 20 else (3 if len(r2) >= 12 else 2)
                     hit = _cross_exchange_pair_numba(
                         r1_arr,
                         r2_arr,
@@ -1268,6 +1338,108 @@ def td_converge_polish(plan: Plan, max_passes: int = 25, deadline: float | None 
     return cand if cand.feasible and cand.cost + 1e-9 < plan.cost else plan
 
 
+def td_inter_route_polish(
+    plan: Plan,
+    max_passes: int = 8,
+    deadline: float | None = None,
+    heatmap: np.ndarray | None = None,
+) -> Plan:
+    """
+    Convergent inter-route travel distance optimization.
+    Unlike local_search(), this has NO move cap per pass.
+    Iteratively executes inter-route local search operators (Relocate, Or-Opt,
+    Swap 1-1, Swap 2-1, Cross-Tail, Cross-Exchange) until local minimum.
+    """
+    if not plan.feasible:
+        return plan
+    best = plan.copy()
+    cache = None
+
+    for _ in range(max_passes):
+        if deadline is not None and time.time() >= deadline:
+            break
+        improved = False
+
+        routes = []
+        for route in best.routes:
+            nr = _two_opt_best(route, best.inst)
+            routes.append(nr)
+            if nr != route:
+                improved = True
+        if improved:
+            best = Plan(routes, best.inst, best.algo)
+            best._ok = True
+
+        while True:
+            if deadline is not None and time.time() >= deadline:
+                break
+            cache = _PlanCache.from_plan(best, prev=cache)
+            step_improved = False
+
+            res = _best_relocate(best, nv_ceiling=best.nv, heatmap=heatmap, cache=cache)
+            if res is not None:
+                move, cost_delta = res
+                cand = _apply_relocate(best, move)
+                cand._cost = best.cost + cost_delta
+                cand._ok = True
+                if cand.nv <= best.nv and cand.cost + 1e-9 < best.cost:
+                    best, improved, step_improved = cand, True, True
+                    continue
+
+            res = _best_or_opt(best, nv_ceiling=best.nv, heatmap=heatmap, cache=cache)
+            if res is not None:
+                move, cost_delta = res
+                cand = _apply_or_opt(best, move)
+                cand._cost = best.cost + cost_delta
+                cand._ok = True
+                if cand.nv <= best.nv and cand.cost + 1e-9 < best.cost:
+                    best, improved, step_improved = cand, True, True
+                    continue
+
+            intra = _intra_route_or_opt(best, nv_ceiling=best.nv)
+            if intra is not None and intra.cost + 1e-9 < best.cost:
+                best, improved, step_improved = intra, True, True
+                continue
+
+            res = _best_swap(best, heatmap=heatmap, cache=cache)
+            if res is not None:
+                move, cost_delta = res
+                cand = _apply_swap(best, move)
+                cand._cost = best.cost + cost_delta
+                cand._ok = True
+                if cand.cost + 1e-9 < best.cost:
+                    best, improved, step_improved = cand, True, True
+                    continue
+
+            res21 = _best_swap_21(best, heatmap=heatmap, cache=cache)
+            if res21 is not None:
+                move, cost_delta = res21
+                cand = _apply_swap_21(best, move)
+                cand._cost = best.cost + cost_delta
+                cand._ok = True
+                if cand.cost + 1e-9 < best.cost:
+                    best, improved, step_improved = cand, True, True
+                    continue
+
+            cross_tail = _cross_tail(best, nv_ceiling=best.nv, heatmap=heatmap, cache=cache)
+            if cross_tail is not None and cross_tail.cost + 1e-9 < best.cost:
+                best, improved, step_improved = cross_tail, True, True
+                continue
+
+            cross = _cross_exchange(best, nv_ceiling=best.nv, heatmap=heatmap, cache=cache)
+            if cross is not None and cross.cost + 1e-9 < best.cost:
+                best, improved, step_improved = cross, True, True
+                continue
+
+            if not step_improved:
+                break
+
+        if not improved:
+            break
+
+    return best
+
+
 def local_search(
     plan: Plan,
     max_passes: int = 1,
@@ -1341,6 +1513,20 @@ def local_search(
             if res is not None:
                 move, cost_delta = res
                 cand = _apply_swap(best, move)
+                cand._cost = best.cost + cost_delta
+                cand._ok = True
+                if cand.cost + 1e-9 < best.cost:
+                    best, improved = cand, True
+                    moves += 1
+                    if pool is not None:
+                        pool.add_plan(best)
+                    continue
+
+            # 3.25. Swap(2,1) Move
+            res21 = _best_swap_21(best, heatmap=heatmap, pruning_threshold=pruning_threshold, cache=cache)
+            if res21 is not None:
+                move, cost_delta = res21
+                cand = _apply_swap_21(best, move)
                 cand._cost = best.cost + cost_delta
                 cand._ok = True
                 if cand.cost + 1e-9 < best.cost:
@@ -1535,3 +1721,134 @@ def _iterative_route_elimination(
         if not eliminated:
             break
     return best
+
+
+def exact_tsptw_cpsat(
+    route: list[int] | np.ndarray,
+    inst: Inst,
+    time_limit_sec: float = 0.5,
+    scale: int = 1000,
+) -> tuple[list[int], float]:
+    """Exact single-vehicle TSP-TW sequencing using OR-Tools CP-SAT.
+
+    Guarantees mathematically optimal ordering for the given subset of customers.
+    """
+    route_list = [int(x) for x in route]
+    m = len(route_list)
+    arr_orig = np.asarray(route_list, dtype=np.int64)
+    orig_cost = _route_cost(arr_orig, inst.dist)
+    if m <= 2:
+        if m == 2:
+            rev = [route_list[1], route_list[0]]
+            arr_rev = np.asarray(rev, dtype=np.int64)
+            cost_rev = _route_cost(arr_rev, inst.dist)
+            if cost_rev < orig_cost and _check_route(rev, inst):
+                return rev, cost_rev
+        return route_list, orig_cost
+
+    try:
+        from ortools.sat.python import cp_model
+    except ImportError:
+        return route_list, orig_cost
+
+    node_to_orig = {0: 0, m + 1: 0}
+    for idx, c in enumerate(route_list, start=1):
+        node_to_orig[idx] = c
+
+    model = cp_model.CpModel()
+    time_vars = {}
+    for i in range(m + 2):
+        orig_id = node_to_orig[i]
+        r_t = int(round(float(inst.ready_times[orig_id]) * scale))
+        d_t = int(round(float(inst.due_times[orig_id]) * scale))
+        time_vars[i] = model.NewIntVar(r_t, d_t, f"time_{i}")
+
+    arcs = []
+    arc_literals = {}
+
+    for j in range(1, m + 1):
+        c_j = node_to_orig[j]
+        d = int(round(float(inst.dist[0, c_j]) * scale))
+        lit = model.NewBoolVar(f"arc_0_{j}")
+        arcs.append((0, j, lit))
+        arc_literals[(0, j)] = (lit, d)
+
+    for i in range(1, m + 1):
+        c_i = node_to_orig[i]
+        for j in range(1, m + 1):
+            if i == j:
+                continue
+            c_j = node_to_orig[j]
+            d = int(round(float(inst.dist[c_i, c_j]) * scale))
+            if inst.ready_times[c_i] + inst.service_times[c_i] + inst.dist[c_i, c_j] <= inst.due_times[c_j]:
+                lit = model.NewBoolVar(f"arc_{i}_{j}")
+                arcs.append((i, j, lit))
+                arc_literals[(i, j)] = (lit, d)
+
+    for i in range(1, m + 1):
+        c_i = node_to_orig[i]
+        d = int(round(float(inst.dist[c_i, 0]) * scale))
+        lit = model.NewBoolVar(f"arc_{i}_{m+1}")
+        arcs.append((i, m + 1, lit))
+        arc_literals[(i, m + 1)] = (lit, d)
+
+    dummy_lit = model.NewBoolVar("arc_end_start")
+    arcs.append((m + 1, 0, dummy_lit))
+    arc_literals[(m + 1, 0)] = (dummy_lit, 0)
+
+    model.AddCircuit(arcs)
+
+    for (u, v), (lit, dist_val) in arc_literals.items():
+        if (u, v) == (m + 1, 0):
+            continue
+        orig_u = node_to_orig[u]
+        serv_u = int(round(float(inst.service_times[orig_u]) * scale))
+        model.Add(time_vars[v] >= time_vars[u] + serv_u + dist_val).OnlyEnforceIf(lit)
+
+    model.Minimize(sum(dist_val * lit for (lit, dist_val) in arc_literals.values()))
+
+    solver = cp_model.CpSolver()
+    solver.parameters.max_time_in_seconds = time_limit_sec
+    solver.parameters.num_search_workers = 1
+    status = solver.Solve(model)
+
+    if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
+        next_node = {}
+        for (u, v), (lit, _) in arc_literals.items():
+            if solver.Value(lit) == 1:
+                next_node[u] = v
+
+        new_route = []
+        curr = next_node.get(0)
+        while curr is not None and curr != (m + 1):
+            new_route.append(node_to_orig[curr])
+            curr = next_node.get(curr)
+
+        if len(new_route) == m and _check_route(new_route, inst):
+            arr_new = np.asarray(new_route, dtype=np.int64)
+            new_cost = _route_cost(arr_new, inst.dist)
+            if new_cost < orig_cost - 1e-6:
+                return new_route, new_cost
+
+    return route_list, orig_cost
+
+
+def refine_plan_cpsat(plan: Plan, time_limit_per_route: float = 0.5) -> Plan:
+    """Applies exact TSP-TW sequencing across all routes in a Plan."""
+    if not plan.feasible or not plan.routes:
+        return plan
+
+    inst = plan.inst
+    improved_routes = []
+
+    for route in plan.routes:
+        new_route, new_c = exact_tsptw_cpsat(route, inst, time_limit_sec=time_limit_per_route)
+        arr_orig = np.asarray(route, dtype=np.int64)
+        orig_c = _route_cost(arr_orig, inst.dist)
+        if new_c < orig_c - 1e-6:
+            improved_routes.append(new_route)
+        else:
+            improved_routes.append(route)
+
+    return Plan(improved_routes, inst, plan.algo)
+

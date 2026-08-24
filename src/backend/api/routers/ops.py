@@ -17,7 +17,6 @@ from fastapi import APIRouter, Depends, File, HTTPException, Query, Request, Upl
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
-
 # Ensure src is in sys.path for importing the vrptw package.
 _ROOT_PATH = Path(__file__).resolve().parents[4]
 _SRC_PATH = _ROOT_PATH / "src"
@@ -32,13 +31,13 @@ from core.config import demo_auth_bypass_enabled
 from core.firebase import is_firebase_enabled
 from core.rate_limit import GEOCODE_LIMIT, JOBS_LIMIT, limiter
 from models.schemas import JobRequest, MatrixRequest, ReoptimizeRequest
-from services.geocode_service import geocode_address, bulk_geocode_addresses, reverse_geocode_address
 from services.compute_gateway import call_remote, remote_enabled, remote_health
+from services.geocode_service import bulk_geocode_addresses, geocode_address, reverse_geocode_address
 from services.job_service import job_service
 from services.matrix_service import calculate_matrix, fetch_route_geometry
 from services.solomon_service import list_solomon_datasets, load_solomon_dataset
-from services.text_block_parser import is_vietnamese_text_block, parse_vietnamese_text_block
 from services.solver_service import device_summary, transfer_weights_summary
+from services.text_block_parser import is_vietnamese_text_block, parse_vietnamese_text_block
 
 router = APIRouter(tags=["ops"])
 
@@ -985,6 +984,7 @@ async def solve_dynamic_insert(
         return await call_remote("/dynamic_insert", body.model_dump())
 
     from services.solomon_service import load_solomon_dataset, to_inst_payload
+
     from vrptw.config import Config
     from vrptw.core import Inst, Plan
     from vrptw.solvers import HybridDDQNSolver

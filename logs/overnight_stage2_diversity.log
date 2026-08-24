@@ -1,0 +1,145 @@
+Loaded 18 instances for Diversity Guard ablation study.
+
+>>> Running Instance: C101 (Solomon-100) <<<
+[phase_transition_log] {'phase1_best_nv': 10, 'phase1_best_td': 828.936866942834, 'phase1_final_lambda': 50.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 10, 'phase2_final_td': 828.936866942834}
+[phase_transition_log] {'phase1_best_nv': 10, 'phase1_best_td': 828.936866942834, 'phase1_final_lambda': 50.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 10, 'phase2_final_td': 828.936866942834}
+  Seed 42 | Guard ON: NV=10, TD=828.94, Div=0.10 | Guard OFF: NV=10, TD=828.94, Div=0.07
+[phase_transition_log] {'phase1_best_nv': 10, 'phase1_best_td': 828.936866942834, 'phase1_final_lambda': 50.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 10, 'phase2_final_td': 828.936866942834}
+[phase_transition_log] {'phase1_best_nv': 10, 'phase1_best_td': 828.936866942834, 'phase1_final_lambda': 50.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 10, 'phase2_final_td': 828.936866942834}
+  Seed 43 | Guard ON: NV=10, TD=828.94, Div=0.16 | Guard OFF: NV=10, TD=828.94, Div=0.16
+[phase_transition_log] {'phase1_best_nv': 10, 'phase1_best_td': 828.936866942834, 'phase1_final_lambda': 50.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 10, 'phase2_final_td': 828.936866942834}
+[phase_transition_log] {'phase1_best_nv': 10, 'phase1_best_td': 828.936866942834, 'phase1_final_lambda': 50.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 10, 'phase2_final_td': 828.936866942834}
+  Seed 44 | Guard ON: NV=10, TD=828.94, Div=0.13 | Guard OFF: NV=10, TD=828.94, Div=0.06
+
+>>> Running Instance: C201 (Solomon-100) <<<
+[phase_transition_log] {'phase1_best_nv': 3, 'phase1_best_td': 591.5565566715014, 'phase1_final_lambda': 45.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 3, 'phase2_final_td': 591.5565566715014}
+[phase_transition_log] {'phase1_best_nv': 3, 'phase1_best_td': 591.5565566715014, 'phase1_final_lambda': 45.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 3, 'phase2_final_td': 591.5565566715014}
+  Seed 42 | Guard ON: NV=3, TD=591.56, Div=0.16 | Guard OFF: NV=3, TD=591.56, Div=0.16
+[phase_transition_log] {'phase1_best_nv': 3, 'phase1_best_td': 591.5565566715014, 'phase1_final_lambda': 45.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 3, 'phase2_final_td': 591.5565566715014}
+[phase_transition_log] {'phase1_best_nv': 3, 'phase1_best_td': 591.5565566715014, 'phase1_final_lambda': 45.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 3, 'phase2_final_td': 591.5565566715014}
+  Seed 43 | Guard ON: NV=3, TD=591.56, Div=0.18 | Guard OFF: NV=3, TD=591.56, Div=0.18
+[phase_transition_log] {'phase1_best_nv': 3, 'phase1_best_td': 591.5565566715014, 'phase1_final_lambda': 45.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 3, 'phase2_final_td': 591.5565566715014}
+[phase_transition_log] {'phase1_best_nv': 3, 'phase1_best_td': 591.5565566715014, 'phase1_final_lambda': 45.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 3, 'phase2_final_td': 591.5565566715014}
+  Seed 44 | Guard ON: NV=3, TD=591.56, Div=0.22 | Guard OFF: NV=3, TD=591.56, Div=0.15
+
+>>> Running Instance: R101 (Solomon-100) <<<
+[phase_transition_log] {'phase1_best_nv': 19, 'phase1_best_td': np.float64(1659.4898900579317), 'phase1_final_lambda': 40.5, 'early_stop_triggered_iter': None, 'phase2_final_nv': 19, 'phase2_final_td': 1651.258327112293}
+[phase_transition_log] {'phase1_best_nv': 19, 'phase1_best_td': np.float64(1673.9973758743502), 'phase1_final_lambda': 45.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 19, 'phase2_final_td': np.float64(1650.7992395710683)}
+  Seed 42 | Guard ON: NV=19, TD=1651.26, Div=0.45 | Guard OFF: NV=19, TD=1650.80, Div=0.44
+[phase_transition_log] {'phase1_best_nv': 19, 'phase1_best_td': 1658.663599317951, 'phase1_final_lambda': 40.5, 'early_stop_triggered_iter': None, 'phase2_final_nv': 19, 'phase2_final_td': 1650.7992395710683}
+[phase_transition_log] {'phase1_best_nv': 19, 'phase1_best_td': 1658.663599317951, 'phase1_final_lambda': 40.5, 'early_stop_triggered_iter': None, 'phase2_final_nv': 19, 'phase2_final_td': 1650.7992395710683}
+  Seed 43 | Guard ON: NV=19, TD=1650.80, Div=0.37 | Guard OFF: NV=19, TD=1650.80, Div=0.37
+[phase_transition_log] {'phase1_best_nv': 19, 'phase1_best_td': np.float64(1656.5431304628673), 'phase1_final_lambda': 40.5, 'early_stop_triggered_iter': None, 'phase2_final_nv': 19, 'phase2_final_td': np.float64(1650.7992395710683)}
+[phase_transition_log] {'phase1_best_nv': 19, 'phase1_best_td': np.float64(1656.5431304628673), 'phase1_final_lambda': 40.5, 'early_stop_triggered_iter': None, 'phase2_final_nv': 19, 'phase2_final_td': 1650.7992395710683}
+  Seed 44 | Guard ON: NV=19, TD=1650.80, Div=0.28 | Guard OFF: NV=19, TD=1650.80, Div=0.28
+
+>>> Running Instance: R201 (Solomon-100) <<<
+[phase_transition_log] {'phase1_best_nv': 4, 'phase1_best_td': 1336.6136362196798, 'phase1_final_lambda': 50.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 4, 'phase2_final_td': 1253.2630313847553}
+[phase_transition_log] {'phase1_best_nv': 4, 'phase1_best_td': 1336.6136362196798, 'phase1_final_lambda': 50.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 4, 'phase2_final_td': 1253.2630313847553}
+  Seed 42 | Guard ON: NV=4, TD=1253.26, Div=0.46 | Guard OFF: NV=4, TD=1253.26, Div=0.41
+[phase_transition_log] {'phase1_best_nv': 4, 'phase1_best_td': 1325.5573675486485, 'phase1_final_lambda': 50.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 4, 'phase2_final_td': 1274.071931893584}
+[phase_transition_log] {'phase1_best_nv': 4, 'phase1_best_td': 1325.5573675486485, 'phase1_final_lambda': 50.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 4, 'phase2_final_td': 1274.071931893584}
+  Seed 43 | Guard ON: NV=4, TD=1274.07, Div=0.40 | Guard OFF: NV=4, TD=1274.07, Div=0.40
+[phase_transition_log] {'phase1_best_nv': 4, 'phase1_best_td': 1330.8188450909659, 'phase1_final_lambda': 50.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 4, 'phase2_final_td': 1262.6366875203876}
+[phase_transition_log] {'phase1_best_nv': 4, 'phase1_best_td': 1330.8188450909659, 'phase1_final_lambda': 50.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 4, 'phase2_final_td': 1262.6366875203876}
+  Seed 44 | Guard ON: NV=4, TD=1262.64, Div=0.31 | Guard OFF: NV=4, TD=1262.64, Div=0.28
+
+>>> Running Instance: RC101 (Solomon-100) <<<
+[phase_transition_log] {'phase1_best_nv': 16, 'phase1_best_td': 1672.0197598168043, 'phase1_final_lambda': 40.5, 'early_stop_triggered_iter': None, 'phase2_final_nv': 14, 'phase2_final_td': np.float64(1708.1483274044183)}
+[phase_transition_log] {'phase1_best_nv': 16, 'phase1_best_td': 1672.0197598168043, 'phase1_final_lambda': 40.5, 'early_stop_triggered_iter': None, 'phase2_final_nv': 14, 'phase2_final_td': np.float64(1708.1483274044183)}
+  Seed 42 | Guard ON: NV=14, TD=1708.15, Div=0.46 | Guard OFF: NV=14, TD=1708.15, Div=0.46
+[phase_transition_log] {'phase1_best_nv': 16, 'phase1_best_td': np.float64(1672.8733318276682), 'phase1_final_lambda': 40.5, 'early_stop_triggered_iter': None, 'phase2_final_nv': 15, 'phase2_final_td': 1652.7085686856797}
+[phase_transition_log] {'phase1_best_nv': 16, 'phase1_best_td': np.float64(1672.8733318276682), 'phase1_final_lambda': 40.5, 'early_stop_triggered_iter': None, 'phase2_final_nv': 15, 'phase2_final_td': 1652.7085686856797}
+  Seed 43 | Guard ON: NV=15, TD=1652.71, Div=0.45 | Guard OFF: NV=15, TD=1652.71, Div=0.45
+[phase_transition_log] {'phase1_best_nv': 16, 'phase1_best_td': np.float64(1694.4632288015441), 'phase1_final_lambda': 40.5, 'early_stop_triggered_iter': None, 'phase2_final_nv': 15, 'phase2_final_td': 1673.803799883968}
+[phase_transition_log] {'phase1_best_nv': 16, 'phase1_best_td': np.float64(1694.4632288015441), 'phase1_final_lambda': 40.5, 'early_stop_triggered_iter': None, 'phase2_final_nv': 15, 'phase2_final_td': 1742.7432389209303}
+  Seed 44 | Guard ON: NV=15, TD=1673.80, Div=0.43 | Guard OFF: NV=15, TD=1742.74, Div=0.43
+
+>>> Running Instance: RC201 (Solomon-100) <<<
+[phase_transition_log] {'phase1_best_nv': 4, 'phase1_best_td': 1552.5087245997897, 'phase1_final_lambda': 45.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 4, 'phase2_final_td': 1457.292732753813}
+[phase_transition_log] {'phase1_best_nv': 4, 'phase1_best_td': 1552.5087245997897, 'phase1_final_lambda': 45.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 4, 'phase2_final_td': 1457.292732753813}
+  Seed 42 | Guard ON: NV=4, TD=1457.29, Div=0.51 | Guard OFF: NV=4, TD=1457.29, Div=0.38
+[phase_transition_log] {'phase1_best_nv': 4, 'phase1_best_td': 1676.287782208919, 'phase1_final_lambda': 45.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 4, 'phase2_final_td': 1454.5470076286292}
+[phase_transition_log] {'phase1_best_nv': 4, 'phase1_best_td': 1676.287782208919, 'phase1_final_lambda': 45.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 4, 'phase2_final_td': 1454.5470076286292}
+  Seed 43 | Guard ON: NV=4, TD=1454.55, Div=0.36 | Guard OFF: NV=4, TD=1454.55, Div=0.30
+[phase_transition_log] {'phase1_best_nv': 4, 'phase1_best_td': 1596.1482581160872, 'phase1_final_lambda': 45.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 4, 'phase2_final_td': 1462.9120903312546}
+[phase_transition_log] {'phase1_best_nv': 4, 'phase1_best_td': 1596.1482581160872, 'phase1_final_lambda': 45.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 4, 'phase2_final_td': 1462.9120903312546}
+  Seed 44 | Guard ON: NV=4, TD=1462.91, Div=0.34 | Guard OFF: NV=4, TD=1462.91, Div=0.34
+
+>>> Running Instance: C1_2_1 (Homberger-200) <<<
+  Seed 42 | Guard ON: NV=20, TD=2704.57, Div=0.13 | Guard OFF: NV=20, TD=2704.57, Div=0.07
+  Seed 43 | Guard ON: NV=20, TD=2704.57, Div=0.17 | Guard OFF: NV=20, TD=2704.57, Div=0.14
+  Seed 44 | Guard ON: NV=20, TD=2704.57, Div=0.13 | Guard OFF: NV=20, TD=2704.57, Div=0.05
+
+>>> Running Instance: C2_2_1 (Homberger-200) <<<
+  Seed 42 | Guard ON: NV=6, TD=1931.44, Div=0.16 | Guard OFF: NV=6, TD=1931.44, Div=0.05
+  Seed 43 | Guard ON: NV=6, TD=1931.44, Div=0.18 | Guard OFF: NV=6, TD=1931.44, Div=0.14
+  Seed 44 | Guard ON: NV=6, TD=1931.44, Div=0.13 | Guard OFF: NV=6, TD=1931.44, Div=0.13
+
+>>> Running Instance: R1_2_1 (Homberger-200) <<<
+  Seed 42 | Guard ON: NV=20, TD=4968.58, Div=0.41 | Guard OFF: NV=20, TD=5024.21, Div=0.44
+  Seed 43 | Guard ON: NV=20, TD=4905.54, Div=0.36 | Guard OFF: NV=20, TD=4905.54, Div=0.36
+  Seed 44 | Guard ON: NV=20, TD=5048.61, Div=0.52 | Guard OFF: NV=20, TD=5048.61, Div=0.52
+
+>>> Running Instance: R2_2_1 (Homberger-200) <<<
+  Seed 42 | Guard ON: NV=5, TD=4103.48, Div=0.30 | Guard OFF: NV=5, TD=4103.48, Div=0.30
+  Seed 43 | Guard ON: NV=4, TD=4848.04, Div=0.60 | Guard OFF: NV=4, TD=4848.04, Div=0.49
+  Seed 44 | Guard ON: NV=5, TD=4084.22, Div=0.44 | Guard OFF: NV=5, TD=4084.22, Div=0.44
+
+>>> Running Instance: RC1_2_1 (Homberger-200) <<<
+  Seed 42 | Guard ON: NV=19, TD=3639.82, Div=0.29 | Guard OFF: NV=19, TD=3639.82, Div=0.21
+  Seed 43 | Guard ON: NV=19, TD=3719.07, Div=0.27 | Guard OFF: NV=19, TD=3719.07, Div=0.27
+  Seed 44 | Guard ON: NV=19, TD=3596.14, Div=0.45 | Guard OFF: NV=19, TD=3596.14, Div=0.45
+
+>>> Running Instance: RC2_2_1 (Homberger-200) <<<
+  Seed 42 | Guard ON: NV=6, TD=3217.76, Div=0.42 | Guard OFF: NV=6, TD=3217.76, Div=0.32
+  Seed 43 | Guard ON: NV=6, TD=3199.48, Div=0.41 | Guard OFF: NV=6, TD=3203.15, Div=0.39
+  Seed 44 | Guard ON: NV=6, TD=3191.50, Div=0.38 | Guard OFF: NV=6, TD=3191.50, Div=0.35
+
+>>> Running Instance: C1_4_1 (Homberger-400) <<<
+  Seed 42 | Guard ON: NV=40, TD=7152.06, Div=0.08 | Guard OFF: NV=40, TD=7152.06, Div=0.03
+  Seed 43 | Guard ON: NV=42, TD=8016.24, Div=0.00 | Guard OFF: NV=40, TD=7152.06, Div=0.04
+  Seed 44 | Guard ON: NV=40, TD=7152.06, Div=0.11 | Guard OFF: NV=40, TD=7152.06, Div=0.04
+
+>>> Running Instance: C2_4_1 (Homberger-400) <<<
+  Seed 42 | Guard ON: NV=15, TD=5017.39, Div=0.00 | Guard OFF: NV=13, TD=4153.98, Div=0.16
+  Seed 43 | Guard ON: NV=12, TD=4116.14, Div=0.18 | Guard OFF: NV=15, TD=5019.91, Div=0.00
+  Seed 44 | Guard ON: NV=13, TD=4512.23, Div=0.22 | Guard OFF: NV=15, TD=5018.11, Div=0.00
+
+>>> Running Instance: R1_4_1 (Homberger-400) <<<
+  Seed 42 | Guard ON: NV=40, TD=10844.03, Div=0.45 | Guard OFF: NV=40, TD=10844.03, Div=0.45
+  Seed 43 | Guard ON: NV=40, TD=10784.37, Div=0.49 | Guard OFF: NV=40, TD=10784.37, Div=0.49
+  Seed 44 | Guard ON: NV=40, TD=10785.26, Div=0.34 | Guard OFF: NV=40, TD=10785.26, Div=0.29
+
+>>> Running Instance: R2_4_1 (Homberger-400) <<<
+  Seed 42 | Guard ON: NV=9, TD=9049.53, Div=0.47 | Guard OFF: NV=9, TD=9049.53, Div=0.47
+  Seed 43 | Guard ON: NV=9, TD=9081.86, Div=0.42 | Guard OFF: NV=9, TD=9081.86, Div=0.37
+  Seed 44 | Guard ON: NV=9, TD=9009.02, Div=0.48 | Guard OFF: NV=9, TD=9009.02, Div=0.48
+
+>>> Running Instance: RC1_4_1 (Homberger-400) <<<
+  Seed 42 | Guard ON: NV=37, TD=9158.53, Div=0.38 | Guard OFF: NV=38, TD=8802.82, Div=0.46
+  Seed 43 | Guard ON: NV=37, TD=9047.65, Div=0.38 | Guard OFF: NV=37, TD=8885.92, Div=0.24
+  Seed 44 | Guard ON: NV=38, TD=8873.40, Div=0.35 | Guard OFF: NV=39, TD=9472.32, Div=0.00
+
+>>> Running Instance: RC2_4_1 (Homberger-400) <<<
+  Seed 42 | Guard ON: NV=14, TD=6977.81, Div=0.00 | Guard OFF: NV=14, TD=6977.81, Div=0.00
+  Seed 43 | Guard ON: NV=12, TD=11256.47, Div=0.49 | Guard OFF: NV=12, TD=11256.47, Div=0.49
+  Seed 44 | Guard ON: NV=12, TD=6997.21, Div=0.53 | Guard OFF: NV=12, TD=6997.21, Div=0.53
+
+✓ Saved diversity guard ablation results to results/option_a_ablation/diversity_guard_ablation.csv
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();

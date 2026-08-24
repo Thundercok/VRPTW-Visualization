@@ -230,7 +230,8 @@ def _benchmark_instance_worker(packed: tuple) -> list[dict]:
 
             for i in range(n_runs_eff):
                 seed = cfg.seed + i
-                init = best_overall.copy() if best_overall is not None else _diversified_init(i, inst, archive, cfg)
+                # Enforce strict independent cold-start across all runs/seeds (no cross-seed carryover)
+                init = None
 
                 res, plan = run_instance(inst, algo_label, cfg, seed, weights, init, ddqn_time=ddqn_time)
                 elapsed_h = (time.time() - wall_start) / 3600

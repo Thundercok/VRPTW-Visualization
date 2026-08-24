@@ -1,0 +1,12 @@
+\caption{Ablation Analysis: Component contributions (overall $N=176$ instances). NV Diff (mean fleet gap to BKS) drops sharply from ALNS-Base to any hybrid variant, then flattens among hybrids. Raw TD Gap rises in lock-step --- an arithmetic consequence of fewer vehicles covering the same customers, \emph{not} a quality loss; the valid, vehicle-matched distance comparison is the strict fair intersection of Table~\ref{tab:distance_summary}, where Hybrid-DDQN attains the lowest gap ($+1.078\%$).}
+\label{tab:ablation}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+\textbf{Configuration} & \textbf{NV Diff} & \textbf{TD Gap\% (raw)}\\
+\midrule
+ALNS-Base (standard baseline) & $+0.535$ & $+9.483\%$ \\
+Hybrid-Fixed (no macro controller) & $+0.230$ & $+4.930\%$ \\
+Hybrid-Rule (rule-based macro) & $+0.232$ & $+4.880\%$ \\
+\textbf{Hybrid-DDQN (proposed learning framework)} & $\mathbf{+0.231}$ & $+4.995\%$ \\
+\bottomrule
+\end{tabular}

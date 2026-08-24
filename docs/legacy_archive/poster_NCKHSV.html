@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Poster NCKHSV - VRPTW DDQN-ALNS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Roboto+Slab:wght@400;700;900&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ═══════════════════════════════════════════════════════════════════
+     POSTER CONFIGURATION — A0 landscape-ish (118cm x 84cm at 150 DPI)
+     Designed for print at 100% or PDF export via browser
+     ═══════════════════════════════════════════════════════════════════ */
+  :root {
+    /* Primary palette — deep navy & vibrant teal */
+    --primary-900: #0a1628;
+    --primary-800: #0f2240;
+    --primary-700: #152e54;
+    --primary-600: #1a3a68;
+    --primary-500: #1e4d8c;
+    --accent-500: #00b4d8;
+    --accent-400: #48cae4;
+    --accent-300: #90e0ef;
+    --accent-200: #caf0f8;
+    --gold-500: #f59e0b;
+    --gold-400: #fbbf24;
+    --success: #10b981;
+    --danger: #ef4444;
+    --surface: #ffffff;
+    --surface-alt: #f0f4f8;
+    --text-primary: #1e293b;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --border: #e2e8f0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  @page {
+    size: 1189mm 841mm;
+    margin: 0;
+  }
+
+  body {
+    font-family: 'Roboto', sans-serif;
+    background: #f8fafc;
+    color: var(--text-primary);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .poster {
+    width: 1189mm;
+    min-height: 841mm;
+    margin: 0 auto;
+    background: var(--surface);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ─── HEADER BANNER ─── */
+  .header {
+    background: linear-gradient(135deg, var(--primary-900) 0%, var(--primary-700) 40%, var(--primary-500) 100%);
+    padding: 28mm 40mm 24mm;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 60%;
+    height: 200%;
+    background: radial-gradient(ellipse at center, rgba(0, 180, 216, 0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4mm;
+    background: linear-gradient(90deg, var(--accent-500), var(--gold-500), var(--accent-500));
+  }
+
+  .header-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header-text {
+    flex: 1;
+  }
+
+  .header-top-line {
+    font-size: 5.5mm;
+    font-weight: 500;
+    color: var(--accent-300);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 4mm;
+  }
+
+  .header h1 {
+    font-family: 'Roboto Slab', serif;
+    font-weight: 900;
+    font-size: 16mm;
+    line-height: 1.15;
+    color: white;
+    max-width: 850mm;
+    margin-bottom: 5mm;
+  }
+
+  .header h1 .highlight {
+    background: linear-gradient(135deg, var(--accent-400), var(--gold-400));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .header h2 {
+    font-size: 7.5mm;
+    font-weight: 400;
+    color: var(--accent-200);
+    max-width: 750mm;
+    line-height: 1.4;
+  }
+
+  .header-authors {
+    margin-top: 6mm;
+    font-size: 5.5mm;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.6;
+  }
+
+  .header-authors strong {
+    color: white;
+    font-weight: 700;
+  }
+
+  .header-logo {
+    text-align: center;
+    flex-shrink: 0;
+    margin-left: 20mm;
+  }
+
+  .header-logo .logo-circle {
+    width: 55mm;
+    height: 55mm;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 4mm;
+  }
+
+  .logo-text {
+    font-family: 'Roboto Slab', serif;
+    font-weight: 900;
+    font-size: 11mm;
+    color: white;
+  }
+
+  .logo-sub {
+    font-size: 4mm;
+    color: var(--accent-300);
+    letter-spacing: 1px;
+    text-align: center;
+  }
+
+  /* ─── KEY RESULTS STRIP ─── */
+  .results-strip {
+    background: linear-gradient(90deg, var(--primary-800), var(--primary-700));
+    padding: 8mm 40mm;
+    display: flex;
+    justify-content: space-between;
+    gap: 6mm;
+  }
+
+  .result-badge {
+    flex: 1;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 4mm;
+    padding: 6mm 8mm;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .result-badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1.5mm;
+    border-radius: 4mm 4mm 0 0;
+  }
+
+  .result-badge:nth-child(1)::before { background: var(--accent-500); }
+  .result-badge:nth-child(2)::before { background: var(--gold-500); }
+  .result-badge:nth-child(3)::before { background: var(--success); }
+  .result-badge:nth-child(4)::before { background: #8b5cf6; }
+
+  .result-badge .value {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 14mm;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 2mm;
+  }
+
+  .result-badge:nth-child(1) .value { color: var(--accent-400); }
+  .result-badge:nth-child(2) .value { color: var(--gold-400); }
+  .result-badge:nth-child(3) .value { color: var(--success); }
+  .result-badge:nth-child(4) .value { color: #a78bfa; }
+
+  .result-badge .label {
+    font-size: 4.5mm;
+    color: rgba(255,255,255,0.7);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* ─── MAIN CONTENT ─── */
+  .main-content {
+    padding: 10mm 40mm 15mm;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10mm;
+  }
+
+  /* ─── SECTION CARD ─── */
+  .section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4mm;
+    padding: 8mm;
+    box-shadow: 0 1mm 3mm rgba(0,0,0,0.04);
+  }
+
+  .section-title {
+    font-family: 'Roboto Slab', serif;
+    font-size: 7mm;
+    font-weight: 700;
+    color: var(--primary-700);
+    padding-bottom: 3mm;
+    margin-bottom: 5mm;
+    border-bottom: 0.8mm solid var(--accent-500);
+    display: flex;
+    align-items: center;
+    gap: 3mm;
+  }
+
+  .section-title .icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 10mm;
+    height: 10mm;
+    border-radius: 2.5mm;
+    background: linear-gradient(135deg, var(--accent-500), var(--primary-500));
+    color: white;
+    font-size: 5.5mm;
+    flex-shrink: 0;
+  }
+
+  .section p, .section li {
+    font-size: 4.5mm;
+    line-height: 1.65;
+    color: var(--text-secondary);
+    margin-bottom: 3mm;
+  }
+
+  .section ul {
+    padding-left: 6mm;
+  }
+
+  .section li {
+    margin-bottom: 1.5mm;
+  }
+
+  .section strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .section em.accent {
+    color: var(--accent-500);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  /* ─── FORMULA BOX ─── */
+  .formula-box {
+    background: var(--surface-alt);
+    border-left: 1.2mm solid var(--accent-500);
+    padding: 4mm 5mm;
+    margin: 4mm 0;
+    border-radius: 0 2mm 2mm 0;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 4mm;
+    color: var(--primary-700);
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+
+  /* ─── TABLE ─── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 4mm;
+    margin: 4mm 0;
+  }
+
+  .data-table thead th {
+    background: linear-gradient(135deg, var(--primary-800), var(--primary-700));
+    color: white;
+    padding: 3mm 3mm;
+    text-align: center;
+    font-weight: 600;
+    font-size: 3.8mm;
+    white-space: nowrap;
+  }
+
+  .data-table thead th:first-child {
+    border-radius: 2mm 0 0 0;
+    text-align: left;
+  }
+
+  .data-table thead th:last-child {
+    border-radius: 0 2mm 0 0;
+  }
+
+  .data-table tbody td {
+    padding: 2.5mm 3mm;
+    text-align: center;
+    border-bottom: 0.3mm solid var(--border);
+    font-size: 3.8mm;
+  }
+
+  .data-table tbody td:first-child {
+    text-align: left;
+    font-weight: 500;
+  }
+
+  .data-table tbody tr:nth-child(even) {
+    background: var(--surface-alt);
+  }
+
+  .data-table tbody tr.highlight-row {
+    background: rgba(0, 180, 216, 0.08);
+    font-weight: 600;
+  }
+
+  .data-table tbody tr.highlight-row td {
+    color: var(--primary-700);
+  }
+
+  .data-table .best {
+    color: var(--success);
+    font-weight: 700;
+  }
+
+  .data-table .worst {
+    color: var(--danger);
+    font-weight: 600;
+  }
+
+  .data-table .tag {
+    display: inline-block;
+    padding: 0.5mm 2mm;
+    border-radius: 1mm;
+    font-size: 3mm;
+    font-weight: 600;
+    margin-left: 1mm;
+  }
+
+  .tag-proposed {
+    background: rgba(0, 180, 216, 0.15);
+    color: var(--accent-500);
+  }
+
+  .tag-warn {
+    background: rgba(239, 68, 68, 0.12);
+    color: var(--danger);
+  }
+
+  /* ─── IMAGE ─── */
+  .figure {
+    margin: 4mm 0;
+    text-align: center;
+  }
+
+  .figure img {
+    max-width: 100%;
+    border-radius: 3mm;
+    border: 0.5mm solid var(--border);
+  }
+
+  .figure-caption {
+    font-size: 3.8mm;
+    color: var(--text-muted);
+    margin-top: 2mm;
+    font-style: italic;
+  }
+
+  /* ─── CHART via CSS ─── */
+  .bar-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 3mm;
+    height: 60mm;
+    padding: 0 2mm;
+    margin: 5mm 0 2mm;
+    border-bottom: 0.5mm solid var(--border);
+    border-left: 0.5mm solid var(--border);
+  }
+
+  .bar-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .bar-group .bar-stack {
+    display: flex;
+    gap: 1mm;
+    align-items: flex-end;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .bar {
+    width: 7mm;
+    border-radius: 1mm 1mm 0 0;
+    position: relative;
+    transition: all 0.3s;
+    min-height: 2mm;
+  }
+
+  .bar .bar-val {
+    position: absolute;
+    top: -5mm;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 3mm;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .bar-label {
+    font-size: 3.2mm;
+    color: var(--text-muted);
+    margin-top: 2mm;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  .chart-legend {
+    display: flex;
+    justify-content: center;
+    gap: 6mm;
+    margin-top: 3mm;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 1.5mm;
+    font-size: 3.2mm;
+    color: var(--text-secondary);
+  }
+
+  .legend-dot {
+    width: 3mm;
+    height: 3mm;
+    border-radius: 0.5mm;
+  }
+
+  /* ─── CONTRIBUTION LIST ─── */
+  .contrib-list {
+    list-style: none;
+    padding: 0;
+    counter-reset: contrib;
+  }
+
+  .contrib-list li {
+    counter-increment: contrib;
+    padding: 3mm 3mm 3mm 10mm;
+    margin-bottom: 2.5mm;
+    background: var(--surface-alt);
+    border-radius: 2mm;
+    position: relative;
+    border-left: 1mm solid var(--accent-500);
+  }
+
+  .contrib-list li::before {
+    content: counter(contrib);
+    position: absolute;
+    left: 2.5mm;
+    top: 3mm;
+    width: 5mm;
+    height: 5mm;
+    background: var(--accent-500);
+    color: white;
+    border-radius: 50%;
+    font-size: 3mm;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ─── REFERENCES ─── */
+  .refs {
+    font-size: 3.5mm;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .refs ol {
+    padding-left: 5mm;
+  }
+
+  .refs li {
+    margin-bottom: 1mm;
+  }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    background: var(--primary-900);
+    padding: 6mm 40mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: rgba(255,255,255,0.5);
+    font-size: 3.8mm;
+  }
+
+  .footer a {
+    color: var(--accent-400);
+    text-decoration: none;
+  }
+
+  /* ─── SPANNING ─── */
+  .span-2 { grid-column: span 2; }
+  .span-3 { grid-column: span 3; }
+
+  /* ─── MINI CALLOUT ─── */
+  .callout {
+    background: linear-gradient(135deg, rgba(0,180,216,0.08), rgba(30,77,140,0.08));
+    border: 0.5mm solid rgba(0,180,216,0.2);
+    border-radius: 3mm;
+    padding: 5mm;
+    margin: 4mm 0;
+  }
+
+  .callout-title {
+    font-weight: 700;
+    font-size: 4.5mm;
+    color: var(--primary-700);
+    margin-bottom: 2mm;
+  }
+
+  /* ─── PRINT ─── */
+  @media print {
+    body { background: white; }
+    .poster { box-shadow: none; }
+  }
+
+  /* ─── SCREEN SCALE ─── */
+  @media screen {
+    body {
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+    .poster {
+      width: 297mm;
+      min-height: auto;
+      transform-origin: top left;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+      border-radius: 4px;
+      overflow: hidden;
+      /* Scale everything proportionally for screen viewing */
+      font-size: calc(4.5mm * 0.25);
+    }
+    .header { padding: 7mm 10mm 6mm; }
+    .header-top-line { font-size: 1.4mm; }
+    .header h1 { font-size: 4mm; }
+    .header h2 { font-size: 1.9mm; }
+    .header-authors { font-size: 1.4mm; }
+    .logo-circle { width: 14mm !important; height: 14mm !important; }
+    .logo-text { font-size: 2.8mm; }
+    .logo-sub { font-size: 1mm; }
+    .results-strip { padding: 2mm 10mm; gap: 1.5mm; }
+    .result-badge { padding: 1.5mm 2mm; border-radius: 1mm; }
+    .result-badge .value { font-size: 3.5mm; }
+    .result-badge .label { font-size: 1.1mm; }
+    .result-badge::before { height: 0.4mm; }
+    .main-content { padding: 2.5mm 10mm 4mm; gap: 2.5mm; }
+    .section { padding: 2mm; border-radius: 1mm; }
+    .section-title { font-size: 1.75mm; padding-bottom: 0.75mm; margin-bottom: 1.25mm; border-bottom-width: 0.2mm; gap: 0.75mm; }
+    .section-title .icon { width: 2.5mm; height: 2.5mm; border-radius: 0.6mm; font-size: 1.4mm; }
+    .section p, .section li { font-size: 1.12mm; line-height: 1.55; margin-bottom: 0.75mm; }
+    .section ul { padding-left: 1.5mm; }
+    .section li { margin-bottom: 0.4mm; }
+    .formula-box { padding: 1mm 1.25mm; margin: 1mm 0; font-size: 1mm; border-left-width: 0.3mm; }
+    .data-table { font-size: 1mm; margin: 1mm 0; }
+    .data-table thead th { padding: 0.75mm; font-size: 0.95mm; }
+    .data-table tbody td { padding: 0.6mm 0.75mm; font-size: 0.95mm; border-bottom-width: 0.1mm; }
+    .data-table .tag { font-size: 0.75mm; padding: 0.12mm 0.5mm; }
+    .figure img { border-radius: 0.75mm; border-width: 0.12mm; }
+    .figure-caption { font-size: 0.95mm; margin-top: 0.5mm; }
+    .bar-chart { height: 15mm; gap: 0.75mm; margin: 1.25mm 0 0.5mm; border-width: 0.12mm; }
+    .bar { width: 1.75mm; border-radius: 0.25mm 0.25mm 0 0; }
+    .bar .bar-val { top: -1.25mm; font-size: 0.75mm; }
+    .bar-label { font-size: 0.8mm; margin-top: 0.5mm; }
+    .chart-legend { gap: 1.5mm; margin-top: 0.75mm; }
+    .legend-item { gap: 0.4mm; font-size: 0.8mm; }
+    .legend-dot { width: 0.75mm; height: 0.75mm; }
+    .contrib-list li { padding: 0.75mm 0.75mm 0.75mm 2.5mm; margin-bottom: 0.6mm; border-radius: 0.5mm; border-left-width: 0.25mm; }
+    .contrib-list li::before { left: 0.6mm; top: 0.75mm; width: 1.25mm; height: 1.25mm; font-size: 0.75mm; }
+    .callout { padding: 1.25mm; margin: 1mm 0; border-radius: 0.75mm; border-width: 0.12mm; }
+    .callout-title { font-size: 1.12mm; margin-bottom: 0.5mm; }
+    .refs { font-size: 0.88mm; }
+    .refs ol { padding-left: 1.25mm; }
+    .footer { padding: 1.5mm 10mm; font-size: 0.95mm; }
+  }
+</style>
+</head>
+<body>
+
+<div class="poster">
+
+  <!-- ═══════════════ HEADER ═══════════════ -->
+  <div class="header">
+    <div class="header-content">
+      <div class="header-text">
+        <div class="header-top-line">Nghiên Cứu Khoa Học Sinh Viên 2025</div>
+        <h1>
+          Tối Ưu Hóa Bài Toán Định Tuyến Phương Tiện Có Khung Thời Gian<br>
+          bằng Thuật Toán <span class="highlight">DDQN-ALNS</span> Lai Học Tăng Cường Sâu
+        </h1>
+        <h2>Vehicle Routing Problem with Time Windows — Hybrid Deep Reinforcement Learning &amp; Adaptive Large Neighbourhood Search</h2>
+        <div class="header-authors">
+          <strong>Sinh viên:</strong> Huỳnh Nhật Huy &nbsp;&nbsp;|&nbsp;&nbsp;
+          <strong>MSSV:</strong> 523c0012 &nbsp;&nbsp;|&nbsp;&nbsp;
+          <strong>Khoa:</strong> Công nghệ thông tin &nbsp;&nbsp;|&nbsp;&nbsp;
+          <strong>GVHD:</strong> TS. Hồ Thị Linh
+        </div>
+      </div>
+      <div class="header-logo">
+        <div class="logo-circle">
+          <span class="logo-text">NCKH</span>
+        </div>
+        <div class="logo-sub">NGHIÊN CỨU KHOA HỌC<br>SINH VIÊN</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ KEY RESULTS STRIP ═══════════════ -->
+  <div class="results-strip">
+    <div class="result-badge">
+      <div class="value">0.27%</div>
+      <div class="label">Gap% so với BKS trên RC1+RC2</div>
+    </div>
+    <div class="result-badge">
+      <div class="value">7.61</div>
+      <div class="label">Số xe trung bình (vs 8.84 OR-Tools)</div>
+    </div>
+    <div class="result-badge">
+      <div class="value">1.62%</div>
+      <div class="label">Gap% Domain Randomization (56 instances)</div>
+    </div>
+    <div class="result-badge">
+      <div class="value">100%</div>
+      <div class="label">Tỷ lệ giao hàng đúng giờ (On-Time)</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ MAIN CONTENT ═══════════════ -->
+  <div class="main-content">
+
+    <!-- ── CỘT 1: GIỚI THIỆU + KIẾN TRÚC ── -->
+    <div style="display: flex; flex-direction: column; gap: 10mm;">
+
+      <!-- 1. Giới thiệu -->
+      <div class="section">
+        <div class="section-title">
+          <span class="icon">①</span>
+          Giới Thiệu & Động Lực Nghiên Cứu
+        </div>
+        <p>
+          Bài toán <strong>VRPTW</strong> (Vehicle Routing Problem with Time Windows) thuộc lớp <strong>NP-khó</strong>, là bài toán cốt lõi trong logistics đô thị, yêu cầu tối thiểu hóa đồng thời <em class="accent">số lượng phương tiện</em> và <em class="accent">tổng quãng đường</em> trong khi tuân thủ nghiêm ngặt ràng buộc sức tải và khung thời gian phục vụ.
+        </p>
+        <p>
+          Các phương pháp hiện tại gặp hạn chế: ALNS truyền thống dùng luật cứng thiếu thích ứng; bộ giải thương mại (OR-Tools) hy sinh tối ưu đội xe để đạt đường ngắn. Nghiên cứu này đề xuất <strong>DDQN-ALNS</strong> — tích hợp học tăng cường sâu vào ALNS để điều khiển chiến lược tìm kiếm tự động.
+        </p>
+
+        <div class="callout">
+          <div class="callout-title">🎯 Mục tiêu nghiên cứu</div>
+          <ul style="padding-left:5mm; margin:0;">
+            <li>Điều khiển thông minh chế độ tìm kiếm bằng DDQN</li>
+            <li>Lựa chọn toán tử destroy/repair tối ưu bằng DRL</li>
+            <li>Đạt chất lượng cạnh tranh BKS trên Solomon benchmark</li>
+            <li>Chứng minh khả năng tổng quát hóa qua Domain Randomization</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 2. Mô hình toán học -->
+      <div class="section">
+        <div class="section-title">
+          <span class="icon">②</span>
+          Mô Hình Toán Học VRPTW
+        </div>
+        <p>Đồ thị định hướng <strong>G = (V, A)</strong>, đội xe đồng nhất K phương tiện sức tải Q. Hàm mục tiêu phân cấp:</p>
+        <div class="formula-box">
+          min f(x) = M·Σ<sub>k</sub>Σ<sub>j</sub> x<sub>0jk</sub> + Σ<sub>k</sub>Σ<sub>(i,j)</sub> d<sub>ij</sub>·x<sub>ijk</sub>
+        </div>
+        <p>Hệ ràng buộc: phục vụ đúng 1 lần (1.2), bảo toàn luồng (1.5), sức tải (1.6), tính tuần tự thời gian (1.7), khung thời gian [E<sub>i</sub>, L<sub>i</sub>] (1.8).</p>
+        <p>Hằng số M ≫ tổng khoảng cách → ưu tiên tuyệt đối: <em class="accent">ít xe trước, ngắn đường sau</em>.</p>
+      </div>
+
+      <!-- 3. Kiến trúc -->
+      <div class="section">
+        <div class="section-title">
+          <span class="icon">③</span>
+          Kiến Trúc Hybrid DDQN-ALNS
+        </div>
+        <div class="figure">
+          <img src="ddqn_architecture.png" alt="Kiến trúc DDQN-ALNS" style="width: 100%;">
+          <div class="figure-caption">Hình 1: Kiến trúc hai lớp điều khiển DDQN-ALNS đề xuất</div>
+        </div>
+        <p>Hệ thống gồm <strong>3 thành phần chính</strong>:</p>
+        <ul>
+          <li><strong>Plateau Controller (DDQN):</strong> Quyết định 1/6 chế độ tìm kiếm (default, intensify, diversify, tw_rescue, pool_recombine, route_reduce) dựa trên state 12 chiều.</li>
+          <li><strong>Operator Controller (DDQN):</strong> Lựa chọn cặp toán tử tối ưu trong 40 tổ hợp (8 Destroy × 5 Repair), kết hợp UCB + Thompson Bandit.</li>
+          <li><strong>Learned Acceptance Criterion:</strong> Mạng phân loại nhị phân thay thế Simulated Annealing cổ điển.</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- ── CỘT 2: PHƯƠNG PHÁP CHI TIẾT ── -->
+    <div style="display: flex; flex-direction: column; gap: 10mm;">
+
+      <!-- 4. Toán tử -->
+      <div class="section">
+        <div class="section-title">
+          <span class="icon">④</span>
+          Hệ Thống Toán Tử & Set Partitioning
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3mm;">
+          <div>
+            <p style="font-weight:700; color: var(--primary-700); margin-bottom: 2mm;">8 Toán tử Phá hủy</p>
+            <ul style="font-size: 3.8mm;">
+              <li>Random Removal</li>
+              <li>Worst Removal (power-law)</li>
+              <li>Shaw Relatedness</li>
+              <li>Route Portion Removal</li>
+              <li>TW-Urgent Removal</li>
+              <li>Route Eliminate</li>
+              <li>Dispersion Eliminate</li>
+              <li>Cross-Route Shaw</li>
+            </ul>
+          </div>
+          <div>
+            <p style="font-weight:700; color: var(--primary-700); margin-bottom: 2mm;">5 Toán tử Sửa chữa</p>
+            <ul style="font-size: 3.8mm;">
+              <li>Greedy Insertion</li>
+              <li>Regret-2 Insertion</li>
+              <li>Regret-3 Insertion</li>
+              <li>TW-Greedy Insertion</li>
+              <li><strong>FTS-Greedy</strong> (Forward Time Slack)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="callout" style="margin-top: 4mm;">
+          <div class="callout-title">📐 Set Partitioning (MILP)</div>
+          <div class="formula-box" style="margin-bottom: 2mm;">
+            min Σ<sub>j∈Pool</sub> (P<sub>vehicle</sub> + c<sub>j</sub>)·y<sub>j</sub><br>
+            s.t. Σ<sub>j</sub> a<sub>ij</sub>·y<sub>j</sub> = 1 ∀i∈C; &nbsp; Σy<sub>j</sub> ≤ NV<sub>ceiling</sub>
+          </div>
+          <p style="font-size: 3.8mm;">Tái tổ hợp tuyến đường tối ưu từ Route Pool bằng SciPy MILP solver (4s time limit). Phạt phương tiện P = 100·d<sub>max</sub>·n.</p>
+        </div>
+      </div>
+
+      <!-- 5. DDQN Details -->
+      <div class="section">
+        <div class="section-title">
+          <span class="icon">⑤</span>
+          Chi Tiết Bộ Điều Khiển DDQN
+        </div>
+
+        <p><strong>Dueling DQN Architecture:</strong> Trunk 2×128 + LayerNorm + ReLU → Value Head V(s) + Advantage Head A(s,a):</p>
+        <div class="formula-box">
+          Q(s,a) = V(s) + [A(s,a) − mean(A(s,·))]
+        </div>
+
+        <p><strong>Hàm phần thưởng thế năng thích ứng:</strong></p>
+        <div class="formula-box">
+          λ(s) = σ(-8·(NV−NV<sub>best</sub>)/NV<sub>init</sub>)<br>
+          Pot(s) = −λ·γ<sub>nv</sub>·ΔNV/NV<sub>init</sub> − (1−λ)·γ<sub>cost</sub>·Δcost/cost<sub>best</sub>·100<br>
+          Reward = 0.30·Base + (γ<sub>drl</sub>·Pot(s') − Pot(s))
+        </div>
+        <p style="font-size: 3.8mm;">Hệ số: γ<sub>nv</sub>=15.0, γ<sub>cost</sub>=0.18 → ưu tiên giảm xe trước khi tối ưu khoảng cách.</p>
+
+        <p><strong>Operator Selection UCB Augmentation:</strong></p>
+        <div class="formula-box">
+          Q<sup>final</sup> = Q<sup>net</sup> + 0.55·ln(P<sup>prior</sup>) + 0.20·P<sup>bandit</sup> + 0.35·UCB(a)
+        </div>
+      </div>
+
+      <!-- 6. VRPTW Illustration -->
+      <div class="section">
+        <div class="section-title">
+          <span class="icon">⑥</span>
+          Minh Họa Bài Toán VRPTW
+        </div>
+        <div class="figure">
+          <img src="vrptw_routes.png" alt="VRPTW Routes" style="width: 100%;">
+          <div class="figure-caption">Hình 2: Minh họa lời giải VRPTW – mỗi màu biểu thị một tuyến xe xuất phát từ depot trung tâm, phục vụ các khách hàng theo khung thời gian quy định</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── CỘT 3: KẾT QUẢ + KẾT LUẬN ── -->
+    <div style="display: flex; flex-direction: column; gap: 10mm;">
+
+      <!-- 7. Results Table -->
+      <div class="section">
+        <div class="section-title">
+          <span class="icon">⑦</span>
+          Kết Quả Thực Nghiệm Trên Solomon
+        </div>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Lớp</th>
+              <th>Thuật Toán</th>
+              <th>NV<sub>mean</sub></th>
+              <th>TD<sub>mean</sub></th>
+              <th>Gap%</th>
+              <th>Time(s)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td rowspan="5" style="font-weight:700;">RC1</td>
+              <td>ALNS-Base</td>
+              <td>12.575</td>
+              <td>1327.91</td>
+              <td>+1.909%</td>
+              <td>19.2</td>
+            </tr>
+            <tr>
+              <td>Hybrid-Fixed</td>
+              <td>12.300</td>
+              <td>1302.48</td>
+              <td>-0.055%</td>
+              <td>36.7</td>
+            </tr>
+            <tr>
+              <td>Hybrid-Rule</td>
+              <td>12.250</td>
+              <td>1298.41</td>
+              <td>-0.368%</td>
+              <td>36.6</td>
+            </tr>
+            <tr class="highlight-row">
+              <td>Hybrid-DDQN <span class="tag tag-proposed">ĐỀ XUẤT</span></td>
+              <td class="best">12.350</td>
+              <td class="best">1298.54</td>
+              <td class="best">-0.358%</td>
+              <td>40.3</td>
+            </tr>
+            <tr>
+              <td>OR-Tools <span class="tag tag-warn">NV↑</span></td>
+              <td class="worst">13.625</td>
+              <td>1343.35</td>
+              <td class="worst">+3.088%</td>
+              <td>60.1</td>
+            </tr>
+
+            <tr>
+              <td rowspan="5" style="font-weight:700;">RC2</td>
+              <td>ALNS-Base</td>
+              <td>3.500</td>
+              <td>1146.51</td>
+              <td>+2.774%</td>
+              <td>19.2</td>
+            </tr>
+            <tr>
+              <td>Hybrid-Fixed</td>
+              <td>3.400</td>
+              <td>1131.42</td>
+              <td>+1.425%</td>
+              <td>36.7</td>
+            </tr>
+            <tr>
+              <td>Hybrid-Rule</td>
+              <td>3.400</td>
+              <td>1128.16</td>
+              <td>+1.130%</td>
+              <td>36.6</td>
+            </tr>
+            <tr class="highlight-row">
+              <td>Hybrid-DDQN <span class="tag tag-proposed">ĐỀ XUẤT</span></td>
+              <td class="best">3.475</td>
+              <td class="best">1125.55</td>
+              <td class="best">+0.898%</td>
+              <td>40.3</td>
+            </tr>
+            <tr>
+              <td>OR-Tools <span class="tag tag-warn">NV↑</span></td>
+              <td class="worst">6.250</td>
+              <td>1034.02</td>
+              <td>-7.350%*</td>
+              <td>60.1</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-size: 3.5mm; color: var(--text-muted); font-style: italic;">
+          * OR-Tools RC2: Gap% âm do sử dụng gấp đôi số xe (6.25 vs 3.47), không kinh tế.
+        </p>
+
+        <!-- Bar Chart: Gap% comparison -->
+        <p style="font-weight: 600; margin-top: 4mm; font-size: 4mm; color: var(--primary-700);">So sánh Gap% trên RC1 + RC2 (thấp hơn = tốt hơn)</p>
+        <div class="bar-chart">
+          <!-- ALNS-Base -->
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar" style="height: 38mm; background: #94a3b8;">
+                <span class="bar-val" style="color: #64748b;">+1.91%</span>
+              </div>
+              <div class="bar" style="height: 28mm; background: #cbd5e1;">
+                <span class="bar-val" style="color: #64748b;">+2.77%</span>
+              </div>
+            </div>
+            <div class="bar-label">ALNS<br>Base</div>
+          </div>
+          <!-- Hybrid-Fixed -->
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar" style="height: 4mm; background: #818cf8;">
+                <span class="bar-val" style="color: #6366f1;">-0.06%</span>
+              </div>
+              <div class="bar" style="height: 14mm; background: #a5b4fc;">
+                <span class="bar-val" style="color: #6366f1;">+1.43%</span>
+              </div>
+            </div>
+            <div class="bar-label">Hybrid<br>Fixed</div>
+          </div>
+          <!-- Hybrid-Rule -->
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar" style="height: 3mm; background: #c084fc;">
+                <span class="bar-val" style="color: #9333ea;">-0.37%</span>
+              </div>
+              <div class="bar" style="height: 12mm; background: #d8b4fe;">
+                <span class="bar-val" style="color: #9333ea;">+1.13%</span>
+              </div>
+            </div>
+            <div class="bar-label">Hybrid<br>Rule</div>
+          </div>
+          <!-- DDQN (proposed) -->
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar" style="height: 3mm; background: var(--accent-500);">
+                <span class="bar-val" style="color: var(--accent-500); font-weight: 800;">-0.36%</span>
+              </div>
+              <div class="bar" style="height: 10mm; background: var(--accent-400);">
+                <span class="bar-val" style="color: var(--accent-500); font-weight: 800;">+0.90%</span>
+              </div>
+            </div>
+            <div class="bar-label" style="color: var(--accent-500); font-weight: 700;">DDQN<br>★</div>
+          </div>
+          <!-- OR-Tools -->
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar" style="height: 30mm; background: var(--danger);">
+                <span class="bar-val" style="color: var(--danger);">+3.09%</span>
+              </div>
+              <div class="bar" style="height: 2mm; background: #fca5a5;">
+                <span class="bar-val" style="color: var(--danger);">NV↑</span>
+              </div>
+            </div>
+            <div class="bar-label">OR-<br>Tools</div>
+          </div>
+        </div>
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-dot" style="background: var(--primary-600);"></div>RC1 Gap%</div>
+          <div class="legend-item"><div class="legend-dot" style="background: var(--accent-300);"></div>RC2 Gap%</div>
+          <div class="legend-item"><div class="legend-dot" style="background: var(--accent-500);"></div>DDQN-ALNS (đề xuất)</div>
+        </div>
+      </div>
+
+      <!-- 8. Transfer Learning -->
+      <div class="section">
+        <div class="section-title">
+          <span class="icon">⑧</span>
+          Domain Randomization & Chuyển Giao
+        </div>
+        <p>
+          Mô hình huấn luyện trên <em class="accent">dữ liệu nhân tạo ngẫu nhiên</em> (25–100 khách hàng), đóng băng trọng số, test trên <strong>toàn bộ 56 thực thể Solomon</strong>:
+        </p>
+        <table class="data-table">
+          <thead>
+            <tr><th>Lớp</th><th>NV</th><th>TD</th><th>Gap%</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>C1</td><td>10.000</td><td>831.92</td><td class="best">+0.36%</td></tr>
+            <tr><td>R1</td><td>12.867</td><td>1210.82</td><td class="best">−0.17%</td></tr>
+            <tr><td>RC1</td><td>12.725</td><td>1318.23</td><td>+1.17%</td></tr>
+            <tr><td>C2</td><td>3.000</td><td>620.43</td><td>+4.88%</td></tr>
+            <tr><td>R2</td><td>3.091</td><td>933.24</td><td>+1.12%</td></tr>
+            <tr><td>RC2</td><td>3.575</td><td>1156.02</td><td>+3.63%</td></tr>
+            <tr class="highlight-row"><td><strong>AVG</strong></td><td><strong>7.729</strong></td><td><strong>1011.78</strong></td><td class="best"><strong>+1.62%</strong></td></tr>
+          </tbody>
+        </table>
+        <p style="font-size: 3.8mm;">→ Mô hình <strong>không cần fine-tune</strong> trên dữ liệu mới, triển khai dạng <em class="accent">plug-and-play</em>.</p>
+      </div>
+
+      <!-- 9. Kết luận -->
+      <div class="section">
+        <div class="section-title">
+          <span class="icon">⑨</span>
+          Đóng Góp Chính & Kết Luận
+        </div>
+        <ul class="contrib-list">
+          <li>Tích hợp <strong>Double DQN hai lớp</strong> (Plateau + Operator Controller) điều khiển tự động chiến lược tìm kiếm ALNS</li>
+          <li><strong>Learned Acceptance Criterion</strong> (LAC) thay thế Simulated Annealing, quyết định chấp nhận dựa trên học máy</li>
+          <li>Toán tử <strong>FTS-Greedy</strong> + Set Partitioning MILP giải quyết triệt để ràng buộc khung thời gian chặt</li>
+          <li>Gap% chỉ <strong>0.27%</strong> so với BKS, vượt trội OR-Tools về quy mô đội xe (<strong>7.61 vs 8.84 xe</strong>)</li>
+          <li><strong>Domain Randomization</strong> đạt Gap% 1.62% trên 56 instances khi đóng băng trọng số — chứng minh khả năng tổng quát hóa</li>
+        </ul>
+      </div>
+
+      <!-- 10. References -->
+      <div class="section refs">
+        <div class="section-title" style="font-size: 5mm;">
+          <span class="icon" style="font-size: 4mm;">📚</span>
+          Tài Liệu Tham Khảo
+        </div>
+        <ol>
+          <li>Bi et al. (2022). A reinforcement learning-aided adaptive large neighborhood search heuristic for the vehicle routing problem with time windows. <em>IEEE Transactions on Cybernetics</em>, 52(9).</li>
+          <li>Hottung & Tierney (2020). Neural large neighborhood search for the capacitated vehicle routing problem. <em>ECAI</em>.</li>
+          <li>Kool et al. (2018). Attention, learn to solve routing problems! <em>ICLR</em>.</li>
+          <li>Kool et al. (2021). Deep policy dynamic programming for vehicle routing. <em>NeurIPS</em>.</li>
+          <li>Ropke & Pisinger (2006). An adaptive large neighborhood search heuristic for the pickup and delivery problem with time windows. <em>Transportation Science</em>, 40(4).</li>
+          <li>Solomon, M. M. (1987). Algorithms for the vehicle routing and scheduling problems with time window constraints. <em>Operations Research</em>, 35(2).</li>
+          <li>Wang et al. (2016). Dueling network architectures for DRL. <em>ICML</em>.</li>
+        </ol>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <div class="footer">
+    <div>🏫 Hội Nghị Nghiên Cứu Khoa Học Sinh Viên 2025 — Khoa Công nghệ thông tin</div>
+    <div>📧 Contact: 523c0012@student.tdtu.edu.vn &nbsp;|&nbsp; <a href="https://github.com/Thundercok/vrptw-neural-hybrid-optimizer">GitHub Repository</a></div>
+    <div>🛠️ Python 3.12 · PyTorch · NumPy · Numba · FastAPI</div>
+  </div>
+
+</div>
+
+</body>
+</html>

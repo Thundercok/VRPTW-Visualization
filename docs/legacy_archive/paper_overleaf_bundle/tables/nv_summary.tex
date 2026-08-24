@@ -1,0 +1,16 @@
+\caption{$NV_{\text{diff}}$ on Solomon (56 instances). Lower is better; $0.000{=}$BKS. Bold marks the best value per row.}
+\label{tab:nv_summary}
+\renewcommand{\arraystretch}{1.08}
+\setlength{\tabcolsep}{3pt}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+\textbf{Subset} & \textbf{ALNS~\cite{Ropke2006}} & \textbf{H-Fixed} & \textbf{H-Rule} & \textbf{H-DDQN}\\
+\midrule
+Clustered ($N=17$) & \textbf{0.000} & \textbf{0.000} & \textbf{0.000} & \textbf{0.000}\\
+Short horizon ($N=20$) & 0.690 & \textbf{0.530} & 0.540 & 0.560\\
+Wide horizon ($N=19$) & \textbf{0.242} & 0.253 & 0.263 & 0.284\\
+\midrule
+Overall mean & 0.329 & \textbf{0.275} & 0.282 & 0.296\\
+\bottomrule
+\end{tabular}}

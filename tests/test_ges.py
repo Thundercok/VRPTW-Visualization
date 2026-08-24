@@ -8,7 +8,7 @@ import random
 import numpy as np
 import pytest
 
-from vrptw.core import Inst, Plan, _check_route
+from vrptw.core import Inst, _check_route
 from vrptw.heuristics import build_greedy
 from vrptw.local_search import _ges_perturb, _guided_ejection_search
 

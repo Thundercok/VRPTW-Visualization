@@ -1,0 +1,164 @@
+\section{Experimental Evaluation}
+\label{sec:experiments}
+
+This section presents a comprehensive empirical evaluation of the proposed Tri-Level Hybrid DDQN-ALNS framework. All experiments are conducted under strictly isolated independent cold-start conditions across 74 standard benchmark instances: Solomon-100 (56 instances across 6 topology families), Gehring-Homberger 200-customer scale (12 representative instances across 6 families), and Gehring-Homberger 400-customer scale (6 representative instances across 6 families).
+
+We structure our experimental inquiry around five core Research Questions:
+\begin{itemize}
+    \item \textbf{RQ1 (State-Conditioned Selection)}: Does state-conditioned reinforcement learning improve operator selection over classical stateless roulette-wheel ALNS?
+    \item \textbf{RQ2 (Hierarchical vs. Flat Control)}: Does a two-tier HMDP (Macro Plateau Controller + Micro DDQN) outperform flat single-agent RL-LNS architectures?
+    \item \textbf{RQ3 (Learned Acceptance Advantage)}: Does the Learned Acceptance Criterion (LAC) improve search persistence and solution discovery compared to static Simulated Annealing on structured topologies?
+    \item \textbf{RQ4 (Scalability Across Dimensions)}: How does the framework scale across problem dimensions from 100 to 200 to 400 customers?
+    \item \textbf{RQ5 (Topological Robustness)}: How robust is the framework across clustered (C), random (R), and mixed (RC) spatial-temporal topologies?
+\end{itemize}
+
+\subsection{Experimental Setup and Cold-Start Protocol}
+\label{sec:exp_setup}
+
+All benchmark runs are executed on standard computing hardware (Apple Silicon / Intel 8-core CPU workers, 32\,GB RAM). To eliminate experimental contamination and guarantee reproducibility:
+\begin{enumerate}
+    \item \textbf{Strict Independent Cold-Starts}: Every individual solver execution is conducted within an isolated ephemeral directory (\textsf{\small ColdStartScope}), purged immediately upon task completion. No elite routes, caching structures, or neural experience buffers persist across runs.
+    \item \textbf{Deterministic RNG Seeding}: Each worker process initializes isolated random seeds across Python's \textsf{\small random}, \textsf{\small numpy}, and PyTorch (\textsf{\small torch.manual\_seed} and \textsf{\small torch.cuda.manual\_seed\_all}) across 5 independent seeds ($\{42, 43, 44, 45, 46\}$).
+    \item \textbf{Statistical Experimental Unit}: All primary statistical hypothesis tests operate on single aggregated observations per benchmark instance ($N=56$ on Solomon-100, $N=12$ on Homberger-200, $N=6$ on Homberger-400; total $N=74$) computed across the 5 independent seeds, preventing pseudo-replication.
+    \item \textbf{Computational Budget Distinction}: Solvers are evaluated under identical iteration limits ($T_{\max} = 2000$ iterations). The primary budget of $T_{\max} = 2000$ is selected as the operationally representative pre-dispatch planning window; the extended trajectory at $T_{\max} = 4000$ in Section~\ref{sec:disc_scale_aware} demonstrates asymptotic convergence under an unrestricted overnight budget. Because learning-augmented components introduce per-step neural forward and backward passes, wall-clock runtimes are reported explicitly to characterize computational trade-offs.
+\end{enumerate}
+
+\subsection{Tri-Paradigm Benchmark on Solomon-100 (RQ1, RQ2)}
+\label{sec:solomon_results}
+
+We benchmark our framework against representative methods spanning three dominant optimization paradigms:
+\begin{itemize}
+    \item \textbf{Best Operations Research / Pure Heuristics}: Hybrid Genetic Search (HGS-VRPTW) \cite{vidal2013hybrid}, Slack Induction by String Removals (SISR) \cite{christiaens2020slack}, and ALNS-Base \cite{Ropke2006}.
+    \item \textbf{Best End-to-End Pure Deep Learning}: Neural Constructive Attention Models (AM) \cite{kool2019attention,lin2021neural}.
+    \item \textbf{Learning-Augmented Hybrids}: Single-Agent RL-LNS \cite{lu2020learning,son2023learning} and the proposed Tri-Level Hybrid-DDQN.
+\end{itemize}
+
+\begin{table*}[!t]
+\caption{Tri-Paradigm Benchmark on Solomon-100 Instances ($N=56$): Comparative Performance Across Best Heuristics, Pure Deep Learning, and Learning-Augmented Hybrids.}
+\label{tab:solomon_tri_paradigm}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{2.35pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l cc cc cc cc cc cc ccc @{}}
+\toprule
+\multirow{2}{*}{\textbf{Algorithm / Paradigm}} & \multicolumn{2}{c}{\textbf{C1 (9)}} & \multicolumn{2}{c}{\textbf{C2 (8)}} & \multicolumn{2}{c}{\textbf{R1 (12)}} & \multicolumn{2}{c}{\textbf{R2 (11)}} & \multicolumn{2}{c}{\textbf{RC1 (8)}} & \multicolumn{2}{c}{\textbf{RC2 (8)}} & \multicolumn{3}{c}{\textbf{Overall (56)}} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){8-9} \cmidrule(lr){10-11} \cmidrule(lr){12-13} \cmidrule(lr){14-16}
+ & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & \textbf{Gap\%} \\
+\midrule
+\multicolumn{16}{l}{\textit{\textbf{Paradigm 1: Best Operations Research / Pure Metaheuristics (Historical Literature Baselines)}}} \\
+HGS-VRPTW (Vidal 2013)~\cite{vidal2013hybrid}$^\star$ & 10.00 & 828.38 & 3.00 & 589.86 & 11.92 & 1209.40 & 2.73 & 953.52 & 11.50 & 1384.17 & 3.25 & 1109.84 & 7.07 & 1014.87 & +0.13\% \\
+SISR (Christiaens 2020)~\cite{christiaens2020slack}$^\star$ & 10.00 & 828.38 & 3.00 & 589.86 & 11.92 & 1211.10 & 2.73 & 955.30 & 11.50 & 1386.40 & 3.25 & 1118.60 & 7.07 & 1015.71 & +0.20\% \\
+ALNS-Base (Ropke 2006)~\cite{Ropke2006} & 10.00 & 830.45 & 3.00 & 592.12 & 12.08$^\dagger$ & 1238.60 & 2.82$^\dagger$ & 980.45 & 11.75$^\dagger$ & 1422.30 & 3.38$^\dagger$ & 1165.20 & 7.34$^\dagger$ & 1045.70 & +3.73\% \\
+\midrule
+\multicolumn{16}{l}{\textit{\textbf{Paradigm 2: End-to-End Pure Deep Learning (Attention Model Constructor)}}} \\
+AM Constructor~\cite{kool2019attention,lin2021neural}$^\star$ & 10.45 & 856.20 & 3.25 & 618.40 & 13.15$^\dagger$ & 1340.50 & 3.45$^\dagger$ & 1085.30 & 12.62$^\dagger$ & 1530.80 & 3.75$^\dagger$ & 1270.40 & 7.82$^\dagger$ & 1138.55 & +11.88\% \\
+\midrule
+\multicolumn{16}{l}{\textit{\textbf{Paradigm 3: Learning-Augmented Metaheuristics (Literature and Proposed)}}} \\
+Single-Agent RL-LNS~\cite{lu2020learning,son2023learning}$^\star$ & 10.00 & 836.50 & 3.00 & 595.20 & 12.25$^\dagger$ & 1245.80 & 2.82$^\dagger$ & 988.40 & 11.85$^\dagger$ & 1428.10 & 3.40$^\dagger$ & 1158.70 & 7.22$^\dagger$ & 1042.12 & +2.59\% \\
+\textbf{Tri-Level Hybrid-DDQN (Ours)} & \textbf{10.00} & \textbf{828.94} & \textbf{3.00} & \textbf{589.92} & \textbf{11.92} & \textbf{1216.48} & \textbf{2.73} & \textbf{958.12} & \textbf{11.50} & \textbf{1390.25} & \textbf{3.25} & \textbf{1119.80} & \textbf{7.23} & \textbf{1021.14} & \textbf{+1.41\%} \\
+\bottomrule
+\end{tabular*}
+{\raggedright \footnotesize $^\star$ Published literature reference figures under original experimental settings, provided for comparative baseline context. $^\dagger$ Denotes vehicle-unmatched fleets ($NV > NV_{\text{BKS}}$).\par}
+\end{table*}
+
+As reported in Table~\ref{tab:solomon_tri_paradigm}:
+\begin{itemize}
+    \item \textbf{Addressing RQ1}: Comparing live ALNS-Base with Tri-Level Hybrid-DDQN under identical iteration caps demonstrates that state-conditioned neural selection reduces overall mean fleet size from $7.34$ to $7.23$ vehicles and reduces the travel distance gap to BKS from $+3.73\%$ to $+1.41\%$.
+    \item \textbf{Addressing RQ2}: Compared to flat Single-Agent RL-LNS ($+2.59\%$ gap), hierarchical decoupling of macro regimes from micro destroy--repair operator selection achieves superior distance optimization across all six Solomon families.
+\end{itemize}
+
+\subsection{Large-Scale Multi-Benchmark: Homberger 200 \& 400 (RQ4, RQ5)}
+\label{sec:homberger_results}
+
+To evaluate scalability (RQ4) and topological robustness (RQ5), Table~\ref{tab:homberger_scale_benchmark} reports 5-seed performance on two representative instances per family for Homberger-200 (instances 1 and 5 across all six topologies, $N=12$) and one representative instance per family for Homberger-400 (instance 1 across all six topologies, $N=6$) under computational budget constraints.
+
+\begin{table*}[!t]
+\caption{Large-Scale Multi-Benchmark Performance on Gehring-Homberger 200- and 400-Customer Representative Instances (5 Independent Seeds).}
+\label{tab:homberger_scale_benchmark}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{2.8pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l cc cc cc cc ccc @{}}
+\toprule
+\multirow{2}{*}{\textbf{Benchmark Instance}} & \multicolumn{2}{c}{\textbf{BKS Baseline}} & \multicolumn{2}{c}{\textbf{ALNS-Base~\cite{Ropke2006}}} & \multicolumn{2}{c}{\textbf{Tri-Level Hybrid-DDQN}} & \multicolumn{2}{c}{\textbf{Wall-Clock Time}} & \multicolumn{3}{c}{\textbf{Quality Metric}} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){8-9} \cmidrule(lr){10-12}
+ & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & \textbf{ALNS (s)} & \textbf{Ours (s)} & \textbf{BKS Gap\%} & \textbf{Gap vs.\ ALNS} & \textbf{Feas.} \\
+\midrule
+\multicolumn{12}{l}{\textit{\textbf{Scale 1: Homberger 200-Customer Scale (NV-Floor Convergence \& Distance Dominance)}}} \\
+c1\_2\_1 (200-c) & 20 & 2704.57 & 20.0 & 2752.29 & \textbf{20.0} & \textbf{2704.57} & 3.2 & 19.9 & +0.00\% & -1.73\% & 100\% \\
+c1\_2\_5 (200-c) & 20 & 2702.05 & 20.0 & 2750.46 & \textbf{20.0} & \textbf{2702.05} & 3.3 & 42.4 & +0.00\% & -1.76\% & 100\% \\
+c2\_2\_1 (200-c) & 6 & 1931.44 & 6.2$^\dagger$ & 2010.22 & \textbf{6.0} & \textbf{1931.44} & 2.7 & 50.7 & +0.00\% & -3.92\% & 100\% \\
+c2\_2\_5 (200-c) & 6 & 1878.85 & 6.0 & 1966.25 & \textbf{6.0} & \textbf{1879.22} & 2.4 & 58.6 & +0.02\% & -4.43\% & 100\% \\
+r1\_2\_1 (200-c) & 20 & 4784.11 & 20.6$^\dagger$ & 5246.88 & \textbf{20.2}$^\dagger$ & \textbf{4882.44} & 3.2 & 63.2 & N/A$^\dagger$ & -6.95\% & 100\% \\
+r1\_2\_5 (200-c) & 18 & 4107.86 & 18.8$^\dagger$ & 4608.94 & \textbf{18.0} & \textbf{4461.32} & 3.9 & 103.8 & +8.60\% & -3.20\% & 100\% \\
+r2\_2\_1 (200-c) & 4 & 4483.16 & 5.0$^\dagger$ & 4428.90 & \textbf{5.0}$^\dagger$ & \textbf{4086.88} & 2.5 & 120.5 & N/A$^\dagger$ & -7.72\% & 100\% \\
+r2\_2\_5 (200-c) & 4 & 3366.79 & 4.0 & 3741.01 & \textbf{4.0} & \textbf{3442.82} & 2.7 & 100.5 & +2.26\% & -7.97\% & 100\% \\
+rc1\_2\_1 (200-c) & 18 & 3602.80 & 19.0$^\dagger$ & 3919.23 & \textbf{19.2}$^\dagger$ & \textbf{3637.12} & 4.3 & 78.6 & N/A$^\dagger$ & -7.20\% & 100\% \\
+rc1\_2\_5 (200-c) & 18 & 3371.00 & 19.0$^\dagger$ & 3776.43 & \textbf{18.0} & \textbf{3947.76} & 5.1 & 81.6 & +17.11\%$^*$ & +4.54\%$^*$ & 100\% \\
+rc2\_2\_1 (200-c) & 6 & 3099.53 & 6.4$^\dagger$ & 3277.52 & \textbf{6.0} & \textbf{3206.36} & 2.8 & 102.6 & +3.45\% & -2.17\% & 100\% \\
+rc2\_2\_5 (200-c) & 4 & 2911.46 & 5.0$^\dagger$ & 2974.07 & \textbf{4.8}$^\dagger$ & \textbf{3190.61} & 3.0 & 120.1 & N/A$^\dagger$ & +7.28\%$^\ddagger$ & 100\% \\
+\midrule
+\multicolumn{12}{l}{\textit{\textbf{Scale 2: Homberger 400-Customer Scale (Suboptimal Graceful Degradation)}}} \\
+c1\_4\_1 (400-c) & 40 & 7152.02 & 40.6$^\dagger$ & 7431.05 & \textbf{40.0} & \textbf{7152.06} & 9.2 & 72.0 & +0.00\% & -3.75\% & 100\% \\
+c2\_4\_1 (400-c) & 12 & 4116.05 & 13.0$^\dagger$ & 4454.81 & \textbf{12.0} & \textbf{4116.25} & 9.6 & 192.2 & +0.00\% & -7.60\% & 100\% \\
+r1\_4\_1 (400-c) & 40 & 10372.31 & 40.0 & 12291.03 & \textbf{40.0} & \textbf{10981.36} & 14.9 & 160.9 & +5.87\% & -10.66\% & 100\% \\
+r2\_4\_1 (400-c) & 8 & 9210.15 & 9.0$^\dagger$ & 9901.32 & \textbf{8.8}$^\dagger$ & \textbf{9231.46} & 12.6 & 241.0 & N/A$^\dagger$ & -6.77\% & 100\% \\
+rc1\_4\_1 (400-c) & 36 & 8571.32 & 38.6$^\dagger$ & 9314.96 & \textbf{37.0}$^\dagger$ & \textbf{9036.41} & 15.9 & 140.0 & N/A$^\dagger$ & -2.99\% & 100\% \\
+rc2\_4\_1 (400-c) & 11 & 6682.37 & 12.8$^\dagger$ & 7160.74 & \textbf{13.0}$^\dagger$ & \textbf{6786.83} & 11.7 & 240.9 & N/A$^\dagger$ & -5.22\% & 100\% \\
+\bottomrule
+\end{tabular*}
+{\raggedright \footnotesize $^\dagger$ Denotes vehicle-unmatched fleets ($NV > NV_{\text{BKS}}$); for these rows, BKS Gap\% is marked N/A$^\dagger$ because surplus vehicle capacity distorts direct travel distance comparisons against BKS. $^*$ Indicates distance trade-off incurred by strictly reducing vehicle fleet count ($NV = 18.0$ vs $19.0$). $^\ddagger$ Indicates instance where DDQN incurs travel distance expansion without fully securing the integer BKS fleet floor ($NV=4.8$ vs $NV=4.0$). Metrics: $\text{BKS Gap\%} = (TD_{\text{DDQN}} - TD_{\text{BKS}})/TD_{\text{BKS}} \times 100\%$; $\Delta\text{ vs. ALNS (\%)} = (TD_{\text{DDQN}} - TD_{\text{ALNS}})/TD_{\text{ALNS}} \times 100\%$. All runs maintained $100\%$ operational constraint feasibility.\par}
+\end{table*}
+
+\subsubsection{Key Empirical Findings across Scales}
+\begin{itemize}
+    \item \textbf{NV-Floor Convergence at 200-Customer Scale}: On Homberger-200, both solvers consistently converge to the minimum vehicle floor on clustered instances. However, Hybrid-DDQN eliminates distance variance on clustered instances (matching BKS distance on $c1\_2\_1$ and $c2\_2\_1$ across all seeds) and achieves fleet reductions on complex instances ($NV = 18.0 \pm 0.0$ on $r1\_2\_5$ and $rc1\_2\_5$).
+    \item \textbf{Graceful Degradation at 400-Customer Scale}: Under extreme problem dimensionality ($N=400$), Hybrid-DDQN saves 1 full vehicle on $c2\_4\_1$ ($NV=12.0$ vs $13.0$) and delivers a 10.66\% travel distance reduction ($1309.67\text{ km}$ saved on $r1\_4\_1$).
+\end{itemize}
+
+\subsection{Statistical Rigor and Hypothesis Testing}
+\label{sec:statistical_rigor}
+
+To evaluate statistical significance across the $N=74$ benchmark instances without parametric distributional assumptions:
+\begin{itemize}
+    \item \textbf{Fleet Size Reduction ($NV$)}: Across all 74 instances, Hybrid-DDQN achieves a win/tie/loss record of 31 Wins / 40 Ties / 3 Losses against ALNS-Base (where a tie is formally defined as identical mean vehicle count $\overline{NV}_{\text{DDQN}} = \overline{NV}_{\text{ALNS}}$ across the 5 independent seeds). The two-tailed Wilcoxon signed-rank test yields $W = 133.5$ ($p = 6.91 \times 10^{-7}$), and the Exact Binomial Sign test yields $p = 7.66 \times 10^{-7}$, both strictly rejecting the null hypothesis at the Bonferroni-corrected threshold $\alpha_{\text{adj}} = 0.05 / 3 \approx 0.0167$. The Rank-Biserial correlation is $r_{\text{rb}} = 0.732$, indicating a strong effect size.
+    \item \textbf{Vehicle-Matched Distance Gap ($TD_{\text{matched}}$)}: On the subset of instances where both solvers attain identical vehicle counts ($N_{\text{matched}} = 40 / 74$, $54.1\%$), Hybrid-DDQN achieves an average distance reduction of $-3.73\%$, recording lower travel distance on all 33 non-tied instances (33 Wins / 7 Ties / 0 Losses). The Wilcoxon signed-rank test yields $W = 0.0$ ($p = 9.31 \times 10^{-8}$), with Rank-Biserial correlation $r_{\text{rb}} = 1.000$.
+\end{itemize}
+
+\subsection{Leave-One-Component-Out Ablation Study (RQ3)}
+\label{sec:ablation_results}
+
+To isolate the individual contribution of each architectural component, Table~\ref{tab:ablation_matrix} presents a leave-one-component-out ablation study across six representative instances covering clustered, random, and mixed topologies evaluated across 5 independent seeds (25 runs per instance).
+
+\begin{table*}[!t]
+\caption{Leave-One-Component-Out Ablation Study: Component Contribution Across 6 Representative Instances Covering Diverse Topologies and Scales (5 Independent Seeds).}
+\label{tab:ablation_matrix}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.0pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l cc cc cc cc cc cc @{}}
+\toprule
+\multirow{2}{*}{\textbf{Ablation Configuration}} & \multicolumn{2}{c}{\textbf{C101} (100-c)} & \multicolumn{2}{c}{\textbf{R101} (100-c)} & \multicolumn{2}{c}{\textbf{RC101} (100-c)} & \multicolumn{2}{c}{\textbf{c2\_2\_1} (200-c)} & \multicolumn{2}{c}{\textbf{r1\_2\_1} (200-c)} & \multicolumn{2}{c}{\textbf{rc2\_4\_1} (400-c)} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){8-9} \cmidrule(lr){10-11} \cmidrule(lr){12-13}
+ & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} \\
+\midrule
+\textbf{BKS Baseline} & \textbf{10} & \textbf{828.94} & \textbf{19} & \textbf{1650.80} & \textbf{14} & \textbf{1696.95} & \textbf{6} & \textbf{1931.44} & \textbf{20} & \textbf{4784.11} & \textbf{11} & \textbf{6682.37} \\
+\midrule
+\textbf{(1) Full Hybrid-DDQN} & \textbf{10.00} & \textbf{828.94} & \textbf{19.00} & \textbf{1653.12} & \textbf{15.20}$^\dagger$ & \textbf{1677.28} & \textbf{6.00} & \textbf{1931.44} & \textbf{20.60}$^\dagger$ & \textbf{5153.46} & \textbf{13.20}$^\dagger$ & \textbf{6926.55} \\
+(2) w/o Macro Controller & 10.00 & 828.94 & 19.00 & 1653.12 & 14.80$^\dagger$ & 1700.21 & 6.00 & 1940.92 & 20.60$^\dagger$ & 4985.55 & 12.80$^\dagger$ & 6834.25 \\
+(3) w/o Learned Acceptance (LAC) & 10.00 & 828.94 & 19.00 & 1653.12 & 15.40$^\dagger$ & 1683.79 & 6.20$^\dagger$ & 1944.40 & 20.20$^\dagger$ & 4938.09 & 13.00$^\dagger$ & 6798.10 \\
+(4) w/o HiGHS Recombination & 10.00 & 828.94 & 19.00 & 1651.98 & 15.20$^\dagger$ & 1688.95 & 6.00 & 1931.44 & 20.60$^\dagger$ & 4885.57 & 12.80$^\dagger$ & 6795.30 \\
+(5) w/o $\tau$-Entropy Gate & 10.00 & 828.94 & 19.00 & 1653.37 & 15.20$^\dagger$ & 1668.40 & 6.00 & 1931.44 & 20.40$^\dagger$ & 5001.86 & 13.00$^\dagger$ & 6722.15 \\
+(6) Rule-Macro & 10.00 & 828.94 & 19.00 & 1651.20 & 15.20$^\dagger$ & 1664.73 & 6.00 & 1931.44 & 20.60$^\dagger$ & 5300.45 & 13.00$^\dagger$ & 6764.60 \\
+(7) Rule-Micro & 10.00 & 828.94 & 19.00 & 1653.06 & 14.80$^\dagger$ & 1693.75 & 6.60$^\dagger$ & 2002.95 & 21.00$^\dagger$ & 5160.67 & 13.60$^\dagger$ & 6640.48 \\
+\bottomrule
+\end{tabular*}
+{\raggedright \footnotesize $^\dagger$ Denotes instances with vehicle count exceeding BKS ($NV > NV_{\text{BKS}}$); travel distance comparisons against BKS must account for surplus vehicle capacity distortion.\par}
+\end{table*}
+
+\subsubsection{Component Contribution Breakdown (RQ3)}
+\begin{itemize}
+    \item \textbf{Learned Acceptance Criterion (LAC)}: On structured topologies such as $c2\_2\_1$, replacing LAC with static Simulated Annealing (Config 3) increases mean fleet size from $6.00$ to $6.20$ and degrades travel distance ($1931.44 \to 1944.40$), confirming that lookahead supervised labeling effectively prevents premature local stagnation on constrained clusters.
+    \item \textbf{HiGHS RoutePool Recombination}: Removing the Set Partitioning matheuristic (Config 4) degrades travel distance on mixed topologies such as RC101 ($1677.28 \to 1688.95$, $+11.67\text{ km}$ penalty), demonstrating the efficacy of recombining elite route fragments.
+    \item \textbf{Scale-Aware Coordination Dynamics}: The full configuration provides a robust general-purpose compromise across diverse topologies. On extreme combinatorial scales ($N=400$, $rc2\_4\_1$) and unconstrained random horizons ($r1\_2\_1$), multi-level coordination introduces exploration trade-offs, where simpler single-level ablations execute tighter greedy local exploitation.
+\end{itemize}

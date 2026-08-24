@@ -179,22 +179,58 @@ class ThompsonBandit:
 # Elite archive
 # ---------------------------------------------------------------------------
 class EliteArchive:
-    def __init__(self, k: int = 5):
+    def __init__(self, k: int = 5, max_edge_jaccard: float = 0.92):
         self.k = k
+        self.max_edge_jaccard = max_edge_jaccard
         self._plans: dict[str, list[Plan]] = {}
+
+    @staticmethod
+    def _plan_edges(plan: Plan) -> set[tuple[int, int]]:
+        edges = set()
+        for route in plan.routes:
+            if not route:
+                continue
+            prev = 0
+            for node in route:
+                edges.add((min(prev, node), max(prev, node)))
+                prev = node
+            edges.add((0, prev))
+        return edges
+
+    def _jaccard_similarity(self, p1: Plan, p2: Plan) -> float:
+        e1 = self._plan_edges(p1)
+        e2 = self._plan_edges(p2)
+        if not e1 or not e2:
+            return 0.0
+        inter = len(e1.intersection(e2))
+        union = len(e1.union(e2))
+        return inter / max(1, union)
 
     def update(self, plan: Plan) -> None:
         if not plan.feasible:
             return
         key = plan.inst.name
         bucket = self._plans.setdefault(key, [])
-        # Scale threshold dynamically with instance size (0.01% with 0.1 floor)
         threshold = max(0.1, 1e-4 * plan.cost)
-        if any(abs(p.cost - plan.cost) < threshold for p in bucket):
+
+        # 1. Cost duplicate check
+        if any(abs(p.cost - plan.cost) < threshold and p.nv == plan.nv for p in bucket):
             return
+
+        # 2. Structural Edge-Jaccard diversity check (prevent near-clone collapse)
+        for idx, p in enumerate(bucket):
+            if p.nv == plan.nv and self._jaccard_similarity(p, plan) > self.max_edge_jaccard:
+                # If new plan is better than the structural clone, replace it
+                if plan.cost < p.cost - 1e-4:
+                    bucket[idx] = plan.copy()
+                    bucket.sort(key=lambda item: (item.nv, item.cost))
+                    self._plans[key] = bucket[: self.k]
+                return
+
         bucket.append(plan.copy())
         bucket.sort(key=lambda p: (p.nv, p.cost))
         self._plans[key] = bucket[: self.k]
+
 
     def sample_diverse(self, inst_name: str, exclude_cost: float | None = None) -> Plan | None:
         """Return a random plan from archive excluding current solution cost."""
@@ -548,6 +584,15 @@ class OperatorController:
             self.eps_decay = 0.02 ** (1.0 / max(cfg.hybrid_iterations * 0.8, 1))
             self.step = 0
 
+    def load_pretrained_weights(self, weights_path: str) -> bool:
+        if os.path.exists(weights_path):
+            state_dict = torch.load(weights_path, map_location=DEVICE)
+            self.q.load_state_dict(state_dict)
+            self.q_t.load_state_dict(state_dict)
+            print(f"Successfully loaded distilled OperatorController weights from {weights_path}")
+            return True
+        return False
+
     def reset(self) -> None:
         if self.use_rl:
             self.eps = self.cfg.op_eps_start
@@ -564,6 +609,29 @@ class OperatorController:
         probs /= max(probs.sum(), 1e-9)
         return int(np.random.choice(N_ACTIONS, p=probs))
 
+    def _compute_q_eff(self, q: np.ndarray, prior: np.ndarray, bandit: ThompsonBandit, ucb_aug=None) -> np.ndarray:
+        if not getattr(self.cfg, "op_use_entropy_gate", True):
+            # Direct unweighted Q-values without entropy confidence gate
+            w_conf = 1.0
+        else:
+            tau = max(getattr(self.cfg, "op_softmax_tau", 1.0), 1e-6)
+            shifted = (q - np.max(q)) / tau
+            exp_q = np.exp(shifted)
+            pi = exp_q / max(np.sum(exp_q), 1e-12)
+
+            # Normalized Shannon entropy in [0, 1]
+            entropy = -float(np.sum(pi * np.log(pi + 1e-12))) / math.log(max(N_ACTIONS, 2))
+            entropy = float(np.clip(entropy, 0.0, 1.0))
+            w_conf = 1.0 - entropy
+
+        prior_term = self.cfg.op_prior_strength * np.log(prior.reshape(-1) + 1e-8)
+        bandit_term = self.cfg.op_bandit_strength * bandit.mean().reshape(-1)
+
+        q_eff = w_conf * q + (1.0 - w_conf) * (prior_term + bandit_term)
+        if ucb_aug is not None:
+            q_eff = ucb_aug.augment_qvalues(q_eff)
+        return q_eff
+
     def act(self, state, dw, rw, bandit, frozen=False, ucb_aug=None) -> tuple[int, int, int]:
         prior = self._prior(dw, rw)
         self.last_q = None
@@ -576,13 +644,7 @@ class OperatorController:
         try:
             with torch.no_grad():
                 q = self.q(torch.as_tensor(state, dtype=torch.float32, device=DEVICE).unsqueeze(0))[0].cpu().numpy()
-            q_adjusted = (
-                q
-                + self.cfg.op_prior_strength * np.log(prior.reshape(-1) + 1e-8)
-                + self.cfg.op_bandit_strength * bandit.mean().reshape(-1)
-            )
-            if ucb_aug is not None:
-                q_adjusted = ucb_aug.augment_qvalues(q_adjusted)
+            q_adjusted = self._compute_q_eff(q, prior, bandit, ucb_aug=ucb_aug)
             self.last_q = q_adjusted
         except Exception:
             self.last_q = None
@@ -599,13 +661,7 @@ class OperatorController:
             else:
                 with torch.no_grad():
                     q = self.q(torch.as_tensor(state, dtype=torch.float32, device=DEVICE).unsqueeze(0))[0].cpu().numpy()
-                q_adjusted = (
-                    q
-                    + self.cfg.op_prior_strength * np.log(prior.reshape(-1) + 1e-8)
-                    + self.cfg.op_bandit_strength * bandit.mean().reshape(-1)
-                )
-                if ucb_aug is not None:
-                    q_adjusted = ucb_aug.augment_qvalues(q_adjusted)
+                q_adjusted = self._compute_q_eff(q, prior, bandit, ucb_aug=ucb_aug)
                 action = int(q_adjusted.argmax())
             di, ri = divmod(action, N_R)
         return int(action), int(di), int(ri)

@@ -9,7 +9,7 @@ from api.dependencies import require_user
 from core.config import demo_auth_bypass_enabled
 from core.firebase import is_firebase_enabled
 from core.rate_limit import AUTH_TOKEN_LIMIT, limiter
-from core.security import hash_password, hash_token, is_valid_email, verify_password
+from core.security import hash_password, hash_token, is_valid_email
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from pydantic import BaseModel
 
@@ -97,7 +97,7 @@ async def register_request_otp(body: OtpRequestBody):
         return {"ok": True, "message": f"OTP sent to {email}.", "otp_dev": otp_code}
     except Exception as exc:
         logger.warning("register_request_otp failed: %s", exc)
-        raise HTTPException(status_code=500, detail=str(exc))
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
 @router.post("/auth/register/verify-otp")
@@ -126,7 +126,7 @@ async def register_verify_otp(body: OtpVerifyBody):
         raise
     except Exception as exc:
         logger.warning("register_verify_otp failed: %s", exc)
-        raise HTTPException(status_code=500, detail=str(exc))
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
 @router.post("/auth/register")
@@ -171,7 +171,7 @@ async def register(body: RegisterBody):
         raise
     except Exception as exc:
         logger.warning("register failed: %s", exc)
-        raise HTTPException(status_code=500, detail=str(exc))
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
 # ── Forgot Password Flow ──────────────────────────────────
@@ -204,7 +204,7 @@ async def forgot_password_request(body: ForgotPasswordRequestBody):
         return {"ok": True, "message": "If an account exists, a reset link has been sent.", "token_dev": token_raw}
     except Exception as exc:
         logger.warning("forgot_password_request failed: %s", exc)
-        raise HTTPException(status_code=500, detail=str(exc))
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
 @router.post("/auth/forgot-password/reset")
@@ -238,5 +238,4 @@ async def forgot_password_reset(body: ForgotPasswordResetBody):
         raise
     except Exception as exc:
         logger.warning("forgot_password_reset failed: %s", exc)
-        raise HTTPException(status_code=500, detail=str(exc))
-
+        raise HTTPException(status_code=500, detail=str(exc)) from exc

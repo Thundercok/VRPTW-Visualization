@@ -1,0 +1,7 @@
+numpy
+pandas
+torch
+numba
+scipy
+safetensors
+ortools

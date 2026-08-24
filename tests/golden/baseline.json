@@ -10,18 +10,18 @@
       "solver": "Hybrid-DDQN",
       "seed": 1,
       "nv": 19,
-      "cost": 1657.4404996124886,
+      "cost": 1653.5332279373108,
       "feasible": true,
-      "wall_time": 2.463
+      "wall_time": 3.605
     },
     {
       "instance": "R101",
       "solver": "Hybrid-DDQN",
       "seed": 7,
       "nv": 19,
-      "cost": 1653.9923154785356,
+      "cost": 1651.258327112293,
       "feasible": true,
-      "wall_time": 2.751
+      "wall_time": 4.733
     },
     {
       "instance": "R101",
@@ -30,7 +30,7 @@
       "nv": 19,
       "cost": 1705.711639433697,
       "feasible": true,
-      "wall_time": 0.704
+      "wall_time": 0.388
     },
     {
       "instance": "R101",
@@ -39,25 +39,25 @@
       "nv": 20,
       "cost": 1717.5155000309958,
       "feasible": true,
-      "wall_time": 0.531
+      "wall_time": 0.339
     },
     {
       "instance": "RC207",
       "solver": "Hybrid-DDQN",
       "seed": 1,
       "nv": 3,
-      "cost": 1111.180116736323,
+      "cost": 1147.6776610013687,
       "feasible": true,
-      "wall_time": 7.187
+      "wall_time": 13.102
     },
     {
       "instance": "RC207",
       "solver": "Hybrid-DDQN",
       "seed": 7,
       "nv": 3,
-      "cost": 1167.0617488318453,
+      "cost": 1100.1117474600974,
       "feasible": true,
-      "wall_time": 9.836
+      "wall_time": 16.73
     },
     {
       "instance": "RC207",
@@ -66,7 +66,7 @@
       "nv": 4,
       "cost": 1119.4201797841615,
       "feasible": true,
-      "wall_time": 0.433
+      "wall_time": 0.453
     },
     {
       "instance": "RC207",
@@ -75,7 +75,7 @@
       "nv": 4,
       "cost": 1047.4771748506244,
       "feasible": true,
-      "wall_time": 0.276
+      "wall_time": 0.451
     },
     {
       "instance": "C101",
@@ -84,7 +84,7 @@
       "nv": 10,
       "cost": 828.936866942834,
       "feasible": true,
-      "wall_time": 1.246
+      "wall_time": 2.304
     },
     {
       "instance": "C101",
@@ -93,7 +93,7 @@
       "nv": 10,
       "cost": 828.936866942834,
       "feasible": true,
-      "wall_time": 1.465
+      "wall_time": 2.341
     },
     {
       "instance": "C101",
@@ -102,7 +102,7 @@
       "nv": 10,
       "cost": 828.936866942834,
       "feasible": true,
-      "wall_time": 0.209
+      "wall_time": 0.322
     },
     {
       "instance": "C101",
@@ -111,25 +111,25 @@
       "nv": 10,
       "cost": 828.936866942834,
       "feasible": true,
-      "wall_time": 0.215
+      "wall_time": 0.344
     },
     {
       "instance": "r1_2_1",
       "solver": "Hybrid-DDQN",
       "seed": 1,
       "nv": 20,
-      "cost": 5010.251084094672,
+      "cost": 4860.514161186975,
       "feasible": true,
-      "wall_time": 6.601
+      "wall_time": 21.621
     },
     {
       "instance": "r1_2_1",
       "solver": "Hybrid-DDQN",
       "seed": 7,
       "nv": 20,
-      "cost": 4958.936201618531,
+      "cost": 4934.906473760853,
       "feasible": true,
-      "wall_time": 9.66
+      "wall_time": 12.411
     },
     {
       "instance": "r1_2_1",
@@ -138,7 +138,7 @@
       "nv": 22,
       "cost": 5408.834004357041,
       "feasible": true,
-      "wall_time": 0.761
+      "wall_time": 1.173
     },
     {
       "instance": "r1_2_1",
@@ -147,7 +147,7 @@
       "nv": 21,
       "cost": 5486.564277755519,
       "feasible": true,
-      "wall_time": 1.064
+      "wall_time": 1.74
     }
   ]
 }

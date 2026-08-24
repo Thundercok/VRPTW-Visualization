@@ -5,7 +5,6 @@ Provides FFI loading hooks for compiled C++/Rust local search and Numba kernels.
 import ctypes
 import os
 import sys
-from typing import Optional
 
 
 class CppSolverBridge:
@@ -14,7 +13,7 @@ class CppSolverBridge:
     Fallback cleanly to pure Python / Numba JIT if native binaries are absent.
     """
 
-    def __init__(self, lib_path: Optional[str] = None):
+    def __init__(self, lib_path: str | None = None):
         self.lib = None
         self.is_available = False
 

@@ -1,0 +1,61 @@
+Loaded master ablation dataset from 'results/option_a_ablation/master_ablation_clean.csv': 72 rows across 18 instances.
+
+================================================================================
+1. PER-INSTANCE MEAN COMPARISONS (N=18 Instances)
+================================================================================
+
+--- Wilcoxon Test: Vehicle Count (NV_mean) | ALNS-Base vs Hybrid-DDQN ---
+Total pairs (N): 18 | Non-zero diffs: 8 | Tied pairs: 10
+Mean ALNS-Base: 15.907 (std=12.088)
+Mean Hybrid-DDQN: 15.759 (std=11.869)
+Mean Delta (ALNS-Base - Hybrid-DDQN): 0.148
+Wilcoxon Statistic (W): 29.0
+p-value (greater): 5.989747e-02 (Not Significant, p >= 0.05)
+
+--- Wilcoxon Test: Total Distance (TD_mean) | ALNS-Base vs Hybrid-DDQN ---
+Total pairs (N): 18 | Non-zero diffs: 16 | Tied pairs: 2
+Mean ALNS-Base: 4430.670 (std=3357.276)
+Mean Hybrid-DDQN: 4202.308 (std=3120.137)
+Mean Delta (ALNS-Base - Hybrid-DDQN): 228.362
+Wilcoxon Statistic (W): 136.0
+p-value (greater): 2.188886e-04 (Statistically Significant, p < 0.05)
+
+[Fair TD Evaluation] Matched-NV instances count: 10 / 18 (55.6%)
+
+--- Wilcoxon Test: Matched-NV TD_mean | ALNS-Base vs Hybrid-DDQN ---
+Total pairs (N): 10 | Non-zero diffs: 8 | Tied pairs: 2
+Mean ALNS-Base: 3874.218 (std=3788.207)
+Mean Hybrid-DDQN: 3659.708 (std=3457.029)
+Mean Delta (ALNS-Base - Hybrid-DDQN): 214.510
+Wilcoxon Statistic (W): 36.0
+p-value (greater): 3.906250e-03 (Statistically Significant, p < 0.05)
+
+================================================================================
+2. PER-RUN PAIRED COMPARISONS (N=54 Runs across 3 Seeds)
+================================================================================
+
+--- Wilcoxon Test: Per-Run NV | ALNS-Base vs Hybrid-DDQN ---
+Total pairs (N): 54 | Non-zero diffs: 13 | Tied pairs: 41
+Mean ALNS-Base: 15.907 (std=12.093)
+Mean Hybrid-DDQN: 15.759 (std=11.873)
+Mean Delta (ALNS-Base - Hybrid-DDQN): 0.148
+Wilcoxon Statistic (W): 69.0
+p-value (greater): 4.144032e-02 (Statistically Significant, p < 0.05)
+
+--- Wilcoxon Test: Per-Run TD | ALNS-Base vs Hybrid-DDQN ---
+Total pairs (N): 54 | Non-zero diffs: 47 | Tied pairs: 7
+Mean ALNS-Base: 4430.670 (std=3360.979)
+Mean Hybrid-DDQN: 4202.306 (std=3121.237)
+Mean Delta (ALNS-Base - Hybrid-DDQN): 228.364
+Wilcoxon Statistic (W): 1080.0
+p-value (greater): 2.375397e-08 (Statistically Significant, p < 0.05)
+
+[Fair TD Evaluation] Matched-NV per-run count: 41 / 54 (75.9%)
+
+--- Wilcoxon Test: Per-Run Matched-NV TD | ALNS-Base vs Hybrid-DDQN ---
+Total pairs (N): 41 | Non-zero diffs: 34 | Tied pairs: 7
+Mean ALNS-Base: 4176.821 (std=3461.679)
+Mean Hybrid-DDQN: 3939.291 (std=3171.175)
+Mean Delta (ALNS-Base - Hybrid-DDQN): 237.530
+Wilcoxon Statistic (W): 593.0
+p-value (greater): 2.185807e-07 (Statistically Significant, p < 0.05)

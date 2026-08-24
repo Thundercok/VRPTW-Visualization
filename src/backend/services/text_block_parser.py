@@ -62,7 +62,7 @@ def parse_vietnamese_text_block(text: str) -> list[dict[str, Any]]:
         stripped = line.strip()
         if re.match(r"^Kho\s*:", stripped, re.IGNORECASE):
             # Depot name is on the next non-blank line, address on the one after
-            remaining = [l.strip() for l in lines[i + 1 :] if l.strip()]
+            remaining = [line_str.strip() for line_str in lines[i + 1 :] if line_str.strip()]
             if remaining:
                 depot_name = remaining[0]
             if len(remaining) > 1:

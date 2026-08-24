@@ -1,4 +1,7 @@
-.PHONY: dev dev-emulator test dist emulators test-e2e dev-all
+.PHONY: dev dev-emulator test dist emulators test-e2e dev-all paper
+
+paper:
+	@python3 docs/build_paper.py
 
 dev:
 	PYTHONPATH=./src/backend uv run uvicorn main:app --host 127.0.0.1 --port 8000 --reload --app-dir src/backend

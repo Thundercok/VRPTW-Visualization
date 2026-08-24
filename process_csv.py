@@ -1,6 +1,6 @@
 import csv
-import re
 import os
+import re
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 input_file = os.path.join(base_dir, '100_customers.csv')
@@ -10,7 +10,7 @@ def parse_time(t_str):
     h, m = t_str.strip().split(':')
     return int(h) * 60 + int(m)
 
-with open(input_file, 'r', encoding='utf-8') as f:
+with open(input_file, encoding='utf-8') as f:
     lines = [line.strip() for line in f.readlines() if line.strip()]
 
 customers = []
@@ -21,30 +21,30 @@ while idx < len(lines):
         idx += 1
         continue
     c_id = m.group(1)
-    
+
     idx += 1
     if lines[idx] != "Địa chỉ:":
         continue
-        
+
     idx += 1
     address = lines[idx]
-    
+
     idx += 1
     if lines[idx] != "Khối lượng:":
         continue
-        
+
     idx += 1
     demand = int(lines[idx].replace('kg', '').strip())
-    
+
     idx += 1
     if lines[idx] != "Thời gian:":
         continue
-        
+
     idx += 1
     times = lines[idx].split('-')
     ready_time = parse_time(times[0].strip())
     due_time = parse_time(times[1].strip())
-    
+
     customers.append({
         'name': f'Khách hàng {c_id}',
         'address': address,
@@ -53,7 +53,7 @@ while idx < len(lines):
         'due': due_time,
         'service': 10
     })
-    
+
     idx += 1
 
 with open(output_file, 'w', encoding='utf-8', newline='') as f:

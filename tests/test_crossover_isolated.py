@@ -2,9 +2,11 @@ import os
 import random
 
 import numpy as np
+
 from vrptw.core import Inst, Plan
-from vrptw.rl import EliteArchive
 from vrptw.heuristics import build_greedy
+from vrptw.rl import EliteArchive
+
 
 def load_inst_rc202() -> Inst:
     file_path = 'data/Solomon/RC202.txt'
@@ -19,18 +21,18 @@ def load_inst_rc202() -> Inst:
 def test_crossover_complete_plans():
     inst = load_inst_rc202()
     arch = EliteArchive(k=5)
-    
+
     # Generate two distinct plans
     p1 = build_greedy(inst, heatmap=None, gnn_strength=0.0)
     # Generate a second plan by slightly shuffling/shifting routes to make it distinct
     routes2 = p1.routes[::-1]
     p2 = Plan(routes2, inst, "synth")
-    
+
     key = inst.name
     bucket = arch._plans.setdefault(key, [])
     bucket.append(p1.copy())
     bucket.append(p2.copy())
-    
+
     child = arch.crossover(inst.name)
     assert child is not None
     assert child.feasible

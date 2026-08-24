@@ -189,3 +189,108 @@ class AdaptiveFeasibilityManager:
         self.lam = min(max(self.lam, self.lam_min), self.lam_max)
 
 
+class LagrangianPenaltyController:
+    """Held-Karp / Polyak Subgradient Dual Ascent Controller for VRPTW.
+
+    Maintains separate dual multipliers lambda_cap and lambda_tw, updating them
+    proportionally to constraint violation magnitudes scaled by step size t_k:
+        lambda_cap <- max(0, lambda_cap + t_k * v_cap)
+        lambda_tw  <- max(lambda_tw_min, min(lambda_tw_max, lambda_tw + t_k * v_tw))
+    where t_k = theta * (Z(plan) - Z_LB) / (v_cap^2 + v_tw^2).
+    """
+
+    def __init__(self, inst, theta: float = 2.0, stall_limit: int = 20):
+        self.inst = inst
+        self.theta = theta
+        self.stall_limit = stall_limit
+        self._stall_count = 0
+        self._best_feasible_cost = float("inf")
+
+        # Instance Tightness Prior: derive initial multipliers and bounds from instance horizon
+        widths = [inst.due_times[i] - inst.ready_times[i] for i in range(1, inst.n + 1)]
+        horizon = inst.due_times[0] - inst.ready_times[0]
+        tightness = sum(widths) / (len(widths) * horizon) if horizon > 0 else 0.0
+
+        if tightness < 0.25:
+            # Tight TW (e.g. R1, RC1): High time-window penalty prior
+            self.lam_tw = 50.0
+            self.lam_tw_min = 5.0
+            self.lam_tw_max = 500.0
+            self.lam_cap = 10.0
+        else:
+            # Wide TW (e.g. R2, RC2): Low time-window penalty prior
+            self.lam_tw = 1.0
+            self.lam_tw_min = 0.5
+            self.lam_tw_max = 100.0
+            self.lam_cap = 2.0
+
+        self.lam_cap_min = 0.1
+        self.lam_cap_max = 1000.0
+        self.update_interval = 1
+        self._total_calls = 0
+        self._infeasible_count = 0
+        self._max_v_cap = 0.0
+        self._max_v_tw = 0.0
+
+    def penalized_cost(self, plan) -> float:
+        v_cap = getattr(plan, "violation_capacity", 0.0)
+        v_tw = getattr(plan, "violation_tw", 0.0)
+        return plan.cost + self.lam_cap * v_cap + self.lam_tw * v_tw
+
+    def update(self, plan) -> None:
+        self._total_calls += 1
+        v_cap = getattr(plan, "violation_capacity", 0.0)
+        v_tw = getattr(plan, "violation_tw", 0.0)
+        is_feasible = (v_cap < 1e-6) and (v_tw < 1e-6)
+
+        if not is_feasible:
+            self._infeasible_count += 1
+            self._max_v_cap = max(self._max_v_cap, float(v_cap))
+            self._max_v_tw = max(self._max_v_tw, float(v_tw))
+
+        if is_feasible:
+            improved = plan.cost + 1e-6 < self._best_feasible_cost
+            self._best_feasible_cost = min(self._best_feasible_cost, plan.cost)
+            self._stall_count = 0 if improved else self._stall_count + 1
+        else:
+            self._stall_count += 1
+
+        if self._stall_count >= self.stall_limit:
+            self.theta = max(self.theta / 2.0, 1e-3)
+            self._stall_count = 0
+
+        # Subgradient dual step calculation
+        if self._best_feasible_cost == float("inf"):
+            # No feasible incumbent yet: use small default positive step
+            if v_cap > 1e-6:
+                self.lam_cap = min(self.lam_cap_max, self.lam_cap * 1.10)
+            if v_tw > 1e-6:
+                self.lam_tw = min(self.lam_tw_max, self.lam_tw * 1.10)
+            return
+
+        denom = (v_cap ** 2) + (v_tw ** 2)
+        if denom < 1e-9:
+            # Plan is feasible: gradually decay multipliers toward lower bounds
+            self.lam_cap = max(self.lam_cap_min, self.lam_cap * 0.98)
+            self.lam_tw = max(self.lam_tw_min, self.lam_tw * 0.98)
+            return
+
+        # Polyak step size
+        cost_diff = max(0.0, plan.cost - self._best_feasible_cost)
+        if cost_diff < 1e-6:
+            cost_diff = 1.0  # nominal gradient scale when plan cost equals lower bound
+
+        step = self.theta * cost_diff / denom
+        self.lam_cap = min(self.lam_cap_max, max(self.lam_cap_min, self.lam_cap + step * v_cap))
+        self.lam_tw = min(self.lam_tw_max, max(self.lam_tw_min, self.lam_tw + step * v_tw))
+
+    def record_solution(self, plan) -> None:
+        """Alias for compatibility with the search loop."""
+        self.update(plan)
+
+    def update_penalties(self) -> None:
+        """Periodic hook for compatibility with the search loop cadence."""
+        pass
+
+
+

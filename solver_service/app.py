@@ -153,6 +153,7 @@ async def solve(body: SolveRequest) -> dict[str, Any]:
 @app.post("/reoptimize", dependencies=[Depends(require_token)])
 async def reoptimize(body: ReoptimizeRequest) -> dict[str, Any]:
     from services.research_adapter import build_inst, plan_to_payload
+
     from vrptw import Plan
     from vrptw.local_search import td_converge_polish
 
@@ -179,6 +180,7 @@ async def reoptimize(body: ReoptimizeRequest) -> dict[str, Any]:
 @app.post("/dynamic_insert", dependencies=[Depends(require_token)])
 async def dynamic_insert(body: DynamicInsertRequest) -> dict[str, Any]:
     from services.solomon_service import load_solomon_dataset, to_inst_payload
+
     from vrptw.config import Config
     from vrptw.core import Inst, Plan
     from vrptw.solvers import HybridDDQNSolver

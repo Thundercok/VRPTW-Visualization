@@ -23,6 +23,7 @@ dependencies = [
     "safetensors>=0.4",
     "matplotlib>=3.8",
     "python-multipart>=0.0.7",
+    "ortools>=9.15.6755",
 ]
 
 [build-system]

@@ -8,7 +8,6 @@ from pathlib import Path
 
 import pandas as pd
 
-
 FAMILIES = ("C1", "C2", "R1", "R2", "RC1", "RC2")
 
 

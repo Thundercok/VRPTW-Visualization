@@ -59,7 +59,7 @@ async def geocode_address(q: str, limit: int) -> dict[str, Any]:
                 )
                 mapsco_resp.raise_for_status()
                 photon_data = mapsco_resp.json().get("features", [])
-                
+
                 # Convert photon format to the expected format
                 data = []
                 for feat in photon_data:
@@ -96,7 +96,7 @@ async def bulk_geocode_addresses(addresses: list[str]) -> list[dict[str, Any]]:
     import asyncio
     sem = asyncio.Semaphore(15)
     headers = {"User-Agent": "vrptw-dashboard/1.0"}
-    
+
     async def fetch_one(addr: str, client: httpx.AsyncClient) -> dict[str, Any]:
         cache_key = addr.strip().lower()
         if cache_key in GEOCODE_CACHE:

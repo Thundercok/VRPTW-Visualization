@@ -1,0 +1,138 @@
+Loaded 18 instances for RoutePool Recombination ablation study.
+
+>>> Running Instance: C101 (Solomon-100) <<<
+[phase_transition_log] {'phase1_best_nv': 10, 'phase1_best_td': 828.936866942834, 'phase1_final_lambda': 50.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 10, 'phase2_final_td': 828.936866942834}
+[phase_transition_log] {'phase1_best_nv': 10, 'phase1_best_td': 828.936866942834, 'phase1_final_lambda': 50.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 10, 'phase2_final_td': 828.936866942834}
+  Seed 42 | Recombine ENABLED: NV=10, TD=828.94 (2.1s) | DISABLED: NV=10, TD=828.94 (1.7s)
+[phase_transition_log] {'phase1_best_nv': 10, 'phase1_best_td': 828.936866942834, 'phase1_final_lambda': 50.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 10, 'phase2_final_td': 828.936866942834}
+[phase_transition_log] {'phase1_best_nv': 10, 'phase1_best_td': 828.936866942834, 'phase1_final_lambda': 50.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 10, 'phase2_final_td': 828.936866942834}
+  Seed 43 | Recombine ENABLED: NV=10, TD=828.94 (1.7s) | DISABLED: NV=10, TD=828.94 (1.6s)
+[phase_transition_log] {'phase1_best_nv': 10, 'phase1_best_td': 828.936866942834, 'phase1_final_lambda': 50.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 10, 'phase2_final_td': 828.936866942834}
+[phase_transition_log] {'phase1_best_nv': 10, 'phase1_best_td': 828.936866942834, 'phase1_final_lambda': 50.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 10, 'phase2_final_td': 828.936866942834}
+  Seed 44 | Recombine ENABLED: NV=10, TD=828.94 (1.7s) | DISABLED: NV=10, TD=828.94 (1.6s)
+
+>>> Running Instance: C201 (Solomon-100) <<<
+[phase_transition_log] {'phase1_best_nv': 3, 'phase1_best_td': 591.5565566715014, 'phase1_final_lambda': 45.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 3, 'phase2_final_td': 591.5565566715014}
+[phase_transition_log] {'phase1_best_nv': 3, 'phase1_best_td': 591.5565566715014, 'phase1_final_lambda': 45.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 3, 'phase2_final_td': 591.5565566715014}
+  Seed 42 | Recombine ENABLED: NV=3, TD=591.56 (3.0s) | DISABLED: NV=3, TD=591.56 (2.8s)
+[phase_transition_log] {'phase1_best_nv': 3, 'phase1_best_td': 591.5565566715014, 'phase1_final_lambda': 45.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 3, 'phase2_final_td': 591.5565566715014}
+[phase_transition_log] {'phase1_best_nv': 3, 'phase1_best_td': 591.5565566715014, 'phase1_final_lambda': 45.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 3, 'phase2_final_td': 591.5565566715014}
+  Seed 43 | Recombine ENABLED: NV=3, TD=591.56 (2.8s) | DISABLED: NV=3, TD=591.56 (2.9s)
+[phase_transition_log] {'phase1_best_nv': 3, 'phase1_best_td': 591.5565566715014, 'phase1_final_lambda': 45.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 3, 'phase2_final_td': 591.5565566715014}
+[phase_transition_log] {'phase1_best_nv': 3, 'phase1_best_td': 591.5565566715014, 'phase1_final_lambda': 45.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 3, 'phase2_final_td': 591.5565566715014}
+  Seed 44 | Recombine ENABLED: NV=3, TD=591.56 (2.9s) | DISABLED: NV=3, TD=591.56 (2.8s)
+
+>>> Running Instance: R101 (Solomon-100) <<<
+[phase_transition_log] {'phase1_best_nv': 19, 'phase1_best_td': np.float64(1673.9973758743502), 'phase1_final_lambda': 45.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 19, 'phase2_final_td': np.float64(1650.7992395710683)}
+[phase_transition_log] {'phase1_best_nv': 20, 'phase1_best_td': 1727.5985617346034, 'phase1_final_lambda': 40.5, 'early_stop_triggered_iter': None, 'phase2_final_nv': 19, 'phase2_final_td': np.float64(1655.3872485894037)}
+  Seed 42 | Recombine ENABLED: NV=19, TD=1650.80 (3.7s) | DISABLED: NV=19, TD=1655.39 (2.1s)
+[phase_transition_log] {'phase1_best_nv': 19, 'phase1_best_td': 1658.663599317951, 'phase1_final_lambda': 40.5, 'early_stop_triggered_iter': None, 'phase2_final_nv': 19, 'phase2_final_td': 1650.7992395710683}
+[phase_transition_log] {'phase1_best_nv': 19, 'phase1_best_td': 1738.7184883030147, 'phase1_final_lambda': 40.5, 'early_stop_triggered_iter': None, 'phase2_final_nv': 19, 'phase2_final_td': np.float64(1658.667199646461)}
+  Seed 43 | Recombine ENABLED: NV=19, TD=1650.80 (3.5s) | DISABLED: NV=19, TD=1658.67 (2.0s)
+[phase_transition_log] {'phase1_best_nv': 19, 'phase1_best_td': np.float64(1656.5431304628673), 'phase1_final_lambda': 40.5, 'early_stop_triggered_iter': None, 'phase2_final_nv': 19, 'phase2_final_td': 1650.7992395710683}
+[phase_transition_log] {'phase1_best_nv': 19, 'phase1_best_td': 1745.4607130155173, 'phase1_final_lambda': 45.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 19, 'phase2_final_td': np.float64(1657.2946974538074)}
+  Seed 44 | Recombine ENABLED: NV=19, TD=1650.80 (2.5s) | DISABLED: NV=19, TD=1657.29 (2.0s)
+
+>>> Running Instance: R201 (Solomon-100) <<<
+[phase_transition_log] {'phase1_best_nv': 4, 'phase1_best_td': 1336.6136362196798, 'phase1_final_lambda': 50.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 4, 'phase2_final_td': 1253.2630313847553}
+[R201] Population restart triggered at iter 297 (no_best_imp=216): NV=4->4, cost=1418.2->1401.2 (best_nv=4, best_cost=1336.6)
+[phase_transition_log] {'phase1_best_nv': 4, 'phase1_best_td': 1336.6136362196798, 'phase1_final_lambda': 50.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 4, 'phase2_final_td': 1254.7736293276275}
+  Seed 42 | Recombine ENABLED: NV=4, TD=1253.26 (8.1s) | DISABLED: NV=4, TD=1254.77 (5.5s)
+[phase_transition_log] {'phase1_best_nv': 4, 'phase1_best_td': 1325.5573675486485, 'phase1_final_lambda': 50.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 4, 'phase2_final_td': 1274.071931893584}
+[phase_transition_log] {'phase1_best_nv': 4, 'phase1_best_td': 1325.5573675486485, 'phase1_final_lambda': 50.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 4, 'phase2_final_td': 1272.596886573486}
+  Seed 43 | Recombine ENABLED: NV=4, TD=1274.07 (10.1s) | DISABLED: NV=4, TD=1272.60 (5.7s)
+[phase_transition_log] {'phase1_best_nv': 4, 'phase1_best_td': 1330.8188450909659, 'phase1_final_lambda': 50.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 4, 'phase2_final_td': 1262.6366875203876}
+[phase_transition_log] {'phase1_best_nv': 4, 'phase1_best_td': 1330.8188450909659, 'phase1_final_lambda': 50.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 4, 'phase2_final_td': 1270.8238618392982}
+  Seed 44 | Recombine ENABLED: NV=4, TD=1262.64 (10.0s) | DISABLED: NV=4, TD=1270.82 (6.5s)
+
+>>> Running Instance: RC101 (Solomon-100) <<<
+[phase_transition_log] {'phase1_best_nv': 16, 'phase1_best_td': 1672.0197598168043, 'phase1_final_lambda': 40.5, 'early_stop_triggered_iter': None, 'phase2_final_nv': 14, 'phase2_final_td': np.float64(1708.1483274044183)}
+[phase_transition_log] {'phase1_best_nv': 16, 'phase1_best_td': 1711.7604401280892, 'phase1_final_lambda': 40.5, 'early_stop_triggered_iter': None, 'phase2_final_nv': 15, 'phase2_final_td': 1767.640642512707}
+  Seed 42 | Recombine ENABLED: NV=14, TD=1708.15 (22.0s) | DISABLED: NV=15, TD=1767.64 (6.3s)
+[phase_transition_log] {'phase1_best_nv': 16, 'phase1_best_td': np.float64(1672.8733318276682), 'phase1_final_lambda': 40.5, 'early_stop_triggered_iter': None, 'phase2_final_nv': 15, 'phase2_final_td': 1652.7085686856797}
+[phase_transition_log] {'phase1_best_nv': 16, 'phase1_best_td': 1695.2317158503306, 'phase1_final_lambda': 40.5, 'early_stop_triggered_iter': None, 'phase2_final_nv': 15, 'phase2_final_td': 1747.0544905238926}
+  Seed 43 | Recombine ENABLED: NV=15, TD=1652.71 (8.6s) | DISABLED: NV=15, TD=1747.05 (7.4s)
+[phase_transition_log] {'phase1_best_nv': 16, 'phase1_best_td': np.float64(1694.4632288015441), 'phase1_final_lambda': 40.5, 'early_stop_triggered_iter': None, 'phase2_final_nv': 15, 'phase2_final_td': 1673.803799883968}
+[phase_transition_log] {'phase1_best_nv': 17, 'phase1_best_td': 1690.521421559649, 'phase1_final_lambda': 40.5, 'early_stop_triggered_iter': None, 'phase2_final_nv': 15, 'phase2_final_td': np.float64(1692.716455493992)}
+  Seed 44 | Recombine ENABLED: NV=15, TD=1673.80 (23.4s) | DISABLED: NV=15, TD=1692.72 (8.8s)
+
+>>> Running Instance: RC201 (Solomon-100) <<<
+[phase_transition_log] {'phase1_best_nv': 4, 'phase1_best_td': 1552.5087245997897, 'phase1_final_lambda': 45.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 4, 'phase2_final_td': 1457.292732753813}
+[phase_transition_log] {'phase1_best_nv': 4, 'phase1_best_td': 1817.8246342209022, 'phase1_final_lambda': 45.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 4, 'phase2_final_td': 1443.8529781041639}
+  Seed 42 | Recombine ENABLED: NV=4, TD=1457.29 (8.3s) | DISABLED: NV=4, TD=1443.85 (6.2s)
+[phase_transition_log] {'phase1_best_nv': 4, 'phase1_best_td': 1676.287782208919, 'phase1_final_lambda': 45.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 4, 'phase2_final_td': 1454.5470076286292}
+[phase_transition_log] {'phase1_best_nv': 5, 'phase1_best_td': 1428.9705134673345, 'phase1_final_lambda': 40.5, 'early_stop_triggered_iter': None, 'phase2_final_nv': 4, 'phase2_final_td': 1457.2575063531553}
+  Seed 43 | Recombine ENABLED: NV=4, TD=1454.55 (7.2s) | DISABLED: NV=4, TD=1457.26 (6.4s)
+[phase_transition_log] {'phase1_best_nv': 4, 'phase1_best_td': 1596.1482581160872, 'phase1_final_lambda': 45.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 4, 'phase2_final_td': 1462.9120903312546}
+[phase_transition_log] {'phase1_best_nv': 4, 'phase1_best_td': 1596.1482581160872, 'phase1_final_lambda': 45.0, 'early_stop_triggered_iter': None, 'phase2_final_nv': 4, 'phase2_final_td': 1443.8529781041639}
+  Seed 44 | Recombine ENABLED: NV=4, TD=1462.91 (7.5s) | DISABLED: NV=4, TD=1443.85 (6.2s)
+
+>>> Running Instance: C1_2_1 (Homberger-200) <<<
+  Seed 42 | Recombine ENABLED: NV=20, TD=2704.57 (8.7s) | DISABLED: NV=20, TD=2704.57 (6.7s)
+  Seed 43 | Recombine ENABLED: NV=20, TD=2704.57 (8.1s) | DISABLED: NV=20, TD=2704.57 (6.4s)
+  Seed 44 | Recombine ENABLED: NV=20, TD=2704.57 (9.4s) | DISABLED: NV=20, TD=2704.57 (7.6s)
+
+>>> Running Instance: C2_2_1 (Homberger-200) <<<
+  Seed 42 | Recombine ENABLED: NV=6, TD=1931.44 (27.6s) | DISABLED: NV=6, TD=1931.44 (20.6s)
+  Seed 43 | Recombine ENABLED: NV=6, TD=1931.44 (26.6s) | DISABLED: NV=6, TD=1931.44 (18.8s)
+  Seed 44 | Recombine ENABLED: NV=6, TD=1931.44 (26.4s) | DISABLED: NV=6, TD=1931.44 (19.5s)
+
+>>> Running Instance: R1_2_1 (Homberger-200) <<<
+  Seed 42 | Recombine ENABLED: NV=20, TD=4968.58 (37.4s) | DISABLED: NV=20, TD=4875.09 (10.6s)
+  Seed 43 | Recombine ENABLED: NV=20, TD=4905.54 (19.6s) | DISABLED: NV=20, TD=4988.45 (10.6s)
+  Seed 44 | Recombine ENABLED: NV=20, TD=4910.10 (38.1s) | DISABLED: NV=20, TD=5139.82 (10.3s)
+
+>>> Running Instance: R2_2_1 (Homberger-200) <<<
+  Seed 42 | Recombine ENABLED: NV=5, TD=4103.48 (85.1s) | DISABLED: NV=5, TD=4103.48 (56.1s)
+  Seed 43 | Recombine ENABLED: NV=4, TD=4848.04 (59.2s) | DISABLED: NV=4, TD=4788.11 (59.3s)
+  Seed 44 | Recombine ENABLED: NV=5, TD=4084.22 (88.4s) | DISABLED: NV=5, TD=4095.70 (69.6s)
+
+>>> Running Instance: RC1_2_1 (Homberger-200) <<<
+  Seed 42 | Recombine ENABLED: NV=19, TD=3639.82 (38.7s) | DISABLED: NV=18, TD=4473.40 (11.7s)
+  Seed 43 | Recombine ENABLED: NV=19, TD=3719.07 (43.3s) | DISABLED: NV=19, TD=3672.98 (11.5s)
+  Seed 44 | Recombine ENABLED: NV=19, TD=3596.14 (27.8s) | DISABLED: NV=19, TD=3673.21 (12.1s)
+
+>>> Running Instance: RC2_2_1 (Homberger-200) <<<
+  Seed 42 | Recombine ENABLED: NV=6, TD=3217.76 (57.4s) | DISABLED: NV=6, TD=3168.10 (43.5s)
+  Seed 43 | Recombine ENABLED: NV=7, TD=3007.28 (942.7s) | DISABLED: NV=6, TD=3154.82 (39.8s)
+  Seed 44 | Recombine ENABLED: NV=12, TD=4198.03 (124.5s) | DISABLED: NV=6, TD=3212.36 (45.6s)
+
+>>> Running Instance: C1_4_1 (Homberger-400) <<<
+  Seed 42 | Recombine ENABLED: NV=62, TD=12854.00 (575.7s) | DISABLED: NV=40, TD=7152.06 (25.0s)
+  Seed 43 | Recombine ENABLED: NV=40, TD=7152.06 (30.2s) | DISABLED: NV=40, TD=7152.06 (24.3s)
+  Seed 44 | Recombine ENABLED: NV=40, TD=7152.06 (27.9s) | DISABLED: NV=40, TD=7152.06 (23.4s)
+
+>>> Running Instance: C2_4_1 (Homberger-400) <<<
+  Seed 42 | Recombine ENABLED: NV=12, TD=4116.33 (220.3s) | DISABLED: NV=33, TD=8276.45 (370.5s)
+  Seed 43 | Recombine ENABLED: NV=15, TD=5019.91 (365.7s) | DISABLED: NV=15, TD=5022.68 (1004.3s)
+  Seed 44 | Recombine ENABLED: NV=12, TD=4116.14 (136.5s) | DISABLED: NV=12, TD=4116.14 (143.2s)
+
+>>> Running Instance: R1_4_1 (Homberger-400) <<<
+  Seed 42 | Recombine ENABLED: NV=40, TD=10844.03 (83.3s) | DISABLED: NV=40, TD=10828.76 (44.4s)
+  Seed 43 | Recombine ENABLED: NV=40, TD=10784.37 (86.7s) | DISABLED: NV=40, TD=10821.44 (42.0s)
+  Seed 44 | Recombine ENABLED: NV=40, TD=10847.48 (96.7s) | DISABLED: NV=40, TD=10909.46 (51.5s)
+
+>>> Running Instance: R2_4_1 (Homberger-400) <<<
+  Seed 42 | Recombine ENABLED: NV=9, TD=9049.53 (240.5s) | DISABLED: NV=9, TD=9117.09 (240.4s)
+  Seed 43 | Recombine ENABLED: NV=9, TD=9081.86 (240.4s) | DISABLED: NV=9, TD=9061.41 (240.5s)
+  Seed 44 | Recombine ENABLED: NV=9, TD=9034.57 (240.7s) | DISABLED: NV=9, TD=9248.01 (240.9s)
+
+>>> Running Instance: RC1_4_1 (Homberger-400) <<<
+  Seed 42 | Recombine ENABLED: NV=38, TD=8900.38 (96.3s) | DISABLED: NV=37, TD=8839.94 (61.4s)
+  Seed 43 | Recombine ENABLED: NV=37, TD=9113.19 (84.8s) | DISABLED: NV=37, TD=9035.56 (60.8s)
+  Seed 44 | Recombine ENABLED: NV=37, TD=9060.90 (97.7s) | DISABLED: NV=37, TD=8920.43 (35.6s)
+
+>>> Running Instance: RC2_4_1 (Homberger-400) <<<
+  Seed 42 | Recombine ENABLED: NV=12, TD=7393.63 (240.9s) | DISABLED: NV=12, TD=7695.63 (240.0s)
+  Seed 43 | Recombine ENABLED: NV=12, TD=11256.47 (240.7s) | DISABLED: NV=11, TD=7315.04 (184.1s)
+  Seed 44 | Recombine ENABLED: NV=12, TD=6997.21 (231.8s) | DISABLED: NV=12, TD=6836.74 (207.2s)
+
+✓ Saved routepool recombination ablation results to results/option_a_ablation/routepool_recombine_ablation.csv
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();

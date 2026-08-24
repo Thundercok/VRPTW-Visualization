@@ -31,6 +31,13 @@ from .config import (
     normalize_algorithm_frame,
 )
 from .core import Inst, Plan
+from .dynamic_insertion import (
+    CandidateInsertion,
+    DynamicCustomerInserter,
+    DynamicInsertionResult,
+    insert_dynamic_batch,
+    insert_dynamic_customer,
+)
 from .generators import SyntheticVRPTWGenerator, load_datasets
 from .gnn import GNNEdgePredictor, get_gnn_features, plan_to_adj_matrix
 from .local_search import _iterative_route_elimination
@@ -50,6 +57,8 @@ from .solvers import (
     HybridRuleSolver,
     PlateauHybridSolver,
     RLALNSSolver,
+    RuleMacroHybridSolver,
+    RuleMicroHybridSolver,
     ScheduledHybridSolver,
     run_ortools,
 )
@@ -74,6 +83,7 @@ __all__ = [
     "LearnedAcceptanceCriterion",
     "WelfordRewardNormalizer",
     "LSBudgetController",
+    "MILPColumnController",
     "UCBActionAugmenter",
     "HybridDDQNSolver",
     "HybridFixedSolver",
@@ -95,6 +105,11 @@ __all__ = [
     "run_instance",
     "run_ortools",
     "smoke_test",
+    "DynamicCustomerInserter",
+    "DynamicInsertionResult",
+    "CandidateInsertion",
+    "insert_dynamic_customer",
+    "insert_dynamic_batch",
     "train_domain_randomization",
     "train_transfer_model",
     "train_transfer_model_within_rc2",

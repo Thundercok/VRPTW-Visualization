@@ -23,7 +23,6 @@ import os
 import re
 import sys
 
-import numpy as np
 import pandas as pd
 
 _REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -86,12 +85,12 @@ def tab_ablation(df: pd.DataFrame, out: str) -> None:
     lines = [
         r"\caption{Ablation Analysis: Component contributions (overall $N=" + str(n) +
         r"$ instances). "
-        r"NV Diff (mean fleet gap to BKS) falls monotonically as components are added. "
+        r"NV Diff (mean fleet gap to BKS) drops sharply from ALNS-Base to any hybrid variant, then flattens among hybrids. "
         r"Raw TD Gap rises in lock-step --- an arithmetic consequence of fewer vehicles "
-        r"covering the same customers, \emph{not} a quality loss; the valid, vehicle-matched "
+        r"covering the same customers, not a quality loss; the valid, vehicle-matched "
         r"distance comparison is the strict fair intersection of "
         r"Table~\ref{tab:distance_summary}, where Hybrid-DDQN attains the lowest gap "
-        r"($+0.575\%$).}",
+        r"($+1.078\%$).}",
         r"\label{tab:ablation}",
         r"\begin{tabular}{@{}lrr@{}}",
         r"\toprule",
@@ -123,7 +122,7 @@ def tab_nv_summary(df: pd.DataFrame, out: str) -> None:
     algos = ALGOS + (["OR-Tools"] if (sol["Algorithm"] == "OR-Tools").any() else [])
     header = " & ".join([r"\textbf{Subset}"] + [ALGO_HEADS[a] for a in algos]) + r"\\"
     lines = [
-        r"\caption{$NV_{\text{diff}}$ on Solomon. Lower is better; $0.000{=}$BKS.}",
+        r"\caption{$NV_{\text{diff}}$ on Solomon (56 instances). Lower is better; $0.000{=}$BKS. Bold marks the best value per row.}",
         r"\label{tab:nv_summary}",
         r"\renewcommand{\arraystretch}{1.08}",
         r"\setlength{\tabcolsep}{3pt}",
@@ -135,11 +134,15 @@ def tab_nv_summary(df: pd.DataFrame, out: str) -> None:
     ]
 
     def _row(label: str, g: pd.DataFrame) -> str:
+        vals = [g[g["Algorithm"] == a]["nv_diff"].mean() for a in algos]
+        min_v = min(v for v in vals if pd.notna(v))
         cells = []
-        for a in algos:
-            v = g[g["Algorithm"] == a]["nv_diff"].mean()
+        for _a, v in zip(algos, vals):
             cell = f"{v:.3f}" if pd.notna(v) else "--"
-            cells.append(rf"\textbf{{{cell}}}" if a == "Hybrid-DDQN" else cell)
+            if pd.notna(v) and abs(v - min_v) < 1e-4:
+                cells.append(rf"\textbf{{{cell}}}")
+            else:
+                cells.append(cell)
         return label + " & " + " & ".join(cells) + r"\\"
 
     for name, fams in SUBSETS.items():
@@ -232,23 +235,26 @@ def tab_gh200(df: pd.DataFrame, out: str) -> None:
     gh = df[~df["Instance"].map(_is_solomon) & df["bks_nv"].notna()]
     gh = gh[gh["Instance"].str.contains("_2_", na=False)]
     algos = ALGOS + (["OR-Tools"] if (gh["Algorithm"] == "OR-Tools").any() else [])
-    header = (
-        " & ".join([r"\textbf{Instance}", r"\textbf{BKS}"] + [ALGO_HEADS[a] for a in algos]) + r"\\"
-    )
+    sub_head = " & ".join([r"\textbf{Inst}", r"\textbf{BKS}"] + [ALGO_HEADS[a] for a in algos])
+    header = f"{sub_head} & & {sub_head}" + r"\\"
     lines = [
-        r"\caption{Gehring--Homberger~\cite{Gehring1999} 200-customer results at 800",
+        r"\caption{Gehring--Homberger~\cite{Gehring1999} 200-customer results at 600",
         r"iterations.  Format: $NV/TD\,\text{Gap}\%$.",
         r"${}^\dagger$: $NV>NV_{\BKS}$ --- negative gaps reflect over-allocation.}",
         r"\label{tab:gh200}",
-        r"\renewcommand{\arraystretch}{1.08}",
-        r"\setlength{\tabcolsep}{5pt}",
+        r"\renewcommand{\arraystretch}{1.06}",
+        r"\setlength{\tabcolsep}{3.5pt}",
         r"\resizebox{\textwidth}{!}{%",
-        r"\begin{tabular}{@{}l" + "r" * (len(algos) + 1) + r"@{}}",
+        r"\begin{tabular}{@{}l" + "r" * (len(algos) + 1) + r" c l" + "r" * (len(algos) + 1) + r"@{}}",
         r"\toprule",
         header,
         r"\midrule",
     ]
-    for inst in sorted(gh["Instance"].unique()):
+
+    inst_list = sorted(gh["Instance"].unique())
+    n_half = (len(inst_list) + 1) // 2
+
+    def _format_inst_cells(inst: str) -> str:
         bks = _bks_for(inst)
         tex_name = inst.replace("_", r"\_")
         cells = []
@@ -258,17 +264,81 @@ def tab_gh200(df: pd.DataFrame, out: str) -> None:
                 cells.append("--")
                 continue
             nv, gap = float(r["NV_mean"].iloc[0]), float(r["gap"].iloc[0])
-            # Show 2 decimals when the mean fleet is fractional so a daggered
-            # "4.20" is not mistaken for a clean BKS-matching "4".
             nv_s = f"{nv:.0f}" if abs(nv - round(nv)) < 1e-9 else f"{nv:.2f}"
-            if nv > bks["nv"] + 1e-9:
+            if bks and nv > bks["nv"] + 1e-9:
                 s = rf"${nv_s}/\text{{--}}{{}}^\dagger$"
             else:
                 s = rf"${nv_s}/{gap:+.2f}\%$"
             cells.append(rf"\textbf{{{s}}}" if a == "Hybrid-DDQN" else s)
-        lines.append(
-            rf"${tex_name}$ & ${bks['nv']}/{bks['td']:.2f}$" + "\n  & " + " & ".join(cells) + r"\\"
-        )
+        bks_str = f"{bks['nv']}/{bks['td']:.2f}" if bks else "--"
+        return rf"${tex_name}$ & ${bks_str}$ & " + " & ".join(cells)
+
+    for i in range(n_half):
+        left_inst = inst_list[i]
+        left_str = _format_inst_cells(left_inst)
+        if i + n_half < len(inst_list):
+            right_inst = inst_list[i + n_half]
+            right_str = _format_inst_cells(right_inst)
+        else:
+            right_str = " & ".join([""] * (len(algos) + 2))
+        lines.append(f"{left_str} & & {right_str}" + r"\\")
+
+    lines += [r"\bottomrule", r"\end{tabular}}"]
+    _w(out, "\n".join(lines) + "\n")
+
+
+def tab_gh400(df: pd.DataFrame, out: str) -> None:
+    gh = df[~df["Instance"].map(_is_solomon) & df["bks_nv"].notna()]
+    gh = gh[gh["Instance"].str.contains("_4_", na=False)]
+    algos = ALGOS + (["OR-Tools"] if (gh["Algorithm"] == "OR-Tools").any() else [])
+    sub_head = " & ".join([r"\textbf{Inst}", r"\textbf{BKS}"] + [ALGO_HEADS[a] for a in algos])
+    header = f"{sub_head} & & {sub_head}" + r"\\"
+    lines = [
+        r"\caption{Gehring--Homberger~\cite{Gehring1999} 400-customer results at 600",
+        r"iterations.  Format: $NV/TD\,\text{Gap}\%$.",
+        r"${}^\dagger$: $NV>NV_{\BKS}$ --- negative gaps reflect over-allocation.}",
+        r"\label{tab:gh400}",
+        r"\renewcommand{\arraystretch}{1.06}",
+        r"\setlength{\tabcolsep}{3.5pt}",
+        r"\resizebox{\textwidth}{!}{%",
+        r"\begin{tabular}{@{}l" + "r" * (len(algos) + 1) + r" c l" + "r" * (len(algos) + 1) + r"@{}}",
+        r"\toprule",
+        header,
+        r"\midrule",
+    ]
+
+    inst_list = sorted(gh["Instance"].unique())
+    n_half = (len(inst_list) + 1) // 2
+
+    def _format_inst_cells(inst: str) -> str:
+        bks = _bks_for(inst)
+        tex_name = inst.replace("_", r"\_")
+        cells = []
+        for a in algos:
+            r = gh[(gh["Instance"] == inst) & (gh["Algorithm"] == a)]
+            if r.empty:
+                cells.append("--")
+                continue
+            nv, gap = float(r["NV_mean"].iloc[0]), float(r["gap"].iloc[0])
+            nv_s = f"{nv:.0f}" if abs(nv - round(nv)) < 1e-9 else f"{nv:.2f}"
+            if bks and nv > bks["nv"] + 1e-9:
+                s = rf"${nv_s}/\text{{--}}{{}}^\dagger$"
+            else:
+                s = rf"${nv_s}/{gap:+.2f}\%$"
+            cells.append(rf"\textbf{{{s}}}" if a == "Hybrid-DDQN" else s)
+        bks_str = f"{bks['nv']}/{bks['td']:.2f}" if bks else "--"
+        return rf"${tex_name}$ & ${bks_str}$ & " + " & ".join(cells)
+
+    for i in range(n_half):
+        left_inst = inst_list[i]
+        left_str = _format_inst_cells(left_inst)
+        if i + n_half < len(inst_list):
+            right_inst = inst_list[i + n_half]
+            right_str = _format_inst_cells(right_inst)
+        else:
+            right_str = " & ".join([""] * (len(algos) + 2))
+        lines.append(f"{left_str} & & {right_str}" + r"\\")
+
     lines += [r"\bottomrule", r"\end{tabular}}"]
     _w(out, "\n".join(lines) + "\n")
 
@@ -313,6 +383,7 @@ def main() -> None:
     tab_distance_summary(df, os.path.join(args.out_dir, "distance_summary.tex"))
     tab_fair_by_category(df, os.path.join(args.out_dir, "fair_by_category.tex"))
     tab_gh200(df, os.path.join(args.out_dir, "gh200.tex"))
+    tab_gh400(df, os.path.join(args.out_dir, "gh400.tex"))
     if args.gnn:
         tab_gnn(args.gnn, os.path.join(args.out_dir, "gnn_comparison.tex"))
 
