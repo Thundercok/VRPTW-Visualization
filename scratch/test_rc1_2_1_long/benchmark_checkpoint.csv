@@ -1,2 +1,0 @@
-Dataset,Instance,Algorithm,NV_mean,NV_std,NV_diff,TD_mean,TD_std,Gap%,OnTime,Time_s,NV_cv,TD_cv,NV_inflated,raw_costs,raw_nv
-RC1,rc1_2_1,OR-Tools,21.0,0.0,3.0,3741.33,0.0,3.85,100.0,120.6,0.0,0.0,False,3741.3318,21
