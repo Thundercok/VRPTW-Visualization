@@ -422,8 +422,8 @@ This section details the proposed Tri-Level Hybrid DDQN-ALNS framework. The arch
 
 The framework decomposes the global routing search into three coordinated operational tiers:
 \begin{enumerate}
-    \item \textbf{Macro Decision Tier (Plateau Controller $\pi_{\text{macro}}$)}: Formulated as a semi-Markov Decision Process (semi-MDP) operating over iteration segments of length $\Delta_{\text{seg}} = 100$. A dedicated Dueling Double Deep Q-Network (Macro DDQN) with Prioritized Experience Replay evaluates convergence velocity, detects stagnation, and transitions among 7 strategic exploration and recombination regimes.
-    \item \textbf{Micro Selection Tier (Operator Controller $\pi_{\text{micro}}$ \& LAC)}: Operates at each individual search iteration $t$. A Micro Dueling DDQN with normalized Softmax-Entropy confidence gating selects composite destroy--repair operator pairings conditioned on a 20-dimensional spatiotemporal state vector. A Learned Acceptance Criterion (LAC) augments Simulated Annealing by evaluating candidate acceptance based on delayed downstream improvement promise.
+    \item \textbf{Macro Decision Tier (Plateau Controller} $\pi_{\text{macro}}$\textbf{)}: Formulated as a semi-Markov Decision Process (semi-MDP) operating over iteration segments of length $\Delta_{\text{seg}} = 100$. A dedicated Dueling Double Deep Q-Network (Macro DDQN) with Prioritized Experience Replay evaluates convergence velocity, detects stagnation, and transitions among 7 strategic exploration and recombination regimes.
+    \item \textbf{Micro Selection Tier (Operator Controller} $\pi_{\text{micro}}$ \textbf{\& LAC)}: Operates at each individual search iteration $t$. A Micro Dueling DDQN with normalized Softmax-Entropy confidence gating selects composite destroy--repair operator pairings conditioned on a 20-dimensional spatiotemporal state vector. A Learned Acceptance Criterion (LAC) augments Simulated Annealing by evaluating candidate acceptance based on delayed downstream improvement promise.
     \item \textbf{Heuristic Search Tier (Granular ALNS \& Route-Pool Recombination)}: Executes ruin-and-recreate operations, accelerates feasibility testing via $O(1)$ Savelsbergh forward time slack checks, restricts local moves to top-$k$ ($k=25$) spatiotemporally correlated candidate neighbors, and periodically solves an exact Set Partitioning formulation over accumulated elite routes via HiGHS.
 \end{enumerate}
 
@@ -540,8 +540,8 @@ $s_{20}$ & $\text{Var}_{\text{dist}}$ & Variance of inter-route centroid distanc
 \subsubsection{Composite Action Space}
 The micro action space $\mathcal{A}_{\text{micro}}$ comprises $N_D \times N_R = 13 \times 5 = 65$ composite heuristic pairs:
 \begin{itemize}
-    \item \textbf{13 Destroy Operators ($N_D=13$)}: Random, Worst-cost, Shaw spatiotemporal relatedness \cite{shaw1998using}, Route portion removal, Time-window urgency removal, Route elimination, Route dispersion elimination, Costly route elimination, Cross-route Shaw, Route merge sampling, Route absorb disruption, Neural worst, and Neural Shaw.
-    \item \textbf{5 Repair Operators ($N_R=5$)}: Greedy insertion, 2-Regret, 3-Regret, Time-window greedy, and Forward-time-slack greedy (FTS-Greedy).
+    \item \textbf{13 Destroy Operators} ($N_D=13$): Random, Worst-cost, Shaw spatiotemporal relatedness \cite{shaw1998using}, Route portion removal, Time-window urgency removal, Route elimination, Route dispersion elimination, Costly route elimination, Cross-route Shaw, Route merge sampling, Route absorb disruption, Neural worst, and Neural Shaw.
+    \item \textbf{5 Repair Operators} ($N_R=5$): Greedy insertion, 2-Regret, 3-Regret, Time-window greedy, and Forward-time-slack greedy (FTS-Greedy).
 \end{itemize}
 
 \subsubsection{Dueling DDQN Architecture \& Confidence-Gated Blending}
@@ -794,7 +794,7 @@ Of the 60 available instances per family-set at each Gehring--Homberger scale, t
 \toprule
 \multirow{2}{*}{\textbf{Benchmark Scale / Group}} & \multicolumn{2}{c}{\textbf{BKS Baseline}} & \multicolumn{2}{c}{\textbf{ALNS-Base~\cite{Ropke2006}}} & \multicolumn{2}{c}{\textbf{Single-Agent RL-LNS}} & \multicolumn{2}{c}{\textbf{Tri-Level DDQN (Ours)}} & \multicolumn{2}{c}{\textbf{Wilcoxon Test}} & \multicolumn{2}{c}{\textbf{Efficiency}} \\
 \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){8-9} \cmidrule(lr){10-11} \cmidrule(lr){12-13}
- & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & \textbf{$W$} & \textbf{$p$-value} & \textbf{Time (s)} & \textbf{Matched Gap} \\
+ & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & $W$ & $p$\textbf{-value} & \textbf{Time (s)} & \textbf{Matched Gap} \\
 \midrule
 \multicolumn{13}{l}{\textit{\textbf{Scale 1: Homberger 200-Customer Benchmarks (NV-Floor Convergence)}}} \\
 C1\_200 (10 instances) & 18.90 & 2712.5 & 18.90 & 2768.4 & 18.90 & 2745.2 & \textbf{18.90} & \textbf{2718.9} & 3.0 & 0.0078* & 18.4 & -1.79\% \\
@@ -857,7 +857,7 @@ To isolate the individual contribution of each component, Table~\ref{tab:ablatio
     \item \textbf{HiGHS RoutePool Recombination}: Disabling Set Partitioning (Config 4) causes notable degradation on complex topologies, increasing vehicle requirements on Homberger $rc2\_4\_1$ ($12.60 \to 13.00$).
     \item \textbf{Macro Plateau Controller}: Removing $\pi_{\text{macro}}$ (Config 2) hinders proactive escape from single-vehicle plateau traps, resulting in increased fleet sizes on $rc2\_4\_1$ ($12.60 \to 12.80$). Furthermore, heuristic Rule-Macro (Config 6) and Rule-Micro (Config 8) fail to compress fleets on large-scale topologies ($NV=13.20$ and $NV=13.40$ on $rc2\_4\_1$), confirming the necessity of adaptive reinforcement learning.
     \item \textbf{Learned Acceptance Criterion (LAC)}: Reverting LAC to standard Simulated Annealing (Config 3) leads to premature convergence, increasing distance across both Solomon and Homberger suites.
-    \item \textbf{$\tau$-Entropy Confidence Gate}: Removing the confidence filter (Config 5) causes noisy operator selections during out-of-distribution phases, increasing fleet count on $rc2\_4\_1$ ($12.60 \to 12.80$).
+    \item $\bm{\tau}$-\textbf{Entropy Confidence Gate}: Removing the confidence filter (Config 5) causes noisy operator selections during out-of-distribution phases, increasing fleet count on $rc2\_4\_1$ ($12.60 \to 12.80$).
 \end{itemize}
 
 \section{Discussion and Managerial Insights}

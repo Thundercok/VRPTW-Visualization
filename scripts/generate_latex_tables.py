@@ -115,7 +115,7 @@ def generate_table_iv_homberger(df_agg: pd.DataFrame | None = None) -> str:
     lines.append(r"\toprule")
     lines.append(r"\multirow{2}{*}{\textbf{Benchmark Scale / Group}} & \multicolumn{2}{c}{\textbf{BKS Baseline}} & \multicolumn{2}{c}{\textbf{ALNS-Base~\cite{Ropke2006}}} & \multicolumn{2}{c}{\textbf{Single-Agent RL-LNS}} & \multicolumn{2}{c}{\textbf{Tri-Level DDQN (Ours)}} & \multicolumn{2}{c}{\textbf{Wilcoxon Test}} & \multicolumn{2}{c}{\textbf{Efficiency}} \\")
     lines.append(r"\cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){8-9} \cmidrule(lr){10-11} \cmidrule(lr){12-13}")
-    lines.append(r" & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & \textbf{$W$} & \textbf{$p$-value} & \textbf{Time (s)} & \textbf{Matched Gap} \\")
+    lines.append(r" & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & $W$ & $p$\textbf{-value} & \textbf{Time (s)} & \textbf{Matched Gap} \\")
     lines.append(r"\midrule")
 
     lines.append(r"\multicolumn{13}{l}{\textit{\textbf{Scale 1: Homberger 200-Customer Benchmarks (NV-Floor Convergence)}}} \\")
@@ -249,7 +249,7 @@ To isolate the individual contribution of each component, Table~\\ref{{tab:ablat
     \\item \\textbf{{HiGHS RoutePool Recombination}}: Disabling Set Partitioning (Config 4) causes notable degradation on complex topologies, increasing vehicle requirements on Homberger $rc2\\_4\\_1$ ($12.60 \\to 13.00$).
     \\item \\textbf{{Macro Plateau Controller}}: Removing $\\pi_{{\\text{{macro}}}}$ (Config 2) hinders proactive escape from single-vehicle plateau traps, resulting in increased fleet sizes on $rc2\\_4\\_1$ ($12.60 \\to 12.80$). Furthermore, heuristic Rule-Macro (Config 6) and Rule-Micro (Config 8) fail to compress fleets on large-scale topologies ($NV=13.20$ and $NV=13.40$ on $rc2\\_4\\_1$), confirming the necessity of adaptive reinforcement learning.
     \\item \\textbf{{Learned Acceptance Criterion (LAC)}}: Reverting LAC to standard Simulated Annealing (Config 3) leads to premature convergence, increasing distance across both Solomon and Homberger suites.
-    \\item \\textbf{{$\\tau$-Entropy Confidence Gate}}: Removing the confidence filter (Config 5) causes noisy operator selections during out-of-distribution phases, increasing fleet count on $rc2\\_4\\_1$ ($12.60 \\to 12.80$).
+    \\item $\\bm{{\\tau}}$-\\textbf{{Entropy Confidence Gate}}: Removing the confidence filter (Config 5) causes noisy operator selections during out-of-distribution phases, increasing fleet count on $rc2\\_4\\_1$ ($12.60 \\to 12.80$).
 \\end{{itemize}}
 """
     out_path.parent.mkdir(parents=True, exist_ok=True)

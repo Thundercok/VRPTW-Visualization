@@ -8,8 +8,8 @@ This section details the proposed Tri-Level Hybrid DDQN-ALNS framework. The arch
 
 The framework decomposes the global routing search into three coordinated operational tiers:
 \begin{enumerate}
-    \item \textbf{Macro Decision Tier (Plateau Controller $\pi_{\text{macro}}$)}: Formulated as a semi-Markov Decision Process (semi-MDP) operating over iteration segments of length $\Delta_{\text{seg}} = 100$. A dedicated Dueling Double Deep Q-Network (Macro DDQN) with Prioritized Experience Replay evaluates convergence velocity, detects stagnation, and transitions among 7 strategic exploration and recombination regimes.
-    \item \textbf{Micro Selection Tier (Operator Controller $\pi_{\text{micro}}$ \& LAC)}: Operates at each individual search iteration $t$. A Micro Dueling DDQN with normalized Softmax-Entropy confidence gating selects composite destroy--repair operator pairings conditioned on a 20-dimensional spatiotemporal state vector. A Learned Acceptance Criterion (LAC) augments Simulated Annealing by evaluating candidate acceptance based on delayed downstream improvement promise.
+    \item \textbf{Macro Decision Tier (Plateau Controller} $\pi_{\text{macro}}$\textbf{)}: Formulated as a semi-Markov Decision Process (semi-MDP) operating over iteration segments of length $\Delta_{\text{seg}} = 100$. A dedicated Dueling Double Deep Q-Network (Macro DDQN) with Prioritized Experience Replay evaluates convergence velocity, detects stagnation, and transitions among 7 strategic exploration and recombination regimes.
+    \item \textbf{Micro Selection Tier (Operator Controller} $\pi_{\text{micro}}$ \textbf{\& LAC)}: Operates at each individual search iteration $t$. A Micro Dueling DDQN with normalized Softmax-Entropy confidence gating selects composite destroy--repair operator pairings conditioned on a 20-dimensional spatiotemporal state vector. A Learned Acceptance Criterion (LAC) augments Simulated Annealing by evaluating candidate acceptance based on delayed downstream improvement promise.
     \item \textbf{Heuristic Search Tier (Granular ALNS \& Route-Pool Recombination)}: Executes ruin-and-recreate operations, accelerates feasibility testing via $O(1)$ Savelsbergh forward time slack checks, restricts local moves to top-$k$ ($k=25$) spatiotemporally correlated candidate neighbors, and periodically solves an exact Set Partitioning formulation over accumulated elite routes via HiGHS.
 \end{enumerate}
 
@@ -126,8 +126,8 @@ $s_{20}$ & $\text{Var}_{\text{dist}}$ & Variance of inter-route centroid distanc
 \subsubsection{Composite Action Space}
 The micro action space $\mathcal{A}_{\text{micro}}$ comprises $N_D \times N_R = 13 \times 5 = 65$ composite heuristic pairs:
 \begin{itemize}
-    \item \textbf{13 Destroy Operators ($N_D=13$)}: Random, Worst-cost, Shaw spatiotemporal relatedness \cite{shaw1998using}, Route portion removal, Time-window urgency removal, Route elimination, Route dispersion elimination, Costly route elimination, Cross-route Shaw, Route merge sampling, Route absorb disruption, Neural worst, and Neural Shaw.
-    \item \textbf{5 Repair Operators ($N_R=5$)}: Greedy insertion, 2-Regret, 3-Regret, Time-window greedy, and Forward-time-slack greedy (FTS-Greedy).
+    \item \textbf{13 Destroy Operators} ($N_D=13$): Random, Worst-cost, Shaw spatiotemporal relatedness \cite{shaw1998using}, Route portion removal, Time-window urgency removal, Route elimination, Route dispersion elimination, Costly route elimination, Cross-route Shaw, Route merge sampling, Route absorb disruption, Neural worst, and Neural Shaw.
+    \item \textbf{5 Repair Operators} ($N_R=5$): Greedy insertion, 2-Regret, 3-Regret, Time-window greedy, and Forward-time-slack greedy (FTS-Greedy).
 \end{itemize}
 
 \subsubsection{Dueling DDQN Architecture \& Confidence-Gated Blending}
