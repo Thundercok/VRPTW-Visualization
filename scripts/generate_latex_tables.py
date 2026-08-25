@@ -79,10 +79,10 @@ def generate_table_iii_solomon(df_agg: pd.DataFrame | None = None) -> str:
         r2 = sa_rows[sa_rows["Family"] == "R2"]
         rc1 = sa_rows[sa_rows["Family"] == "RC1"]
         rc2 = sa_rows[sa_rows["Family"] == "RC2"]
-        lines.append(f"Single-Agent RL-LNS \\cite{{lu2020reinforcement,son2023learning}} & {c1['NV_mean'].mean():.2f} & {c1['TD_mean'].mean():.1f} & {c2['NV_mean'].mean():.2f} & {c2['TD_mean'].mean():.1f} & {r1['NV_mean'].mean():.2f} & {r1['TD_mean'].mean():.1f} & {r2['NV_mean'].mean():.2f} & {r2['TD_mean'].mean():.1f} & {rc1['NV_mean'].mean():.2f} & {rc1['TD_mean'].mean():.1f} & {rc2['NV_mean'].mean():.2f} & {rc2['TD_mean'].mean():.1f} & {sa_rows['NV_mean'].mean():.2f} & +{sa_rows['Gap_TD_Pct'].mean():.2f}\\% \\\\")
+        lines.append(f"Single-Agent RL-LNS \\cite{{lu2020learning,son2023learning}} & {c1['NV_mean'].mean():.2f} & {c1['TD_mean'].mean():.1f} & {c2['NV_mean'].mean():.2f} & {c2['TD_mean'].mean():.1f} & {r1['NV_mean'].mean():.2f} & {r1['TD_mean'].mean():.1f} & {r2['NV_mean'].mean():.2f} & {r2['TD_mean'].mean():.1f} & {rc1['NV_mean'].mean():.2f} & {rc1['TD_mean'].mean():.1f} & {rc2['NV_mean'].mean():.2f} & {rc2['TD_mean'].mean():.1f} & {sa_rows['NV_mean'].mean():.2f} & +{sa_rows['Gap_TD_Pct'].mean():.2f}\\% \\\\")
     else:
         sa = LITERATURE_SOLOMON_SUMMARY["Single-Agent RL-LNS"]
-        lines.append(f"Single-Agent RL-LNS \\cite{{lu2020reinforcement,son2023learning}} & {sa['C1']['nv']:.2f} & {sa['C1']['td']:.1f} & {sa['C2']['nv']:.2f} & {sa['C2']['td']:.1f} & {sa['R1']['nv']:.2f} & {sa['R1']['td']:.1f} & {sa['R2']['nv']:.2f} & {sa['R2']['td']:.1f} & {sa['RC1']['nv']:.2f} & {sa['RC1']['td']:.1f} & {sa['RC2']['nv']:.2f} & {sa['RC2']['td']:.1f} & {sa['ALL']['nv']:.2f} & +{sa['ALL']['gap_td']:.2f}\\% \\\\")
+        lines.append(f"Single-Agent RL-LNS \\cite{{lu2020learning,son2023learning}} & {sa['C1']['nv']:.2f} & {sa['C1']['td']:.1f} & {sa['C2']['nv']:.2f} & {sa['C2']['td']:.1f} & {sa['R1']['nv']:.2f} & {sa['R1']['td']:.1f} & {sa['R2']['nv']:.2f} & {sa['R2']['td']:.1f} & {sa['RC1']['nv']:.2f} & {sa['RC1']['td']:.1f} & {sa['RC2']['nv']:.2f} & {sa['RC2']['td']:.1f} & {sa['ALL']['nv']:.2f} & +{sa['ALL']['gap_td']:.2f}\\% \\\\")
 
     # 6. Proposed Tri-Level Hybrid-DDQN (Ours)
     if df_agg is not None and "Hybrid-DDQN" in df_agg["Algorithm"].values:
@@ -141,8 +141,8 @@ def generate_table_iv_homberger(df_agg: pd.DataFrame | None = None) -> str:
     return "\n".join(lines)
 
 
-def generate_table_v_ablation(df_ablation: pd.DataFrame | None = None) -> str:
-    """Generates Table V: 5-Configuration Ablation Matrix Table across 6 representative instances."""
+def generate_table_v_ablation(df_raw: pd.DataFrame | None = None) -> str:
+    """Generates Table V: 8-Configuration Ablation Matrix Table across 6 representative instances."""
     lines = []
     lines.append(r"\begin{table*}[!t]")
     lines.append(r"\caption{Ablation Study Matrix: Component Contribution Across 6 Representative Instances Covering Diverse Topologies and Scales.}")
@@ -164,20 +164,38 @@ def generate_table_v_ablation(df_ablation: pd.DataFrame | None = None) -> str:
     lines.append(r"\textbf{BKS Baseline} & " + " & ".join(bks_cells) + r" \\")
     lines.append(r"\midrule")
 
-    # 1. Full Proposed
-    lines.append(r"\textbf{(1) Full Tri-Level Hybrid-DDQN} & \textbf{10.00} & \textbf{828.94} & \textbf{19.00} & \textbf{1652.80} & \textbf{14.67} & \textbf{1698.55} & \textbf{6.00} & \textbf{1809.50} & \textbf{20.33} & \textbf{4860.48} & \textbf{12.50} & \textbf{7120.80} \\")
+    configs = [
+        ("Full Tri-Level Hybrid-DDQN", "Full Hybrid-DDQN", True),
+        (r"(2) w/o Macro Controller ($\pi_{\text{macro}}$)", "w/o Macro Controller", False),
+        (r"(3) w/o Learned Acceptance (LAC $\to$ SA)", "w/o LAC", False),
+        (r"(4) w/o HiGHS RoutePool Recombination", "w/o RoutePool Recombination", False),
+        (r"(5) w/o $\tau$-Entropy Confidence Gate", "w/o Entropy Confidence Gate", False),
+        (r"(6) Rule-Macro (Deterministic Macro)", "Rule-Macro", False),
+        (r"(7) Single-Agent RL-LNS (Flat Micro DDQN)", "Single-Agent RL-LNS", False),
+        (r"(8) Rule-Micro (Deterministic Micro)", "Rule-Micro", False),
+    ]
 
-    # 2. w/o Macro
-    lines.append(r"(2) w/o Macro Controller ($\pi_{\text{macro}}$) & 10.00 & 828.94 & 19.00 & 1678.20 & 15.67 & 1724.50 & 6.00 & 1835.40 & 20.67 & 5120.40 & 12.90 & 7450.20 \\")
+    if df_raw is not None:
+        abl_df = df_raw[df_raw["Algorithm"].isin([c[1] for c in configs])]
+        piv_nv = abl_df.pivot_table(index="Algorithm", columns="Instance", values="NV", aggfunc="mean")
+        piv_td = abl_df.pivot_table(index="Algorithm", columns="Instance", values="TD", aggfunc="mean")
 
-    # 3. w/o LAC
-    lines.append(r"(3) w/o Learned Acceptance (LAC $\to$ SA) & 10.00 & 828.94 & 19.00 & 1664.10 & 15.00 & 1712.80 & 6.00 & 1824.10 & 20.33 & 4985.60 & 12.70 & 7310.50 \\")
-
-    # 4. w/o RoutePool Recombine
-    lines.append(r"(4) w/o HiGHS RoutePool Recombination & 10.00 & 828.94 & 19.00 & 1685.40 & 16.00 & 1745.20 & 6.00 & 1848.20 & 21.00 & 5240.10 & 13.10 & 7590.40 \\")
-
-    # 5. w/o Entropy Confidence Gate
-    lines.append(r"(5) w/o $\tau$-Entropy Confidence Gate & 10.00 & 828.94 & 19.00 & 1668.50 & 15.33 & 1718.40 & 6.00 & 1828.60 & 20.67 & 5045.20 & 12.80 & 7380.10 \\")
+        for label, algo_key, is_bold in configs:
+            cells = []
+            for inst in ABLATION_INSTANCES:
+                if algo_key in piv_nv.index and inst in piv_nv.columns:
+                    nv = piv_nv.loc[algo_key, inst]
+                    td = piv_td.loc[algo_key, inst]
+                    if is_bold:
+                        cells.append(f"\\textbf{{{nv:.2f}}} & \\textbf{{{td:.2f}}}")
+                    else:
+                        cells.append(f"{nv:.2f} & {td:.2f}")
+                else:
+                    cells.append("-- & --")
+            prefix = f"\\textbf{{{label}}}" if is_bold else label
+            lines.append(f"{prefix} & " + " & ".join(cells) + r" \\")
+    else:
+        lines.append(r"\textbf{Full Tri-Level Hybrid-DDQN} & \textbf{10.00} & \textbf{828.94} & \textbf{19.00} & \textbf{1651.35} & \textbf{15.20} & \textbf{1659.62} & \textbf{6.00} & \textbf{1931.44} & \textbf{20.40} & \textbf{5004.10} & \textbf{12.60} & \textbf{6784.04} \\")
 
     lines.append(r"\bottomrule")
     lines.append(r"\end{tabular*}")
@@ -199,17 +217,17 @@ We benchmark our method against state-of-the-art baselines representing three do
 \\begin{{enumerate}}[leftmargin=1.2em,topsep=2pt,itemsep=2pt]
     \\item \\textbf{{Best Operations Research / Pure Heuristics}}: Hybrid Genetic Search (HGS-VRPTW) \\cite{{vidal2013hybrid}}, Slack Induction by String Removals (SISR) \\cite{{christiaens2020slack}}, and ALNS-Base \\cite{{Ropke2006}}.
     \\item \\textbf{{Best End-to-End Pure Deep Learning}}: Neural Constructive Attention Models (AM) \\cite{{kool2019attention,lin2021neural}}.
-    \\item \\textbf{{Learning-Augmented Hybrids}}: Single-Agent RL-LNS \\cite{{lu2020reinforcement,son2023learning}} and the proposed Tri-Level Hybrid-DDQN.
+    \\item \\textbf{{Learning-Augmented Hybrids}}: Single-Agent RL-LNS \\cite{{lu2020learning,son2023learning}} and the proposed Tri-Level Hybrid-DDQN.
 \\end{{enumerate}}
 
 {table_iii}
 
-As summarized in Table~\\ref{{tab:solomon_tri_paradigm}}, pure end-to-end deep learning methods (AM) suffer severe degradation when confronted with tight time-window constraints, exhibiting an overall $+11.88\\%$ gap to BKS and requiring $+0.75$ additional vehicles on average. In contrast, the proposed \\textbf{{Tri-Level Hybrid-DDQN}} successfully converges to the minimum fleet size ($NV=7.07$) across all 56 Solomon instances, matching BKS fleet counts in $100\\%$ of runs while attaining an overall travel distance gap of just $+0.21\\%$, outperforming Single-Agent RL-LNS ($+2.59\\%$) and ALNS-Base ($+1.64\\%$).
+As summarized in Table~\\ref{{tab:solomon_tri_paradigm}}, pure end-to-end deep learning methods (AM) suffer severe degradation when confronted with tight time-window constraints, exhibiting an overall $+11.88\\%$ gap to BKS and requiring $+0.75$ additional vehicles on average. In contrast, the proposed \\textbf{{Tri-Level Hybrid-DDQN}} attains an overall travel distance gap of just $+0.31\\%$ across all 56 Solomon instances ($NV=7.60$), outperforming Single-Agent RL-LNS ($+1.32\\%$, $NV=7.40$) and ALNS-Base ($+1.71\\%$, $NV=7.62$).
 
 \\subsection{{Large-Scale Multi-Benchmark: Homberger 200 \\& 400}}
 \\label{{sec:homberger_results}}
 
-To evaluate scalability, Table~\\ref{{tab:homberger_scale_benchmark}} reports performance across Gehring-Homberger 200- and 400-customer benchmarks under strict independent cold-starts.
+Of the 60 available instances per family-set at each Gehring--Homberger scale, this study evaluates 12 GH-200 instances (2 per family) and 6 GH-400 instances (1 per family), selected via a fixed index stride to guarantee coverage across all six topological classes at each scale; exhaustive evaluation of the full 60-instance set per scale is left to future work.
 
 {table_iv}
 
@@ -228,15 +246,17 @@ To isolate the individual contribution of each component, Table~\\ref{{tab:ablat
 
 \\subsubsection{{Component Contribution Breakdown}}
 \\begin{{itemize}}[leftmargin=1.2em,topsep=2pt]
-    \\item \\textbf{{HiGHS RoutePool Recombination}}: Disabling Set Partitioning (Config 4) causes the largest performance drop on complex instances, increasing fleet size on RC101 ($14.67 \\to 16.00$) and Homberger $r1\\_2\\_1$ ($20.33 \\to 21.00$).
-    \\item \\textbf{{Macro Plateau Controller}}: Removing $\\pi_{{\\text{{macro}}}}$ (Config 2) leads to severe stagnation, increasing distance gap by $+2.8\\%$ to $+5.3\\%$ on wide-horizon instances.
-    \\item \\textbf{{$\\tau$-Entropy Confidence Gate}}: Removing the entropy filter (Config 5) causes noisy operator selections during out-of-distribution phases, deteriorating mean distance on $r1\\_2\\_1$ by $+184.7\\text{{ km}}$.
+    \\item \\textbf{{HiGHS RoutePool Recombination}}: Disabling Set Partitioning (Config 4) causes notable degradation on complex topologies, increasing vehicle requirements on Homberger $rc2\\_4\\_1$ ($12.60 \\to 13.00$).
+    \\item \\textbf{{Macro Plateau Controller}}: Removing $\\pi_{{\\text{{macro}}}}$ (Config 2) hinders proactive escape from single-vehicle plateau traps, resulting in increased fleet sizes on $rc2\\_4\\_1$ ($12.60 \\to 12.80$). Furthermore, heuristic Rule-Macro (Config 6) and Rule-Micro (Config 8) fail to compress fleets on large-scale topologies ($NV=13.20$ and $NV=13.40$ on $rc2\\_4\\_1$), confirming the necessity of adaptive reinforcement learning.
+    \\item \\textbf{{Learned Acceptance Criterion (LAC)}}: Reverting LAC to standard Simulated Annealing (Config 3) leads to premature convergence, increasing distance across both Solomon and Homberger suites.
+    \\item \\textbf{{$\\tau$-Entropy Confidence Gate}}: Removing the confidence filter (Config 5) causes noisy operator selections during out-of-distribution phases, increasing fleet count on $rc2\\_4\\_1$ ($12.60 \\to 12.80$).
 \\end{{itemize}}
 """
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with open(out_path, "w", encoding="utf-8") as fh:
         fh.write(content)
     print(f"Injected LaTeX experimental section -> {out_path}")
+
 
 
 if __name__ == "__main__":

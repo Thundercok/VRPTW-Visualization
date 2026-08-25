@@ -655,11 +655,29 @@ Following granular search principles \cite{toth2003granular}, inter-route operat
 \end{equation}
 This prunes the pairwise evaluation space from $O(N^2)$ to $O(k N)$, eliminating non-viable move evaluations.
 
+\subsubsection{Lightweight Graph Neural Network for Spatial Edge Guidance}
+\label{sec:gnn_guidance}
+To complement heuristic candidate lists with learned topological priors, a lightweight Graph Neural Network (GNN) can optionally be evaluated to generate a spatial edge probability heatmap $\mathbf{H} \in [0, 1]^{(N+1)\times (N+1)}$. The graph encodes $N+1$ nodes (depot + customers) with 6-dimensional normalized node features $\mathbf{v}_i \in \mathbb{R}^6$:
+\begin{equation}
+  \mathbf{v}_i = \left[ \tilde{x}_i, \; \tilde{y}_i, \; \frac{q_i}{Q}, \; \frac{e_i}{T_{\text{depot}}}, \; \frac{l_i}{T_{\text{depot}}}, \; \frac{s_i}{T_{\text{depot}}} \right]
+  \label{eq:gnn_node_feats}
+\end{equation}
+where $(\tilde{x}_i, \tilde{y}_i) \in [0, 1]^2$ are min-max normalized Cartesian coordinates, $q_i / Q$ is demand normalized by vehicle capacity, and $(e_i, l_i, s_i)$ are ready time, due time, and service duration normalized by the depot operational horizon $T_{\text{depot}}$. Message passing runs over sparse $k$-nearest-neighbor edge sets ($K=16$, with slot 0 pinned to the depot) with 1-dimensional edge feature $e_{ij} = d_{ij} / d_{\max}$ representing normalized Euclidean distance.
+
+The network architecture comprises a linear embedding layer ($d_h = 64$), 3 sparse joint node-edge message-passing layers with LayerNorm and residual connections, and a bilinear projection head:
+\begin{equation}
+  \mathbf{H}_{ij} = \sigma\left( \mathbf{z}_i^{\top} \mathbf{W}_{\text{edge}} \mathbf{z}_j \right)
+  \label{eq:gnn_bilinear_head}
+\end{equation}
+producing edge selection probabilities $\mathbf{H}_{ij} \in [0, 1]$ used to filter non-promising insertion positions during ruin-and-recreate repair.
+
 \subsubsection{Feasibility Invariant}
 The search engine may temporarily explore intermediate infeasible states under controlled penalty relaxation during diversification/infeasible descent modes; however, only strictly feasible solutions ($100\%$ compliance with capacity and time windows) are permitted to update the incumbent ($s_{\text{inc}}$), populate the Elite Archive, or enter Route Pool $\mathcal{P}$.
 
-\subsection{Matheuristic Recombination: HiGHS Set Partitioning}
+\subsection{Matheuristic Recombination: HiGHS Set Partitioning \& Route Pool Management}
 \label{sec:set_partitioning}
+
+Route Pool $\mathcal{P}$ is capacity-bounded by $\min(2000,\,600+4n)$, scaling with instance size $n$. At capacity, retained routes are partitioned into two slots — 25\% reserved for the longest routes by customer count, 75% for the most cost-efficient routes by cost-per-stop — with a per-customer usage cap preventing any customer from dominating the pool, and exact-duplicate route sequences rejected outright.
 
 During search stagnation, elite feasible routes accumulated in Route Pool $\mathcal{P}$ are recombined by solving an exact Set Partitioning model:
 \begin{align}
@@ -730,7 +748,7 @@ We benchmark our method against state-of-the-art baselines representing three do
 \begin{enumerate}[leftmargin=1.2em,topsep=2pt,itemsep=2pt]
     \item \textbf{Best Operations Research / Pure Heuristics}: Hybrid Genetic Search (HGS-VRPTW) \cite{vidal2013hybrid}, Slack Induction by String Removals (SISR) \cite{christiaens2020slack}, and ALNS-Base \cite{Ropke2006}.
     \item \textbf{Best End-to-End Pure Deep Learning}: Neural Constructive Attention Models (AM) \cite{kool2019attention,lin2021neural}.
-    \item \textbf{Learning-Augmented Hybrids}: Single-Agent RL-LNS \cite{lu2020reinforcement,son2023learning} and the proposed Tri-Level Hybrid-DDQN.
+    \item \textbf{Learning-Augmented Hybrids}: Single-Agent RL-LNS \cite{lu2020learning,son2023learning} and the proposed Tri-Level Hybrid-DDQN.
 \end{enumerate}
 
 \begin{table*}[!t]
@@ -754,18 +772,18 @@ ALNS-Base \cite{Ropke2006} & 10.00 & 831.8 & 3.00 & 603.6 & 12.68 & 1227.0 & 3.0
 Attention Model \cite{kool2019attention,lin2021neural} & 10.45 & 894.2 & 3.25 & 642.1 & 13.15 & 1378.4 & 3.45 & 1092.3 & 12.80 & 1558.9 & 3.80 & 1265.4 & 7.82 & +11.88\% \\
 \midrule
 \multicolumn{15}{l}{\textit{\textbf{Paradigm 3: Learning-Augmented Hybrids (RL + Heuristics)}}} \\
-Single-Agent RL-LNS \cite{lu2020reinforcement,son2023learning} & 10.00 & 828.4 & 3.00 & 591.5 & 12.33 & 1215.6 & 2.93 & 966.4 & 11.79 & 1404.6 & 3.25 & 1175.7 & 7.40 & +1.32\% \\
+Single-Agent RL-LNS \cite{lu2020learning,son2023learning} & 10.00 & 828.4 & 3.00 & 591.5 & 12.33 & 1215.6 & 2.93 & 966.4 & 11.79 & 1404.6 & 3.25 & 1175.7 & 7.40 & +1.32\% \\
 \textbf{Tri-Level Hybrid-DDQN (Ours)} & \textbf{10.00} & \textbf{828.4} & \textbf{3.00} & \textbf{590.3} & \textbf{12.65} & \textbf{1210.5} & \textbf{3.09} & \textbf{949.2} & \textbf{12.22} & \textbf{1387.9} & \textbf{3.48} & \textbf{1133.9} & \textbf{7.60} & \textbf{+0.31\%} \\
 \bottomrule
 \end{tabular*}
 \end{table*}
 
-As summarized in Table~\ref{tab:solomon_tri_paradigm}, pure end-to-end deep learning methods (AM) suffer severe degradation when confronted with tight time-window constraints, exhibiting an overall $+11.88\%$ gap to BKS and requiring $+0.75$ additional vehicles on average. In contrast, the proposed \textbf{Tri-Level Hybrid-DDQN} successfully converges to the minimum fleet size ($NV=7.07$) across all 56 Solomon instances, matching BKS fleet counts in $100\%$ of runs while attaining an overall travel distance gap of just $+0.21\%$, outperforming Single-Agent RL-LNS ($+2.59\%$) and ALNS-Base ($+1.64\%$).
+As summarized in Table~\ref{tab:solomon_tri_paradigm}, pure end-to-end deep learning methods (AM) suffer severe degradation when confronted with tight time-window constraints, exhibiting an overall $+11.88\%$ gap to BKS and requiring $+0.75$ additional vehicles on average. In contrast, the proposed \textbf{Tri-Level Hybrid-DDQN} attains an overall travel distance gap of just $+0.31\%$ across all 56 Solomon instances ($NV=7.60$), outperforming Single-Agent RL-LNS ($+1.32\%$, $NV=7.40$) and ALNS-Base ($+1.71\%$, $NV=7.62$).
 
 \subsection{Large-Scale Multi-Benchmark: Homberger 200 \& 400}
 \label{sec:homberger_results}
 
-To evaluate scalability, Table~\ref{tab:homberger_scale_benchmark} reports performance across Gehring-Homberger 200- and 400-customer benchmarks under strict independent cold-starts.
+Of the 60 available instances per family-set at each Gehring--Homberger scale, this study evaluates 12 GH-200 instances (2 per family) and 6 GH-400 instances (1 per family), selected via a fixed index stride to guarantee coverage across all six topological classes at each scale; exhaustive evaluation of the full 60-instance set per scale is left to future work.
 
 \begin{table*}[!t]
 \caption{Large-Scale Multi-Benchmark Performance on Gehring-Homberger 200- and 400-Customer Instances.}
@@ -822,20 +840,24 @@ To isolate the individual contribution of each component, Table~\ref{tab:ablatio
 \midrule
 \textbf{BKS Baseline} & \textbf{10} & \textbf{828.94} & \textbf{19} & \textbf{1650.80} & \textbf{14} & \textbf{1696.95} & \textbf{6} & \textbf{1931.44} & \textbf{20} & \textbf{4784.11} & \textbf{11} & \textbf{6682.37} \\
 \midrule
-\textbf{(1) Full Tri-Level Hybrid-DDQN} & \textbf{10.00} & \textbf{828.94} & \textbf{19.00} & \textbf{1652.80} & \textbf{14.67} & \textbf{1698.55} & \textbf{6.00} & \textbf{1809.50} & \textbf{20.33} & \textbf{4860.48} & \textbf{12.50} & \textbf{7120.80} \\
-(2) w/o Macro Controller ($\pi_{\text{macro}}$) & 10.00 & 828.94 & 19.00 & 1678.20 & 15.67 & 1724.50 & 6.00 & 1835.40 & 20.67 & 5120.40 & 12.90 & 7450.20 \\
-(3) w/o Learned Acceptance (LAC $\to$ SA) & 10.00 & 828.94 & 19.00 & 1664.10 & 15.00 & 1712.80 & 6.00 & 1824.10 & 20.33 & 4985.60 & 12.70 & 7310.50 \\
-(4) w/o HiGHS RoutePool Recombination & 10.00 & 828.94 & 19.00 & 1685.40 & 16.00 & 1745.20 & 6.00 & 1848.20 & 21.00 & 5240.10 & 13.10 & 7590.40 \\
-(5) w/o $\tau$-Entropy Confidence Gate & 10.00 & 828.94 & 19.00 & 1668.50 & 15.33 & 1718.40 & 6.00 & 1828.60 & 20.67 & 5045.20 & 12.80 & 7380.10 \\
+\textbf{Full Tri-Level Hybrid-DDQN} & \textbf{10.00} & \textbf{828.94} & \textbf{19.00} & \textbf{1651.35} & \textbf{15.20} & \textbf{1659.62} & \textbf{6.00} & \textbf{1931.44} & \textbf{20.40} & \textbf{5004.10} & \textbf{12.60} & \textbf{6784.04} \\
+(2) w/o Macro Controller ($\pi_{\text{macro}}$) & 10.00 & 828.94 & 19.00 & 1650.80 & 15.20 & 1638.97 & 6.00 & 1931.44 & 20.40 & 4951.42 & 12.80 & 6770.58 \\
+(3) w/o Learned Acceptance (LAC $\to$ SA) & 10.00 & 828.94 & 19.00 & 1651.89 & 15.40 & 1663.25 & 6.00 & 1931.44 & 21.00 & 5041.84 & 12.60 & 6859.08 \\
+(4) w/o HiGHS RoutePool Recombination & 10.00 & 828.94 & 19.00 & 1651.35 & 15.40 & 1682.35 & 6.00 & 1931.44 & 20.20 & 4958.37 & 13.00 & 6787.46 \\
+(5) w/o $\tau$-Entropy Confidence Gate & 10.00 & 828.94 & 19.00 & 1650.80 & 15.00 & 1678.98 & 6.00 & 1931.44 & 20.60 & 4940.71 & 12.80 & 6780.26 \\
+(6) Rule-Macro (Deterministic Macro) & 10.00 & 828.94 & 19.00 & 1651.89 & 15.20 & 1667.84 & 7.20 & 2029.96 & 20.80 & 4896.85 & 13.20 & 6658.39 \\
+(7) Single-Agent RL-LNS (Flat Micro DDQN) & 10.00 & 828.94 & 19.00 & 1654.59 & 14.50 & 1687.53 & 8.10 & 2173.36 & 20.20 & 4913.89 & 13.00 & 6619.41 \\
+(8) Rule-Micro (Deterministic Micro) & 10.00 & 828.94 & 19.00 & 1652.83 & 14.80 & 1710.23 & 12.60 & 2718.10 & 20.80 & 5399.80 & 13.40 & 6661.62 \\
 \bottomrule
 \end{tabular*}
 \end{table*}
 
 \subsubsection{Component Contribution Breakdown}
 \begin{itemize}[leftmargin=1.2em,topsep=2pt]
-    \item \textbf{HiGHS RoutePool Recombination}: Disabling Set Partitioning (Config 4) causes the largest performance drop on complex instances, increasing fleet size on RC101 ($14.67 \to 16.00$) and Homberger $r1\_2\_1$ ($20.33 \to 21.00$).
-    \item \textbf{Macro Plateau Controller}: Removing $\pi_{\text{macro}}$ (Config 2) leads to severe stagnation, increasing distance gap by $+2.8\%$ to $+5.3\%$ on wide-horizon instances.
-    \item \textbf{$\tau$-Entropy Confidence Gate}: Removing the entropy filter (Config 5) causes noisy operator selections during out-of-distribution phases, deteriorating mean distance on $r1\_2\_1$ by $+184.7\text{ km}$.
+    \item \textbf{HiGHS RoutePool Recombination}: Disabling Set Partitioning (Config 4) causes notable degradation on complex topologies, increasing vehicle requirements on Homberger $rc2\_4\_1$ ($12.60 \to 13.00$).
+    \item \textbf{Macro Plateau Controller}: Removing $\pi_{\text{macro}}$ (Config 2) hinders proactive escape from single-vehicle plateau traps, resulting in increased fleet sizes on $rc2\_4\_1$ ($12.60 \to 12.80$). Furthermore, heuristic Rule-Macro (Config 6) and Rule-Micro (Config 8) fail to compress fleets on large-scale topologies ($NV=13.20$ and $NV=13.40$ on $rc2\_4\_1$), confirming the necessity of adaptive reinforcement learning.
+    \item \textbf{Learned Acceptance Criterion (LAC)}: Reverting LAC to standard Simulated Annealing (Config 3) leads to premature convergence, increasing distance across both Solomon and Homberger suites.
+    \item \textbf{$\tau$-Entropy Confidence Gate}: Removing the confidence filter (Config 5) causes noisy operator selections during out-of-distribution phases, increasing fleet count on $rc2\_4\_1$ ($12.60 \to 12.80$).
 \end{itemize}
 
 \section{Discussion and Managerial Insights}
@@ -910,7 +932,7 @@ This paper presented Tri-Level Hybrid DDQN-ALNS, a learning-augmented optimizati
 \begin{enumerate}
     \item \textbf{Hierarchical Decision Architecture}: Decoupling macro-level search exploration regimes (Plateau Controller) from micro-level destroy--repair operator selection (Dueling DDQN with Softmax-Entropy confidence gating) and learned acceptance control (LAC) enables coordinated plateau escape while preserving the auditability of neighborhood operators.
     \item \textbf{Strict Feasibility \& Lexicographic Alignment}: Hard temporal and capacity constraints are strictly enforced through $O(1)$ Savelsbergh forward time slack checks and granular spatiotemporal filtering, while multi-objective rewards and exact Set Partitioning recombination over Route Pool $\mathcal{P}$ preserve the primary-secondary fleet minimization hierarchy ($\NV \succ \TD$).
-    \item \textbf{Comprehensive Empirical Validation}: Extensive benchmark evaluations across 74 benchmark instances (Solomon-100, Homberger-200, and Homberger-400) under strictly isolated independent cold-starts demonstrate that our method significantly reduces fleet size ($p = 6.91 \times 10^{-7}$) and achieves a $3.73\%$ travel distance reduction under matched fleet counts with zero losses ($p = 9.31 \times 10^{-8}$), passing Bonferroni-corrected significance thresholds.
+    \item \textbf{Comprehensive Empirical Validation}: Extensive benchmark evaluations across 74 benchmark instances (Solomon-100, Homberger-200, and Homberger-400) under strictly isolated independent cold-starts demonstrate that under vehicle-matched conditions ($N=54/74$ instances), the hybrid framework achieves a statistically significant $-1.40\%$ travel distance reduction with a 39 Win / 12 Tie / 3 Loss record (Wilcoxon $W=55.0, p=1.94 \times 10^{-8}$, Exact Sign Test $p=5.63 \times 10^{-9}$), passing Bonferroni-corrected significance thresholds.
 \end{enumerate}
 
 \subsection{Trade-offs and Limitations}

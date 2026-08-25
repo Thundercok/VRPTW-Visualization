@@ -241,11 +241,29 @@ Following granular search principles \cite{toth2003granular}, inter-route operat
 \end{equation}
 This prunes the pairwise evaluation space from $O(N^2)$ to $O(k N)$, eliminating non-viable move evaluations.
 
+\subsubsection{Lightweight Graph Neural Network for Spatial Edge Guidance}
+\label{sec:gnn_guidance}
+To complement heuristic candidate lists with learned topological priors, a lightweight Graph Neural Network (GNN) can optionally be evaluated to generate a spatial edge probability heatmap $\mathbf{H} \in [0, 1]^{(N+1)\times (N+1)}$. The graph encodes $N+1$ nodes (depot + customers) with 6-dimensional normalized node features $\mathbf{v}_i \in \mathbb{R}^6$:
+\begin{equation}
+  \mathbf{v}_i = \left[ \tilde{x}_i, \; \tilde{y}_i, \; \frac{q_i}{Q}, \; \frac{e_i}{T_{\text{depot}}}, \; \frac{l_i}{T_{\text{depot}}}, \; \frac{s_i}{T_{\text{depot}}} \right]
+  \label{eq:gnn_node_feats}
+\end{equation}
+where $(\tilde{x}_i, \tilde{y}_i) \in [0, 1]^2$ are min-max normalized Cartesian coordinates, $q_i / Q$ is demand normalized by vehicle capacity, and $(e_i, l_i, s_i)$ are ready time, due time, and service duration normalized by the depot operational horizon $T_{\text{depot}}$. Message passing runs over sparse $k$-nearest-neighbor edge sets ($K=16$, with slot 0 pinned to the depot) with 1-dimensional edge feature $e_{ij} = d_{ij} / d_{\max}$ representing normalized Euclidean distance.
+
+The network architecture comprises a linear embedding layer ($d_h = 64$), 3 sparse joint node-edge message-passing layers with LayerNorm and residual connections, and a bilinear projection head:
+\begin{equation}
+  \mathbf{H}_{ij} = \sigma\left( \mathbf{z}_i^{\top} \mathbf{W}_{\text{edge}} \mathbf{z}_j \right)
+  \label{eq:gnn_bilinear_head}
+\end{equation}
+producing edge selection probabilities $\mathbf{H}_{ij} \in [0, 1]$ used to filter non-promising insertion positions during ruin-and-recreate repair.
+
 \subsubsection{Feasibility Invariant}
 The search engine may temporarily explore intermediate infeasible states under controlled penalty relaxation during diversification/infeasible descent modes; however, only strictly feasible solutions ($100\%$ compliance with capacity and time windows) are permitted to update the incumbent ($s_{\text{inc}}$), populate the Elite Archive, or enter Route Pool $\mathcal{P}$.
 
-\subsection{Matheuristic Recombination: HiGHS Set Partitioning}
+\subsection{Matheuristic Recombination: HiGHS Set Partitioning \& Route Pool Management}
 \label{sec:set_partitioning}
+
+Route Pool $\mathcal{P}$ is capacity-bounded by $\min(2000,\,600+4n)$, scaling with instance size $n$. At capacity, retained routes are partitioned into two slots — 25\% reserved for the longest routes by customer count, 75% for the most cost-efficient routes by cost-per-stop — with a per-customer usage cap preventing any customer from dominating the pool, and exact-duplicate route sequences rejected outright.
 
 During search stagnation, elite feasible routes accumulated in Route Pool $\mathcal{P}$ are recombined by solving an exact Set Partitioning model:
 \begin{align}
