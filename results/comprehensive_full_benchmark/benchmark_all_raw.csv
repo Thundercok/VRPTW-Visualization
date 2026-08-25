@@ -1,0 +1,1351 @@
+Instance,Family,Algorithm,Seed,NV,TD,Time_Sec,Feasible,BKS_NV,BKS_TD,Gap_NV,Gap_TD_Pct,Matched_NV,Tag
+C101,C1,Full Hybrid-DDQN,44,10,828.94,14.7,True,10,828.94,0,-0.0,True,ablation
+C101,C1,w/o Macro Controller,43,10,828.94,14.88,True,10,828.94,0,-0.0,True,ablation
+C101,C1,Full Hybrid-DDQN,45,10,828.94,15.53,True,10,828.94,0,-0.0,True,ablation
+C101,C1,Full Hybrid-DDQN,43,10,828.94,19.11,True,10,828.94,0,-0.0,True,ablation
+C101,C1,Full Hybrid-DDQN,42,10,828.94,19.76,True,10,828.94,0,-0.0,True,ablation
+C101,C1,w/o Macro Controller,42,10,828.94,20.91,True,10,828.94,0,-0.0,True,ablation
+C101,C1,w/o Macro Controller,45,10,828.94,13.04,True,10,828.94,0,-0.0,True,ablation
+C101,C1,w/o Macro Controller,44,10,828.94,18.09,True,10,828.94,0,-0.0,True,ablation
+C101,C1,w/o LAC,44,10,828.94,13.58,True,10,828.94,0,-0.0,True,ablation
+C101,C1,w/o LAC,42,10,828.94,19.05,True,10,828.94,0,-0.0,True,ablation
+C101,C1,w/o LAC,43,10,828.94,18.47,True,10,828.94,0,-0.0,True,ablation
+C101,C1,w/o Macro Controller,46,10,828.94,23.19,True,10,828.94,0,-0.0,True,ablation
+C101,C1,w/o LAC,45,10,828.94,11.98,True,10,828.94,0,-0.0,True,ablation
+C101,C1,Full Hybrid-DDQN,46,10,828.94,40.94,True,10,828.94,0,-0.0,True,ablation
+C101,C1,w/o RoutePool Recombination,44,10,828.94,10.36,True,10,828.94,0,-0.0,True,ablation
+C101,C1,w/o RoutePool Recombination,45,10,828.94,11.06,True,10,828.94,0,-0.0,True,ablation
+C101,C1,w/o RoutePool Recombination,42,10,828.94,15.73,True,10,828.94,0,-0.0,True,ablation
+C101,C1,w/o RoutePool Recombination,43,10,828.94,14.38,True,10,828.94,0,-0.0,True,ablation
+C101,C1,w/o Entropy Confidence Gate,42,10,828.94,17.17,True,10,828.94,0,-0.0,True,ablation
+C101,C1,w/o Entropy Confidence Gate,44,10,828.94,11.74,True,10,828.94,0,-0.0,True,ablation
+C101,C1,w/o Entropy Confidence Gate,45,10,828.94,11.35,True,10,828.94,0,-0.0,True,ablation
+C101,C1,w/o LAC,46,10,828.94,34.29,True,10,828.94,0,-0.0,True,ablation
+C101,C1,w/o Entropy Confidence Gate,43,10,828.94,21.7,True,10,828.94,0,-0.0,True,ablation
+C101,C1,Rule-Macro,44,10,828.94,10.26,True,10,828.94,0,-0.0,True,ablation
+C101,C1,Rule-Macro,43,10,828.94,10.93,True,10,828.94,0,-0.0,True,ablation
+C101,C1,w/o RoutePool Recombination,46,10,828.94,33.66,True,10,828.94,0,-0.0,True,ablation
+C101,C1,Rule-Macro,42,10,828.94,17.47,True,10,828.94,0,-0.0,True,ablation
+C101,C1,Rule-Macro,45,10,828.94,10.38,True,10,828.94,0,-0.0,True,ablation
+C101,C1,w/o Entropy Confidence Gate,46,10,828.94,28.63,True,10,828.94,0,-0.0,True,ablation
+C101,C1,Rule-Micro,44,10,828.94,9.21,True,10,828.94,0,-0.0,True,ablation
+C101,C1,Rule-Macro,46,10,828.94,18.11,True,10,828.94,0,-0.0,True,ablation
+C101,C1,Rule-Micro,42,10,828.94,19.41,True,10,828.94,0,-0.0,True,ablation
+C101,C1,Rule-Micro,43,10,828.94,19.42,True,10,828.94,0,-0.0,True,ablation
+C101,C1,Single-Agent RL-LNS,43,10,828.94,10.95,True,10,828.94,0,-0.0,True,ablation
+C101,C1,Single-Agent RL-LNS,42,10,828.94,15.75,True,10,828.94,0,-0.0,True,ablation
+C101,C1,Single-Agent RL-LNS,44,10,828.94,9.95,True,10,828.94,0,-0.0,True,ablation
+C101,C1,Rule-Micro,46,10,828.94,23.1,True,10,828.94,0,-0.0,True,ablation
+C101,C1,Single-Agent RL-LNS,45,10,828.94,12.17,True,10,828.94,0,-0.0,True,ablation
+C101,C1,Single-Agent RL-LNS,46,10,828.94,12.49,True,10,828.94,0,-0.0,True,ablation
+C101,C1,Rule-Micro,45,10,828.94,34.05,True,10,828.94,0,-0.0,True,ablation
+R101,R1,w/o Macro Controller,43,19,1650.8,28.71,True,19,1650.8,0,-0.0,True,ablation
+R101,R1,w/o Macro Controller,42,19,1650.8,45.08,True,19,1650.8,0,-0.0,True,ablation
+R101,R1,Full Hybrid-DDQN,42,19,1652.17,57.07,True,19,1650.8,0,0.08,True,ablation
+R101,R1,Full Hybrid-DDQN,43,19,1652.17,56.44,True,19,1650.8,0,0.08,True,ablation
+R101,R1,Full Hybrid-DDQN,44,19,1650.8,57.0,True,19,1650.8,0,-0.0,True,ablation
+R101,R1,Full Hybrid-DDQN,45,19,1650.8,56.54,True,19,1650.8,0,-0.0,True,ablation
+R101,R1,Full Hybrid-DDQN,46,19,1650.8,56.03,True,19,1650.8,0,-0.0,True,ablation
+R101,R1,w/o Macro Controller,44,19,1650.8,30.64,True,19,1650.8,0,-0.0,True,ablation
+R101,R1,w/o Macro Controller,46,19,1650.8,46.79,True,19,1650.8,0,-0.0,True,ablation
+R101,R1,w/o Macro Controller,45,19,1650.8,51.5,True,19,1650.8,0,-0.0,True,ablation
+R101,R1,w/o LAC,42,19,1653.53,57.06,True,19,1650.8,0,0.17,True,ablation
+R101,R1,w/o LAC,43,19,1650.8,58.62,True,19,1650.8,0,-0.0,True,ablation
+R101,R1,w/o LAC,44,19,1650.8,58.95,True,19,1650.8,0,-0.0,True,ablation
+R101,R1,w/o LAC,45,19,1653.53,57.98,True,19,1650.8,0,0.17,True,ablation
+R101,R1,w/o LAC,46,19,1650.8,59.71,True,19,1650.8,0,-0.0,True,ablation
+R101,R1,w/o RoutePool Recombination,42,19,1653.53,58.58,True,19,1650.8,0,0.17,True,ablation
+R101,R1,w/o RoutePool Recombination,43,19,1650.8,58.23,True,19,1650.8,0,-0.0,True,ablation
+R101,R1,w/o RoutePool Recombination,44,19,1650.8,55.87,True,19,1650.8,0,-0.0,True,ablation
+R101,R1,w/o RoutePool Recombination,45,19,1650.8,56.91,True,19,1650.8,0,-0.0,True,ablation
+R101,R1,w/o RoutePool Recombination,46,19,1650.8,56.45,True,19,1650.8,0,-0.0,True,ablation
+R101,R1,w/o Entropy Confidence Gate,42,19,1650.8,56.5,True,19,1650.8,0,-0.0,True,ablation
+R101,R1,w/o Entropy Confidence Gate,43,19,1650.8,56.82,True,19,1650.8,0,-0.0,True,ablation
+R101,R1,w/o Entropy Confidence Gate,44,19,1650.8,57.22,True,19,1650.8,0,-0.0,True,ablation
+R101,R1,w/o Entropy Confidence Gate,45,19,1650.8,56.86,True,19,1650.8,0,-0.0,True,ablation
+R101,R1,w/o Entropy Confidence Gate,46,19,1650.8,56.78,True,19,1650.8,0,-0.0,True,ablation
+R101,R1,Rule-Macro,42,19,1653.53,55.45,True,19,1650.8,0,0.17,True,ablation
+R101,R1,Rule-Macro,43,19,1650.8,57.01,True,19,1650.8,0,-0.0,True,ablation
+R101,R1,Rule-Macro,44,19,1650.8,56.25,True,19,1650.8,0,-0.0,True,ablation
+R101,R1,Rule-Macro,45,19,1653.53,57.22,True,19,1650.8,0,0.17,True,ablation
+R101,R1,Rule-Macro,46,19,1650.8,58.66,True,19,1650.8,0,-0.0,True,ablation
+R101,R1,Rule-Micro,42,19,1653.34,59.94,True,19,1650.8,0,0.15,True,ablation
+R101,R1,Single-Agent RL-LNS,42,19,1655.89,36.64,True,19,1650.8,0,0.31,True,ablation
+R101,R1,Rule-Micro,43,19,1655.39,60.02,True,19,1650.8,0,0.28,True,ablation
+R101,R1,Rule-Micro,44,19,1650.8,59.1,True,19,1650.8,0,-0.0,True,ablation
+R101,R1,Rule-Micro,45,19,1653.34,57.66,True,19,1650.8,0,0.15,True,ablation
+R101,R1,Rule-Micro,46,19,1651.26,57.74,True,19,1650.8,0,0.03,True,ablation
+R101,R1,Single-Agent RL-LNS,43,19,1650.8,36.19,True,19,1650.8,0,-0.0,True,ablation
+R101,R1,Single-Agent RL-LNS,44,19,1654.93,32.83,True,19,1650.8,0,0.25,True,ablation
+R101,R1,Single-Agent RL-LNS,45,19,1654.52,36.42,True,19,1650.8,0,0.23,True,ablation
+R101,R1,Single-Agent RL-LNS,46,19,1656.8,47.44,True,19,1650.8,0,0.36,True,ablation
+RC101,RC1,Full Hybrid-DDQN,44,15,1648.5,60.52,True,14,1696.95,1,-2.85,False,ablation
+RC101,RC1,Full Hybrid-DDQN,43,15,1637.66,63.81,True,14,1696.95,1,-3.49,False,ablation
+RC101,RC1,Full Hybrid-DDQN,42,16,1664.36,70.34,True,14,1696.95,2,-1.92,False,ablation
+RC101,RC1,Full Hybrid-DDQN,45,15,1661.79,60.08,True,14,1696.95,1,-2.07,False,ablation
+RC101,RC1,Full Hybrid-DDQN,46,15,1685.77,60.01,True,14,1696.95,1,-0.66,False,ablation
+RC101,RC1,w/o Macro Controller,42,15,1642.86,60.02,True,14,1696.95,1,-3.19,False,ablation
+RC101,RC1,w/o Macro Controller,43,15,1639.23,60.9,True,14,1696.95,1,-3.4,False,ablation
+RC101,RC1,w/o Macro Controller,44,15,1627.71,61.85,True,14,1696.95,1,-4.08,False,ablation
+RC101,RC1,w/o Macro Controller,45,16,1656.39,62.94,True,14,1696.95,2,-2.39,False,ablation
+RC101,RC1,w/o Macro Controller,46,15,1628.68,66.88,True,14,1696.95,1,-4.02,False,ablation
+RC101,RC1,w/o LAC,42,16,1662.06,60.09,True,14,1696.95,2,-2.06,False,ablation
+RC101,RC1,w/o LAC,44,15,1642.86,60.28,True,14,1696.95,1,-3.19,False,ablation
+RC101,RC1,w/o LAC,43,15,1656.32,70.93,True,14,1696.95,1,-2.39,False,ablation
+RC101,RC1,w/o LAC,45,16,1666.62,60.26,True,14,1696.95,2,-1.79,False,ablation
+RC101,RC1,w/o LAC,46,15,1688.4,63.74,True,14,1696.95,1,-0.5,False,ablation
+RC101,RC1,w/o RoutePool Recombination,43,15,1703.39,60.03,True,14,1696.95,1,0.38,False,ablation
+RC101,RC1,w/o RoutePool Recombination,42,16,1662.06,72.18,True,14,1696.95,2,-2.06,False,ablation
+RC101,RC1,w/o RoutePool Recombination,44,16,1660.1,66.3,True,14,1696.95,2,-2.17,False,ablation
+RC101,RC1,w/o RoutePool Recombination,46,15,1688.4,61.23,True,14,1696.95,1,-0.5,False,ablation
+RC101,RC1,w/o RoutePool Recombination,45,15,1697.79,71.76,True,14,1696.95,1,0.05,False,ablation
+RC101,RC1,w/o Entropy Confidence Gate,42,15,1686.27,64.26,True,14,1696.95,1,-0.63,False,ablation
+RC101,RC1,w/o Entropy Confidence Gate,43,15,1718.54,61.82,True,14,1696.95,1,1.27,False,ablation
+RC101,RC1,w/o Entropy Confidence Gate,44,15,1646.96,68.43,True,14,1696.95,1,-2.95,False,ablation
+RC101,RC1,w/o Entropy Confidence Gate,45,15,1700.38,67.44,True,14,1696.95,1,0.2,False,ablation
+RC101,RC1,w/o Entropy Confidence Gate,46,15,1642.74,60.04,True,14,1696.95,1,-3.19,False,ablation
+RC101,RC1,Rule-Macro,42,15,1662.46,60.08,True,14,1696.95,1,-2.03,False,ablation
+RC101,RC1,Rule-Macro,43,15,1695.45,60.02,True,14,1696.95,1,-0.09,False,ablation
+RC101,RC1,Rule-Macro,44,16,1666.25,63.48,True,14,1696.95,2,-1.81,False,ablation
+RC101,RC1,Rule-Macro,45,15,1666.54,60.02,True,14,1696.95,1,-1.79,False,ablation
+RC101,RC1,Rule-Macro,46,15,1648.5,60.02,True,14,1696.95,1,-2.85,False,ablation
+RC101,RC1,Rule-Micro,42,14,1742.5,60.04,True,14,1696.95,0,2.68,True,ablation
+RC101,RC1,Rule-Micro,43,15,1699.95,60.04,True,14,1696.95,1,0.18,False,ablation
+RC101,RC1,Rule-Micro,44,15,1639.23,60.8,True,14,1696.95,1,-3.4,False,ablation
+RC101,RC1,Rule-Micro,45,14,1702.68,55.38,True,14,1696.95,0,0.34,True,ablation
+RC101,RC1,Single-Agent RL-LNS,42,14,1706.76,34.89,True,14,1696.95,0,0.58,True,ablation
+RC101,RC1,Single-Agent RL-LNS,44,14,1706.76,29.02,True,14,1696.95,0,0.58,True,ablation
+RC101,RC1,Rule-Micro,46,16,1766.79,69.8,True,14,1696.95,2,4.12,False,ablation
+RC101,RC1,Single-Agent RL-LNS,43,15,1667.8,63.48,True,14,1696.95,1,-1.72,False,ablation
+RC101,RC1,Single-Agent RL-LNS,45,15,1656.32,60.04,True,14,1696.95,1,-2.39,False,ablation
+RC101,RC1,Single-Agent RL-LNS,46,15,1693.59,62.6,True,14,1696.95,1,-0.2,False,ablation
+c2_2_1,C2_200,Full Hybrid-DDQN,42,6,1931.44,120.39,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,Full Hybrid-DDQN,43,6,1931.44,120.09,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,Full Hybrid-DDQN,44,6,1931.44,120.21,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,Full Hybrid-DDQN,45,6,1931.44,125.37,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,Full Hybrid-DDQN,46,6,1931.44,120.42,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,w/o Macro Controller,42,6,1931.44,120.24,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,w/o Macro Controller,43,6,1931.44,122.69,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,w/o Macro Controller,44,6,1931.44,120.4,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,w/o Macro Controller,45,6,1931.44,120.21,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,w/o Macro Controller,46,6,1931.44,125.76,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,w/o LAC,42,6,1931.44,120.21,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,w/o LAC,43,6,1931.44,120.76,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,w/o LAC,44,6,1931.44,125.33,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,w/o LAC,45,6,1931.44,124.47,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,w/o LAC,46,6,1931.44,120.37,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,w/o RoutePool Recombination,42,6,1931.44,120.22,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,w/o RoutePool Recombination,43,6,1931.44,124.68,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,w/o RoutePool Recombination,44,6,1931.44,120.52,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,w/o RoutePool Recombination,46,6,1931.44,120.02,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,w/o RoutePool Recombination,45,6,1931.44,125.04,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,w/o Entropy Confidence Gate,42,6,1931.44,120.12,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,w/o Entropy Confidence Gate,43,6,1931.44,120.15,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,w/o Entropy Confidence Gate,44,6,1931.44,120.25,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,w/o Entropy Confidence Gate,45,6,1931.44,120.2,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,w/o Entropy Confidence Gate,46,6,1931.44,120.25,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,Rule-Macro,46,9,2177.75,339.59,True,6,1931.44,3,12.75,False,ablation
+c2_2_1,C2_200,Rule-Macro,44,6,1931.44,399.29,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,Rule-Macro,43,6,1931.44,410.57,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,Rule-Macro,42,6,1931.44,410.82,True,6,1931.44,0,0.0,True,ablation
+c2_2_1,C2_200,Rule-Macro,45,9,2177.75,346.9,True,6,1931.44,3,12.75,False,ablation
+c2_2_1,C2_200,Rule-Micro,42,18,3520.26,319.35,True,6,1931.44,12,82.26,False,ablation
+c2_2_1,C2_200,Rule-Micro,43,18,3537.01,319.84,True,6,1931.44,12,83.13,False,ablation
+c2_2_1,C2_200,Rule-Micro,46,9,2177.75,959.77,True,6,1931.44,3,12.75,False,ablation
+c2_2_1,C2_200,Single-Agent RL-LNS,43,9,2177.75,959.4,True,6,1931.44,3,12.75,False,ablation
+c2_2_1,C2_200,Single-Agent RL-LNS,45,9,2269.22,955.63,True,6,1931.44,3,17.49,False,ablation
+c2_2_1,C2_200,Single-Agent RL-LNS,42,9,2177.75,959.98,True,6,1931.44,3,12.75,False,ablation
+c2_2_1,C2_200,Rule-Micro,44,9,2177.75,961.05,True,6,1931.44,3,12.75,False,ablation
+c2_2_1,C2_200,Single-Agent RL-LNS,44,18,3520.26,960.47,True,6,1931.44,12,82.26,False,ablation
+c2_2_1,C2_200,Rule-Micro,45,9,2177.75,962.44,True,6,1931.44,3,12.75,False,ablation
+r1_2_1,R1_200,Full Hybrid-DDQN,43,20,4895.75,120.09,True,20,4784.11,0,2.33,True,ablation
+r1_2_1,R1_200,Full Hybrid-DDQN,44,20,4936.66,120.13,True,20,4784.11,0,3.19,True,ablation
+c2_2_1,C2_200,Single-Agent RL-LNS,46,6,1931.44,120.35,True,6,1931.44,0,0.0,True,ablation
+r1_2_1,R1_200,Full Hybrid-DDQN,45,21,4916.93,120.18,True,20,4784.11,1,2.78,False,ablation
+r1_2_1,R1_200,Full Hybrid-DDQN,42,21,4892.24,121.66,True,20,4784.11,1,2.26,False,ablation
+r1_2_1,R1_200,Full Hybrid-DDQN,46,20,5378.92,120.29,True,20,4784.11,0,12.43,True,ablation
+r1_2_1,R1_200,w/o Macro Controller,42,20,4986.59,120.06,True,20,4784.11,0,4.23,True,ablation
+r1_2_1,R1_200,w/o Macro Controller,45,20,5265.46,120.24,True,20,4784.11,0,10.06,True,ablation
+r1_2_1,R1_200,w/o Macro Controller,46,21,4825.67,120.08,True,20,4784.11,1,0.87,False,ablation
+r1_2_1,R1_200,w/o Macro Controller,43,20,4860.53,124.03,True,20,4784.11,0,1.6,True,ablation
+r1_2_1,R1_200,w/o LAC,44,21,5328.16,121.92,True,20,4784.11,1,11.37,False,ablation
+r1_2_1,R1_200,w/o LAC,42,21,5308.4,125.95,True,20,4784.11,1,10.96,False,ablation
+r1_2_1,R1_200,w/o LAC,43,22,4901.62,129.43,True,20,4784.11,2,2.46,False,ablation
+r1_2_1,R1_200,w/o Macro Controller,44,21,4818.85,132.93,True,20,4784.11,1,0.73,False,ablation
+r1_2_1,R1_200,w/o LAC,45,20,4872.33,120.14,True,20,4784.11,0,1.84,True,ablation
+r1_2_1,R1_200,w/o LAC,46,21,4798.71,120.53,True,20,4784.11,1,0.31,False,ablation
+r1_2_1,R1_200,w/o RoutePool Recombination,42,20,4952.22,120.08,True,20,4784.11,0,3.51,True,ablation
+r1_2_1,R1_200,w/o RoutePool Recombination,43,21,4809.83,120.11,True,20,4784.11,1,0.54,False,ablation
+r1_2_1,R1_200,w/o RoutePool Recombination,44,20,4900.27,120.1,True,20,4784.11,0,2.43,True,ablation
+r1_2_1,R1_200,w/o RoutePool Recombination,45,20,5139.94,120.16,True,20,4784.11,0,7.44,True,ablation
+r1_2_1,R1_200,w/o RoutePool Recombination,46,20,4989.58,120.12,True,20,4784.11,0,4.29,True,ablation
+r1_2_1,R1_200,w/o Entropy Confidence Gate,42,21,4838.58,120.11,True,20,4784.11,1,1.14,False,ablation
+r1_2_1,R1_200,w/o Entropy Confidence Gate,44,20,4967.7,120.06,True,20,4784.11,0,3.84,True,ablation
+r1_2_1,R1_200,w/o Entropy Confidence Gate,43,21,5103.12,125.86,True,20,4784.11,1,6.67,False,ablation
+r1_2_1,R1_200,w/o Entropy Confidence Gate,46,20,4914.77,120.36,True,20,4784.11,0,2.73,True,ablation
+r1_2_1,R1_200,Rule-Macro,42,21,4819.66,120.07,True,20,4784.11,1,0.74,False,ablation
+r1_2_1,R1_200,w/o Entropy Confidence Gate,45,21,4879.4,133.42,True,20,4784.11,1,1.99,False,ablation
+r1_2_1,R1_200,Rule-Macro,43,22,4901.62,131.2,True,20,4784.11,2,2.46,False,ablation
+r1_2_1,R1_200,Rule-Macro,44,20,4937.49,120.08,True,20,4784.11,0,3.21,True,ablation
+r1_2_1,R1_200,Rule-Macro,45,20,5025.66,120.13,True,20,4784.11,0,5.05,True,ablation
+r1_2_1,R1_200,Rule-Macro,46,21,4799.81,120.1,True,20,4784.11,1,0.33,False,ablation
+r1_2_1,R1_200,Rule-Micro,43,20,4947.06,120.14,True,20,4784.11,0,3.41,True,ablation
+r1_2_1,R1_200,Rule-Micro,42,21,6445.89,128.83,True,20,4784.11,1,34.74,False,ablation
+r1_2_1,R1_200,Rule-Micro,44,21,4899.39,120.09,True,20,4784.11,1,2.41,False,ablation
+r1_2_1,R1_200,Rule-Micro,45,21,5837.89,125.79,True,20,4784.11,1,22.03,False,ablation
+r1_2_1,R1_200,Single-Agent RL-LNS,43,20,4939.21,111.97,True,20,4784.11,0,3.24,True,ablation
+r1_2_1,R1_200,Single-Agent RL-LNS,42,20,4883.03,115.64,True,20,4784.11,0,2.07,True,ablation
+r1_2_1,R1_200,Rule-Micro,46,21,4868.78,120.06,True,20,4784.11,1,1.77,False,ablation
+r1_2_1,R1_200,Single-Agent RL-LNS,46,20,4944.52,115.54,True,20,4784.11,0,3.35,True,ablation
+r1_2_1,R1_200,Single-Agent RL-LNS,44,20,4981.19,121.55,True,20,4784.11,0,4.12,True,ablation
+r1_2_1,R1_200,Single-Agent RL-LNS,45,21,4821.5,122.1,True,20,4784.11,1,0.78,False,ablation
+rc2_4_1,RC2_400,Full Hybrid-DDQN,42,13,6798.18,241.16,True,11,6682.37,2,1.73,False,ablation
+rc2_4_1,RC2_400,Full Hybrid-DDQN,43,12,6876.83,241.22,True,11,6682.37,1,2.91,False,ablation
+rc2_4_1,RC2_400,Full Hybrid-DDQN,44,13,6652.2,241.72,True,11,6682.37,2,-0.45,False,ablation
+rc2_4_1,RC2_400,Full Hybrid-DDQN,45,13,6822.52,242.02,True,11,6682.37,2,2.1,False,ablation
+rc2_4_1,RC2_400,w/o Macro Controller,42,12,6945.92,241.28,True,11,6682.37,1,3.94,False,ablation
+rc2_4_1,RC2_400,Full Hybrid-DDQN,46,12,6770.49,241.7,True,11,6682.37,1,1.32,False,ablation
+rc2_4_1,RC2_400,w/o Macro Controller,43,13,6722.14,240.72,True,11,6682.37,2,0.6,False,ablation
+rc2_4_1,RC2_400,w/o Macro Controller,44,13,6769.67,240.64,True,11,6682.37,2,1.31,False,ablation
+rc2_4_1,RC2_400,w/o Macro Controller,45,13,6755.89,241.82,True,11,6682.37,2,1.1,False,ablation
+rc2_4_1,RC2_400,w/o Macro Controller,46,13,6659.28,241.12,True,11,6682.37,2,-0.35,False,ablation
+rc2_4_1,RC2_400,w/o LAC,42,13,6618.07,240.71,True,11,6682.37,2,-0.96,False,ablation
+rc2_4_1,RC2_400,w/o LAC,43,12,6904.63,241.09,True,11,6682.37,1,3.33,False,ablation
+rc2_4_1,RC2_400,w/o LAC,44,13,6789.06,241.52,True,11,6682.37,2,1.6,False,ablation
+rc2_4_1,RC2_400,w/o LAC,45,13,7044.12,242.24,True,11,6682.37,2,5.41,False,ablation
+rc2_4_1,RC2_400,w/o LAC,46,12,6939.52,241.09,True,11,6682.37,1,3.85,False,ablation
+rc2_4_1,RC2_400,w/o RoutePool Recombination,43,13,6852.23,241.27,True,11,6682.37,2,2.54,False,ablation
+rc2_4_1,RC2_400,w/o RoutePool Recombination,42,13,6741.84,241.86,True,11,6682.37,2,0.89,False,ablation
+rc2_4_1,RC2_400,w/o RoutePool Recombination,44,13,6808.98,241.32,True,11,6682.37,2,1.89,False,ablation
+rc2_4_1,RC2_400,w/o RoutePool Recombination,46,12,6964.11,240.82,True,11,6682.37,1,4.22,False,ablation
+rc2_4_1,RC2_400,w/o RoutePool Recombination,45,14,6570.15,241.73,True,11,6682.37,3,-1.68,False,ablation
+rc2_4_1,RC2_400,w/o Entropy Confidence Gate,42,13,6916.04,240.7,True,11,6682.37,2,3.5,False,ablation
+rc2_4_1,RC2_400,w/o Entropy Confidence Gate,43,13,6732.19,240.52,True,11,6682.37,2,0.75,False,ablation
+rc2_4_1,RC2_400,w/o Entropy Confidence Gate,44,13,6657.94,240.62,True,11,6682.37,2,-0.37,False,ablation
+rc2_4_1,RC2_400,w/o Entropy Confidence Gate,45,12,6930.84,241.18,True,11,6682.37,1,3.72,False,ablation
+rc2_4_1,RC2_400,w/o Entropy Confidence Gate,46,13,6664.3,241.73,True,11,6682.37,2,-0.27,False,ablation
+rc2_4_1,RC2_400,Rule-Macro,42,13,6605.12,240.71,True,11,6682.37,2,-1.16,False,ablation
+rc2_4_1,RC2_400,Rule-Macro,43,13,6595.49,240.74,True,11,6682.37,2,-1.3,False,ablation
+rc2_4_1,RC2_400,Rule-Macro,44,13,6864.97,242.3,True,11,6682.37,2,2.73,False,ablation
+rc2_4_1,RC2_400,Rule-Macro,45,14,6489.46,242.04,True,11,6682.37,3,-2.89,False,ablation
+rc2_4_1,RC2_400,Rule-Macro,46,13,6736.92,241.51,True,11,6682.37,2,0.82,False,ablation
+rc2_4_1,RC2_400,Rule-Micro,43,14,6630.38,240.02,True,11,6682.37,3,-0.78,False,ablation
+rc2_4_1,RC2_400,Rule-Micro,42,13,6692.8,241.96,True,11,6682.37,2,0.16,False,ablation
+rc2_4_1,RC2_400,Rule-Micro,44,13,6798.03,240.75,True,11,6682.37,2,1.73,False,ablation
+rc2_4_1,RC2_400,Rule-Micro,45,14,6565.32,241.28,True,11,6682.37,3,-1.75,False,ablation
+C101,C1,ALNS-Base,42,10,828.94,3.0,True,10,828.94,0,-0.0,True,solomon
+rc2_4_1,RC2_400,Rule-Micro,46,13,6621.57,241.52,True,11,6682.37,2,-0.91,False,ablation
+C101,C1,ALNS-Base,43,10,828.94,6.18,True,10,828.94,0,-0.0,True,solomon
+C101,C1,ALNS-Base,44,10,828.94,3.0,True,10,828.94,0,-0.0,True,solomon
+C101,C1,ALNS-Base,46,10,828.94,3.61,True,10,828.94,0,-0.0,True,solomon
+C101,C1,ALNS-Base,45,10,828.94,6.93,True,10,828.94,0,-0.0,True,solomon
+C101,C1,Single-Agent-RL-LNS,43,10,828.94,9.14,True,10,828.94,0,-0.0,True,solomon
+C101,C1,Single-Agent-RL-LNS,42,10,828.94,13.12,True,10,828.94,0,-0.0,True,solomon
+C101,C1,Single-Agent-RL-LNS,44,10,828.94,8.04,True,10,828.94,0,-0.0,True,solomon
+C101,C1,Single-Agent-RL-LNS,45,10,828.94,9.72,True,10,828.94,0,-0.0,True,solomon
+C101,C1,Single-Agent-RL-LNS,46,10,828.94,9.97,True,10,828.94,0,-0.0,True,solomon
+C101,C1,Hybrid-DDQN,42,10,828.94,12.32,True,10,828.94,0,-0.0,True,solomon
+C101,C1,Hybrid-DDQN,43,10,828.94,11.99,True,10,828.94,0,-0.0,True,solomon
+C101,C1,Hybrid-DDQN,44,10,828.94,8.29,True,10,828.94,0,-0.0,True,solomon
+C101,C1,Hybrid-DDQN,45,10,828.94,8.85,True,10,828.94,0,-0.0,True,solomon
+C102,C1,ALNS-Base,42,10,828.94,6.98,True,10,828.94,0,-0.0,True,solomon
+C102,C1,ALNS-Base,43,10,828.94,5.66,True,10,828.94,0,-0.0,True,solomon
+C101,C1,Hybrid-DDQN,46,10,828.94,26.77,True,10,828.94,0,-0.0,True,solomon
+C102,C1,ALNS-Base,44,10,828.94,8.32,True,10,828.94,0,-0.0,True,solomon
+C102,C1,ALNS-Base,45,10,828.94,6.8,True,10,828.94,0,-0.0,True,solomon
+C102,C1,ALNS-Base,46,10,828.94,5.39,True,10,828.94,0,-0.0,True,solomon
+C102,C1,Single-Agent-RL-LNS,42,10,828.94,22.05,True,10,828.94,0,-0.0,True,solomon
+C102,C1,Single-Agent-RL-LNS,43,10,828.94,22.82,True,10,828.94,0,-0.0,True,solomon
+C102,C1,Single-Agent-RL-LNS,44,10,828.94,19.46,True,10,828.94,0,-0.0,True,solomon
+C102,C1,Single-Agent-RL-LNS,45,10,828.94,20.69,True,10,828.94,0,-0.0,True,solomon
+rc2_4_1,RC2_400,Single-Agent RL-LNS,42,13,6647.1,241.49,True,11,6682.37,2,-0.53,False,ablation
+C102,C1,Single-Agent-RL-LNS,46,10,828.94,24.69,True,10,828.94,0,-0.0,True,solomon
+C102,C1,Hybrid-DDQN,43,10,828.94,26.1,True,10,828.94,0,-0.0,True,solomon
+C102,C1,Hybrid-DDQN,42,10,828.94,30.8,True,10,828.94,0,-0.0,True,solomon
+C102,C1,Hybrid-DDQN,44,10,828.94,27.81,True,10,828.94,0,-0.0,True,solomon
+C103,C1,ALNS-Base,42,10,828.06,4.57,True,10,828.06,0,0.0,True,solomon
+C102,C1,Hybrid-DDQN,45,10,828.94,25.47,True,10,828.94,0,-0.0,True,solomon
+C102,C1,Hybrid-DDQN,46,10,828.94,27.17,True,10,828.94,0,-0.0,True,solomon
+C103,C1,ALNS-Base,44,10,831.2,4.22,True,10,828.06,0,0.38,True,solomon
+C103,C1,ALNS-Base,43,10,854.75,4.36,True,10,828.06,0,3.22,True,solomon
+C103,C1,ALNS-Base,45,10,828.06,4.78,True,10,828.06,0,0.0,True,solomon
+C103,C1,ALNS-Base,46,10,828.94,4.4,True,10,828.06,0,0.11,True,solomon
+C103,C1,Single-Agent-RL-LNS,42,10,828.06,16.74,True,10,828.06,0,0.0,True,solomon
+C103,C1,Single-Agent-RL-LNS,43,10,828.06,17.25,True,10,828.06,0,0.0,True,solomon
+C103,C1,Single-Agent-RL-LNS,44,10,828.06,16.47,True,10,828.06,0,0.0,True,solomon
+rc2_4_1,RC2_400,Single-Agent RL-LNS,43,13,6539.98,241.15,True,11,6682.37,2,-2.13,False,ablation
+C103,C1,Single-Agent-RL-LNS,45,10,828.06,17.99,True,10,828.06,0,0.0,True,solomon
+rc2_4_1,RC2_400,Single-Agent RL-LNS,44,13,6799.33,241.74,True,11,6682.37,2,1.75,False,ablation
+rc2_4_1,RC2_400,Single-Agent RL-LNS,45,13,6648.84,240.91,True,11,6682.37,2,-0.5,False,ablation
+C103,C1,Single-Agent-RL-LNS,46,10,828.06,16.63,True,10,828.06,0,0.0,True,solomon
+C104,C1,ALNS-Base,42,10,825.96,4.51,True,10,824.78,0,0.14,True,solomon
+C103,C1,Hybrid-DDQN,42,10,828.06,24.55,True,10,828.06,0,0.0,True,solomon
+C104,C1,ALNS-Base,43,10,825.96,4.56,True,10,824.78,0,0.14,True,solomon
+rc2_4_1,RC2_400,Single-Agent RL-LNS,46,13,6598.19,240.99,True,11,6682.37,2,-1.26,False,ablation
+C104,C1,ALNS-Base,44,10,829.99,4.43,True,10,824.78,0,0.63,True,solomon
+C104,C1,ALNS-Base,45,10,844.82,4.37,True,10,824.78,0,2.43,True,solomon
+C104,C1,ALNS-Base,46,10,825.96,4.43,True,10,824.78,0,0.14,True,solomon
+C103,C1,Hybrid-DDQN,43,10,828.06,25.85,True,10,828.06,0,0.0,True,solomon
+C103,C1,Hybrid-DDQN,46,10,828.06,26.01,True,10,828.06,0,0.0,True,solomon
+C103,C1,Hybrid-DDQN,44,10,828.06,26.91,True,10,828.06,0,0.0,True,solomon
+C103,C1,Hybrid-DDQN,45,10,828.06,28.88,True,10,828.06,0,0.0,True,solomon
+C104,C1,Single-Agent-RL-LNS,42,10,824.78,19.44,True,10,824.78,0,-0.0,True,solomon
+C104,C1,Single-Agent-RL-LNS,44,10,824.78,19.08,True,10,824.78,0,-0.0,True,solomon
+C104,C1,Single-Agent-RL-LNS,43,10,824.78,21.78,True,10,824.78,0,-0.0,True,solomon
+C104,C1,Single-Agent-RL-LNS,45,10,824.78,19.37,True,10,824.78,0,-0.0,True,solomon
+C104,C1,Single-Agent-RL-LNS,46,10,825.99,20.72,True,10,824.78,0,0.15,True,solomon
+C105,C1,ALNS-Base,42,10,828.94,10.5,True,10,828.94,0,-0.0,True,solomon
+C104,C1,Hybrid-DDQN,42,10,824.78,28.66,True,10,824.78,0,-0.0,True,solomon
+C105,C1,ALNS-Base,43,10,828.94,10.69,True,10,828.94,0,-0.0,True,solomon
+C104,C1,Hybrid-DDQN,43,10,824.78,30.97,True,10,824.78,0,-0.0,True,solomon
+C104,C1,Hybrid-DDQN,46,10,824.78,27.75,True,10,824.78,0,-0.0,True,solomon
+C105,C1,ALNS-Base,44,10,828.94,10.35,True,10,828.94,0,-0.0,True,solomon
+C105,C1,ALNS-Base,45,10,828.94,10.44,True,10,828.94,0,-0.0,True,solomon
+C104,C1,Hybrid-DDQN,44,10,824.78,32.48,True,10,824.78,0,-0.0,True,solomon
+C105,C1,ALNS-Base,46,10,828.94,10.57,True,10,828.94,0,-0.0,True,solomon
+C104,C1,Hybrid-DDQN,45,10,824.78,33.51,True,10,824.78,0,-0.0,True,solomon
+C105,C1,Single-Agent-RL-LNS,42,10,828.94,28.07,True,10,828.94,0,-0.0,True,solomon
+C105,C1,Single-Agent-RL-LNS,45,10,828.94,26.42,True,10,828.94,0,-0.0,True,solomon
+C105,C1,Single-Agent-RL-LNS,43,10,828.94,27.16,True,10,828.94,0,-0.0,True,solomon
+C105,C1,Single-Agent-RL-LNS,46,10,828.94,25.78,True,10,828.94,0,-0.0,True,solomon
+C105,C1,Hybrid-DDQN,43,10,828.94,26.01,True,10,828.94,0,-0.0,True,solomon
+C105,C1,Single-Agent-RL-LNS,44,10,828.94,29.78,True,10,828.94,0,-0.0,True,solomon
+C105,C1,Hybrid-DDQN,42,10,828.94,28.91,True,10,828.94,0,-0.0,True,solomon
+C106,C1,ALNS-Base,42,10,828.94,10.49,True,10,828.94,0,-0.0,True,solomon
+C106,C1,ALNS-Base,43,10,828.94,10.49,True,10,828.94,0,-0.0,True,solomon
+C106,C1,ALNS-Base,44,10,828.94,10.53,True,10,828.94,0,-0.0,True,solomon
+C106,C1,ALNS-Base,45,10,828.94,10.68,True,10,828.94,0,-0.0,True,solomon
+C105,C1,Hybrid-DDQN,44,10,828.94,24.58,True,10,828.94,0,-0.0,True,solomon
+C106,C1,ALNS-Base,46,10,828.94,10.66,True,10,828.94,0,-0.0,True,solomon
+C105,C1,Hybrid-DDQN,45,10,828.94,25.68,True,10,828.94,0,-0.0,True,solomon
+C105,C1,Hybrid-DDQN,46,10,828.94,26.78,True,10,828.94,0,-0.0,True,solomon
+C106,C1,Single-Agent-RL-LNS,42,10,828.94,27.47,True,10,828.94,0,-0.0,True,solomon
+C106,C1,Single-Agent-RL-LNS,43,10,828.94,27.49,True,10,828.94,0,-0.0,True,solomon
+C106,C1,Single-Agent-RL-LNS,44,10,828.94,28.13,True,10,828.94,0,-0.0,True,solomon
+C106,C1,Single-Agent-RL-LNS,46,10,828.94,26.27,True,10,828.94,0,-0.0,True,solomon
+C106,C1,Single-Agent-RL-LNS,45,10,828.94,30.0,True,10,828.94,0,-0.0,True,solomon
+C107,C1,ALNS-Base,42,10,863.7,4.97,True,10,828.94,0,4.19,True,solomon
+C106,C1,Hybrid-DDQN,42,10,828.94,27.79,True,10,828.94,0,-0.0,True,solomon
+C107,C1,ALNS-Base,43,10,828.94,4.88,True,10,828.94,0,-0.0,True,solomon
+C106,C1,Hybrid-DDQN,43,10,828.94,29.22,True,10,828.94,0,-0.0,True,solomon
+C107,C1,ALNS-Base,44,10,828.94,5.06,True,10,828.94,0,-0.0,True,solomon
+C107,C1,ALNS-Base,45,10,862.37,4.58,True,10,828.94,0,4.03,True,solomon
+C107,C1,ALNS-Base,46,10,828.94,9.6,True,10,828.94,0,-0.0,True,solomon
+C106,C1,Hybrid-DDQN,44,10,828.94,26.37,True,10,828.94,0,-0.0,True,solomon
+C106,C1,Hybrid-DDQN,46,10,828.94,27.9,True,10,828.94,0,-0.0,True,solomon
+C107,C1,Single-Agent-RL-LNS,42,10,828.94,15.92,True,10,828.94,0,-0.0,True,solomon
+C106,C1,Hybrid-DDQN,45,10,828.94,33.62,True,10,828.94,0,-0.0,True,solomon
+C107,C1,Single-Agent-RL-LNS,43,10,828.94,19.53,True,10,828.94,0,-0.0,True,solomon
+C107,C1,Single-Agent-RL-LNS,44,10,828.94,22.06,True,10,828.94,0,-0.0,True,solomon
+C107,C1,Single-Agent-RL-LNS,45,10,828.94,18.04,True,10,828.94,0,-0.0,True,solomon
+C107,C1,Single-Agent-RL-LNS,46,10,828.94,20.04,True,10,828.94,0,-0.0,True,solomon
+C108,C1,ALNS-Base,42,10,828.94,8.75,True,10,828.94,0,-0.0,True,solomon
+C108,C1,ALNS-Base,43,10,828.94,7.92,True,10,828.94,0,-0.0,True,solomon
+C107,C1,Hybrid-DDQN,42,10,828.94,25.89,True,10,828.94,0,-0.0,True,solomon
+C107,C1,Hybrid-DDQN,43,10,828.94,26.52,True,10,828.94,0,-0.0,True,solomon
+C107,C1,Hybrid-DDQN,44,10,828.94,25.64,True,10,828.94,0,-0.0,True,solomon
+C108,C1,ALNS-Base,44,10,828.94,10.96,True,10,828.94,0,-0.0,True,solomon
+C108,C1,ALNS-Base,45,10,828.94,8.22,True,10,828.94,0,-0.0,True,solomon
+C107,C1,Hybrid-DDQN,45,10,828.94,26.97,True,10,828.94,0,-0.0,True,solomon
+C108,C1,ALNS-Base,46,10,828.94,7.08,True,10,828.94,0,-0.0,True,solomon
+C107,C1,Hybrid-DDQN,46,10,828.94,25.11,True,10,828.94,0,-0.0,True,solomon
+C108,C1,Single-Agent-RL-LNS,42,10,828.94,19.83,True,10,828.94,0,-0.0,True,solomon
+C108,C1,Single-Agent-RL-LNS,43,10,828.94,20.71,True,10,828.94,0,-0.0,True,solomon
+C108,C1,Single-Agent-RL-LNS,44,10,828.94,19.98,True,10,828.94,0,-0.0,True,solomon
+C108,C1,Single-Agent-RL-LNS,45,10,828.94,20.56,True,10,828.94,0,-0.0,True,solomon
+C108,C1,Single-Agent-RL-LNS,46,10,828.94,20.08,True,10,828.94,0,-0.0,True,solomon
+C109,C1,ALNS-Base,42,10,828.94,4.63,True,10,828.94,0,-0.0,True,solomon
+C109,C1,ALNS-Base,43,10,856.26,4.78,True,10,828.94,0,3.3,True,solomon
+C108,C1,Hybrid-DDQN,43,10,828.94,24.21,True,10,828.94,0,-0.0,True,solomon
+C109,C1,ALNS-Base,44,10,828.94,4.55,True,10,828.94,0,-0.0,True,solomon
+C108,C1,Hybrid-DDQN,42,10,828.94,28.67,True,10,828.94,0,-0.0,True,solomon
+C109,C1,ALNS-Base,45,10,828.94,4.76,True,10,828.94,0,-0.0,True,solomon
+C109,C1,ALNS-Base,46,10,828.94,4.64,True,10,828.94,0,-0.0,True,solomon
+C108,C1,Hybrid-DDQN,44,10,828.94,25.62,True,10,828.94,0,-0.0,True,solomon
+C108,C1,Hybrid-DDQN,45,10,828.94,24.71,True,10,828.94,0,-0.0,True,solomon
+C108,C1,Hybrid-DDQN,46,10,828.94,23.69,True,10,828.94,0,-0.0,True,solomon
+C109,C1,Single-Agent-RL-LNS,42,10,828.94,19.19,True,10,828.94,0,-0.0,True,solomon
+C109,C1,Single-Agent-RL-LNS,44,10,828.94,19.97,True,10,828.94,0,-0.0,True,solomon
+C109,C1,Single-Agent-RL-LNS,43,10,828.94,20.24,True,10,828.94,0,-0.0,True,solomon
+C109,C1,Single-Agent-RL-LNS,45,10,828.94,20.26,True,10,828.94,0,-0.0,True,solomon
+C201,C2,ALNS-Base,42,3,591.56,8.35,True,3,591.56,0,-0.0,True,solomon
+C109,C1,Single-Agent-RL-LNS,46,10,828.94,18.88,True,10,828.94,0,-0.0,True,solomon
+C201,C2,ALNS-Base,43,3,591.56,8.18,True,3,591.56,0,-0.0,True,solomon
+C201,C2,ALNS-Base,44,3,591.56,8.36,True,3,591.56,0,-0.0,True,solomon
+C109,C1,Hybrid-DDQN,42,10,828.94,27.83,True,10,828.94,0,-0.0,True,solomon
+C109,C1,Hybrid-DDQN,43,10,828.94,30.91,True,10,828.94,0,-0.0,True,solomon
+C201,C2,ALNS-Base,45,3,591.56,8.44,True,3,591.56,0,-0.0,True,solomon
+C201,C2,ALNS-Base,46,3,591.56,8.53,True,3,591.56,0,-0.0,True,solomon
+C109,C1,Hybrid-DDQN,46,10,828.94,28.37,True,10,828.94,0,-0.0,True,solomon
+C109,C1,Hybrid-DDQN,44,10,828.94,32.02,True,10,828.94,0,-0.0,True,solomon
+C109,C1,Hybrid-DDQN,45,10,828.94,31.38,True,10,828.94,0,-0.0,True,solomon
+C201,C2,Single-Agent-RL-LNS,42,3,591.56,22.14,True,3,591.56,0,-0.0,True,solomon
+C201,C2,Single-Agent-RL-LNS,44,3,591.56,21.28,True,3,591.56,0,-0.0,True,solomon
+C201,C2,Single-Agent-RL-LNS,43,3,591.56,23.05,True,3,591.56,0,-0.0,True,solomon
+C201,C2,Single-Agent-RL-LNS,45,3,591.56,21.3,True,3,591.56,0,-0.0,True,solomon
+C201,C2,Single-Agent-RL-LNS,46,3,591.56,23.48,True,3,591.56,0,-0.0,True,solomon
+C201,C2,Hybrid-DDQN,42,3,591.56,22.94,True,3,591.56,0,-0.0,True,solomon
+C202,C2,ALNS-Base,42,3,591.56,6.12,True,3,591.56,0,-0.0,True,solomon
+C202,C2,ALNS-Base,44,3,708.1,3.74,True,3,591.56,0,19.7,True,solomon
+C202,C2,ALNS-Base,43,3,591.56,5.88,True,3,591.56,0,-0.0,True,solomon
+C202,C2,ALNS-Base,45,3,591.56,6.37,True,3,591.56,0,-0.0,True,solomon
+C202,C2,ALNS-Base,46,3,591.56,6.48,True,3,591.56,0,-0.0,True,solomon
+C201,C2,Hybrid-DDQN,43,3,591.56,34.46,True,3,591.56,0,-0.0,True,solomon
+C201,C2,Hybrid-DDQN,44,3,591.56,27.75,True,3,591.56,0,-0.0,True,solomon
+C201,C2,Hybrid-DDQN,46,3,591.56,29.16,True,3,591.56,0,-0.0,True,solomon
+C202,C2,Single-Agent-RL-LNS,42,3,591.56,24.62,True,3,591.56,0,-0.0,True,solomon
+C202,C2,Single-Agent-RL-LNS,43,3,591.56,22.6,True,3,591.56,0,-0.0,True,solomon
+C201,C2,Hybrid-DDQN,45,3,591.56,37.61,True,3,591.56,0,-0.0,True,solomon
+C202,C2,Single-Agent-RL-LNS,44,3,591.56,22.0,True,3,591.56,0,-0.0,True,solomon
+C202,C2,Single-Agent-RL-LNS,45,3,591.56,22.93,True,3,591.56,0,-0.0,True,solomon
+C203,C2,ALNS-Base,42,3,744.76,3.49,True,3,591.17,0,25.98,True,solomon
+C202,C2,Single-Agent-RL-LNS,46,3,591.56,23.48,True,3,591.56,0,-0.0,True,solomon
+C203,C2,ALNS-Base,43,3,600.21,3.84,True,3,591.17,0,1.53,True,solomon
+C203,C2,ALNS-Base,44,3,670.83,3.68,True,3,591.17,0,13.48,True,solomon
+C203,C2,ALNS-Base,45,3,591.17,3.68,True,3,591.17,0,0.0,True,solomon
+C203,C2,ALNS-Base,46,3,676.39,3.62,True,3,591.17,0,14.42,True,solomon
+C202,C2,Hybrid-DDQN,42,3,591.56,25.43,True,3,591.56,0,-0.0,True,solomon
+C202,C2,Hybrid-DDQN,43,3,591.56,25.21,True,3,591.56,0,-0.0,True,solomon
+C202,C2,Hybrid-DDQN,45,3,591.56,24.13,True,3,591.56,0,-0.0,True,solomon
+C202,C2,Hybrid-DDQN,44,3,591.56,26.24,True,3,591.56,0,-0.0,True,solomon
+C202,C2,Hybrid-DDQN,46,3,591.56,25.73,True,3,591.56,0,-0.0,True,solomon
+C203,C2,Single-Agent-RL-LNS,42,3,600.21,18.48,True,3,591.17,0,1.53,True,solomon
+C203,C2,Single-Agent-RL-LNS,44,3,591.17,20.67,True,3,591.17,0,0.0,True,solomon
+C203,C2,Single-Agent-RL-LNS,43,3,600.21,23.59,True,3,591.17,0,1.53,True,solomon
+C203,C2,Single-Agent-RL-LNS,45,3,600.21,21.92,True,3,591.17,0,1.53,True,solomon
+C203,C2,Single-Agent-RL-LNS,46,3,600.21,21.54,True,3,591.17,0,1.53,True,solomon
+C203,C2,Hybrid-DDQN,42,3,591.17,22.24,True,3,591.17,0,0.0,True,solomon
+C204,C2,ALNS-Base,42,3,599.42,3.92,True,3,590.6,0,1.49,True,solomon
+C204,C2,ALNS-Base,43,3,596.55,3.92,True,3,590.6,0,1.01,True,solomon
+C204,C2,ALNS-Base,44,3,594.07,3.83,True,3,590.6,0,0.59,True,solomon
+C204,C2,ALNS-Base,45,3,598.09,3.75,True,3,590.6,0,1.27,True,solomon
+C204,C2,ALNS-Base,46,3,671.72,3.91,True,3,590.6,0,13.73,True,solomon
+C203,C2,Hybrid-DDQN,44,3,591.17,22.2,True,3,591.17,0,0.0,True,solomon
+C203,C2,Hybrid-DDQN,43,3,591.17,39.52,True,3,591.17,0,0.0,True,solomon
+C203,C2,Hybrid-DDQN,46,3,591.17,30.63,True,3,591.17,0,0.0,True,solomon
+C204,C2,Single-Agent-RL-LNS,44,3,596.55,20.38,True,3,590.6,0,1.01,True,solomon
+C204,C2,Single-Agent-RL-LNS,43,3,593.93,21.93,True,3,590.6,0,0.56,True,solomon
+C203,C2,Hybrid-DDQN,45,3,591.17,37.4,True,3,591.17,0,0.0,True,solomon
+C204,C2,Single-Agent-RL-LNS,45,3,599.29,21.22,True,3,590.6,0,1.47,True,solomon
+C204,C2,Single-Agent-RL-LNS,42,3,594.07,27.56,True,3,590.6,0,0.59,True,solomon
+C205,C2,ALNS-Base,42,3,588.88,3.5,True,3,588.88,0,-0.0,True,solomon
+C205,C2,ALNS-Base,43,3,588.88,3.44,True,3,588.88,0,-0.0,True,solomon
+C204,C2,Single-Agent-RL-LNS,46,3,599.42,19.39,True,3,590.6,0,1.49,True,solomon
+C205,C2,ALNS-Base,44,3,588.88,3.35,True,3,588.88,0,-0.0,True,solomon
+C205,C2,ALNS-Base,45,3,588.88,3.3,True,3,588.88,0,-0.0,True,solomon
+C205,C2,ALNS-Base,46,3,588.88,3.24,True,3,588.88,0,-0.0,True,solomon
+C204,C2,Hybrid-DDQN,43,3,590.6,26.53,True,3,590.6,0,-0.0,True,solomon
+C204,C2,Hybrid-DDQN,45,3,599.29,25.42,True,3,590.6,0,1.47,True,solomon
+C204,C2,Hybrid-DDQN,46,3,594.07,28.79,True,3,590.6,0,0.59,True,solomon
+C204,C2,Hybrid-DDQN,44,3,593.93,32.93,True,3,590.6,0,0.56,True,solomon
+C205,C2,Single-Agent-RL-LNS,42,3,588.88,21.35,True,3,588.88,0,-0.0,True,solomon
+C205,C2,Single-Agent-RL-LNS,43,3,588.88,19.28,True,3,588.88,0,-0.0,True,solomon
+C205,C2,Single-Agent-RL-LNS,45,3,588.88,18.8,True,3,588.88,0,-0.0,True,solomon
+C205,C2,Single-Agent-RL-LNS,44,3,588.88,19.43,True,3,588.88,0,-0.0,True,solomon
+C205,C2,Single-Agent-RL-LNS,46,3,588.88,19.04,True,3,588.88,0,-0.0,True,solomon
+C205,C2,Hybrid-DDQN,42,3,588.88,20.37,True,3,588.88,0,-0.0,True,solomon
+C206,C2,ALNS-Base,42,3,588.49,3.76,True,3,588.49,0,0.0,True,solomon
+C205,C2,Hybrid-DDQN,44,3,588.88,19.34,True,3,588.88,0,-0.0,True,solomon
+C204,C2,Hybrid-DDQN,42,3,594.07,60.05,True,3,590.6,0,0.59,True,solomon
+C205,C2,Hybrid-DDQN,43,3,588.88,20.25,True,3,588.88,0,-0.0,True,solomon
+C206,C2,ALNS-Base,43,3,588.49,3.82,True,3,588.49,0,0.0,True,solomon
+C206,C2,ALNS-Base,44,3,588.49,3.47,True,3,588.49,0,0.0,True,solomon
+C206,C2,ALNS-Base,46,3,588.49,3.5,True,3,588.49,0,0.0,True,solomon
+C206,C2,ALNS-Base,45,3,588.49,3.78,True,3,588.49,0,0.0,True,solomon
+C205,C2,Hybrid-DDQN,46,3,588.88,19.04,True,3,588.88,0,-0.0,True,solomon
+C206,C2,Single-Agent-RL-LNS,42,3,588.49,19.63,True,3,588.49,0,0.0,True,solomon
+C206,C2,Single-Agent-RL-LNS,44,3,588.49,19.59,True,3,588.49,0,0.0,True,solomon
+C206,C2,Single-Agent-RL-LNS,43,3,588.49,20.29,True,3,588.49,0,0.0,True,solomon
+C205,C2,Hybrid-DDQN,45,3,588.88,33.27,True,3,588.88,0,-0.0,True,solomon
+C206,C2,Single-Agent-RL-LNS,45,3,588.49,19.61,True,3,588.49,0,0.0,True,solomon
+C206,C2,Single-Agent-RL-LNS,46,3,588.49,19.54,True,3,588.49,0,0.0,True,solomon
+C207,C2,ALNS-Base,42,3,588.29,3.7,True,3,588.29,0,-0.0,True,solomon
+C207,C2,ALNS-Base,43,3,588.29,3.83,True,3,588.29,0,-0.0,True,solomon
+C207,C2,ALNS-Base,44,3,588.29,3.77,True,3,588.29,0,-0.0,True,solomon
+C207,C2,ALNS-Base,45,3,588.29,3.67,True,3,588.29,0,-0.0,True,solomon
+C206,C2,Hybrid-DDQN,42,3,588.49,23.43,True,3,588.49,0,0.0,True,solomon
+C207,C2,ALNS-Base,46,3,588.29,3.51,True,3,588.29,0,-0.0,True,solomon
+C206,C2,Hybrid-DDQN,46,3,588.49,20.29,True,3,588.49,0,0.0,True,solomon
+C206,C2,Hybrid-DDQN,43,3,588.49,24.22,True,3,588.49,0,0.0,True,solomon
+C206,C2,Hybrid-DDQN,45,3,588.49,28.24,True,3,588.49,0,0.0,True,solomon
+C206,C2,Hybrid-DDQN,44,3,588.49,29.63,True,3,588.49,0,0.0,True,solomon
+C207,C2,Single-Agent-RL-LNS,43,3,588.29,20.17,True,3,588.29,0,-0.0,True,solomon
+C207,C2,Single-Agent-RL-LNS,42,3,588.29,22.8,True,3,588.29,0,-0.0,True,solomon
+C207,C2,Single-Agent-RL-LNS,44,3,588.29,20.02,True,3,588.29,0,-0.0,True,solomon
+C207,C2,Single-Agent-RL-LNS,45,3,588.29,20.97,True,3,588.29,0,-0.0,True,solomon
+C207,C2,Single-Agent-RL-LNS,46,3,588.29,22.1,True,3,588.29,0,-0.0,True,solomon
+C208,C2,ALNS-Base,42,3,588.32,3.57,True,3,588.32,0,0.0,True,solomon
+C208,C2,ALNS-Base,43,3,588.32,3.69,True,3,588.32,0,0.0,True,solomon
+C208,C2,ALNS-Base,44,3,588.32,3.7,True,3,588.32,0,0.0,True,solomon
+C208,C2,ALNS-Base,45,3,588.32,3.66,True,3,588.32,0,0.0,True,solomon
+C208,C2,ALNS-Base,46,3,588.32,3.7,True,3,588.32,0,0.0,True,solomon
+C207,C2,Hybrid-DDQN,42,3,588.29,24.49,True,3,588.29,0,-0.0,True,solomon
+C207,C2,Hybrid-DDQN,43,3,588.29,23.76,True,3,588.29,0,-0.0,True,solomon
+C207,C2,Hybrid-DDQN,46,3,588.29,26.91,True,3,588.29,0,-0.0,True,solomon
+C207,C2,Hybrid-DDQN,44,3,588.29,34.18,True,3,588.29,0,-0.0,True,solomon
+C207,C2,Hybrid-DDQN,45,3,588.29,38.72,True,3,588.29,0,-0.0,True,solomon
+C208,C2,Single-Agent-RL-LNS,43,3,588.32,21.1,True,3,588.32,0,0.0,True,solomon
+C208,C2,Single-Agent-RL-LNS,44,3,588.32,21.21,True,3,588.32,0,0.0,True,solomon
+C208,C2,Single-Agent-RL-LNS,45,3,588.32,20.97,True,3,588.32,0,0.0,True,solomon
+C208,C2,Single-Agent-RL-LNS,42,3,588.32,23.06,True,3,588.32,0,0.0,True,solomon
+R101,R1,ALNS-Base,42,19,1672.15,5.91,True,19,1650.8,0,1.29,True,solomon
+C208,C2,Single-Agent-RL-LNS,46,3,588.32,22.56,True,3,588.32,0,0.0,True,solomon
+C208,C2,Hybrid-DDQN,42,3,588.32,23.08,True,3,588.32,0,0.0,True,solomon
+R101,R1,ALNS-Base,45,19,1672.37,5.45,True,19,1650.8,0,1.31,True,solomon
+R101,R1,ALNS-Base,43,19,1673.98,12.28,True,19,1650.8,0,1.4,True,solomon
+R101,R1,ALNS-Base,44,19,1664.64,12.59,True,19,1650.8,0,0.84,True,solomon
+C208,C2,Hybrid-DDQN,43,3,588.32,25.11,True,3,588.32,0,0.0,True,solomon
+C208,C2,Hybrid-DDQN,45,3,588.32,26.3,True,3,588.32,0,0.0,True,solomon
+R101,R1,ALNS-Base,46,19,1660.66,11.24,True,19,1650.8,0,0.6,True,solomon
+C208,C2,Hybrid-DDQN,46,3,588.32,33.33,True,3,588.32,0,0.0,True,solomon
+C208,C2,Hybrid-DDQN,44,3,588.32,34.08,True,3,588.32,0,0.0,True,solomon
+R101,R1,Single-Agent-RL-LNS,42,19,1655.89,18.68,True,19,1650.8,0,0.31,True,solomon
+R101,R1,Single-Agent-RL-LNS,44,19,1654.93,22.88,True,19,1650.8,0,0.25,True,solomon
+R101,R1,Single-Agent-RL-LNS,43,19,1650.8,24.05,True,19,1650.8,0,-0.0,True,solomon
+R101,R1,Single-Agent-RL-LNS,45,19,1654.52,26.73,True,19,1650.8,0,0.23,True,solomon
+R102,R1,ALNS-Base,42,18,1490.22,5.88,True,17,1486.12,1,0.28,False,solomon
+R102,R1,ALNS-Base,43,17,1502.54,5.46,True,17,1486.12,0,1.1,True,solomon
+R101,R1,Single-Agent-RL-LNS,46,19,1656.8,36.56,True,19,1650.8,0,0.36,True,solomon
+R102,R1,ALNS-Base,44,17,1506.16,5.5,True,17,1486.12,0,1.35,True,solomon
+R102,R1,ALNS-Base,45,17,1507.45,6.89,True,17,1486.12,0,1.44,True,solomon
+R102,R1,ALNS-Base,46,17,1499.99,5.42,True,17,1486.12,0,0.93,True,solomon
+R101,R1,Hybrid-DDQN,42,19,1653.53,54.75,True,19,1650.8,0,0.17,True,solomon
+R101,R1,Hybrid-DDQN,43,19,1652.17,55.49,True,19,1650.8,0,0.08,True,solomon
+R101,R1,Hybrid-DDQN,44,19,1650.8,55.27,True,19,1650.8,0,-0.0,True,solomon
+R102,R1,Single-Agent-RL-LNS,43,17,1486.41,18.83,True,17,1486.12,0,0.02,True,solomon
+R101,R1,Hybrid-DDQN,46,19,1650.8,54.67,True,19,1650.8,0,-0.0,True,solomon
+R101,R1,Hybrid-DDQN,45,19,1650.8,54.88,True,19,1650.8,0,-0.0,True,solomon
+R102,R1,Single-Agent-RL-LNS,42,17,1486.96,29.25,True,17,1486.12,0,0.06,True,solomon
+R102,R1,Single-Agent-RL-LNS,45,17,1486.12,17.98,True,17,1486.12,0,-0.0,True,solomon
+R102,R1,Single-Agent-RL-LNS,44,17,1493.4,19.18,True,17,1486.12,0,0.49,True,solomon
+R103,R1,ALNS-Base,42,13,1358.57,5.34,True,13,1292.68,0,5.1,True,solomon
+R103,R1,ALNS-Base,43,13,1337.92,5.11,True,13,1292.68,0,3.5,True,solomon
+R102,R1,Single-Agent-RL-LNS,46,17,1486.96,25.27,True,17,1486.12,0,0.06,True,solomon
+R103,R1,ALNS-Base,44,14,1246.38,4.99,True,13,1292.68,1,-3.58,False,solomon
+R103,R1,ALNS-Base,45,14,1253.87,4.87,True,13,1292.68,1,-3.0,False,solomon
+R103,R1,ALNS-Base,46,14,1247.22,4.63,True,13,1292.68,1,-3.52,False,solomon
+R103,R1,Single-Agent-RL-LNS,43,13,1319.65,19.31,True,13,1292.68,0,2.09,True,solomon
+R102,R1,Hybrid-DDQN,42,17,1486.12,55.91,True,17,1486.12,0,-0.0,True,solomon
+R102,R1,Hybrid-DDQN,44,17,1487.28,55.16,True,17,1486.12,0,0.08,True,solomon
+R102,R1,Hybrid-DDQN,43,17,1496.32,55.44,True,17,1486.12,0,0.69,True,solomon
+R102,R1,Hybrid-DDQN,45,17,1494.56,54.67,True,17,1486.12,0,0.57,True,solomon
+R102,R1,Hybrid-DDQN,46,17,1486.41,55.55,True,17,1486.12,0,0.02,True,solomon
+R103,R1,Single-Agent-RL-LNS,44,13,1316.89,18.33,True,13,1292.68,0,1.87,True,solomon
+R103,R1,Single-Agent-RL-LNS,45,13,1309.85,18.65,True,13,1292.68,0,1.33,True,solomon
+R103,R1,Single-Agent-RL-LNS,42,13,1307.04,56.28,True,13,1292.68,0,1.11,True,solomon
+R104,R1,ALNS-Base,42,10,1007.91,4.34,True,9,1007.31,1,0.06,False,solomon
+R104,R1,ALNS-Base,43,10,1049.66,4.45,True,9,1007.31,1,4.2,False,solomon
+R104,R1,ALNS-Base,44,10,1019.32,4.56,True,9,1007.31,1,1.19,False,solomon
+R104,R1,ALNS-Base,45,10,1049.09,4.39,True,9,1007.31,1,4.15,False,solomon
+R104,R1,ALNS-Base,46,10,1024.79,4.27,True,9,1007.31,1,1.74,False,solomon
+R103,R1,Hybrid-DDQN,42,13,1293.65,53.9,True,13,1292.68,0,0.08,True,solomon
+R103,R1,Hybrid-DDQN,43,13,1369.94,55.36,True,13,1292.68,0,5.98,True,solomon
+R103,R1,Single-Agent-RL-LNS,46,13,1359.17,60.04,True,13,1292.68,0,5.14,True,solomon
+R103,R1,Hybrid-DDQN,44,13,1308.15,55.54,True,13,1292.68,0,1.2,True,solomon
+R103,R1,Hybrid-DDQN,45,13,1296.48,58.72,True,13,1292.68,0,0.29,True,solomon
+R103,R1,Hybrid-DDQN,46,14,1221.79,60.01,True,13,1292.68,1,-5.48,False,solomon
+R104,R1,Single-Agent-RL-LNS,42,10,994.7,60.01,True,9,1007.31,1,-1.25,False,solomon
+R104,R1,Single-Agent-RL-LNS,43,10,999.35,59.06,True,9,1007.31,1,-0.79,False,solomon
+R104,R1,Single-Agent-RL-LNS,44,10,992.61,60.02,True,9,1007.31,1,-1.46,False,solomon
+R104,R1,Single-Agent-RL-LNS,45,10,1012.54,61.81,True,9,1007.31,1,0.52,False,solomon
+R104,R1,Single-Agent-RL-LNS,46,10,1004.35,60.01,True,9,1007.31,1,-0.29,False,solomon
+R105,R1,ALNS-Base,42,15,1407.43,5.34,True,14,1377.11,1,2.2,False,solomon
+R104,R1,Hybrid-DDQN,42,10,997.68,60.01,True,9,1007.31,1,-0.96,False,solomon
+R105,R1,ALNS-Base,44,15,1414.26,4.92,True,14,1377.11,1,2.7,False,solomon
+R105,R1,ALNS-Base,43,14,1441.1,10.36,True,14,1377.11,0,4.65,True,solomon
+R104,R1,Hybrid-DDQN,43,10,998.59,60.02,True,9,1007.31,1,-0.87,False,solomon
+R105,R1,ALNS-Base,45,15,1399.7,10.57,True,14,1377.11,1,1.64,False,solomon
+R105,R1,ALNS-Base,46,14,1416.26,11.98,True,14,1377.11,0,2.84,True,solomon
+R105,R1,Single-Agent-RL-LNS,42,14,1400.35,23.41,True,14,1377.11,0,1.69,True,solomon
+R105,R1,Single-Agent-RL-LNS,43,14,1398.28,29.62,True,14,1377.11,0,1.54,True,solomon
+R105,R1,Single-Agent-RL-LNS,45,14,1381.37,22.84,True,14,1377.11,0,0.31,True,solomon
+R105,R1,Single-Agent-RL-LNS,44,14,1395.17,27.14,True,14,1377.11,0,1.31,True,solomon
+R104,R1,Hybrid-DDQN,44,10,1010.03,60.16,True,9,1007.31,1,0.27,False,solomon
+R104,R1,Hybrid-DDQN,45,10,1012.92,60.01,True,9,1007.31,1,0.56,False,solomon
+R104,R1,Hybrid-DDQN,46,10,986.72,61.66,True,9,1007.31,1,-2.04,False,solomon
+R105,R1,Single-Agent-RL-LNS,46,14,1377.11,29.01,True,14,1377.11,0,0.0,True,solomon
+R106,R1,ALNS-Base,42,13,1260.65,8.55,True,12,1252.03,1,0.69,False,solomon
+R106,R1,ALNS-Base,44,13,1271.02,5.52,True,12,1252.03,1,1.52,False,solomon
+R106,R1,ALNS-Base,43,12,1290.21,11.87,True,12,1252.03,0,3.05,True,solomon
+R106,R1,ALNS-Base,45,12,1314.46,5.37,True,12,1252.03,0,4.99,True,solomon
+R106,R1,ALNS-Base,46,13,1285.59,5.25,True,12,1252.03,1,2.68,False,solomon
+R105,R1,Hybrid-DDQN,44,14,1383.04,53.35,True,14,1377.11,0,0.43,True,solomon
+R106,R1,Single-Agent-RL-LNS,42,12,1299.53,21.36,True,12,1252.03,0,3.79,True,solomon
+R105,R1,Hybrid-DDQN,42,15,1400.74,63.67,True,14,1377.11,1,1.72,False,solomon
+R105,R1,Hybrid-DDQN,45,14,1438.12,60.75,True,14,1377.11,0,4.43,True,solomon
+R105,R1,Hybrid-DDQN,46,15,1375.97,60.04,True,14,1377.11,1,-0.08,False,solomon
+R106,R1,Single-Agent-RL-LNS,43,12,1286.01,33.03,True,12,1252.03,0,2.71,True,solomon
+R105,R1,Hybrid-DDQN,43,15,1370.49,70.81,True,14,1377.11,1,-0.48,False,solomon
+R106,R1,Single-Agent-RL-LNS,45,12,1263.6,19.84,True,12,1252.03,0,0.92,True,solomon
+R106,R1,Single-Agent-RL-LNS,44,12,1260.75,23.9,True,12,1252.03,0,0.7,True,solomon
+R107,R1,ALNS-Base,42,11,1096.17,4.77,True,10,1104.66,1,-0.77,False,solomon
+R106,R1,Single-Agent-RL-LNS,46,12,1295.23,23.38,True,12,1252.03,0,3.45,True,solomon
+R107,R1,ALNS-Base,43,11,1104.21,5.54,True,10,1104.66,1,-0.04,False,solomon
+R107,R1,ALNS-Base,44,11,1127.37,4.96,True,10,1104.66,1,2.06,False,solomon
+R107,R1,ALNS-Base,45,11,1099.78,4.7,True,10,1104.66,1,-0.44,False,solomon
+R107,R1,ALNS-Base,46,11,1120.69,4.73,True,10,1104.66,1,1.45,False,solomon
+R107,R1,Single-Agent-RL-LNS,42,10,1150.28,22.87,True,10,1104.66,0,4.13,True,solomon
+R107,R1,Single-Agent-RL-LNS,43,10,1124.04,21.78,True,10,1104.66,0,1.75,True,solomon
+R106,R1,Hybrid-DDQN,42,13,1261.81,60.04,True,12,1252.03,1,0.78,False,solomon
+R106,R1,Hybrid-DDQN,43,13,1249.99,62.66,True,12,1252.03,1,-0.16,False,solomon
+R106,R1,Hybrid-DDQN,44,13,1272.68,60.2,True,12,1252.03,1,1.65,False,solomon
+R106,R1,Hybrid-DDQN,45,13,1258.45,63.36,True,12,1252.03,1,0.51,False,solomon
+R107,R1,Single-Agent-RL-LNS,45,10,1172.39,24.61,True,10,1104.66,0,6.13,True,solomon
+R107,R1,Single-Agent-RL-LNS,44,10,1132.12,24.97,True,10,1104.66,0,2.49,True,solomon
+R106,R1,Hybrid-DDQN,46,13,1264.1,72.49,True,12,1252.03,1,0.96,False,solomon
+R108,R1,ALNS-Base,42,10,992.45,5.56,True,9,960.88,1,3.29,False,solomon
+R108,R1,ALNS-Base,43,10,1024.28,4.75,True,9,960.88,1,6.6,False,solomon
+R108,R1,ALNS-Base,44,10,1005.5,5.76,True,9,960.88,1,4.64,False,solomon
+R108,R1,ALNS-Base,45,10,991.68,4.8,True,9,960.88,1,3.21,False,solomon
+R108,R1,ALNS-Base,46,10,1002.53,5.62,True,9,960.88,1,4.33,False,solomon
+R107,R1,Single-Agent-RL-LNS,46,11,1086.52,60.02,True,10,1104.66,1,-1.64,False,solomon
+R107,R1,Hybrid-DDQN,42,11,1093.26,60.08,True,10,1104.66,1,-1.03,False,solomon
+R107,R1,Hybrid-DDQN,43,11,1079.8,60.02,True,10,1104.66,1,-2.25,False,solomon
+R107,R1,Hybrid-DDQN,44,11,1086.52,61.43,True,10,1104.66,1,-1.64,False,solomon
+R107,R1,Hybrid-DDQN,45,11,1085.78,60.7,True,10,1104.66,1,-1.71,False,solomon
+R107,R1,Hybrid-DDQN,46,11,1084.36,60.6,True,10,1104.66,1,-1.84,False,solomon
+R108,R1,Single-Agent-RL-LNS,44,9,981.98,21.45,True,9,960.88,0,2.2,True,solomon
+R108,R1,Single-Agent-RL-LNS,46,9,977.31,19.59,True,9,960.88,0,1.71,True,solomon
+R108,R1,Single-Agent-RL-LNS,45,9,986.75,28.64,True,9,960.88,0,2.69,True,solomon
+R108,R1,Single-Agent-RL-LNS,42,10,955.2,60.82,True,9,960.88,1,-0.59,False,solomon
+R108,R1,Single-Agent-RL-LNS,43,10,996.56,62.18,True,9,960.88,1,3.71,False,solomon
+R109,R1,ALNS-Base,42,12,1181.57,11.12,True,11,1194.73,1,-1.1,False,solomon
+R109,R1,ALNS-Base,43,12,1193.21,11.26,True,11,1194.73,1,-0.13,False,solomon
+R109,R1,ALNS-Base,44,12,1179.88,11.48,True,11,1194.73,1,-1.24,False,solomon
+R108,R1,Hybrid-DDQN,43,10,957.02,60.07,True,9,960.88,1,-0.4,False,solomon
+R108,R1,Hybrid-DDQN,42,10,957.11,60.19,True,9,960.88,1,-0.39,False,solomon
+R109,R1,ALNS-Base,45,12,1190.05,11.14,True,11,1194.73,1,-0.39,False,solomon
+R109,R1,ALNS-Base,46,12,1166.68,11.61,True,11,1194.73,1,-2.35,False,solomon
+R108,R1,Hybrid-DDQN,44,9,996.45,59.95,True,9,960.88,0,3.7,True,solomon
+R108,R1,Hybrid-DDQN,46,9,974.22,55.79,True,9,960.88,0,1.39,True,solomon
+R108,R1,Hybrid-DDQN,45,10,986.1,60.16,True,9,960.88,1,2.62,False,solomon
+R109,R1,Single-Agent-RL-LNS,45,12,1170.41,41.74,True,11,1194.73,1,-2.04,False,solomon
+R109,R1,Single-Agent-RL-LNS,42,12,1157.3,53.09,True,11,1194.73,1,-3.13,False,solomon
+R109,R1,Single-Agent-RL-LNS,46,12,1165.17,48.87,True,11,1194.73,1,-2.47,False,solomon
+R109,R1,Single-Agent-RL-LNS,43,12,1168.78,60.05,True,11,1194.73,1,-2.17,False,solomon
+R109,R1,Single-Agent-RL-LNS,44,12,1177.43,60.04,True,11,1194.73,1,-1.45,False,solomon
+R110,R1,ALNS-Base,42,12,1111.84,10.91,True,10,1118.84,2,-0.63,False,solomon
+R109,R1,Hybrid-DDQN,42,12,1153.02,60.01,True,11,1194.73,1,-3.49,False,solomon
+R109,R1,Hybrid-DDQN,43,12,1154.55,60.02,True,11,1194.73,1,-3.36,False,solomon
+R110,R1,ALNS-Base,43,11,1140.13,10.43,True,10,1118.84,1,1.9,False,solomon
+R110,R1,ALNS-Base,44,11,1141.24,10.65,True,10,1118.84,1,2.0,False,solomon
+R110,R1,ALNS-Base,45,11,1158.39,10.21,True,10,1118.84,1,3.54,False,solomon
+R110,R1,ALNS-Base,46,11,1134.83,10.41,True,10,1118.84,1,1.43,False,solomon
+R110,R1,Single-Agent-RL-LNS,42,11,1083.58,29.92,True,10,1118.84,1,-3.15,False,solomon
+R109,R1,Hybrid-DDQN,44,12,1156.86,60.06,True,11,1194.73,1,-3.17,False,solomon
+R109,R1,Hybrid-DDQN,45,12,1153.02,61.56,True,11,1194.73,1,-3.49,False,solomon
+R109,R1,Hybrid-DDQN,46,12,1160.94,60.01,True,11,1194.73,1,-2.83,False,solomon
+R110,R1,Single-Agent-RL-LNS,43,11,1113.82,39.34,True,10,1118.84,1,-0.45,False,solomon
+R110,R1,Single-Agent-RL-LNS,45,11,1096.37,42.55,True,10,1118.84,1,-2.01,False,solomon
+R110,R1,Single-Agent-RL-LNS,44,11,1090.27,48.85,True,10,1118.84,1,-2.55,False,solomon
+R111,R1,ALNS-Base,42,11,1099.16,9.54,True,10,1096.73,1,0.22,False,solomon
+R111,R1,ALNS-Base,43,11,1136.43,5.03,True,10,1096.73,1,3.62,False,solomon
+R111,R1,ALNS-Base,44,11,1081.8,9.89,True,10,1096.73,1,-1.36,False,solomon
+R110,R1,Single-Agent-RL-LNS,46,11,1103.07,53.09,True,10,1118.84,1,-1.41,False,solomon
+R111,R1,ALNS-Base,45,11,1119.92,4.49,True,10,1096.73,1,2.11,False,solomon
+R111,R1,ALNS-Base,46,11,1096.65,4.87,True,10,1096.73,1,-0.01,False,solomon
+R110,R1,Hybrid-DDQN,42,11,1135.37,61.25,True,10,1118.84,1,1.48,False,solomon
+R110,R1,Hybrid-DDQN,43,12,1179.87,60.87,True,10,1118.84,2,5.46,False,solomon
+R111,R1,Single-Agent-RL-LNS,42,10,1118.55,16.57,True,10,1096.73,0,1.99,True,solomon
+R110,R1,Hybrid-DDQN,44,12,1107.05,60.22,True,10,1118.84,2,-1.05,False,solomon
+R110,R1,Hybrid-DDQN,45,12,1124.82,60.07,True,10,1118.84,2,0.53,False,solomon
+R111,R1,Single-Agent-RL-LNS,43,10,1147.91,22.88,True,10,1096.73,0,4.67,True,solomon
+R110,R1,Hybrid-DDQN,46,12,1150.98,60.06,True,10,1118.84,2,2.87,False,solomon
+R111,R1,Single-Agent-RL-LNS,45,10,1147.38,21.2,True,10,1096.73,0,4.62,True,solomon
+R111,R1,Single-Agent-RL-LNS,44,11,1064.31,60.03,True,10,1096.73,1,-2.96,False,solomon
+R111,R1,Hybrid-DDQN,42,10,1151.23,58.93,True,10,1096.73,0,4.97,True,solomon
+R111,R1,Single-Agent-RL-LNS,46,11,1072.18,60.2,True,10,1096.73,1,-2.24,False,solomon
+R112,R1,ALNS-Base,42,10,992.26,11.46,True,9,982.14,1,1.03,False,solomon
+R111,R1,Hybrid-DDQN,43,11,1085.18,60.92,True,10,1096.73,1,-1.05,False,solomon
+R111,R1,Hybrid-DDQN,44,11,1072.82,60.01,True,10,1096.73,1,-2.18,False,solomon
+R112,R1,ALNS-Base,46,10,991.89,5.1,True,9,982.14,1,0.99,False,solomon
+R111,R1,Hybrid-DDQN,45,11,1068.18,60.01,True,10,1096.73,1,-2.6,False,solomon
+R112,R1,ALNS-Base,43,10,995.07,10.87,True,9,982.14,1,1.32,False,solomon
+R112,R1,ALNS-Base,44,10,1001.02,10.96,True,9,982.14,1,1.92,False,solomon
+R111,R1,Hybrid-DDQN,46,10,1117.55,55.76,True,10,1096.73,0,1.9,True,solomon
+R112,R1,ALNS-Base,45,10,995.03,11.71,True,9,982.14,1,1.31,False,solomon
+R112,R1,Single-Agent-RL-LNS,42,10,955.75,42.63,True,9,982.14,1,-2.69,False,solomon
+R112,R1,Single-Agent-RL-LNS,44,10,962.36,46.33,True,9,982.14,1,-2.01,False,solomon
+R112,R1,Single-Agent-RL-LNS,43,10,966.44,48.86,True,9,982.14,1,-1.6,False,solomon
+R112,R1,Single-Agent-RL-LNS,45,10,960.61,51.95,True,9,982.14,1,-2.19,False,solomon
+R201,R2,ALNS-Base,42,4,1293.35,4.01,True,4,1252.37,0,3.27,True,solomon
+R201,R2,ALNS-Base,43,4,1309.27,4.56,True,4,1252.37,0,4.54,True,solomon
+R112,R1,Single-Agent-RL-LNS,46,10,966.55,60.05,True,9,982.14,1,-1.59,False,solomon
+R112,R1,Hybrid-DDQN,42,10,964.61,60.02,True,9,982.14,1,-1.78,False,solomon
+R201,R2,ALNS-Base,44,4,1293.02,4.13,True,4,1252.37,0,3.25,True,solomon
+R201,R2,ALNS-Base,45,4,1289.13,4.06,True,4,1252.37,0,2.93,True,solomon
+R112,R1,Hybrid-DDQN,43,10,985.37,60.84,True,9,982.14,1,0.33,False,solomon
+R201,R2,ALNS-Base,46,4,1301.04,4.04,True,4,1252.37,0,3.89,True,solomon
+R201,R2,Single-Agent-RL-LNS,44,4,1264.38,26.39,True,4,1252.37,0,0.96,True,solomon
+R201,R2,Single-Agent-RL-LNS,43,4,1268.99,29.03,True,4,1252.37,0,1.33,True,solomon
+R201,R2,Single-Agent-RL-LNS,42,4,1265.39,29.79,True,4,1252.37,0,1.04,True,solomon
+R201,R2,Single-Agent-RL-LNS,45,4,1262.64,28.28,True,4,1252.37,0,0.82,True,solomon
+R112,R1,Hybrid-DDQN,44,10,967.63,60.81,True,9,982.14,1,-1.48,False,solomon
+R112,R1,Hybrid-DDQN,45,10,976.32,60.16,True,9,982.14,1,-0.59,False,solomon
+R112,R1,Hybrid-DDQN,46,10,981.55,60.23,True,9,982.14,1,-0.06,False,solomon
+R202,R2,ALNS-Base,42,4,1131.71,4.12,True,3,1191.7,1,-5.03,False,solomon
+R202,R2,ALNS-Base,43,4,1127.94,4.15,True,3,1191.7,1,-5.35,False,solomon
+R202,R2,ALNS-Base,44,4,1104.61,4.2,True,3,1191.7,1,-7.31,False,solomon
+R201,R2,Single-Agent-RL-LNS,46,4,1252.37,28.38,True,4,1252.37,0,0.0,True,solomon
+R202,R2,ALNS-Base,45,4,1127.97,4.42,True,3,1191.7,1,-5.35,False,solomon
+R202,R2,ALNS-Base,46,4,1125.25,4.31,True,3,1191.7,1,-5.58,False,solomon
+R201,R2,Hybrid-DDQN,42,4,1264.18,60.18,True,4,1252.37,0,0.94,True,solomon
+R201,R2,Hybrid-DDQN,43,4,1275.44,62.02,True,4,1252.37,0,1.84,True,solomon
+R201,R2,Hybrid-DDQN,44,4,1264.03,60.67,True,4,1252.37,0,0.93,True,solomon
+R202,R2,Single-Agent-RL-LNS,43,3,1264.63,34.53,True,3,1191.7,0,6.12,True,solomon
+R202,R2,Single-Agent-RL-LNS,42,3,1212.36,34.93,True,3,1191.7,0,1.73,True,solomon
+R201,R2,Hybrid-DDQN,45,4,1255.89,61.15,True,4,1252.37,0,0.28,True,solomon
+R201,R2,Hybrid-DDQN,46,4,1268.59,63.42,True,4,1252.37,0,1.29,True,solomon
+R202,R2,Single-Agent-RL-LNS,44,3,1304.78,35.08,True,3,1191.7,0,9.49,True,solomon
+R202,R2,Single-Agent-RL-LNS,45,3,1266.66,34.82,True,3,1191.7,0,6.29,True,solomon
+R202,R2,Single-Agent-RL-LNS,46,3,1330.42,35.99,True,3,1191.7,0,11.64,True,solomon
+R203,R2,ALNS-Base,42,3,989.07,4.14,True,3,939.5,0,5.28,True,solomon
+R203,R2,ALNS-Base,43,3,969.77,4.16,True,3,939.5,0,3.22,True,solomon
+R203,R2,ALNS-Base,44,3,970.53,4.27,True,3,939.5,0,3.3,True,solomon
+R203,R2,ALNS-Base,45,3,970.7,4.27,True,3,939.5,0,3.32,True,solomon
+R203,R2,ALNS-Base,46,3,970.18,4.12,True,3,939.5,0,3.27,True,solomon
+R202,R2,Hybrid-DDQN,42,4,1122.85,60.09,True,3,1191.7,1,-5.78,False,solomon
+R202,R2,Hybrid-DDQN,43,4,1115.32,60.11,True,3,1191.7,1,-6.41,False,solomon
+R202,R2,Hybrid-DDQN,44,4,1098.6,60.12,True,3,1191.7,1,-7.81,False,solomon
+R202,R2,Hybrid-DDQN,45,4,1106.99,60.07,True,3,1191.7,1,-7.11,False,solomon
+R203,R2,Single-Agent-RL-LNS,43,3,952.46,26.13,True,3,939.5,0,1.38,True,solomon
+R203,R2,Single-Agent-RL-LNS,42,3,952.41,30.4,True,3,939.5,0,1.37,True,solomon
+R203,R2,Single-Agent-RL-LNS,44,3,960.71,28.64,True,3,939.5,0,2.26,True,solomon
+R203,R2,Single-Agent-RL-LNS,45,3,984.61,28.29,True,3,939.5,0,4.8,True,solomon
+R203,R2,Single-Agent-RL-LNS,46,3,969.43,26.44,True,3,939.5,0,3.19,True,solomon
+R202,R2,Hybrid-DDQN,46,4,1128.8,60.11,True,3,1191.7,1,-5.28,False,solomon
+R204,R2,ALNS-Base,42,2,925.63,5.05,True,2,825.52,0,12.13,True,solomon
+R204,R2,ALNS-Base,43,2,874.09,4.45,True,2,825.52,0,5.88,True,solomon
+R204,R2,ALNS-Base,45,3,762.71,5.02,True,2,825.52,1,-7.61,False,solomon
+R204,R2,ALNS-Base,44,3,780.5,5.09,True,2,825.52,1,-5.45,False,solomon
+R204,R2,ALNS-Base,46,3,771.2,4.98,True,2,825.52,1,-6.58,False,solomon
+R203,R2,Hybrid-DDQN,42,3,959.06,60.07,True,3,939.5,0,2.08,True,solomon
+R203,R2,Hybrid-DDQN,44,3,960.5,60.14,True,3,939.5,0,2.24,True,solomon
+R203,R2,Hybrid-DDQN,43,3,981.65,64.43,True,3,939.5,0,4.49,True,solomon
+R204,R2,Single-Agent-RL-LNS,43,2,880.87,41.67,True,2,825.52,0,6.71,True,solomon
+R203,R2,Hybrid-DDQN,46,3,970.17,60.12,True,3,939.5,0,3.26,True,solomon
+R203,R2,Hybrid-DDQN,45,3,977.36,64.29,True,3,939.5,0,4.03,True,solomon
+R204,R2,Single-Agent-RL-LNS,45,2,850.34,32.47,True,2,825.52,0,3.01,True,solomon
+R204,R2,Single-Agent-RL-LNS,42,3,763.75,67.87,True,2,825.52,1,-7.48,False,solomon
+R204,R2,Single-Agent-RL-LNS,44,3,751.94,61.14,True,2,825.52,1,-8.91,False,solomon
+R205,R2,ALNS-Base,42,3,1101.22,4.01,True,3,994.43,0,10.74,True,solomon
+R204,R2,Single-Agent-RL-LNS,46,2,902.81,60.81,True,2,825.52,0,9.36,True,solomon
+R205,R2,ALNS-Base,44,3,1122.76,4.09,True,3,994.43,0,12.91,True,solomon
+R205,R2,ALNS-Base,43,3,1066.64,4.99,True,3,994.43,0,7.26,True,solomon
+R205,R2,ALNS-Base,46,3,1075.51,3.92,True,3,994.43,0,8.15,True,solomon
+R205,R2,ALNS-Base,45,3,1050.67,4.12,True,3,994.43,0,5.66,True,solomon
+R204,R2,Hybrid-DDQN,42,3,777.59,60.1,True,2,825.52,1,-5.81,False,solomon
+R204,R2,Hybrid-DDQN,43,3,771.29,60.26,True,2,825.52,1,-6.57,False,solomon
+R204,R2,Hybrid-DDQN,44,3,773.52,60.09,True,2,825.52,1,-6.3,False,solomon
+R204,R2,Hybrid-DDQN,45,3,772.94,60.09,True,2,825.52,1,-6.37,False,solomon
+R204,R2,Hybrid-DDQN,46,3,774.14,64.71,True,2,825.52,1,-6.22,False,solomon
+R205,R2,Single-Agent-RL-LNS,44,3,1033.81,28.12,True,3,994.43,0,3.96,True,solomon
+R205,R2,Single-Agent-RL-LNS,42,3,1035.02,31.68,True,3,994.43,0,4.08,True,solomon
+R205,R2,Single-Agent-RL-LNS,43,3,1046.61,34.06,True,3,994.43,0,5.25,True,solomon
+R205,R2,Single-Agent-RL-LNS,45,3,1028.6,32.74,True,3,994.43,0,3.44,True,solomon
+R205,R2,Single-Agent-RL-LNS,46,3,1068.44,30.78,True,3,994.43,0,7.44,True,solomon
+R206,R2,ALNS-Base,42,3,952.06,4.22,True,3,906.14,0,5.07,True,solomon
+R206,R2,ALNS-Base,43,3,938.18,4.24,True,3,906.14,0,3.54,True,solomon
+R206,R2,ALNS-Base,44,3,935.01,4.34,True,3,906.14,0,3.19,True,solomon
+R206,R2,ALNS-Base,45,3,962.04,4.17,True,3,906.14,0,6.17,True,solomon
+R206,R2,ALNS-Base,46,3,966.15,4.57,True,3,906.14,0,6.62,True,solomon
+R206,R2,Single-Agent-RL-LNS,43,3,968.15,27.87,True,3,906.14,0,6.84,True,solomon
+R205,R2,Hybrid-DDQN,42,3,1058.16,60.01,True,3,994.43,0,6.41,True,solomon
+R206,R2,Single-Agent-RL-LNS,42,3,937.07,33.93,True,3,906.14,0,3.41,True,solomon
+R205,R2,Hybrid-DDQN,44,3,1062.3,60.18,True,3,994.43,0,6.83,True,solomon
+R205,R2,Hybrid-DDQN,45,3,1033.2,62.21,True,3,994.43,0,3.9,True,solomon
+R205,R2,Hybrid-DDQN,43,3,1057.2,68.63,True,3,994.43,0,6.31,True,solomon
+R205,R2,Hybrid-DDQN,46,3,1061.63,63.88,True,3,994.43,0,6.76,True,solomon
+R206,R2,Single-Agent-RL-LNS,44,3,942.41,28.9,True,3,906.14,0,4.0,True,solomon
+R206,R2,Single-Agent-RL-LNS,46,3,918.23,28.73,True,3,906.14,0,1.33,True,solomon
+R206,R2,Single-Agent-RL-LNS,45,3,941.19,30.42,True,3,906.14,0,3.87,True,solomon
+R207,R2,ALNS-Base,42,3,832.21,4.41,True,2,890.61,1,-6.56,False,solomon
+R207,R2,ALNS-Base,43,3,836.0,4.54,True,2,890.61,1,-6.13,False,solomon
+R207,R2,ALNS-Base,44,3,844.69,4.25,True,2,890.61,1,-5.16,False,solomon
+R207,R2,ALNS-Base,45,3,840.95,4.45,True,2,890.61,1,-5.58,False,solomon
+R207,R2,ALNS-Base,46,3,855.0,4.54,True,2,890.61,1,-4.0,False,solomon
+R206,R2,Hybrid-DDQN,42,3,941.55,60.15,True,3,906.14,0,3.91,True,solomon
+R206,R2,Hybrid-DDQN,43,3,954.92,60.26,True,3,906.14,0,5.38,True,solomon
+R206,R2,Hybrid-DDQN,44,3,979.98,60.81,True,3,906.14,0,8.15,True,solomon
+R207,R2,Single-Agent-RL-LNS,42,2,900.86,37.67,True,2,890.61,0,1.15,True,solomon
+R206,R2,Hybrid-DDQN,45,3,940.09,61.51,True,3,906.14,0,3.75,True,solomon
+R206,R2,Hybrid-DDQN,46,3,953.08,60.1,True,3,906.14,0,5.18,True,solomon
+R207,R2,Single-Agent-RL-LNS,43,3,842.75,61.22,True,2,890.61,1,-5.37,False,solomon
+R207,R2,Single-Agent-RL-LNS,44,3,823.64,60.01,True,2,890.61,1,-7.52,False,solomon
+R207,R2,Single-Agent-RL-LNS,45,3,842.49,60.93,True,2,890.61,1,-5.4,False,solomon
+R207,R2,Single-Agent-RL-LNS,46,3,839.66,60.82,True,2,890.61,1,-5.72,False,solomon
+R207,R2,Hybrid-DDQN,42,3,835.06,60.13,True,2,890.61,1,-6.24,False,solomon
+R208,R2,ALNS-Base,42,2,752.29,4.41,True,2,726.82,0,3.5,True,solomon
+R207,R2,Hybrid-DDQN,43,3,862.67,63.31,True,2,890.61,1,-3.14,False,solomon
+R208,R2,ALNS-Base,43,2,752.55,4.47,True,2,726.82,0,3.54,True,solomon
+R208,R2,ALNS-Base,44,2,747.84,4.39,True,2,726.82,0,2.89,True,solomon
+R208,R2,ALNS-Base,45,2,755.85,4.55,True,2,726.82,0,3.99,True,solomon
+R208,R2,ALNS-Base,46,2,756.48,4.61,True,2,726.82,0,4.08,True,solomon
+R207,R2,Hybrid-DDQN,45,3,856.18,60.97,True,2,890.61,1,-3.87,False,solomon
+R207,R2,Hybrid-DDQN,44,3,829.02,79.3,True,2,890.61,1,-6.92,False,solomon
+R208,R2,Single-Agent-RL-LNS,44,2,757.6,29.87,True,2,726.82,0,4.23,True,solomon
+R208,R2,Single-Agent-RL-LNS,43,2,744.47,31.68,True,2,726.82,0,2.43,True,solomon
+R208,R2,Single-Agent-RL-LNS,45,2,736.04,30.34,True,2,726.82,0,1.27,True,solomon
+R208,R2,Single-Agent-RL-LNS,42,2,734.92,35.5,True,2,726.82,0,1.11,True,solomon
+R207,R2,Hybrid-DDQN,46,3,820.29,60.1,True,2,890.61,1,-7.9,False,solomon
+R208,R2,Single-Agent-RL-LNS,46,2,739.6,28.95,True,2,726.82,0,1.76,True,solomon
+R209,R2,ALNS-Base,42,3,985.45,4.37,True,3,909.16,0,8.39,True,solomon
+R209,R2,ALNS-Base,44,3,969.35,4.06,True,3,909.16,0,6.62,True,solomon
+R209,R2,ALNS-Base,43,3,956.32,4.49,True,3,909.16,0,5.19,True,solomon
+R209,R2,ALNS-Base,45,3,963.7,4.2,True,3,909.16,0,6.0,True,solomon
+R209,R2,ALNS-Base,46,3,976.17,4.03,True,3,909.16,0,7.37,True,solomon
+R208,R2,Hybrid-DDQN,42,2,742.45,59.56,True,2,726.82,0,2.15,True,solomon
+R209,R2,Single-Agent-RL-LNS,43,3,935.74,26.83,True,3,909.16,0,2.92,True,solomon
+R209,R2,Single-Agent-RL-LNS,42,3,922.62,29.73,True,3,909.16,0,1.48,True,solomon
+R208,R2,Hybrid-DDQN,43,2,741.89,60.01,True,2,726.82,0,2.07,True,solomon
+R208,R2,Hybrid-DDQN,44,2,743.19,61.14,True,2,726.82,0,2.25,True,solomon
+R208,R2,Hybrid-DDQN,45,2,736.81,60.28,True,2,726.82,0,1.37,True,solomon
+R208,R2,Hybrid-DDQN,46,2,744.75,60.01,True,2,726.82,0,2.47,True,solomon
+R209,R2,Single-Agent-RL-LNS,44,3,948.59,31.12,True,3,909.16,0,4.34,True,solomon
+R209,R2,Single-Agent-RL-LNS,45,3,941.84,30.26,True,3,909.16,0,3.59,True,solomon
+R209,R2,Single-Agent-RL-LNS,46,3,948.83,29.17,True,3,909.16,0,4.36,True,solomon
+R210,R2,ALNS-Base,42,3,984.48,3.85,True,3,939.37,0,4.8,True,solomon
+R210,R2,ALNS-Base,43,3,986.92,4.08,True,3,939.37,0,5.06,True,solomon
+R210,R2,ALNS-Base,44,3,1002.52,4.09,True,3,939.37,0,6.72,True,solomon
+R210,R2,ALNS-Base,45,3,995.19,3.95,True,3,939.37,0,5.94,True,solomon
+R210,R2,ALNS-Base,46,3,992.31,3.94,True,3,939.37,0,5.64,True,solomon
+R209,R2,Hybrid-DDQN,42,3,927.8,60.06,True,3,909.16,0,2.05,True,solomon
+R209,R2,Hybrid-DDQN,43,3,924.87,60.04,True,3,909.16,0,1.73,True,solomon
+R209,R2,Hybrid-DDQN,44,3,958.02,62.76,True,3,909.16,0,5.37,True,solomon
+R210,R2,Single-Agent-RL-LNS,42,3,981.24,30.2,True,3,939.37,0,4.46,True,solomon
+R210,R2,Single-Agent-RL-LNS,43,3,977.38,30.61,True,3,939.37,0,4.05,True,solomon
+R209,R2,Hybrid-DDQN,45,3,943.13,67.34,True,3,909.16,0,3.74,True,solomon
+R209,R2,Hybrid-DDQN,46,3,975.5,60.18,True,3,909.16,0,7.3,True,solomon
+R210,R2,Single-Agent-RL-LNS,44,3,976.5,29.73,True,3,939.37,0,3.95,True,solomon
+R210,R2,Single-Agent-RL-LNS,45,3,965.47,32.91,True,3,939.37,0,2.78,True,solomon
+R210,R2,Single-Agent-RL-LNS,46,3,971.43,30.15,True,3,939.37,0,3.41,True,solomon
+R211,R2,ALNS-Base,42,3,826.04,4.84,True,2,885.71,1,-6.74,False,solomon
+R211,R2,ALNS-Base,43,3,841.96,4.74,True,2,885.71,1,-4.94,False,solomon
+R211,R2,ALNS-Base,44,3,846.62,4.46,True,2,885.71,1,-4.41,False,solomon
+R211,R2,ALNS-Base,45,3,820.86,4.67,True,2,885.71,1,-7.32,False,solomon
+R211,R2,ALNS-Base,46,3,835.04,4.56,True,2,885.71,1,-5.72,False,solomon
+R210,R2,Hybrid-DDQN,42,3,985.69,60.01,True,3,939.37,0,4.93,True,solomon
+R210,R2,Hybrid-DDQN,43,3,986.05,60.1,True,3,939.37,0,4.97,True,solomon
+R210,R2,Hybrid-DDQN,44,3,973.86,60.36,True,3,939.37,0,3.67,True,solomon
+R210,R2,Hybrid-DDQN,45,3,959.08,60.12,True,3,939.37,0,2.1,True,solomon
+R210,R2,Hybrid-DDQN,46,3,972.18,61.47,True,3,939.37,0,3.49,True,solomon
+R211,R2,Single-Agent-RL-LNS,42,3,808.4,62.48,True,2,885.71,1,-8.73,False,solomon
+R211,R2,Single-Agent-RL-LNS,43,3,822.31,68.76,True,2,885.71,1,-7.16,False,solomon
+R211,R2,Single-Agent-RL-LNS,44,3,804.23,60.01,True,2,885.71,1,-9.2,False,solomon
+R211,R2,Single-Agent-RL-LNS,45,3,806.87,65.95,True,2,885.71,1,-8.9,False,solomon
+R211,R2,Single-Agent-RL-LNS,46,3,796.45,63.82,True,2,885.71,1,-10.08,False,solomon
+R211,R2,Hybrid-DDQN,42,3,807.96,60.06,True,2,885.71,1,-8.78,False,solomon
+RC101,RC1,ALNS-Base,42,15,1677.3,10.78,True,14,1696.95,1,-1.16,False,solomon
+RC101,RC1,ALNS-Base,43,15,1709.25,10.31,True,14,1696.95,1,0.72,False,solomon
+R211,R2,Hybrid-DDQN,43,3,795.09,60.23,True,2,885.71,1,-10.23,False,solomon
+RC101,RC1,ALNS-Base,44,15,1649.35,10.54,True,14,1696.95,1,-2.81,False,solomon
+RC101,RC1,ALNS-Base,45,16,1692.26,9.98,True,14,1696.95,2,-0.28,False,solomon
+RC101,RC1,ALNS-Base,46,15,1806.04,10.48,True,14,1696.95,1,6.43,False,solomon
+R211,R2,Hybrid-DDQN,45,3,824.27,60.15,True,2,885.71,1,-6.94,False,solomon
+RC101,RC1,Single-Agent-RL-LNS,42,14,1706.76,27.21,True,14,1696.95,0,0.58,True,solomon
+RC101,RC1,Single-Agent-RL-LNS,44,14,1706.76,22.27,True,14,1696.95,0,0.58,True,solomon
+R211,R2,Hybrid-DDQN,46,3,784.46,60.15,True,2,885.71,1,-11.43,False,solomon
+R211,R2,Hybrid-DDQN,44,3,815.01,92.94,True,2,885.71,1,-7.98,False,solomon
+RC101,RC1,Single-Agent-RL-LNS,43,14,1702.68,60.02,True,14,1696.95,0,0.34,True,solomon
+RC101,RC1,Single-Agent-RL-LNS,45,15,1656.32,62.86,True,14,1696.95,1,-2.39,False,solomon
+RC102,RC1,ALNS-Base,42,13,1513.33,10.98,True,12,1554.75,1,-2.66,False,solomon
+RC101,RC1,Single-Agent-RL-LNS,46,15,1671.6,60.96,True,14,1696.95,1,-1.49,False,solomon
+RC101,RC1,Hybrid-DDQN,43,15,1642.86,60.44,True,14,1696.95,1,-3.19,False,solomon
+RC101,RC1,Hybrid-DDQN,42,15,1658.18,60.6,True,14,1696.95,1,-2.28,False,solomon
+RC102,RC1,ALNS-Base,43,14,1546.21,11.05,True,12,1554.75,2,-0.55,False,solomon
+RC102,RC1,ALNS-Base,46,14,1515.26,5.25,True,12,1554.75,2,-2.54,False,solomon
+RC102,RC1,ALNS-Base,45,13,1521.52,9.71,True,12,1554.75,1,-2.14,False,solomon
+RC101,RC1,Hybrid-DDQN,44,15,1652.43,61.93,True,14,1696.95,1,-2.62,False,solomon
+RC102,RC1,ALNS-Base,44,14,1528.71,11.03,True,12,1554.75,2,-1.67,False,solomon
+RC101,RC1,Hybrid-DDQN,45,15,1666.39,62.12,True,14,1696.95,1,-1.8,False,solomon
+RC101,RC1,Hybrid-DDQN,46,15,1642.86,60.06,True,14,1696.95,1,-3.19,False,solomon
+RC102,RC1,Single-Agent-RL-LNS,46,12,1598.67,26.06,True,12,1554.75,0,2.82,True,solomon
+RC102,RC1,Single-Agent-RL-LNS,42,12,1587.34,34.05,True,12,1554.75,0,2.1,True,solomon
+RC102,RC1,Single-Agent-RL-LNS,43,13,1561.79,61.03,True,12,1554.75,1,0.45,False,solomon
+RC102,RC1,Single-Agent-RL-LNS,44,13,1499.68,60.01,True,12,1554.75,1,-3.54,False,solomon
+RC102,RC1,Single-Agent-RL-LNS,45,13,1557.37,60.01,True,12,1554.75,1,0.17,False,solomon
+RC103,RC1,ALNS-Base,42,11,1310.84,5.07,True,11,1261.67,0,3.9,True,solomon
+RC103,RC1,ALNS-Base,44,12,1340.28,5.02,True,11,1261.67,1,6.23,False,solomon
+RC103,RC1,ALNS-Base,43,11,1332.56,11.7,True,11,1261.67,0,5.62,True,solomon
+RC103,RC1,ALNS-Base,45,12,1332.46,5.03,True,11,1261.67,1,5.61,False,solomon
+RC102,RC1,Hybrid-DDQN,42,14,1504.75,63.04,True,12,1554.75,2,-3.22,False,solomon
+RC103,RC1,ALNS-Base,46,11,1337.67,8.57,True,11,1261.67,0,6.02,True,solomon
+RC102,RC1,Hybrid-DDQN,44,13,1555.23,60.02,True,12,1554.75,1,0.03,False,solomon
+RC102,RC1,Hybrid-DDQN,43,13,1489.59,63.17,True,12,1554.75,1,-4.19,False,solomon
+RC103,RC1,Single-Agent-RL-LNS,43,11,1321.64,18.13,True,11,1261.67,0,4.75,True,solomon
+RC103,RC1,Single-Agent-RL-LNS,42,11,1312.2,22.87,True,11,1261.67,0,4.01,True,solomon
+RC102,RC1,Hybrid-DDQN,45,14,1496.08,72.27,True,12,1554.75,2,-3.77,False,solomon
+RC103,RC1,Single-Agent-RL-LNS,44,11,1272.33,25.82,True,11,1261.67,0,0.84,True,solomon
+RC103,RC1,Single-Agent-RL-LNS,46,11,1307.91,25.83,True,11,1261.67,0,3.67,True,solomon
+RC102,RC1,Hybrid-DDQN,46,14,1511.79,60.46,True,12,1554.75,2,-2.76,False,solomon
+RC103,RC1,Single-Agent-RL-LNS,45,11,1364.24,30.92,True,11,1261.67,0,8.13,True,solomon
+RC104,RC1,ALNS-Base,42,10,1161.18,5.32,True,10,1135.48,0,2.26,True,solomon
+RC104,RC1,ALNS-Base,44,10,1197.97,4.96,True,10,1135.48,0,5.5,True,solomon
+RC104,RC1,ALNS-Base,43,10,1176.1,10.52,True,10,1135.48,0,3.58,True,solomon
+RC104,RC1,ALNS-Base,45,10,1193.55,5.04,True,10,1135.48,0,5.11,True,solomon
+RC104,RC1,ALNS-Base,46,10,1189.82,5.85,True,10,1135.48,0,4.79,True,solomon
+RC104,RC1,Single-Agent-RL-LNS,42,10,1167.34,20.11,True,10,1135.48,0,2.81,True,solomon
+RC104,RC1,Single-Agent-RL-LNS,43,10,1138.58,18.3,True,10,1135.48,0,0.27,True,solomon
+RC103,RC1,Hybrid-DDQN,42,12,1311.34,62.22,True,11,1261.67,1,3.94,False,solomon
+RC103,RC1,Hybrid-DDQN,44,11,1307.77,59.5,True,11,1261.67,0,3.65,True,solomon
+RC103,RC1,Hybrid-DDQN,43,12,1299.95,64.95,True,11,1261.67,1,3.03,False,solomon
+RC103,RC1,Hybrid-DDQN,45,11,1300.77,58.19,True,11,1261.67,0,3.1,True,solomon
+RC104,RC1,Single-Agent-RL-LNS,44,10,1151.25,16.77,True,10,1135.48,0,1.39,True,solomon
+RC104,RC1,Single-Agent-RL-LNS,45,10,1139.9,20.36,True,10,1135.48,0,0.39,True,solomon
+RC103,RC1,Hybrid-DDQN,46,11,1277.03,59.94,True,11,1261.67,0,1.22,True,solomon
+RC104,RC1,Single-Agent-RL-LNS,46,10,1136.88,20.96,True,10,1135.48,0,0.12,True,solomon
+RC105,RC1,ALNS-Base,42,14,1634.46,9.23,True,13,1629.44,1,0.31,False,solomon
+RC105,RC1,ALNS-Base,43,14,1574.53,10.5,True,13,1629.44,1,-3.37,False,solomon
+RC105,RC1,ALNS-Base,44,14,1600.86,11.06,True,13,1629.44,1,-1.75,False,solomon
+RC105,RC1,ALNS-Base,45,15,1618.28,10.09,True,13,1629.44,2,-0.68,False,solomon
+RC105,RC1,ALNS-Base,46,14,1580.66,10.42,True,13,1629.44,1,-2.99,False,solomon
+RC104,RC1,Hybrid-DDQN,42,10,1138.9,54.46,True,10,1135.48,0,0.3,True,solomon
+RC104,RC1,Hybrid-DDQN,44,10,1175.78,56.82,True,10,1135.48,0,3.55,True,solomon
+RC104,RC1,Hybrid-DDQN,43,10,1147.27,59.08,True,10,1135.48,0,1.04,True,solomon
+RC104,RC1,Hybrid-DDQN,45,10,1135.85,53.62,True,10,1135.48,0,0.03,True,solomon
+RC104,RC1,Hybrid-DDQN,46,10,1272.81,60.01,True,10,1135.48,0,12.09,True,solomon
+RC105,RC1,Single-Agent-RL-LNS,45,13,1706.74,23.96,True,13,1629.44,0,4.74,True,solomon
+RC105,RC1,Single-Agent-RL-LNS,46,13,1635.9,25.73,True,13,1629.44,0,0.4,True,solomon
+RC105,RC1,Single-Agent-RL-LNS,42,14,1564.39,61.2,True,13,1629.44,1,-3.99,False,solomon
+RC105,RC1,Single-Agent-RL-LNS,43,13,1664.89,61.92,True,13,1629.44,0,2.18,True,solomon
+RC105,RC1,Single-Agent-RL-LNS,44,13,1706.93,60.02,True,13,1629.44,0,4.76,True,solomon
+RC106,RC1,ALNS-Base,42,13,1419.07,11.19,True,11,1424.73,2,-0.4,False,solomon
+RC105,RC1,Hybrid-DDQN,42,13,1776.97,59.72,True,13,1629.44,0,9.05,True,solomon
+RC106,RC1,ALNS-Base,43,12,1429.75,10.98,True,11,1424.73,1,0.35,False,solomon
+RC106,RC1,ALNS-Base,44,13,1414.86,11.37,True,11,1424.73,2,-0.69,False,solomon
+RC106,RC1,ALNS-Base,45,13,1440.47,10.08,True,11,1424.73,2,1.1,False,solomon
+RC105,RC1,Hybrid-DDQN,43,14,1625.14,60.01,True,13,1629.44,1,-0.26,False,solomon
+RC106,RC1,ALNS-Base,46,13,1421.66,10.56,True,11,1424.73,2,-0.22,False,solomon
+RC105,RC1,Hybrid-DDQN,44,14,1563.18,60.01,True,13,1629.44,1,-4.07,False,solomon
+RC105,RC1,Hybrid-DDQN,45,15,1578.34,60.88,True,13,1629.44,2,-3.14,False,solomon
+RC105,RC1,Hybrid-DDQN,46,13,1714.74,58.42,True,13,1629.44,0,5.23,True,solomon
+RC106,RC1,Single-Agent-RL-LNS,42,12,1386.79,60.06,True,11,1424.73,1,-2.66,False,solomon
+RC106,RC1,Single-Agent-RL-LNS,43,12,1536.38,60.1,True,11,1424.73,1,7.84,False,solomon
+RC106,RC1,Single-Agent-RL-LNS,44,12,1385.92,60.06,True,11,1424.73,1,-2.72,False,solomon
+RC106,RC1,Single-Agent-RL-LNS,45,12,1424.56,61.82,True,11,1424.73,1,-0.01,False,solomon
+RC106,RC1,Single-Agent-RL-LNS,46,12,1475.67,60.01,True,11,1424.73,1,3.58,False,solomon
+RC107,RC1,ALNS-Base,42,12,1267.14,10.64,True,11,1230.48,1,2.98,False,solomon
+RC106,RC1,Hybrid-DDQN,42,12,1403.68,60.01,True,11,1424.73,1,-1.48,False,solomon
+RC107,RC1,ALNS-Base,43,11,1303.99,10.86,True,11,1230.48,0,5.97,True,solomon
+RC107,RC1,ALNS-Base,44,12,1269.1,10.85,True,11,1230.48,1,3.14,False,solomon
+RC107,RC1,ALNS-Base,45,11,1278.23,10.95,True,11,1230.48,0,3.88,True,solomon
+RC107,RC1,ALNS-Base,46,12,1275.98,5.06,True,11,1230.48,1,3.7,False,solomon
+RC106,RC1,Hybrid-DDQN,43,13,1420.23,68.29,True,11,1424.73,2,-0.32,False,solomon
+RC107,RC1,Single-Agent-RL-LNS,44,11,1311.39,21.35,True,11,1230.48,0,6.58,True,solomon
+RC107,RC1,Single-Agent-RL-LNS,43,11,1232.26,27.17,True,11,1230.48,0,0.14,True,solomon
+RC107,RC1,Single-Agent-RL-LNS,42,11,1250.06,30.52,True,11,1230.48,0,1.59,True,solomon
+RC106,RC1,Hybrid-DDQN,46,12,1421.83,60.02,True,11,1424.73,1,-0.2,False,solomon
+RC106,RC1,Hybrid-DDQN,44,13,1419.58,63.34,True,11,1424.73,2,-0.36,False,solomon
+RC106,RC1,Hybrid-DDQN,45,13,1394.15,65.25,True,11,1424.73,2,-2.15,False,solomon
+RC107,RC1,Single-Agent-RL-LNS,45,11,1243.67,34.78,True,11,1230.48,0,1.07,True,solomon
+RC107,RC1,Single-Agent-RL-LNS,46,11,1243.67,28.22,True,11,1230.48,0,1.07,True,solomon
+RC108,RC1,ALNS-Base,42,11,1163.38,10.43,True,10,1139.82,1,2.07,False,solomon
+RC108,RC1,ALNS-Base,43,11,1156.13,10.83,True,10,1139.82,1,1.43,False,solomon
+RC108,RC1,ALNS-Base,44,11,1152.94,10.56,True,10,1139.82,1,1.15,False,solomon
+RC108,RC1,ALNS-Base,45,10,1156.86,11.42,True,10,1139.82,0,1.5,True,solomon
+RC108,RC1,ALNS-Base,46,11,1143.24,10.92,True,10,1139.82,1,0.3,False,solomon
+RC107,RC1,Hybrid-DDQN,42,11,1245.9,54.68,True,11,1230.48,0,1.25,True,solomon
+RC107,RC1,Hybrid-DDQN,44,11,1243.67,54.76,True,11,1230.48,0,1.07,True,solomon
+RC107,RC1,Hybrid-DDQN,43,11,1305.37,60.03,True,11,1230.48,0,6.09,True,solomon
+RC107,RC1,Hybrid-DDQN,45,11,1240.4,58.18,True,11,1230.48,0,0.81,True,solomon
+RC107,RC1,Hybrid-DDQN,46,11,1244.62,55.12,True,11,1230.48,0,1.15,True,solomon
+RC108,RC1,Single-Agent-RL-LNS,42,10,1189.5,23.19,True,10,1139.82,0,4.36,True,solomon
+RC108,RC1,Single-Agent-RL-LNS,44,10,1146.66,27.54,True,10,1139.82,0,0.6,True,solomon
+RC108,RC1,Single-Agent-RL-LNS,45,10,1159.05,22.8,True,10,1139.82,0,1.69,True,solomon
+RC108,RC1,Single-Agent-RL-LNS,46,10,1140.42,27.26,True,10,1139.82,0,0.05,True,solomon
+RC201,RC2,ALNS-Base,42,4,1448.37,3.81,True,4,1406.94,0,2.94,True,solomon
+RC201,RC2,ALNS-Base,43,4,1451.94,3.92,True,4,1406.94,0,3.2,True,solomon
+RC201,RC2,ALNS-Base,44,4,1471.86,4.16,True,4,1406.94,0,4.61,True,solomon
+RC201,RC2,ALNS-Base,45,4,1508.46,3.75,True,4,1406.94,0,7.22,True,solomon
+RC108,RC1,Single-Agent-RL-LNS,43,10,1223.11,60.55,True,10,1139.82,0,7.31,True,solomon
+RC201,RC2,ALNS-Base,46,4,1513.34,3.85,True,4,1406.94,0,7.56,True,solomon
+RC108,RC1,Hybrid-DDQN,42,10,1147.26,55.15,True,10,1139.82,0,0.65,True,solomon
+RC108,RC1,Hybrid-DDQN,43,11,1144.62,60.21,True,10,1139.82,1,0.42,False,solomon
+RC108,RC1,Hybrid-DDQN,44,11,1139.29,60.01,True,10,1139.82,1,-0.05,False,solomon
+RC201,RC2,Single-Agent-RL-LNS,42,4,1454.55,24.82,True,4,1406.94,0,3.38,True,solomon
+RC201,RC2,Single-Agent-RL-LNS,43,4,1446.45,27.07,True,4,1406.94,0,2.81,True,solomon
+RC108,RC1,Hybrid-DDQN,45,10,1147.7,54.38,True,10,1139.82,0,0.69,True,solomon
+RC108,RC1,Hybrid-DDQN,46,10,1153.29,55.39,True,10,1139.82,0,1.18,True,solomon
+RC201,RC2,Single-Agent-RL-LNS,44,4,1424.37,25.62,True,4,1406.94,0,1.24,True,solomon
+RC201,RC2,Single-Agent-RL-LNS,45,4,1446.45,26.19,True,4,1406.94,0,2.81,True,solomon
+RC201,RC2,Single-Agent-RL-LNS,46,4,1443.34,24.17,True,4,1406.94,0,2.59,True,solomon
+RC202,RC2,ALNS-Base,42,4,1221.82,3.91,True,3,1365.65,1,-10.53,False,solomon
+RC202,RC2,ALNS-Base,43,4,1219.66,3.84,True,3,1365.65,1,-10.69,False,solomon
+RC202,RC2,ALNS-Base,44,4,1230.18,4.1,True,3,1365.65,1,-9.92,False,solomon
+RC202,RC2,ALNS-Base,45,4,1241.99,4.22,True,3,1365.65,1,-9.06,False,solomon
+RC202,RC2,ALNS-Base,46,4,1221.17,3.91,True,3,1365.65,1,-10.58,False,solomon
+RC202,RC2,Single-Agent-RL-LNS,43,3,1526.8,26.83,True,3,1365.65,0,11.8,True,solomon
+RC201,RC2,Hybrid-DDQN,42,4,1453.47,60.01,True,4,1406.94,0,3.31,True,solomon
+RC202,RC2,Single-Agent-RL-LNS,42,3,1529.09,32.24,True,3,1365.65,0,11.97,True,solomon
+RC201,RC2,Hybrid-DDQN,43,4,1496.8,60.01,True,4,1406.94,0,6.39,True,solomon
+RC201,RC2,Hybrid-DDQN,44,4,1454.87,60.05,True,4,1406.94,0,3.41,True,solomon
+RC201,RC2,Hybrid-DDQN,45,4,1490.83,60.39,True,4,1406.94,0,5.96,True,solomon
+RC201,RC2,Hybrid-DDQN,46,4,1434.76,60.07,True,4,1406.94,0,1.98,True,solomon
+RC202,RC2,Single-Agent-RL-LNS,46,3,1496.24,34.75,True,3,1365.65,0,9.56,True,solomon
+RC202,RC2,Single-Agent-RL-LNS,44,3,1595.24,60.02,True,3,1365.65,0,16.81,True,solomon
+RC202,RC2,Single-Agent-RL-LNS,45,3,1621.42,60.02,True,3,1365.65,0,18.73,True,solomon
+RC203,RC2,ALNS-Base,42,3,1117.67,3.8,True,3,1049.62,0,6.48,True,solomon
+RC202,RC2,Hybrid-DDQN,43,4,1261.47,60.06,True,3,1365.65,1,-7.63,False,solomon
+RC203,RC2,ALNS-Base,43,3,1131.17,3.86,True,3,1049.62,0,7.77,True,solomon
+RC202,RC2,Hybrid-DDQN,42,4,1215.51,62.06,True,3,1365.65,1,-10.99,False,solomon
+RC203,RC2,ALNS-Base,44,3,1115.62,3.82,True,3,1049.62,0,6.29,True,solomon
+RC202,RC2,Hybrid-DDQN,44,4,1161.79,60.15,True,3,1365.65,1,-14.93,False,solomon
+RC203,RC2,ALNS-Base,45,3,1110.57,3.77,True,3,1049.62,0,5.81,True,solomon
+RC203,RC2,ALNS-Base,46,3,1102.44,3.84,True,3,1049.62,0,5.03,True,solomon
+RC202,RC2,Hybrid-DDQN,45,4,1161.79,65.05,True,3,1365.65,1,-14.93,False,solomon
+RC203,RC2,Single-Agent-RL-LNS,45,3,1092.66,26.26,True,3,1049.62,0,4.1,True,solomon
+RC203,RC2,Single-Agent-RL-LNS,42,3,1096.93,30.28,True,3,1049.62,0,4.51,True,solomon
+RC203,RC2,Single-Agent-RL-LNS,44,3,1109.06,28.8,True,3,1049.62,0,5.66,True,solomon
+RC203,RC2,Single-Agent-RL-LNS,46,3,1102.99,27.74,True,3,1049.62,0,5.09,True,solomon
+RC203,RC2,Single-Agent-RL-LNS,43,3,1077.97,29.7,True,3,1049.62,0,2.7,True,solomon
+RC202,RC2,Hybrid-DDQN,46,4,1194.37,60.57,True,3,1365.65,1,-12.54,False,solomon
+RC204,RC2,ALNS-Base,42,3,813.28,4.88,True,3,798.46,0,1.86,True,solomon
+RC204,RC2,ALNS-Base,43,3,815.98,4.81,True,3,798.46,0,2.19,True,solomon
+RC204,RC2,ALNS-Base,44,3,845.95,4.75,True,3,798.46,0,5.95,True,solomon
+RC204,RC2,ALNS-Base,45,3,831.58,4.59,True,3,798.46,0,4.15,True,solomon
+RC204,RC2,ALNS-Base,46,3,843.85,4.77,True,3,798.46,0,5.69,True,solomon
+RC204,RC2,Single-Agent-RL-LNS,42,3,810.88,32.23,True,3,798.46,0,1.56,True,solomon
+RC203,RC2,Hybrid-DDQN,42,3,1098.69,60.01,True,3,1049.62,0,4.67,True,solomon
+RC204,RC2,Single-Agent-RL-LNS,43,3,823.07,28.02,True,3,798.46,0,3.08,True,solomon
+RC203,RC2,Hybrid-DDQN,45,3,1149.39,60.1,True,3,1049.62,0,9.51,True,solomon
+RC203,RC2,Hybrid-DDQN,43,3,1121.08,62.22,True,3,1049.62,0,6.81,True,solomon
+RC203,RC2,Hybrid-DDQN,46,3,1082.55,62.5,True,3,1049.62,0,3.14,True,solomon
+RC203,RC2,Hybrid-DDQN,44,3,1079.22,66.37,True,3,1049.62,0,2.82,True,solomon
+RC204,RC2,Single-Agent-RL-LNS,44,3,818.21,29.84,True,3,798.46,0,2.47,True,solomon
+RC204,RC2,Single-Agent-RL-LNS,46,3,804.58,31.57,True,3,798.46,0,0.77,True,solomon
+RC204,RC2,Single-Agent-RL-LNS,45,3,822.42,32.04,True,3,798.46,0,3.0,True,solomon
+RC205,RC2,ALNS-Base,42,4,1347.78,3.84,True,4,1297.65,0,3.86,True,solomon
+RC205,RC2,ALNS-Base,43,4,1339.9,4.02,True,4,1297.65,0,3.26,True,solomon
+RC205,RC2,ALNS-Base,45,4,1382.6,3.92,True,4,1297.65,0,6.55,True,solomon
+RC205,RC2,ALNS-Base,44,4,1377.83,4.21,True,4,1297.65,0,6.18,True,solomon
+RC205,RC2,ALNS-Base,46,4,1359.12,3.81,True,4,1297.65,0,4.74,True,solomon
+RC205,RC2,Single-Agent-RL-LNS,42,4,1316.41,28.03,True,4,1297.65,0,1.45,True,solomon
+RC205,RC2,Single-Agent-RL-LNS,43,4,1321.39,26.88,True,4,1297.65,0,1.83,True,solomon
+RC204,RC2,Hybrid-DDQN,42,3,880.31,60.1,True,3,798.46,0,10.25,True,solomon
+RC204,RC2,Hybrid-DDQN,43,3,843.56,60.06,True,3,798.46,0,5.65,True,solomon
+RC204,RC2,Hybrid-DDQN,44,3,824.67,60.15,True,3,798.46,0,3.28,True,solomon
+RC204,RC2,Hybrid-DDQN,45,3,827.59,60.23,True,3,798.46,0,3.65,True,solomon
+RC204,RC2,Hybrid-DDQN,46,3,808.86,60.1,True,3,798.46,0,1.3,True,solomon
+RC205,RC2,Single-Agent-RL-LNS,44,4,1317.26,28.01,True,4,1297.65,0,1.51,True,solomon
+RC205,RC2,Single-Agent-RL-LNS,45,4,1325.18,27.84,True,4,1297.65,0,2.12,True,solomon
+RC206,RC2,ALNS-Base,42,3,1233.81,5.69,True,3,1146.32,0,7.63,True,solomon
+RC205,RC2,Single-Agent-RL-LNS,46,4,1327.79,28.55,True,4,1297.65,0,2.32,True,solomon
+RC206,RC2,ALNS-Base,43,3,1191.34,3.65,True,3,1146.32,0,3.93,True,solomon
+RC206,RC2,ALNS-Base,44,3,1192.57,4.11,True,3,1146.32,0,4.03,True,solomon
+RC206,RC2,ALNS-Base,45,4,1111.53,4.18,True,3,1146.32,1,-3.04,False,solomon
+RC206,RC2,ALNS-Base,46,4,1117.99,4.09,True,3,1146.32,1,-2.47,False,solomon
+RC205,RC2,Hybrid-DDQN,42,4,1329.4,60.01,True,4,1297.65,0,2.45,True,solomon
+RC206,RC2,Single-Agent-RL-LNS,42,3,1158.05,28.48,True,3,1146.32,0,1.02,True,solomon
+RC205,RC2,Hybrid-DDQN,43,4,1327.74,60.73,True,4,1297.65,0,2.32,True,solomon
+RC206,RC2,Single-Agent-RL-LNS,43,3,1208.3,28.05,True,3,1146.32,0,5.41,True,solomon
+RC205,RC2,Hybrid-DDQN,44,4,1339.33,60.1,True,4,1297.65,0,3.21,True,solomon
+RC205,RC2,Hybrid-DDQN,45,4,1383.61,62.44,True,4,1297.65,0,6.62,True,solomon
+RC205,RC2,Hybrid-DDQN,46,4,1359.15,64.17,True,4,1297.65,0,4.74,True,solomon
+RC206,RC2,Single-Agent-RL-LNS,45,3,1204.13,34.71,True,3,1146.32,0,5.04,True,solomon
+RC206,RC2,Single-Agent-RL-LNS,46,3,1251.85,35.14,True,3,1146.32,0,9.21,True,solomon
+RC206,RC2,Single-Agent-RL-LNS,44,3,1215.16,39.1,True,3,1146.32,0,6.01,True,solomon
+RC207,RC2,ALNS-Base,42,3,1132.17,4.22,True,3,1061.14,0,6.69,True,solomon
+RC207,RC2,ALNS-Base,43,3,1125.73,4.15,True,3,1061.14,0,6.09,True,solomon
+RC207,RC2,ALNS-Base,44,3,1131.54,4.0,True,3,1061.14,0,6.63,True,solomon
+RC207,RC2,ALNS-Base,45,3,1132.82,3.7,True,3,1061.14,0,6.75,True,solomon
+RC207,RC2,ALNS-Base,46,3,1110.2,3.91,True,3,1061.14,0,4.62,True,solomon
+RC206,RC2,Hybrid-DDQN,42,3,1153.94,60.01,True,3,1146.32,0,0.66,True,solomon
+RC206,RC2,Hybrid-DDQN,44,3,1160.12,60.01,True,3,1146.32,0,1.2,True,solomon
+RC207,RC2,Single-Agent-RL-LNS,42,3,1120.05,27.34,True,3,1061.14,0,5.55,True,solomon
+RC206,RC2,Hybrid-DDQN,43,4,1159.33,68.64,True,3,1146.32,1,1.13,False,solomon
+RC207,RC2,Single-Agent-RL-LNS,43,3,1087.28,28.98,True,3,1061.14,0,2.46,True,solomon
+RC206,RC2,Hybrid-DDQN,45,4,1112.49,60.24,True,3,1146.32,1,-2.95,False,solomon
+RC207,RC2,Single-Agent-RL-LNS,44,3,1091.48,29.61,True,3,1061.14,0,2.86,True,solomon
+RC206,RC2,Hybrid-DDQN,46,4,1117.69,61.97,True,3,1146.32,1,-2.5,False,solomon
+RC207,RC2,Single-Agent-RL-LNS,46,3,1159.88,27.78,True,3,1061.14,0,9.31,True,solomon
+RC207,RC2,Single-Agent-RL-LNS,45,3,1094.07,29.73,True,3,1061.14,0,3.1,True,solomon
+RC208,RC2,ALNS-Base,42,3,891.74,4.87,True,3,828.14,0,7.68,True,solomon
+RC208,RC2,ALNS-Base,43,3,869.71,7.69,True,3,828.14,0,5.02,True,solomon
+RC208,RC2,ALNS-Base,44,3,871.5,6.11,True,3,828.14,0,5.24,True,solomon
+RC208,RC2,ALNS-Base,45,3,882.51,5.19,True,3,828.14,0,6.57,True,solomon
+RC208,RC2,ALNS-Base,46,3,888.88,5.11,True,3,828.14,0,7.33,True,solomon
+RC207,RC2,Hybrid-DDQN,42,3,1130.05,61.19,True,3,1061.14,0,6.49,True,solomon
+RC207,RC2,Hybrid-DDQN,43,3,1101.48,60.08,True,3,1061.14,0,3.8,True,solomon
+RC207,RC2,Hybrid-DDQN,44,3,1097.44,62.29,True,3,1061.14,0,3.42,True,solomon
+RC208,RC2,Single-Agent-RL-LNS,43,3,852.25,30.28,True,3,828.14,0,2.91,True,solomon
+RC208,RC2,Single-Agent-RL-LNS,42,3,877.03,32.14,True,3,828.14,0,5.9,True,solomon
+RC207,RC2,Hybrid-DDQN,45,4,1040.3,60.06,True,3,1061.14,1,-1.96,False,solomon
+RC207,RC2,Hybrid-DDQN,46,3,1104.7,61.26,True,3,1061.14,0,4.11,True,solomon
+RC208,RC2,Single-Agent-RL-LNS,44,3,877.16,30.24,True,3,828.14,0,5.92,True,solomon
+RC208,RC2,Single-Agent-RL-LNS,45,3,841.99,33.69,True,3,828.14,0,1.67,True,solomon
+RC208,RC2,Single-Agent-RL-LNS,46,3,838.79,35.94,True,3,828.14,0,1.29,True,solomon
+RC208,RC2,Hybrid-DDQN,42,3,852.99,60.42,True,3,828.14,0,3.0,True,solomon
+RC208,RC2,Hybrid-DDQN,43,3,887.6,60.09,True,3,828.14,0,7.18,True,solomon
+c1_2_1,C1_200,ALNS-Base,42,20,2714.16,36.71,True,20,2704.57,0,0.35,True,gh200
+RC208,RC2,Hybrid-DDQN,44,3,879.0,61.13,True,3,828.14,0,6.14,True,solomon
+c1_2_1,C1_200,ALNS-Base,43,20,2704.57,37.84,True,20,2704.57,0,-0.0,True,gh200
+RC208,RC2,Hybrid-DDQN,45,3,908.65,60.21,True,3,828.14,0,9.72,True,solomon
+RC208,RC2,Hybrid-DDQN,46,3,867.58,61.87,True,3,828.14,0,4.76,True,solomon
+c1_2_1,C1_200,ALNS-Base,46,20,2714.16,30.79,True,20,2704.57,0,0.35,True,gh200
+c1_2_1,C1_200,ALNS-Base,44,20,2704.57,34.33,True,20,2704.57,0,-0.0,True,gh200
+c1_2_1,C1_200,ALNS-Base,45,20,2704.57,37.76,True,20,2704.57,0,-0.0,True,gh200
+c1_2_1,C1_200,Single-Agent-RL-LNS,42,20,2704.57,119.01,True,20,2704.57,0,-0.0,True,gh200
+c1_2_1,C1_200,Single-Agent-RL-LNS,43,20,2704.57,118.48,True,20,2704.57,0,-0.0,True,gh200
+c1_2_1,C1_200,Single-Agent-RL-LNS,44,20,2704.57,119.85,True,20,2704.57,0,-0.0,True,gh200
+c1_2_1,C1_200,Single-Agent-RL-LNS,45,20,2704.57,120.02,True,20,2704.57,0,-0.0,True,gh200
+c1_2_1,C1_200,Single-Agent-RL-LNS,46,20,2704.57,118.28,True,20,2704.57,0,-0.0,True,gh200
+c1_2_1,C1_200,Hybrid-DDQN,42,20,2704.57,119.65,True,20,2704.57,0,-0.0,True,gh200
+c1_2_1,C1_200,Hybrid-DDQN,43,20,2704.57,123.58,True,20,2704.57,0,-0.0,True,gh200
+c1_2_5,C1_200,ALNS-Base,42,20,2702.05,39.4,True,20,2702.05,0,-0.0,True,gh200
+c1_2_5,C1_200,ALNS-Base,43,20,2702.05,37.72,True,20,2702.05,0,-0.0,True,gh200
+c1_2_5,C1_200,ALNS-Base,44,20,2702.05,37.33,True,20,2702.05,0,-0.0,True,gh200
+c1_2_5,C1_200,ALNS-Base,45,20,2702.05,35.01,True,20,2702.05,0,-0.0,True,gh200
+c1_2_5,C1_200,ALNS-Base,46,20,2702.05,43.49,True,20,2702.05,0,-0.0,True,gh200
+c1_2_1,C1_200,Hybrid-DDQN,44,20,2704.57,120.56,True,20,2704.57,0,-0.0,True,gh200
+c1_2_1,C1_200,Hybrid-DDQN,45,20,2704.57,120.07,True,20,2704.57,0,-0.0,True,gh200
+c1_2_1,C1_200,Hybrid-DDQN,46,20,2704.57,121.06,True,20,2704.57,0,-0.0,True,gh200
+c1_2_5,C1_200,Single-Agent-RL-LNS,42,20,2702.05,120.02,True,20,2702.05,0,-0.0,True,gh200
+c1_2_5,C1_200,Single-Agent-RL-LNS,43,20,2702.05,120.09,True,20,2702.05,0,-0.0,True,gh200
+c1_2_5,C1_200,Single-Agent-RL-LNS,44,20,2702.05,120.25,True,20,2702.05,0,-0.0,True,gh200
+c1_2_5,C1_200,Single-Agent-RL-LNS,45,20,2702.05,121.97,True,20,2702.05,0,-0.0,True,gh200
+c1_2_5,C1_200,Single-Agent-RL-LNS,46,20,2702.05,120.87,True,20,2702.05,0,-0.0,True,gh200
+c1_2_5,C1_200,Hybrid-DDQN,42,20,2702.05,120.91,True,20,2702.05,0,-0.0,True,gh200
+c2_2_1,C2_200,ALNS-Base,42,6,1931.44,28.18,True,6,1931.44,0,0.0,True,gh200
+c1_2_5,C1_200,Hybrid-DDQN,43,20,2702.05,120.84,True,20,2702.05,0,-0.0,True,gh200
+c2_2_1,C2_200,ALNS-Base,44,6,1931.44,19.26,True,6,1931.44,0,0.0,True,gh200
+c2_2_1,C2_200,ALNS-Base,43,6,1931.44,23.42,True,6,1931.44,0,0.0,True,gh200
+c2_2_1,C2_200,ALNS-Base,45,6,1931.44,25.35,True,6,1931.44,0,0.0,True,gh200
+c2_2_1,C2_200,ALNS-Base,46,6,1931.44,27.89,True,6,1931.44,0,0.0,True,gh200
+c1_2_5,C1_200,Hybrid-DDQN,44,20,2702.05,120.71,True,20,2702.05,0,-0.0,True,gh200
+c1_2_5,C1_200,Hybrid-DDQN,45,20,2702.05,120.68,True,20,2702.05,0,-0.0,True,gh200
+c1_2_5,C1_200,Hybrid-DDQN,46,20,2702.05,122.37,True,20,2702.05,0,-0.0,True,gh200
+c2_2_1,C2_200,Single-Agent-RL-LNS,42,6,1931.44,120.19,True,6,1931.44,0,0.0,True,gh200
+c2_2_1,C2_200,Single-Agent-RL-LNS,43,6,1931.44,120.22,True,6,1931.44,0,0.0,True,gh200
+c2_2_1,C2_200,Single-Agent-RL-LNS,44,6,1931.44,124.35,True,6,1931.44,0,0.0,True,gh200
+c2_2_1,C2_200,Single-Agent-RL-LNS,45,6,1931.44,124.41,True,6,1931.44,0,0.0,True,gh200
+c2_2_1,C2_200,Hybrid-DDQN,42,6,1931.44,120.25,True,6,1931.44,0,0.0,True,gh200
+c2_2_1,C2_200,Single-Agent-RL-LNS,46,6,1931.44,124.67,True,6,1931.44,0,0.0,True,gh200
+c2_2_5,C2_200,ALNS-Base,42,6,1951.35,28.11,True,6,1878.85,0,3.86,True,gh200
+c2_2_1,C2_200,Hybrid-DDQN,43,6,1931.44,120.09,True,6,1931.44,0,0.0,True,gh200
+c2_2_5,C2_200,ALNS-Base,43,6,1899.81,12.02,True,6,1878.85,0,1.12,True,gh200
+c2_2_5,C2_200,ALNS-Base,44,6,1918.97,11.88,True,6,1878.85,0,2.14,True,gh200
+c2_2_5,C2_200,ALNS-Base,45,6,1940.91,19.65,True,6,1878.85,0,3.3,True,gh200
+c2_2_5,C2_200,ALNS-Base,46,6,1921.4,25.39,True,6,1878.85,0,2.26,True,gh200
+c2_2_1,C2_200,Hybrid-DDQN,44,6,1931.44,120.64,True,6,1931.44,0,0.0,True,gh200
+c2_2_1,C2_200,Hybrid-DDQN,45,6,1931.44,124.49,True,6,1931.44,0,0.0,True,gh200
+c2_2_1,C2_200,Hybrid-DDQN,46,6,1931.44,125.62,True,6,1931.44,0,0.0,True,gh200
+c2_2_5,C2_200,Single-Agent-RL-LNS,42,6,1879.31,120.08,True,6,1878.85,0,0.02,True,gh200
+c2_2_5,C2_200,Single-Agent-RL-LNS,43,6,1879.31,120.21,True,6,1878.85,0,0.02,True,gh200
+c2_2_5,C2_200,Single-Agent-RL-LNS,44,6,1879.31,124.28,True,6,1878.85,0,0.02,True,gh200
+c2_2_5,C2_200,Single-Agent-RL-LNS,45,6,1879.31,123.47,True,6,1878.85,0,0.02,True,gh200
+r1_2_1,R1_200,ALNS-Base,42,20,5080.98,35.18,True,20,4784.11,0,6.21,True,gh200
+c2_2_5,C2_200,Single-Agent-RL-LNS,46,6,1879.31,120.13,True,6,1878.85,0,0.02,True,gh200
+c2_2_5,C2_200,Hybrid-DDQN,42,6,1879.31,120.15,True,6,1878.85,0,0.02,True,gh200
+r1_2_1,R1_200,ALNS-Base,44,20,5286.64,16.13,True,20,4784.11,0,10.5,True,gh200
+c2_2_5,C2_200,Hybrid-DDQN,43,6,1879.31,120.28,True,6,1878.85,0,0.02,True,gh200
+r1_2_1,R1_200,ALNS-Base,45,20,5233.6,16.36,True,20,4784.11,0,9.4,True,gh200
+r1_2_1,R1_200,ALNS-Base,43,20,5047.74,36.57,True,20,4784.11,0,5.51,True,gh200
+r1_2_1,R1_200,ALNS-Base,46,21,5141.34,15.39,True,20,4784.11,1,7.47,False,gh200
+c2_2_5,C2_200,Hybrid-DDQN,44,6,1879.31,120.17,True,6,1878.85,0,0.02,True,gh200
+c2_2_5,C2_200,Hybrid-DDQN,45,6,1879.31,120.2,True,6,1878.85,0,0.02,True,gh200
+c2_2_5,C2_200,Hybrid-DDQN,46,6,1879.31,120.17,True,6,1878.85,0,0.02,True,gh200
+r1_2_1,R1_200,Single-Agent-RL-LNS,42,20,4883.03,115.19,True,20,4784.11,0,2.07,True,gh200
+r1_2_1,R1_200,Single-Agent-RL-LNS,43,20,4939.21,111.74,True,20,4784.11,0,3.24,True,gh200
+r1_2_1,R1_200,Single-Agent-RL-LNS,44,20,4981.19,122.14,True,20,4784.11,0,4.12,True,gh200
+r1_2_1,R1_200,Single-Agent-RL-LNS,45,21,4821.5,122.4,True,20,4784.11,1,0.78,False,gh200
+r1_2_1,R1_200,Single-Agent-RL-LNS,46,20,4944.52,115.83,True,20,4784.11,0,3.35,True,gh200
+r1_2_5,R1_200,ALNS-Base,42,19,4363.38,32.52,True,18,4107.86,1,6.22,False,gh200
+r1_2_5,R1_200,ALNS-Base,43,19,4409.37,16.92,True,18,4107.86,1,7.34,False,gh200
+r1_2_1,R1_200,Hybrid-DDQN,42,21,5558.81,133.27,True,20,4784.11,1,16.19,False,gh200
+r1_2_1,R1_200,Hybrid-DDQN,43,22,4901.62,130.65,True,20,4784.11,2,2.46,False,gh200
+r1_2_5,R1_200,ALNS-Base,46,19,4515.31,15.42,True,18,4107.86,1,9.92,False,gh200
+r1_2_5,R1_200,ALNS-Base,45,18,4678.09,37.01,True,18,4107.86,0,13.88,True,gh200
+r1_2_5,R1_200,ALNS-Base,44,18,4511.09,40.1,True,18,4107.86,0,9.82,True,gh200
+r1_2_1,R1_200,Hybrid-DDQN,44,20,4943.76,120.25,True,20,4784.11,0,3.34,True,gh200
+r1_2_1,R1_200,Hybrid-DDQN,45,20,4822.17,120.93,True,20,4784.11,0,0.8,True,gh200
+r1_2_1,R1_200,Hybrid-DDQN,46,20,5074.44,120.08,True,20,4784.11,0,6.07,True,gh200
+r1_2_5,R1_200,Single-Agent-RL-LNS,42,18,4625.49,113.9,True,18,4107.86,0,12.6,True,gh200
+r1_2_5,R1_200,Single-Agent-RL-LNS,43,19,4135.31,123.48,True,18,4107.86,1,0.67,False,gh200
+r1_2_5,R1_200,Single-Agent-RL-LNS,45,18,4332.53,113.92,True,18,4107.86,0,5.47,True,gh200
+r1_2_5,R1_200,Single-Agent-RL-LNS,44,19,4195.89,120.48,True,18,4107.86,1,2.14,False,gh200
+r2_2_1,R2_200,ALNS-Base,42,5,4268.78,15.45,True,4,4483.16,1,-4.78,False,gh200
+r1_2_5,R1_200,Single-Agent-RL-LNS,46,18,4717.43,120.02,True,18,4107.86,0,14.84,True,gh200
+r2_2_1,R2_200,ALNS-Base,43,5,4260.15,13.72,True,4,4483.16,1,-4.97,False,gh200
+r1_2_5,R1_200,Hybrid-DDQN,42,19,4517.31,124.69,True,18,4107.86,1,9.97,False,gh200
+r2_2_1,R2_200,ALNS-Base,44,5,4286.78,13.65,True,4,4483.16,1,-4.38,False,gh200
+r2_2_1,R2_200,ALNS-Base,45,5,4270.63,13.34,True,4,4483.16,1,-4.74,False,gh200
+r2_2_1,R2_200,ALNS-Base,46,5,4236.09,13.6,True,4,4483.16,1,-5.51,False,gh200
+r1_2_5,R1_200,Hybrid-DDQN,43,19,4609.98,127.69,True,18,4107.86,1,12.22,False,gh200
+r1_2_5,R1_200,Hybrid-DDQN,44,19,4236.01,120.07,True,18,4107.86,1,3.12,False,gh200
+r1_2_5,R1_200,Hybrid-DDQN,45,19,4246.0,120.07,True,18,4107.86,1,3.36,False,gh200
+r1_2_5,R1_200,Hybrid-DDQN,46,19,4537.73,131.47,True,18,4107.86,1,10.46,False,gh200
+r2_2_1,R2_200,Single-Agent-RL-LNS,42,5,4072.05,120.26,True,4,4483.16,1,-9.17,False,gh200
+r2_2_1,R2_200,Single-Agent-RL-LNS,43,5,4132.17,120.77,True,4,4483.16,1,-7.83,False,gh200
+r2_2_1,R2_200,Single-Agent-RL-LNS,44,5,4128.35,120.83,True,4,4483.16,1,-7.91,False,gh200
+r2_2_1,R2_200,Single-Agent-RL-LNS,45,5,4079.32,120.46,True,4,4483.16,1,-9.01,False,gh200
+r2_2_5,R2_200,ALNS-Base,42,4,3616.05,12.81,True,4,3366.79,0,7.4,True,gh200
+r2_2_5,R2_200,ALNS-Base,43,4,3625.37,13.0,True,4,3366.79,0,7.68,True,gh200
+r2_2_1,R2_200,Single-Agent-RL-LNS,46,5,4113.76,120.92,True,4,4483.16,1,-8.24,False,gh200
+r2_2_5,R2_200,ALNS-Base,44,4,3491.66,12.74,True,4,3366.79,0,3.71,True,gh200
+r2_2_5,R2_200,ALNS-Base,45,4,3623.82,13.02,True,4,3366.79,0,7.63,True,gh200
+r2_2_1,R2_200,Hybrid-DDQN,42,5,4274.65,120.6,True,4,4483.16,1,-4.65,False,gh200
+r2_2_5,R2_200,ALNS-Base,46,4,3595.23,12.88,True,4,3366.79,0,6.79,True,gh200
+r2_2_1,R2_200,Hybrid-DDQN,43,5,4135.35,125.06,True,4,4483.16,1,-7.76,False,gh200
+r2_2_1,R2_200,Hybrid-DDQN,44,5,4137.94,120.86,True,4,4483.16,1,-7.7,False,gh200
+r2_2_1,R2_200,Hybrid-DDQN,45,5,4326.93,120.51,True,4,4483.16,1,-3.48,False,gh200
+r2_2_1,R2_200,Hybrid-DDQN,46,5,4107.3,122.32,True,4,4483.16,1,-8.38,False,gh200
+r2_2_5,R2_200,Single-Agent-RL-LNS,42,4,3472.86,120.41,True,4,3366.79,0,3.15,True,gh200
+r2_2_5,R2_200,Single-Agent-RL-LNS,43,4,3513.7,120.58,True,4,3366.79,0,4.36,True,gh200
+r2_2_5,R2_200,Single-Agent-RL-LNS,44,4,3438.75,120.25,True,4,3366.79,0,2.14,True,gh200
+r2_2_5,R2_200,Single-Agent-RL-LNS,45,4,3494.07,120.58,True,4,3366.79,0,3.78,True,gh200
+r2_2_5,R2_200,Single-Agent-RL-LNS,46,4,3454.18,120.52,True,4,3366.79,0,2.6,True,gh200
+r2_2_5,R2_200,Hybrid-DDQN,42,4,3559.55,120.28,True,4,3366.79,0,5.73,True,gh200
+rc1_2_1,RC1_200,ALNS-Base,42,19,3703.0,37.69,True,18,3602.8,1,2.78,False,gh200
+r2_2_5,R2_200,Hybrid-DDQN,43,4,3517.31,120.35,True,4,3366.79,0,4.47,True,gh200
+rc1_2_1,RC1_200,ALNS-Base,44,19,3748.05,34.69,True,18,3602.8,1,4.03,False,gh200
+rc1_2_1,RC1_200,ALNS-Base,43,19,3760.51,35.5,True,18,3602.8,1,4.38,False,gh200
+rc1_2_1,RC1_200,ALNS-Base,46,19,3851.34,34.43,True,18,3602.8,1,6.9,False,gh200
+rc1_2_1,RC1_200,ALNS-Base,45,19,3810.14,36.23,True,18,3602.8,1,5.75,False,gh200
+r2_2_5,R2_200,Hybrid-DDQN,44,4,3570.29,120.36,True,4,3366.79,0,6.04,True,gh200
+r2_2_5,R2_200,Hybrid-DDQN,45,4,3460.78,120.61,True,4,3366.79,0,2.79,True,gh200
+r2_2_5,R2_200,Hybrid-DDQN,46,4,3473.16,120.79,True,4,3366.79,0,3.16,True,gh200
+rc1_2_1,RC1_200,Single-Agent-RL-LNS,42,19,3587.83,120.12,True,18,3602.8,1,-0.42,False,gh200
+rc1_2_1,RC1_200,Single-Agent-RL-LNS,43,19,3639.47,120.93,True,18,3602.8,1,1.02,False,gh200
+rc1_2_1,RC1_200,Single-Agent-RL-LNS,45,19,3683.41,122.03,True,18,3602.8,1,2.24,False,gh200
+rc1_2_1,RC1_200,Single-Agent-RL-LNS,44,19,3637.53,124.16,True,18,3602.8,1,0.96,False,gh200
+rc1_2_1,RC1_200,Single-Agent-RL-LNS,46,19,3651.45,121.28,True,18,3602.8,1,1.35,False,gh200
+rc1_2_1,RC1_200,Hybrid-DDQN,43,19,3599.95,120.05,True,18,3602.8,1,-0.08,False,gh200
+rc1_2_1,RC1_200,Hybrid-DDQN,42,20,3637.38,123.4,True,18,3602.8,2,0.96,False,gh200
+rc1_2_5,RC1_200,ALNS-Base,42,19,3662.66,38.53,True,18,3371.0,1,8.65,False,gh200
+rc1_2_5,RC1_200,ALNS-Base,43,19,3597.23,38.74,True,18,3371.0,1,6.71,False,gh200
+rc1_2_5,RC1_200,ALNS-Base,45,19,3657.41,37.31,True,18,3371.0,1,8.5,False,gh200
+rc1_2_5,RC1_200,ALNS-Base,44,19,3477.41,39.32,True,18,3371.0,1,3.16,False,gh200
+rc1_2_5,RC1_200,ALNS-Base,46,19,3618.52,38.38,True,18,3371.0,1,7.34,False,gh200
+rc1_2_1,RC1_200,Hybrid-DDQN,45,19,3788.78,120.05,True,18,3602.8,1,5.16,False,gh200
+rc1_2_1,RC1_200,Hybrid-DDQN,44,20,3732.64,124.46,True,18,3602.8,2,3.6,False,gh200
+rc1_2_1,RC1_200,Hybrid-DDQN,46,19,3968.01,120.57,True,18,3602.8,1,10.14,False,gh200
+rc1_2_5,RC1_200,Single-Agent-RL-LNS,42,18,3788.18,111.42,True,18,3371.0,0,12.38,True,gh200
+rc1_2_5,RC1_200,Single-Agent-RL-LNS,44,18,4414.87,111.51,True,18,3371.0,0,30.97,True,gh200
+rc1_2_5,RC1_200,Single-Agent-RL-LNS,43,18,3892.73,120.48,True,18,3371.0,0,15.48,True,gh200
+rc1_2_5,RC1_200,Single-Agent-RL-LNS,45,18,4241.95,111.47,True,18,3371.0,0,25.84,True,gh200
+rc2_2_1,RC2_200,ALNS-Base,42,6,3300.49,13.2,True,6,3099.53,0,6.48,True,gh200
+rc1_2_5,RC1_200,Single-Agent-RL-LNS,46,18,4118.45,102.49,True,18,3371.0,0,22.17,True,gh200
+rc2_2_1,RC2_200,ALNS-Base,44,7,3064.49,13.86,True,6,3099.53,1,-1.13,False,gh200
+rc1_2_5,RC1_200,Hybrid-DDQN,42,19,3492.92,120.06,True,18,3371.0,1,3.62,False,gh200
+rc2_2_1,RC2_200,ALNS-Base,43,6,3276.08,36.26,True,6,3099.53,0,5.7,True,gh200
+rc2_2_1,RC2_200,ALNS-Base,45,6,3274.56,13.08,True,6,3099.53,0,5.65,True,gh200
+rc1_2_5,RC1_200,Hybrid-DDQN,43,19,3517.83,124.55,True,18,3371.0,1,4.36,False,gh200
+rc2_2_1,RC2_200,ALNS-Base,46,6,3349.83,13.26,True,6,3099.53,0,8.08,True,gh200
+rc1_2_5,RC1_200,Hybrid-DDQN,44,19,3532.67,124.24,True,18,3371.0,1,4.8,False,gh200
+rc1_2_5,RC1_200,Hybrid-DDQN,45,19,3432.13,126.18,True,18,3371.0,1,1.81,False,gh200
+rc1_2_5,RC1_200,Hybrid-DDQN,46,19,3571.09,125.12,True,18,3371.0,1,5.94,False,gh200
+rc2_2_1,RC2_200,Single-Agent-RL-LNS,42,6,3268.28,120.54,True,6,3099.53,0,5.44,True,gh200
+rc2_2_1,RC2_200,Single-Agent-RL-LNS,43,7,3034.55,120.2,True,6,3099.53,1,-2.1,False,gh200
+rc2_2_1,RC2_200,Single-Agent-RL-LNS,44,6,3277.28,120.35,True,6,3099.53,0,5.73,True,gh200
+rc2_2_1,RC2_200,Single-Agent-RL-LNS,45,7,2966.34,120.25,True,6,3099.53,1,-4.3,False,gh200
+rc2_2_5,RC2_200,ALNS-Base,42,5,2883.49,13.71,True,4,2911.46,1,-0.96,False,gh200
+rc2_2_5,RC2_200,ALNS-Base,43,5,2878.51,14.42,True,4,2911.46,1,-1.13,False,gh200
+rc2_2_1,RC2_200,Single-Agent-RL-LNS,46,6,3212.93,120.3,True,6,3099.53,0,3.66,True,gh200
+rc2_2_5,RC2_200,ALNS-Base,44,5,2940.31,13.83,True,4,2911.46,1,0.99,False,gh200
+rc2_2_1,RC2_200,Hybrid-DDQN,42,7,3056.06,120.23,True,6,3099.53,1,-1.4,False,gh200
+rc2_2_1,RC2_200,Hybrid-DDQN,43,6,3250.72,120.57,True,6,3099.53,0,4.88,True,gh200
+rc2_2_5,RC2_200,ALNS-Base,45,5,2945.04,14.19,True,4,2911.46,1,1.15,False,gh200
+rc2_2_5,RC2_200,ALNS-Base,46,5,2838.58,13.95,True,4,2911.46,1,-2.5,False,gh200
+rc2_2_1,RC2_200,Hybrid-DDQN,44,6,3188.18,120.42,True,6,3099.53,0,2.86,True,gh200
+rc2_2_1,RC2_200,Hybrid-DDQN,45,6,3237.93,120.35,True,6,3099.53,0,4.47,True,gh200
+rc2_2_1,RC2_200,Hybrid-DDQN,46,7,3180.07,120.7,True,6,3099.53,1,2.6,False,gh200
+rc2_2_5,RC2_200,Single-Agent-RL-LNS,42,5,2797.48,120.64,True,4,2911.46,1,-3.91,False,gh200
+rc2_2_5,RC2_200,Single-Agent-RL-LNS,43,5,2791.63,120.28,True,4,2911.46,1,-4.12,False,gh200
+rc2_2_5,RC2_200,Single-Agent-RL-LNS,44,5,2756.28,120.51,True,4,2911.46,1,-5.33,False,gh200
+rc2_2_5,RC2_200,Single-Agent-RL-LNS,45,5,2793.97,120.41,True,4,2911.46,1,-4.04,False,gh200
+rc2_2_5,RC2_200,Single-Agent-RL-LNS,46,5,2792.03,120.42,True,4,2911.46,1,-4.1,False,gh200
+rc2_2_5,RC2_200,Hybrid-DDQN,42,5,2893.19,123.9,True,4,2911.46,1,-0.63,False,gh200
+rc2_2_5,RC2_200,Hybrid-DDQN,43,5,2943.01,126.27,True,4,2911.46,1,1.08,False,gh200
+c1_4_1,C1_400,ALNS-Base,42,40,7152.06,112.82,True,40,7152.02,0,0.0,True,gh400
+rc2_2_5,RC2_200,Hybrid-DDQN,44,5,2899.77,124.33,True,4,2911.46,1,-0.4,False,gh200
+rc2_2_5,RC2_200,Hybrid-DDQN,45,5,2898.84,120.18,True,4,2911.46,1,-0.43,False,gh200
+c1_4_1,C1_400,ALNS-Base,43,40,7166.22,63.6,True,40,7152.02,0,0.2,True,gh400
+rc2_2_5,RC2_200,Hybrid-DDQN,46,5,2878.25,120.89,True,4,2911.46,1,-1.14,False,gh200
+c1_4_1,C1_400,ALNS-Base,44,40,7152.06,140.38,True,40,7152.02,0,0.0,True,gh400
+c1_4_1,C1_400,ALNS-Base,45,40,7176.25,141.12,True,40,7152.02,0,0.34,True,gh400
+c1_4_1,C1_400,ALNS-Base,46,40,7207.61,128.29,True,40,7152.02,0,0.78,True,gh400
+c1_4_1,C1_400,Single-Agent-RL-LNS,42,40,7152.06,245.2,True,40,7152.02,0,0.0,True,gh400
+c1_4_1,C1_400,Single-Agent-RL-LNS,43,40,7152.06,244.08,True,40,7152.02,0,0.0,True,gh400
+c1_4_1,C1_400,Single-Agent-RL-LNS,44,40,7152.06,244.87,True,40,7152.02,0,0.0,True,gh400
+c1_4_1,C1_400,Single-Agent-RL-LNS,45,40,7152.06,246.68,True,40,7152.02,0,0.0,True,gh400
+c2_4_1,C2_400,ALNS-Base,42,13,4401.88,49.92,True,12,4116.05,1,6.94,False,gh400
+c1_4_1,C1_400,Single-Agent-RL-LNS,46,40,7152.06,245.31,True,40,7152.02,0,0.0,True,gh400
+c1_4_1,C1_400,Hybrid-DDQN,42,40,7152.06,253.8,True,40,7152.02,0,0.0,True,gh400
+c2_4_1,C2_400,ALNS-Base,43,13,4246.68,51.39,True,12,4116.05,1,3.17,False,gh400
+c1_4_1,C1_400,Hybrid-DDQN,43,40,7152.06,256.86,True,40,7152.02,0,0.0,True,gh400
+c2_4_1,C2_400,ALNS-Base,44,12,4152.88,54.99,True,12,4116.05,0,0.89,True,gh400
+c2_4_1,C2_400,ALNS-Base,45,13,4352.92,52.94,True,12,4116.05,1,5.75,False,gh400
+c2_4_1,C2_400,ALNS-Base,46,13,4311.42,49.44,True,12,4116.05,1,4.75,False,gh400
+c1_4_1,C1_400,Hybrid-DDQN,45,40,7152.06,251.48,True,40,7152.02,0,0.0,True,gh400
+c1_4_1,C1_400,Hybrid-DDQN,44,40,7152.06,253.5,True,40,7152.02,0,0.0,True,gh400
+c1_4_1,C1_400,Hybrid-DDQN,46,40,7152.06,251.63,True,40,7152.02,0,0.0,True,gh400
+c2_4_1,C2_400,Single-Agent-RL-LNS,42,13,4169.33,240.56,True,12,4116.05,1,1.29,False,gh400
+c2_4_1,C2_400,Single-Agent-RL-LNS,43,13,4164.34,240.5,True,12,4116.05,1,1.17,False,gh400
+c2_4_1,C2_400,Single-Agent-RL-LNS,44,12,4116.33,241.14,True,12,4116.05,0,0.01,True,gh400
+c2_4_1,C2_400,Single-Agent-RL-LNS,45,13,4183.3,240.56,True,12,4116.05,1,1.63,False,gh400
+c2_4_1,C2_400,Single-Agent-RL-LNS,46,13,4189.5,240.77,True,12,4116.05,1,1.78,False,gh400
+c2_4_1,C2_400,Hybrid-DDQN,42,13,4229.21,240.77,True,12,4116.05,1,2.75,False,gh400
+c2_4_1,C2_400,Hybrid-DDQN,43,13,4230.11,240.8,True,12,4116.05,1,2.77,False,gh400
+r1_4_1,R1_400,ALNS-Base,42,40,11953.67,117.1,True,40,10372.31,0,15.25,True,gh400
+r1_4_1,R1_400,ALNS-Base,43,40,12590.06,117.21,True,40,10372.31,0,21.38,True,gh400
+c2_4_1,C2_400,Hybrid-DDQN,44,13,4165.24,241.0,True,12,4116.05,1,1.2,False,gh400
+r1_4_1,R1_400,ALNS-Base,44,40,12477.74,123.69,True,40,10372.31,0,20.3,True,gh400
+c2_4_1,C2_400,Hybrid-DDQN,45,13,4164.25,241.33,True,12,4116.05,1,1.17,False,gh400
+r1_4_1,R1_400,ALNS-Base,45,40,11577.45,126.49,True,40,10372.31,0,11.62,True,gh400
+r1_4_1,R1_400,ALNS-Base,46,40,12148.34,117.06,True,40,10372.31,0,17.12,True,gh400
+c2_4_1,C2_400,Hybrid-DDQN,46,12,4116.14,240.39,True,12,4116.05,0,0.0,True,gh400
+r1_4_1,R1_400,Single-Agent-RL-LNS,42,40,10980.75,240.26,True,40,10372.31,0,5.87,True,gh400
+r1_4_1,R1_400,Single-Agent-RL-LNS,44,40,10989.79,240.14,True,40,10372.31,0,5.95,True,gh400
+r1_4_1,R1_400,Single-Agent-RL-LNS,46,40,11028.25,240.25,True,40,10372.31,0,6.32,True,gh400
+r1_4_1,R1_400,Single-Agent-RL-LNS,43,40,10862.66,253.27,True,40,10372.31,0,4.73,True,gh400
+r1_4_1,R1_400,Hybrid-DDQN,42,40,11467.07,240.71,True,40,10372.31,0,10.55,True,gh400
+r1_4_1,R1_400,Hybrid-DDQN,43,40,11478.13,240.56,True,40,10372.31,0,10.66,True,gh400
+r1_4_1,R1_400,Single-Agent-RL-LNS,45,40,11881.37,255.42,True,40,10372.31,0,14.55,True,gh400
+r2_4_1,R2_400,ALNS-Base,42,9,9543.75,54.27,True,8,9210.15,1,3.62,False,gh400
+r2_4_1,R2_400,ALNS-Base,43,9,9702.67,56.42,True,8,9210.15,1,5.35,False,gh400
+r2_4_1,R2_400,ALNS-Base,44,9,9694.86,55.06,True,8,9210.15,1,5.26,False,gh400
+r2_4_1,R2_400,ALNS-Base,45,9,9430.55,54.65,True,8,9210.15,1,2.39,False,gh400
+r2_4_1,R2_400,ALNS-Base,46,9,9739.48,56.27,True,8,9210.15,1,5.75,False,gh400
+r1_4_1,R1_400,Hybrid-DDQN,44,40,11401.03,240.51,True,40,10372.31,0,9.92,True,gh400
+r1_4_1,R1_400,Hybrid-DDQN,45,40,11422.87,240.3,True,40,10372.31,0,10.13,True,gh400
+r1_4_1,R1_400,Hybrid-DDQN,46,40,11896.48,240.28,True,40,10372.31,0,14.69,True,gh400
+r2_4_1,R2_400,Single-Agent-RL-LNS,42,9,9121.0,242.17,True,8,9210.15,1,-0.97,False,gh400
+r2_4_1,R2_400,Single-Agent-RL-LNS,43,9,9383.62,242.28,True,8,9210.15,1,1.88,False,gh400
+r2_4_1,R2_400,Single-Agent-RL-LNS,44,9,9108.08,243.45,True,8,9210.15,1,-1.11,False,gh400
+r2_4_1,R2_400,Single-Agent-RL-LNS,45,9,9161.84,242.69,True,8,9210.15,1,-0.52,False,gh400
+r2_4_1,R2_400,Single-Agent-RL-LNS,46,9,9189.97,243.68,True,8,9210.15,1,-0.22,False,gh400
+r2_4_1,R2_400,Hybrid-DDQN,42,9,9267.53,241.29,True,8,9210.15,1,0.62,False,gh400
+r2_4_1,R2_400,Hybrid-DDQN,43,9,9367.14,242.03,True,8,9210.15,1,1.7,False,gh400
+rc1_4_1,RC1_400,ALNS-Base,42,37,9691.57,128.73,True,36,8571.32,1,13.07,False,gh400
+r2_4_1,R2_400,Hybrid-DDQN,44,9,9510.72,242.68,True,8,9210.15,1,3.26,False,gh400
+r2_4_1,R2_400,Hybrid-DDQN,45,9,9462.67,242.17,True,8,9210.15,1,2.74,False,gh400
+r2_4_1,R2_400,Hybrid-DDQN,46,9,9082.14,241.27,True,8,9210.15,1,-1.39,False,gh400
+rc1_4_1,RC1_400,ALNS-Base,43,39,9234.52,138.37,True,36,8571.32,3,7.74,False,gh400
+rc1_4_1,RC1_400,ALNS-Base,44,39,9065.34,135.13,True,36,8571.32,3,5.76,False,gh400
+rc1_4_1,RC1_400,ALNS-Base,45,38,9100.52,136.66,True,36,8571.32,2,6.17,False,gh400
+rc1_4_1,RC1_400,ALNS-Base,46,39,9106.5,141.93,True,36,8571.32,3,6.24,False,gh400
+rc1_4_1,RC1_400,Single-Agent-RL-LNS,42,37,8803.65,240.31,True,36,8571.32,1,2.71,False,gh400
+rc1_4_1,RC1_400,Single-Agent-RL-LNS,43,37,9004.79,241.06,True,36,8571.32,1,5.06,False,gh400
+rc1_4_1,RC1_400,Single-Agent-RL-LNS,44,38,9007.35,242.21,True,36,8571.32,2,5.09,False,gh400
+rc1_4_1,RC1_400,Single-Agent-RL-LNS,45,37,8959.86,240.12,True,36,8571.32,1,4.53,False,gh400
+rc1_4_1,RC1_400,Single-Agent-RL-LNS,46,38,9122.93,240.13,True,36,8571.32,2,6.44,False,gh400
+rc1_4_1,RC1_400,Hybrid-DDQN,42,37,9007.48,249.16,True,36,8571.32,1,5.09,False,gh400
+rc1_4_1,RC1_400,Hybrid-DDQN,43,38,8813.02,240.44,True,36,8571.32,2,2.82,False,gh400
+rc2_4_1,RC2_400,ALNS-Base,42,12,7228.93,54.69,True,11,6682.37,1,8.18,False,gh400
+rc2_4_1,RC2_400,ALNS-Base,43,13,6960.23,55.89,True,11,6682.37,2,4.16,False,gh400
+rc2_4_1,RC2_400,ALNS-Base,44,13,6844.84,55.16,True,11,6682.37,2,2.43,False,gh400
+rc2_4_1,RC2_400,ALNS-Base,45,13,6969.16,52.15,True,11,6682.37,2,4.29,False,gh400
+rc2_4_1,RC2_400,ALNS-Base,46,13,7013.35,54.64,True,11,6682.37,2,4.95,False,gh400
+rc1_4_1,RC1_400,Hybrid-DDQN,44,38,8863.83,240.22,True,36,8571.32,2,3.41,False,gh400
+rc1_4_1,RC1_400,Hybrid-DDQN,45,37,8877.35,240.18,True,36,8571.32,1,3.57,False,gh400
+rc1_4_1,RC1_400,Hybrid-DDQN,46,38,9235.36,240.11,True,36,8571.32,2,7.75,False,gh400
+rc2_4_1,RC2_400,Single-Agent-RL-LNS,42,13,6537.19,241.62,True,11,6682.37,2,-2.17,False,gh400
+rc2_4_1,RC2_400,Single-Agent-RL-LNS,43,13,6539.98,241.55,True,11,6682.37,2,-2.13,False,gh400
+rc2_4_1,RC2_400,Single-Agent-RL-LNS,44,13,6730.66,240.71,True,11,6682.37,2,0.72,False,gh400
+rc2_4_1,RC2_400,Single-Agent-RL-LNS,45,13,6567.25,241.76,True,11,6682.37,2,-1.72,False,gh400
+rc2_4_1,RC2_400,Single-Agent-RL-LNS,46,13,6585.57,240.9,True,11,6682.37,2,-1.45,False,gh400
+rc2_4_1,RC2_400,Hybrid-DDQN,42,13,6618.07,241.19,True,11,6682.37,2,-0.96,False,gh400
+rc2_4_1,RC2_400,Hybrid-DDQN,43,13,6839.45,240.84,True,11,6682.37,2,2.35,False,gh400
+rc2_4_1,RC2_400,Hybrid-DDQN,44,13,6670.57,242.26,True,11,6682.37,2,-0.18,False,gh400
+rc2_4_1,RC2_400,Hybrid-DDQN,45,13,6571.79,240.92,True,11,6682.37,2,-1.65,False,gh400
+rc2_4_1,RC2_400,Hybrid-DDQN,46,13,6557.08,240.78,True,11,6682.37,2,-1.87,False,gh400

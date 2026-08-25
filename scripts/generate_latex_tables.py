@@ -71,8 +71,18 @@ def generate_table_iii_solomon(df_agg: pd.DataFrame | None = None) -> str:
     lines.append(r"\midrule")
     lines.append(r"\multicolumn{15}{l}{\textit{\textbf{Paradigm 3: Learning-Augmented Hybrids (RL + Heuristics)}}} \\")
     # 5. Single-Agent RL-LNS
-    sa = LITERATURE_SOLOMON_SUMMARY["Single-Agent RL-LNS"]
-    lines.append(f"Single-Agent RL-LNS \\cite{{lu2020reinforcement,son2023learning}} & {sa['C1']['nv']:.2f} & {sa['C1']['td']:.1f} & {sa['C2']['nv']:.2f} & {sa['C2']['td']:.1f} & {sa['R1']['nv']:.2f} & {sa['R1']['td']:.1f} & {sa['R2']['nv']:.2f} & {sa['R2']['td']:.1f} & {sa['RC1']['nv']:.2f} & {sa['RC1']['td']:.1f} & {sa['RC2']['nv']:.2f} & {sa['RC2']['td']:.1f} & {sa['ALL']['nv']:.2f} & +{sa['ALL']['gap_td']:.2f}\\% \\\\")
+    if df_agg is not None and "Single-Agent RL-LNS" in df_agg["Algorithm"].values:
+        sa_rows = df_agg[df_agg["Algorithm"] == "Single-Agent RL-LNS"]
+        c1 = sa_rows[sa_rows["Family"] == "C1"]
+        c2 = sa_rows[sa_rows["Family"] == "C2"]
+        r1 = sa_rows[sa_rows["Family"] == "R1"]
+        r2 = sa_rows[sa_rows["Family"] == "R2"]
+        rc1 = sa_rows[sa_rows["Family"] == "RC1"]
+        rc2 = sa_rows[sa_rows["Family"] == "RC2"]
+        lines.append(f"Single-Agent RL-LNS \\cite{{lu2020reinforcement,son2023learning}} & {c1['NV_mean'].mean():.2f} & {c1['TD_mean'].mean():.1f} & {c2['NV_mean'].mean():.2f} & {c2['TD_mean'].mean():.1f} & {r1['NV_mean'].mean():.2f} & {r1['TD_mean'].mean():.1f} & {r2['NV_mean'].mean():.2f} & {r2['TD_mean'].mean():.1f} & {rc1['NV_mean'].mean():.2f} & {rc1['TD_mean'].mean():.1f} & {rc2['NV_mean'].mean():.2f} & {rc2['TD_mean'].mean():.1f} & {sa_rows['NV_mean'].mean():.2f} & +{sa_rows['Gap_TD_Pct'].mean():.2f}\\% \\\\")
+    else:
+        sa = LITERATURE_SOLOMON_SUMMARY["Single-Agent RL-LNS"]
+        lines.append(f"Single-Agent RL-LNS \\cite{{lu2020reinforcement,son2023learning}} & {sa['C1']['nv']:.2f} & {sa['C1']['td']:.1f} & {sa['C2']['nv']:.2f} & {sa['C2']['td']:.1f} & {sa['R1']['nv']:.2f} & {sa['R1']['td']:.1f} & {sa['R2']['nv']:.2f} & {sa['R2']['td']:.1f} & {sa['RC1']['nv']:.2f} & {sa['RC1']['td']:.1f} & {sa['RC2']['nv']:.2f} & {sa['RC2']['td']:.1f} & {sa['ALL']['nv']:.2f} & +{sa['ALL']['gap_td']:.2f}\\% \\\\")
 
     # 6. Proposed Tri-Level Hybrid-DDQN (Ours)
     if df_agg is not None and "Hybrid-DDQN" in df_agg["Algorithm"].values:
@@ -235,17 +245,22 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     df_agg = None
+    df_raw = None
     if args.csv and os.path.exists(args.csv):
         df_raw = pd.read_csv(args.csv)
-        df_agg = df_raw.groupby(["Instance", "Family", "Algorithm"]).agg(
+        df_raw["Algorithm"] = df_raw["Algorithm"].replace({"Single-Agent-RL-LNS": "Single-Agent RL-LNS"})
+        sol_raw = df_raw[df_raw["Instance"].str.len() <= 5]
+        # Aggregate per instance first (mean over 5 seeds)
+        inst_agg = sol_raw.groupby(["Instance", "Family", "Algorithm"]).agg(
             NV_mean=("NV", "mean"),
             TD_mean=("TD", "mean"),
             Gap_TD_Pct=("Gap_TD_Pct", "mean"),
         ).reset_index()
+        df_agg = inst_agg
 
     t3 = generate_table_iii_solomon(df_agg)
-    t4 = generate_table_iv_homberger(df_agg)
-    t5 = generate_table_v_ablation(df_agg)
+    t4 = generate_table_iv_homberger(df_raw)
+    t5 = generate_table_v_ablation(df_raw)
 
     # Inject into both docs/sections and docs/overleaf_bundle
     p1 = ROOT / "docs" / "sections" / "05_experiments.tex"

@@ -61,6 +61,26 @@ def collect_homberger_instances(data_dir: Path, n_customers: int = 200, limit: i
     return instances
 
 
+def resolve_solver_task(solver: str, base_cfg: Config) -> tuple[Any, Config]:
+    if solver == "ALNS-Base":
+        return ALNSSolver, base_cfg
+    elif solver in ("Single-Agent RL-LNS", "Single-Agent-RL-LNS", "SA-RL-LNS"):
+        sa_cfg = copy_cfg_with_overrides(base_cfg, {
+            "macro_enabled": False,
+            "lac_enabled": False,
+            "pool_recombine_enabled": False,
+            "recombine_after_main_search": False,
+            "op_softmax_tau": 1.0,
+            "gnn_model_path": None,
+        })
+        return HybridDDQNSolver, sa_cfg
+    elif solver in ABLATION_CONFIGS:
+        conf = ABLATION_CONFIGS[solver]
+        return conf["solver_cls"], copy_cfg_with_overrides(base_cfg, conf["config_overrides"])
+    else:
+        return HybridDDQNSolver, base_cfg
+
+
 def build_tasks_for_mode(
     mode: str,
     solvers: list[str],
@@ -86,9 +106,9 @@ def build_tasks_for_mode(
             if not os.path.exists(path):
                 continue
             for solver in solvers:
-                s_cls = ALNSSolver if solver == "ALNS-Base" else HybridDDQNSolver
+                s_cls, s_cfg = resolve_solver_task(solver, cfg)
                 for seed in seeds[:3]:
-                    tasks.append(BenchmarkTask(name, path, solver, seed, cfg, s_cls, tag="quick"))
+                    tasks.append(BenchmarkTask(name, path, solver, seed, s_cfg, s_cls, tag="quick"))
 
     # ── 2. Ablation Mode (5 Configurations on 6 Instances) ────────────────
     if mode in ("ablation", "all"):
@@ -124,18 +144,18 @@ def build_tasks_for_mode(
         solomon_insts = collect_solomon_instances(solomon_dir)
         for name, path in solomon_insts:
             for solver in solvers:
-                s_cls = ALNSSolver if solver == "ALNS-Base" else HybridDDQNSolver
+                s_cls, s_cfg = resolve_solver_task(solver, cfg)
                 for seed in seeds:
-                    tasks.append(BenchmarkTask(name, path, solver, seed, cfg, s_cls, tag="solomon"))
+                    tasks.append(BenchmarkTask(name, path, solver, seed, s_cfg, s_cls, tag="solomon"))
 
     # ── 4. Homberger-200 Mode ─────────────────────────────────────────────
     if mode in ("homberger200", "all"):
         gh200_insts = collect_homberger_instances(gh200_dir, 200, limit=12 if mode == "all" else None)
         for name, path in gh200_insts:
             for solver in solvers:
-                s_cls = ALNSSolver if solver == "ALNS-Base" else HybridDDQNSolver
+                s_cls, s_cfg = resolve_solver_task(solver, cfg)
                 for seed in seeds:
-                    tasks.append(BenchmarkTask(name, path, solver, seed, cfg, s_cls, tag="gh200"))
+                    tasks.append(BenchmarkTask(name, path, solver, seed, s_cfg, s_cls, tag="gh200"))
 
     # ── 5. Homberger-400 Mode ─────────────────────────────────────────────
     if mode in ("homberger400", "all"):
@@ -146,9 +166,9 @@ def build_tasks_for_mode(
                 target_path = gh400_dir / f"{r_name.lower()}.txt"
             if target_path.exists():
                 for solver in solvers:
-                    s_cls = ALNSSolver if solver == "ALNS-Base" else HybridDDQNSolver
+                    s_cls, s_cfg = resolve_solver_task(solver, cfg)
                     for seed in seeds:
-                        tasks.append(BenchmarkTask(r_name, str(target_path), solver, seed, cfg, s_cls, tag="gh400"))
+                        tasks.append(BenchmarkTask(r_name, str(target_path), solver, seed, s_cfg, s_cls, tag="gh400"))
 
     return tasks
 
@@ -244,12 +264,15 @@ def main() -> int:
     results: list[BenchmarkResult] = []
     completed_count = 0
 
+    csv_path = out_dir / f"benchmark_{args.mode}_raw.csv"
     if args.workers == 1:
         for t in tasks:
             res = execute_benchmark_task(t)
             results.append(res)
             completed_count += 1
             print(f"  [{completed_count:3d}/{len(tasks):3d}] {res.instance:<10} {res.solver:<15} Seed {res.seed:2d} -> NV: {res.nv:2d}, TD: {res.td:7.2f} ({res.time_sec:5.1f}s)")
+            if completed_count % 10 == 0:
+                pd.DataFrame([r.to_dict() for r in results]).to_csv(csv_path, index=False)
     else:
         with ProcessPoolExecutor(max_workers=args.workers) as executor:
             future_to_task = {executor.submit(execute_benchmark_task, t): t for t in tasks}
@@ -258,6 +281,8 @@ def main() -> int:
                 results.append(res)
                 completed_count += 1
                 print(f"  [{completed_count:3d}/{len(tasks):3d}] {res.instance:<10} {res.solver:<15} Seed {res.seed:2d} -> NV: {res.nv:2d}, TD: {res.td:7.2f} ({res.time_sec:5.1f}s)")
+                if completed_count % 10 == 0 or completed_count == len(tasks):
+                    pd.DataFrame([r.to_dict() for r in results]).to_csv(csv_path, index=False)
 
     total_time = time.time() - t0
     print(f"\nAll {len(tasks)} benchmark tasks finished in {total_time:.1f}s.")
