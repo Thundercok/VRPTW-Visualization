@@ -745,7 +745,7 @@ This section presents an empirical evaluation of the proposed \textbf{Tri-Level 
 \label{sec:solomon_results}
 
 We benchmark our method against state-of-the-art baselines representing three dominant optimization paradigms:
-\begin{enumerate}[leftmargin=1.2em,topsep=2pt,itemsep=2pt]
+\begin{enumerate}
     \item \textbf{Best Operations Research / Pure Heuristics}: Hybrid Genetic Search (HGS-VRPTW) \cite{vidal2013hybrid}, Slack Induction by String Removals (SISR) \cite{christiaens2020slack}, and ALNS-Base \cite{Ropke2006}.
     \item \textbf{Best End-to-End Pure Deep Learning}: Neural Constructive Attention Models (AM) \cite{kool2019attention,lin2021neural}.
     \item \textbf{Learning-Augmented Hybrids}: Single-Agent RL-LNS \cite{lu2020learning,son2023learning} and the proposed Tri-Level Hybrid-DDQN.
@@ -817,7 +817,7 @@ rc2\_4\_1 (400 customers) & 9.00 & 6845.2 & 12.80$^\dagger$ & 7680.4 & 12.60$^\d
 \end{table*}
 
 \subsubsection{Key Empirical Findings}
-\begin{itemize}[leftmargin=1.2em,topsep=2pt]
+\begin{itemize}
     \item \textbf{NV-Floor Convergence at 200-Customer Scale}: On Homberger-200, both ALNS-Base and Hybrid-DDQN consistently converge to the minimum vehicle floor ($NV=18.90$ on C1, $NV=6.00$ on C2). However, Hybrid-DDQN achieves statistically significant distance reductions of \textbf{1.79\% to 6.98\%} across all six families (Wilcoxon $p < 0.0167$, passing the Bonferroni threshold).
     \item \textbf{Graceful Degradation at 400-Customer Scale}: Under extreme problem dimensionality ($N=400$), Hybrid-DDQN preserves a small but statistically significant vehicle reduction edge ($0.70$ to $0.80$ fewer vehicles on $c2\_4\_1$ and $r2\_4\_1$, Wilcoxon $p=0.0078$ and $p=0.0156$).
 \end{itemize}
@@ -853,7 +853,7 @@ To isolate the individual contribution of each component, Table~\ref{tab:ablatio
 \end{table*}
 
 \subsubsection{Component Contribution Breakdown}
-\begin{itemize}[leftmargin=1.2em,topsep=2pt]
+\begin{itemize}
     \item \textbf{HiGHS RoutePool Recombination}: Disabling Set Partitioning (Config 4) causes notable degradation on complex topologies, increasing vehicle requirements on Homberger $rc2\_4\_1$ ($12.60 \to 13.00$).
     \item \textbf{Macro Plateau Controller}: Removing $\pi_{\text{macro}}$ (Config 2) hinders proactive escape from single-vehicle plateau traps, resulting in increased fleet sizes on $rc2\_4\_1$ ($12.60 \to 12.80$). Furthermore, heuristic Rule-Macro (Config 6) and Rule-Micro (Config 8) fail to compress fleets on large-scale topologies ($NV=13.20$ and $NV=13.40$ on $rc2\_4\_1$), confirming the necessity of adaptive reinforcement learning.
     \item \textbf{Learned Acceptance Criterion (LAC)}: Reverting LAC to standard Simulated Annealing (Config 3) leads to premature convergence, increasing distance across both Solomon and Homberger suites.
