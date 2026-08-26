@@ -12,9 +12,9 @@ In commercial freight operations, the optimization objective is strictly lexicog
 
 This hierarchical ordering reflects the economic structure of commercial transportation, where fixed vehicle capital acquisition, maintenance, insurance, and driver shift wages dominate marginal fuel consumption.
 
-Adaptive Large Neighborhood Search (ALNS) \cite{Ropke2006, pisinger2007general} has long served as a leading metaheuristic paradigm for VRPTW, exploring diverse neighborhood structures via iterative ruin-and-recreate (destroy and repair) operations while strictly preserving feasibility. However, standard ALNS implementations rely on a stateless roulette-wheel or multi-armed bandit mechanism that updates selection probabilities from aggregated historical reward averages. This design exhibits two structural weaknesses:
+Adaptive Large Neighborhood Search (ALNS) \cite{Ropke2006, pisinger2007general} has long served as a leading metaheuristic paradigm for VRPTW, exploring diverse neighborhood structures via iterative ruin-and-recreate (destroy and repair) operations while strictly preserving feasibility. However, standard ALNS implementations rely on a score-based roulette-wheel or multi-armed bandit mechanism that updates selection probabilities from aggregated historical reward averages. This design exhibits two structural weaknesses:
 \begin{enumerate}
-    \item \textbf{Stateless Operator Selection}: Heuristic selection weights depend solely on historical scores across coarse iteration segments, ignoring the instantaneous search state, such as spatial route fragmentation, remaining temporal slack, or capacity utilization.
+    \item \textbf{Topology-Stateless Operator Selection}: Heuristic selection weights depend solely on scalar historical scores aggregated across coarse iteration segments, remaining completely stateless with respect to the instantaneous geometric and temporal state of the current solution, such as spatial route fragmentation, remaining forward time slack, or customer capacity distribution.
     \item \textbf{Myopic Plateau Stagnation}: Classical selection mechanisms struggle to coordinate multi-step operator sequences required to escape structural plateaus, frequently stalling when fleet-size reduction requires evaluating temporarily non-improving intermediate states.
 \end{enumerate}
 

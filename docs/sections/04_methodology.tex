@@ -141,7 +141,7 @@ To adaptively balance learned neural predictions with exploration priors, we imp
   \mathcal{H}(\pi_{\theta}(\cdot \mid s)) = -\frac{1}{\ln |\mathcal{A}|} \sum_{a \in \mathcal{A}} \pi_{\theta}(a \mid s) \ln \pi_{\theta}(a \mid s) \in [0, 1]
   \label{eq:policy_entropy}
 \end{equation}
-The model confidence weight is $w_{\text{conf}}(s) = 1.0 - \mathcal{H}(\pi_{\theta}(\cdot \mid s))$. During cold-start initialization ($t \le 200$), uninformative initial network weights yield high policy entropy ($\mathcal{H} \approx 0.95 \implies w_{\text{conf}} \le 0.05$), smoothly defaulting action selection to domain heuristics and Thompson bandit exploration. As prioritized transitions populate $\mathcal{D}_{\text{micro}}$ and Q-value estimates specialize, $w_{\text{conf}}(s)$ asymptotically rises to $0.80\text{--}0.90$, seamlessly transferring control to the learned neural policy. The effective action-selection score $Q_{\text{eff}}(s, a)$ dynamically interpolates neural Q-values with historical Dirichlet priors and Thompson Sampling:
+The model confidence weight is $w_{\text{conf}}(s) = 1.0 - \mathcal{H}(\pi_{\theta}(\cdot \mid s))$. This confidence gating mechanism functions as an intrinsic online curriculum: in early search stages ($t \le 200$), uninformative neural weights produce maximum policy entropy ($\mathcal{H} \approx 0.95 \implies w_{\text{conf}} \le 0.05$), safely constraining action selection to domain heuristics and Thompson bandit exploration. This protects the search trajectory from random destructive neural perturbations while the prioritized replay buffer $\mathcal{D}_{\text{micro}}$ accumulates high-value transitions. As gradient updates mature and Q-values differentiate, $w_{\text{conf}}(s)$ smoothly scales up to $0.80\text{--}0.90$, transferring control to the specialized neural policy precisely when its predictions become reliable within the 2,000-iteration budget. The effective action-selection score $Q_{\text{eff}}(s, a)$ dynamically interpolates neural Q-values with historical Dirichlet priors and Thompson Sampling:
 \begin{align}
   Q_{\text{eff}}(s, a) = \; &w_{\text{conf}}(s)\,Q(s, a) \nonumber \\
   &+ (1 - w_{\text{conf}}(s))\Big[ \alpha_{\text{p}}\ln(P_{\text{prior}}(a) + \epsilon) \nonumber \\
@@ -210,6 +210,7 @@ Transitions $(\mathbf{z}_t, s_t)$ are stored in a lookahead FIFO queue. After a 
   y_t = \begin{cases} 1, & \text{if } f(s_{\text{inc}}^{(t + H_{\text{lac}})}) \prec f(s_{\text{inc}}^{(t)}) \\ 0, & \text{otherwise} \end{cases}
   \label{eq:lac_label}
 \end{equation}
+For trailing iterations $t > T_{\max} - H_{\text{lac}}$, labels are evaluated against the terminal best incumbent $s_{\text{inc}}^{(T_{\max})}$ to prevent boundary truncation artifacts.
 The LAC network outputs an acceptance probability $p_t = \phi_{\text{LAC}}(\mathbf{z}_t) \in [0, 1]$. A candidate solution $s_{\text{cand}}$ is accepted if:
 \begin{equation}
   p_t \ge \tau_{\text{acc}} \quad \lor \quad \exp\left(-\frac{\Delta C}{T}\right) > \operatorname{Uniform}(0, 1)

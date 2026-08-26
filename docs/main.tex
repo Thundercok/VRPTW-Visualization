@@ -22,6 +22,14 @@
 \newdimen\xfigwd
 \xfigwd=\textwidth
 
+\setlength{\textfloatsep}{5pt plus 1pt minus 1pt}
+\setlength{\floatsep}{5pt plus 1pt minus 1pt}
+\setlength{\intextsep}{5pt plus 1pt minus 1pt}
+\setlength{\dbltextfloatsep}{5pt plus 1pt minus 1pt}
+\setlength{\dblfloatsep}{5pt plus 1pt minus 1pt}
+
+\newcommand{\BIBdecl}{\setlength{\itemsep}{-1.5pt}\setlength{\parsep}{0pt}}
+
 \makeatletter
 \def\@IEEEBIOskipN{0pt}
 \AtBeginDocument{\DeclareMathVersion{bold}
@@ -91,12 +99,18 @@ Adaptive Large Neighborhood Search, Deep Reinforcement Learning, Double DQN, Hie
 \input{sections/06_discussion.tex}
 \input{sections/07_conclusion.tex}
 
-\bibliography{refs}
+\IEEEtriggeratref{20}
+\IEEEtriggercmd{\enlargethispage{5\baselineskip}}
 
+{\footnotesize
+\bibliography{refs}
+}
+
+\vspace{-4pt}
 \begin{IEEEbiography}
 [{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{profile_Huy.jpg}}]{Huynh Nhat Huy} is currently pursuing the B.S. degree in Computer Science with the Faculty of Information Technology, Ton Duc Thang University, Ho Chi Minh City, Vietnam. His research interests include deep reinforcement learning, combinatorial optimization, metaheuristics, and learning-augmented algorithms.
 \end{IEEEbiography}
-
+\vspace{-6pt}
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{fig6_profileho.jpg}}]{Thi-Linh Ho} received her B.S. degree in information technology from Nong Lam University, Ho Chi Minh City, Vietnam in 2009. She received her master degree in Management Information System in 2012 from Ho Chi Minh City University of Technology, Vietnam. She then received her doctorate in computer science from Ton Duc Thang University, Vietnam in 2024. She is a lecturer at the Faculty of Information Technology, Ton Duc Thang University. She is also a member of the Natural Language Processing and Knowledge Discovery Research Group. Her fields of interest consist of working with machine learning, intelligent information systems, analyzing data and solving optimization problems in business, finance, economics, etc.
 \end{IEEEbiography}
 
