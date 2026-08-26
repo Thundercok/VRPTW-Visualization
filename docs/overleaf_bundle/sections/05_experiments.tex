@@ -52,11 +52,12 @@ Of the 60 available instances per family-set at each Gehring--Homberger scale, t
 \label{tab:homberger_scale_benchmark}
 \centering
 \footnotesize
+\setlength{\tabcolsep}{2.5pt}
 \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l cc cc cc cc cc cc @{}}
 \toprule
-\multirow{2}{*}{\textbf{Benchmark Scale / Group}} & \multicolumn{2}{c}{\textbf{BKS Baseline}} & \multicolumn{2}{c}{\textbf{ALNS-Base~\cite{Ropke2006}}} & \multicolumn{2}{c}{\textbf{Single-Agent RL-LNS}} & \multicolumn{2}{c}{\textbf{Tri-Level DDQN (Ours)}} & \multicolumn{2}{c}{\textbf{Wilcoxon Test}} & \multicolumn{2}{c}{\textbf{Efficiency}} \\
+\multirow{2}{*}{\textbf{Scale / Group}} & \multicolumn{2}{c}{\textbf{BKS Baseline}} & \multicolumn{2}{c}{\textbf{ALNS-Base~\cite{Ropke2006}}} & \multicolumn{2}{c}{\textbf{Single-Agent}} & \multicolumn{2}{c}{\textbf{Tri-Level (Ours)}} & \multicolumn{2}{c}{\textbf{Wilcoxon}} & \multicolumn{2}{c}{\textbf{Efficiency}} \\
 \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){8-9} \cmidrule(lr){10-11} \cmidrule(lr){12-13}
- & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & $W$ & $p$\textbf{-value} & \textbf{Time (s)} & \textbf{Matched Gap} \\
+ & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & \textbf{NV} & \textbf{TD} & $W$ & $p$\textbf{-val} & \textbf{Time(s)} & \textbf{Gap} \\
 \midrule
 \multicolumn{13}{l}{\textit{\textbf{Scale 1: Homberger 200-Customer Benchmarks (NV-Floor Convergence)}}} \\
 C1\_200 (10 instances) & 18.90 & 2712.5 & 18.90 & 2768.4 & 18.90 & 2745.2 & \textbf{18.90} & \textbf{2718.9} & 3.0 & 0.0078* & 18.4 & -1.79\% \\
@@ -94,6 +95,7 @@ To isolate the individual contribution of each component, Table~\ref{tab:ablatio
 \label{tab:ablation_matrix}
 \centering
 \footnotesize
+\setlength{\tabcolsep}{2.5pt}
 \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l cc cc cc cc cc cc @{}}
 \toprule
 \multirow{2}{*}{\textbf{Ablation Configuration}} & \multicolumn{2}{c}{\textbf{C101} (100-c)} & \multicolumn{2}{c}{\textbf{R101} (100-c)} & \multicolumn{2}{c}{\textbf{RC101} (100-c)} & \multicolumn{2}{c}{\textbf{c2\_2\_1} (200-c)} & \multicolumn{2}{c}{\textbf{r1\_2\_1} (200-c)} & \multicolumn{2}{c}{\textbf{rc2\_4\_1} (400-c)} \\
@@ -102,14 +104,14 @@ To isolate the individual contribution of each component, Table~\ref{tab:ablatio
 \midrule
 \textbf{BKS Baseline} & \textbf{10} & \textbf{828.94} & \textbf{19} & \textbf{1650.80} & \textbf{14} & \textbf{1696.95} & \textbf{6} & \textbf{1931.44} & \textbf{20} & \textbf{4784.11} & \textbf{11} & \textbf{6682.37} \\
 \midrule
-\textbf{Full Tri-Level Hybrid-DDQN} & \textbf{10.00} & \textbf{828.94} & \textbf{19.00} & \textbf{1651.35} & \textbf{15.20} & \textbf{1659.62} & \textbf{6.00} & \textbf{1931.44} & \textbf{20.40} & \textbf{5004.10} & \textbf{12.60} & \textbf{6784.04} \\
-(2) w/o Macro Controller ($\pi_{\text{macro}}$) & 10.00 & 828.94 & 19.00 & 1650.80 & 15.20 & 1638.97 & 6.00 & 1931.44 & 20.40 & 4951.42 & 12.80 & 6770.58 \\
-(3) w/o Learned Acceptance (LAC $\to$ SA) & 10.00 & 828.94 & 19.00 & 1651.89 & 15.40 & 1663.25 & 6.00 & 1931.44 & 21.00 & 5041.84 & 12.60 & 6859.08 \\
-(4) w/o HiGHS RoutePool Recombination & 10.00 & 828.94 & 19.00 & 1651.35 & 15.40 & 1682.35 & 6.00 & 1931.44 & 20.20 & 4958.37 & 13.00 & 6787.46 \\
-(5) w/o $\tau$-Entropy Confidence Gate & 10.00 & 828.94 & 19.00 & 1650.80 & 15.00 & 1678.98 & 6.00 & 1931.44 & 20.60 & 4940.71 & 12.80 & 6780.26 \\
-(6) Rule-Macro (Deterministic Macro) & 10.00 & 828.94 & 19.00 & 1651.89 & 15.20 & 1667.84 & 7.20 & 2029.96 & 20.80 & 4896.85 & 13.20 & 6658.39 \\
-(7) Single-Agent RL-LNS (Flat Micro DDQN) & 10.00 & 828.94 & 19.00 & 1654.59 & 14.50 & 1687.53 & 8.10 & 2173.36 & 20.20 & 4913.89 & 13.00 & 6619.41 \\
-(8) Rule-Micro (Deterministic Micro) & 10.00 & 828.94 & 19.00 & 1652.83 & 14.80 & 1710.23 & 12.60 & 2718.10 & 20.80 & 5399.80 & 13.40 & 6661.62 \\
+\textbf{Full Hybrid-DDQN (Ours)} & \textbf{10.00} & \textbf{828.94} & \textbf{19.00} & \textbf{1651.35} & \textbf{15.20} & \textbf{1659.62} & \textbf{6.00} & \textbf{1931.44} & \textbf{20.40} & \textbf{5004.10} & \textbf{12.60} & \textbf{6784.04} \\
+(2) w/o Macro Controller & 10.00 & 828.94 & 19.00 & 1650.80 & 15.20 & 1638.97 & 6.00 & 1931.44 & 20.40 & 4951.42 & 12.80 & 6770.58 \\
+(3) w/o LAC ($\to$ SA) & 10.00 & 828.94 & 19.00 & 1651.89 & 15.40 & 1663.25 & 6.00 & 1931.44 & 21.00 & 5041.84 & 12.60 & 6859.08 \\
+(4) w/o RoutePool Recomb. & 10.00 & 828.94 & 19.00 & 1651.35 & 15.40 & 1682.35 & 6.00 & 1931.44 & 20.20 & 4958.37 & 13.00 & 6787.46 \\
+(5) w/o $\tau$-Entropy Gate & 10.00 & 828.94 & 19.00 & 1650.80 & 15.00 & 1678.98 & 6.00 & 1931.44 & 20.60 & 4940.71 & 12.80 & 6780.26 \\
+(6) Rule-Macro (Heuristic) & 10.00 & 828.94 & 19.00 & 1651.89 & 15.20 & 1667.84 & 7.20 & 2029.96 & 20.80 & 4896.85 & 13.20 & 6658.39 \\
+(7) Single-Agent RL-LNS & 10.00 & 828.94 & 19.00 & 1654.59 & 14.50 & 1687.53 & 8.10 & 2173.36 & 20.20 & 4913.89 & 13.00 & 6619.41 \\
+(8) Rule-Micro (Heuristic) & 10.00 & 828.94 & 19.00 & 1652.83 & 14.80 & 1710.23 & 12.60 & 2718.10 & 20.80 & 5399.80 & 13.40 & 6661.62 \\
 \bottomrule
 \end{tabular*}
 \end{table*}
