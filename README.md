@@ -214,35 +214,41 @@ Create a file, e.g. `run_benchmark.py`:
 
 ```python
 import sys, os
+
 sys.path.insert(0, os.path.abspath("src"))
 
 from vrptw import (
-    Config, load_datasets,
-    run_benchmark, print_summary_table,
-    ALGO_ALNS_BASE, ALGO_HYBRID_FIXED, ALGO_HYBRID_RULE,
-    ALGO_HYBRID_DDQN, ALGO_ORTOOLS,
+    Config,
+    load_datasets,
+    run_benchmark,
+    print_summary_table,
+    ALGO_ALNS_BASE,
+    ALGO_HYBRID_FIXED,
+    ALGO_HYBRID_RULE,
+    ALGO_HYBRID_DDQN,
+    ALGO_ORTOOLS,
 )
 
 cfg = Config(
-    data_path         = "./data/Solomon",
-    output_dir        = "./results/my_run",
-    n_runs            = 5,
-    alns_iterations   = 5000,
-    hybrid_iterations = 5000,
-    early_stop_patience = 250,
-    max_wall_hours    = 9.5,
+    data_path="./data/Solomon",
+    output_dir="./results/my_run",
+    n_runs=5,
+    alns_iterations=5000,
+    hybrid_iterations=5000,
+    early_stop_patience=250,
+    max_wall_hours=9.5,
 )
 
-datasets   = load_datasets(cfg.data_path)
-all_insts  = datasets["c1"] + datasets["c2"] + datasets["r1"] + datasets["r2"] + datasets["rc1"] + datasets["rc2"]
+datasets = load_datasets(cfg.data_path)
+all_insts = datasets["c1"] + datasets["c2"] + datasets["r1"] + datasets["r2"] + datasets["rc1"] + datasets["rc2"]
 algorithms = [ALGO_ALNS_BASE, ALGO_HYBRID_FIXED, ALGO_HYBRID_RULE, ALGO_HYBRID_DDQN, ALGO_ORTOOLS]
 
 df = run_benchmark(
-    instances       = all_insts,
-    algorithms      = algorithms,
-    cfg             = cfg,
-    result_path     = "./results/my_run/benchmark_clean.csv",
-    checkpoint_path = "./results/my_run/benchmark_checkpoint.csv",
+    instances=all_insts,
+    algorithms=algorithms,
+    cfg=cfg,
+    result_path="./results/my_run/benchmark_clean.csv",
+    checkpoint_path="./results/my_run/benchmark_checkpoint.csv",
 )
 print_summary_table(df)
 ```
@@ -256,9 +262,9 @@ The benchmark saves a checkpoint CSV every 4 instances. If it crashes or you sto
 ```python
 from vrptw import Config, load_datasets, run_instance, ALGO_HYBRID_DDQN
 
-cfg      = Config(data_path="./data/Solomon")
+cfg = Config(data_path="./data/Solomon")
 datasets = load_datasets(cfg.data_path)
-inst     = datasets["rc1"][0]   # RC101
+inst = datasets["rc1"][0]  # RC101
 
 result, plan = run_instance(inst, ALGO_HYBRID_DDQN, cfg, seed=42)
 print(f"NV={result['nv']}  cost={result['cost']:.1f}  gap={result['td_gap']:+.2f}%")
@@ -302,12 +308,15 @@ Pre-train a DDQN policy, then apply it **frozen** to unseen instances.
 
 ```python
 from vrptw import (
-    Config, load_datasets,
-    train_transfer_model, load_transfer_model,
-    run_benchmark, ALGO_HYBRID_DDQN_TRANSFER,
+    Config,
+    load_datasets,
+    train_transfer_model,
+    load_transfer_model,
+    run_benchmark,
+    ALGO_HYBRID_DDQN_TRANSFER,
 )
 
-cfg      = Config(data_path="./data/Solomon", output_dir="./results/transfer", transfer_epochs=1)
+cfg = Config(data_path="./data/Solomon", output_dir="./results/transfer", transfer_epochs=1)
 datasets = load_datasets(cfg.data_path)
 
 # Train on RC1 → saves rl_alns_transfer_rc1_v15.safetensors
@@ -315,10 +324,10 @@ weights = train_transfer_model(datasets["rc1"], cfg, seed=42, label="RC1")
 
 # Benchmark on RC2 with frozen weights
 df = run_benchmark(
-    instances        = datasets["rc2"],
-    algorithms       = [ALGO_HYBRID_DDQN_TRANSFER],
-    cfg              = cfg,
-    transfer_weights = weights,
+    instances=datasets["rc2"],
+    algorithms=[ALGO_HYBRID_DDQN_TRANSFER],
+    cfg=cfg,
+    transfer_weights=weights,
 )
 ```
 
@@ -329,10 +338,10 @@ from vrptw import train_transfer_model_within_rc2, ALGO_HYBRID_DDQN_TRANSFER_RC2
 
 weights = train_transfer_model_within_rc2(datasets["rc2"], cfg, seed=42)
 df = run_benchmark(
-    instances        = datasets["rc2"][cfg.rc2_transfer_split:],
-    algorithms       = [ALGO_HYBRID_DDQN_TRANSFER_RC2],
-    cfg              = cfg,
-    transfer_weights = weights,
+    instances=datasets["rc2"][cfg.rc2_transfer_split :],
+    algorithms=[ALGO_HYBRID_DDQN_TRANSFER_RC2],
+    cfg=cfg,
+    transfer_weights=weights,
 )
 ```
 
@@ -346,10 +355,10 @@ weights = train_domain_randomization(cfg, seed=42)
 
 # Test frozen on all Solomon instances
 df = run_benchmark(
-    instances        = datasets["rc1"] + datasets["rc2"],
-    algorithms       = [ALGO_HYBRID_DDQN_TRANSFER_DR],
-    cfg              = cfg,
-    transfer_weights = weights,
+    instances=datasets["rc1"] + datasets["rc2"],
+    algorithms=[ALGO_HYBRID_DDQN_TRANSFER_DR],
+    cfg=cfg,
+    transfer_weights=weights,
 )
 ```
 
@@ -357,6 +366,7 @@ df = run_benchmark(
 
 ```python
 from vrptw import load_transfer_model
+
 weights = load_transfer_model(cfg, label="rc1")
 ```
 
@@ -414,44 +424,36 @@ from vrptw import Config
 
 cfg = Config(
     # ── Data paths ────────────────────────────────────────────────────────
-    data_path  = "./data/Solomon",
-    output_dir = "./results/my_run",
-
+    data_path="./data/Solomon",
+    output_dir="./results/my_run",
     # ── Search budget ────────────────────────────────────────────────────
-    alns_iterations     = 5000,       # main ALNS iterations
-    hybrid_iterations   = 5000,       # Hybrid solver iterations
-    early_stop_patience = 250,        # stop if no improvement for N iterations
-    polish_iterations   = 80,         # post-search polish phase
-    polish_patience     = 40,         # polish early-stop
-    n_runs              = 5,          # runs per (instance, algo) combination
-    max_wall_hours      = 9.5,        # hard wall-clock limit
-
+    alns_iterations=5000,  # main ALNS iterations
+    hybrid_iterations=5000,  # Hybrid solver iterations
+    early_stop_patience=250,  # stop if no improvement for N iterations
+    polish_iterations=80,  # post-search polish phase
+    polish_patience=40,  # polish early-stop
+    n_runs=5,  # runs per (instance, algo) combination
+    max_wall_hours=9.5,  # hard wall-clock limit
     # ── Simulated annealing ─────────────────────────────────────────────
-    temp_control = 0.05,
-    temp_decay   = 0.99975,
-
+    temp_control=0.05,
+    temp_decay=0.99975,
     # ── DDQN plateau controller ─────────────────────────────────────────
-    ctrl_lr    = 3e-4,
-    ctrl_tau   = 0.005,               # soft target update rate
-    per_beta_steps = 50_000,          # PER β annealing steps
-
+    ctrl_lr=3e-4,
+    ctrl_tau=0.005,  # soft target update rate
+    per_beta_steps=50_000,  # PER β annealing steps
     # ── DDQN operator controller ────────────────────────────────────────
-    op_lr      = 3e-4,
-    op_tau     = 0.005,
-
+    op_lr=3e-4,
+    op_tau=0.005,
     # ── Learned Acceptance Criterion ────────────────────────────────────
-    lac_enabled = True,
-
+    lac_enabled=True,
     # ── Transfer learning ───────────────────────────────────────────────
-    transfer_epochs    = 1,
-    rc2_transfer_split = 4,
-
+    transfer_epochs=1,
+    rc2_transfer_split=4,
     # ── OR-Tools ────────────────────────────────────────────────────────
-    ortools_time_limit = 15.0,        # seconds
-
+    ortools_time_limit=15.0,  # seconds
     # ── Route pool / set-partitioning ───────────────────────────────────
-    route_pool_limit   = 600,
-    sp_time_limit      = 4.0,
+    route_pool_limit=600,
+    sp_time_limit=4.0,
 )
 ```
 

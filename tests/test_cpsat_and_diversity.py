@@ -4,6 +4,7 @@ Unit and regression tests for:
 1. Post-Hoc CP-SAT Exact TSP-TW Refinement.
 2. EliteArchive Edge-Jaccard Diversity Enforcement.
 """
+
 import numpy as np
 
 from vrptw.config import Config
@@ -14,6 +15,7 @@ from vrptw.solvers import ALNSSolver
 
 def test_cpsat_exact_refinement_rc101():
     from vrptw.local_search import refine_plan_cpsat
+
     inst = load_solomon_instance("data/Solomon/RC101.txt")
     cfg = Config(alns_iterations=200, hybrid_iterations=200)
     solver = ALNSSolver(inst, cfg)

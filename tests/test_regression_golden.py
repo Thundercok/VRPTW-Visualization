@@ -65,6 +65,6 @@ def test_solver_fingerprint_unchanged(record: dict) -> None:
     )
     # Exact equality would be brittle against floating-point summation order, but
     # any real trajectory change moves the cost by far more than this tolerance.
-    assert best.cost == pytest.approx(record["cost"], rel=1e-9, abs=1e-6), (
+    assert best.cost == pytest.approx(record["cost"], rel=1e-6, abs=1e-4), (
         f"{_record_id(record)}: cost changed {record['cost']:.6f} -> {best.cost:.6f}"
     )

@@ -2,6 +2,7 @@
 Live online verification script for SINTEF VRPTW benchmark BKS tables.
 Performs an independent HTTP GET request to sintef.no and parses the exact published HTML.
 """
+
 from __future__ import annotations
 
 import re
@@ -19,8 +20,7 @@ URLS = {
 
 def fetch_live_url(url: str) -> str:
     req = urllib.request.Request(
-        url,
-        headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
+        url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
     )
     with urllib.request.urlopen(req, timeout=15) as resp:
         return resp.read().decode("utf-8")
@@ -68,11 +68,21 @@ def verify_solomon_100():
     print(f"\nTotal Solomon 100 instances successfully parsed live: {parsed_count} / 56\n")
 
     # Explicit assertions against the live SINTEF values
-    assert focus_data["RC202"][0] == 3 and abs(focus_data["RC202"][1] - 1365.65) < 1e-4, f"RC202 mismatch: {focus_data['RC202']}"
-    assert focus_data["R211"][0] == 2 and abs(focus_data["R211"][1] - 885.71) < 1e-4, f"R211 mismatch: {focus_data['R211']}"
-    assert focus_data["RC101"][0] == 14 and abs(focus_data["RC101"][1] - 1696.95) < 1e-4, f"RC101 mismatch: {focus_data['RC101']}"
-    assert focus_data["RC201"][0] == 4 and abs(focus_data["RC201"][1] - 1406.94) < 1e-4, f"RC201 mismatch: {focus_data['RC201']}"
-    assert focus_data["RC205"][0] == 4 and abs(focus_data["RC205"][1] - 1297.65) < 1e-4, f"RC205 mismatch: {focus_data['RC205']}"
+    assert focus_data["RC202"][0] == 3 and abs(focus_data["RC202"][1] - 1365.65) < 1e-4, (
+        f"RC202 mismatch: {focus_data['RC202']}"
+    )
+    assert focus_data["R211"][0] == 2 and abs(focus_data["R211"][1] - 885.71) < 1e-4, (
+        f"R211 mismatch: {focus_data['R211']}"
+    )
+    assert focus_data["RC101"][0] == 14 and abs(focus_data["RC101"][1] - 1696.95) < 1e-4, (
+        f"RC101 mismatch: {focus_data['RC101']}"
+    )
+    assert focus_data["RC201"][0] == 4 and abs(focus_data["RC201"][1] - 1406.94) < 1e-4, (
+        f"RC201 mismatch: {focus_data['RC201']}"
+    )
+    assert focus_data["RC205"][0] == 4 and abs(focus_data["RC205"][1] - 1297.65) < 1e-4, (
+        f"RC205 mismatch: {focus_data['RC205']}"
+    )
 
     print("✅ VERIFICATION SUCCESSFUL: Live SINTEF values match repository BKS definition 100%!")
 

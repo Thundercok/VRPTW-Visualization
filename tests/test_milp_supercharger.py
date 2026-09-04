@@ -1,6 +1,7 @@
 """
 Unit tests for HiGHS MILP Set Covering Supercharger on RoutePool.
 """
+
 from __future__ import annotations
 
 import numpy as np
@@ -15,15 +16,18 @@ def test_highs_milp_supercharger_nv_reduction():
     raw = {
         "name": "mock_supercharger",
         "capacity": 100.0,
-        "data": np.array([
-            [0, 0, 0, 0, 0, 100, 0],   # Depot
-            [1, 1, 0, 20, 0, 100, 0],  # Cust 1
-            [2, 2, 0, 20, 0, 100, 0],  # Cust 2
-            [3, 3, 0, 20, 0, 100, 0],  # Cust 3
-            [4, 4, 0, 20, 0, 100, 0],  # Cust 4
-            [5, 5, 0, 20, 0, 100, 0],  # Cust 5
-            [6, 6, 0, 20, 0, 100, 0],  # Cust 6
-        ], dtype=np.float64)
+        "data": np.array(
+            [
+                [0, 0, 0, 0, 0, 100, 0],  # Depot
+                [1, 1, 0, 20, 0, 100, 0],  # Cust 1
+                [2, 2, 0, 20, 0, 100, 0],  # Cust 2
+                [3, 3, 0, 20, 0, 100, 0],  # Cust 3
+                [4, 4, 0, 20, 0, 100, 0],  # Cust 4
+                [5, 5, 0, 20, 0, 100, 0],  # Cust 5
+                [6, 6, 0, 20, 0, 100, 0],  # Cust 6
+            ],
+            dtype=np.float64,
+        ),
     }
     inst = Inst(raw)
     cfg = Config(sp_time_limit=5.0)
@@ -40,13 +44,7 @@ def test_highs_milp_supercharger_nv_reduction():
     pool.add_route(route_b)
 
     # HiGHS Supercharger: synthesize NV-1 target plan (nv_target = 2)
-    recombined = recombine_with_route_pool(
-        plan_suboptimal,
-        pool,
-        cfg,
-        nv_target=2,
-        nv_ceiling=2
-    )
+    recombined = recombine_with_route_pool(plan_suboptimal, pool, cfg, nv_target=2, nv_ceiling=2)
 
     assert recombined.feasible
     assert recombined.nv == 2

@@ -29,15 +29,11 @@ class SplitQNet(nn.Module):
             nn.LayerNorm(hidden_dim),
             nn.ReLU(),
         )
-        self.value_head = nn.Sequential(
-            nn.Linear(hidden_dim, 32),
-            nn.ReLU(),
-            nn.Linear(32, 1)
-        )
+        self.value_head = nn.Sequential(nn.Linear(hidden_dim, 32), nn.ReLU(), nn.Linear(32, 1))
         self.adv_head = nn.Sequential(
             nn.Linear(hidden_dim, 32),
             nn.ReLU(),
-            nn.Linear(32, 2)  # 2 actions: 0=CONTINUE, 1=SPLIT
+            nn.Linear(32, 2),  # 2 actions: 0=CONTINUE, 1=SPLIT
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
@@ -242,9 +238,7 @@ class SplitController:
                 current_route.append(customer)
                 continue
 
-            state, can_continue = self._build_state(
-                current_route, customer, tour, i, len(routes)
-            )
+            state, can_continue = self._build_state(current_route, customer, tour, i, len(routes))
 
             # Action: 0 = CONTINUE, 1 = SPLIT
             if not can_continue:
@@ -265,19 +259,19 @@ class SplitController:
                 current_route.append(customer)
 
             # Build next state representation
-            next_state, _ = self._build_state(
-                current_route, customer, tour, i, len(routes)
-            )
+            next_state, _ = self._build_state(current_route, customer, tour, i, len(routes))
 
             done = 1.0 if (i == len(tour) - 1) else 0.0
-            transitions.append({
-                "state": state,
-                "action": action,
-                "reward": step_reward,
-                "next_state": next_state,
-                "done": done,
-                "is_forced": is_forced
-            })
+            transitions.append(
+                {
+                    "state": state,
+                    "action": action,
+                    "reward": step_reward,
+                    "next_state": next_state,
+                    "done": done,
+                    "is_forced": is_forced,
+                }
+            )
 
         routes.append(current_route)
         return routes, transitions
@@ -355,13 +349,7 @@ class SplitController:
         # Push experiences to buffer (skipping forced split decisions)
         for trans in transitions:
             if not trans["is_forced"]:
-                self.buf.push(
-                    trans["state"],
-                    trans["action"],
-                    trans["reward"],
-                    trans["next_state"],
-                    trans["done"]
-                )
+                self.buf.push(trans["state"], trans["action"], trans["reward"], trans["next_state"], trans["done"])
 
         # Trigger gradient updates
         self.train_step()

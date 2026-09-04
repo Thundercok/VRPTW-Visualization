@@ -54,6 +54,7 @@ def eliminate_route_infeasible(plan, penalty_manager: PenaltyManager):
     the increase in penalized cost.
     """
     from .core import Plan
+
     inst = plan.inst
     routes = [r[:] for r in plan.routes]
     if len(routes) <= 1:
@@ -97,6 +98,7 @@ def eliminate_two_routes_infeasible(plan, penalty_manager: PenaltyManager):
     More powerful than single-route eliminate when NV is near BKS.
     """
     from .core import Plan
+
     inst = plan.inst
     routes = [r[:] for r in plan.routes]
     if len(routes) <= 2:
@@ -268,7 +270,7 @@ class LagrangianPenaltyController:
                 self.lam_tw = min(self.lam_tw_max, self.lam_tw * 1.10)
             return
 
-        denom = (v_cap ** 2) + (v_tw ** 2)
+        denom = (v_cap**2) + (v_tw**2)
         if denom < 1e-9:
             # Plan is feasible: gradually decay multipliers toward lower bounds
             self.lam_cap = max(self.lam_cap_min, self.lam_cap * 0.98)
@@ -291,6 +293,3 @@ class LagrangianPenaltyController:
     def update_penalties(self) -> None:
         """Periodic hook for compatibility with the search loop cadence."""
         pass
-
-
-

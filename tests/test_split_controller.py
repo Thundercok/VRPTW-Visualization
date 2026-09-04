@@ -9,12 +9,15 @@ from vrptw.split_controller import SplitController, extract_giant_tour
 @pytest.fixture
 def dummy_instance():
     # Coords of depot (0) and 3 customers (1, 2, 3)
-    coords = np.array([
-        [50.0, 50.0],  # depot
-        [50.0, 60.0],  # north
-        [60.0, 50.0],  # east
-        [40.0, 50.0],  # west
-    ], dtype=float)
+    coords = np.array(
+        [
+            [50.0, 50.0],  # depot
+            [50.0, 60.0],  # north
+            [60.0, 50.0],  # east
+            [40.0, 50.0],  # west
+        ],
+        dtype=float,
+    )
     demands = np.array([0.0, 5.0, 10.0, 5.0])
     ready = np.array([0.0, 0.0, 10.0, 5.0])
     due = np.array([100.0, 80.0, 80.0, 80.0])
@@ -23,11 +26,7 @@ def dummy_instance():
     ids = np.array([0.0, 1.0, 2.0, 3.0])
     data = np.column_stack([ids, coords[:, 0], coords[:, 1], demands, ready, due, service])
 
-    return Inst({
-        "name": "DUMMY",
-        "capacity": 20.0,
-        "data": data
-    })
+    return Inst({"name": "DUMMY", "capacity": 20.0, "data": data})
 
 
 def test_extract_giant_tour(dummy_instance):

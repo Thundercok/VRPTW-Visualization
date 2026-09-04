@@ -108,7 +108,10 @@ def run_diagnostics():
     print("=" * 80, flush=True)
     print("DIAGNOSTIC 1: Did _trim() execute under default route_pool_limit (1000)?", flush=True)
     print("=" * 80, flush=True)
-    print(f"{'Inst':<8} {'Seed':<5} | {'Final Pool Size':<17} {'Limit (Threshold)':<20} {'Trim Count':<12} {'Did Trim?':<10}", flush=True)
+    print(
+        f"{'Inst':<8} {'Seed':<5} | {'Final Pool Size':<17} {'Limit (Threshold)':<20} {'Trim Count':<12} {'Did Trim?':<10}",
+        flush=True,
+    )
     print("-" * 80, flush=True)
 
     for name, rel_path in INSTANCES:
@@ -133,12 +136,18 @@ def run_diagnostics():
 
             limit_thresh = f"{pool.cfg.route_pool_limit} ({pool.cfg.route_pool_limit + 100})"
             did_trim = "YES" if pool.trim_count > 0 else "NO (NEVER)"
-            print(f"{name:<8} {seed:<5} | {len(pool._routes):<17} {limit_thresh:<20} {pool.trim_count:<12} {did_trim:<10}", flush=True)
+            print(
+                f"{name:<8} {seed:<5} | {len(pool._routes):<17} {limit_thresh:<20} {pool.trim_count:<12} {did_trim:<10}",
+                flush=True,
+            )
 
     print("\n" + "=" * 80, flush=True)
     print("DIAGNOSTIC 2: Stress-Test A/B with Constrained Pool Limit (Limit=120) to FORCE Trimming", flush=True)
     print("=" * 80, flush=True)
-    print(f"{'Inst':<8} {'Seed':<5} | {'Var A NV':<9} {'Var A TD':<10} {'Trim A':<7} | {'Var B NV':<9} {'Var B TD':<10} {'Trim B':<7} | {'Winner':<8}", flush=True)
+    print(
+        f"{'Inst':<8} {'Seed':<5} | {'Var A NV':<9} {'Var A TD':<10} {'Trim A':<7} | {'Var B NV':<9} {'Var B TD':<10} {'Trim B':<7} | {'Winner':<8}",
+        flush=True,
+    )
     print("-" * 80, flush=True)
 
     a_wins = 0

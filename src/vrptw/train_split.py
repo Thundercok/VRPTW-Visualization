@@ -34,7 +34,11 @@ def load_elite_plans(folders: list[str], insts_dict: dict[str, Inst]) -> list[Pl
                         plan = Plan(data["routes"], insts_dict[inst_name], data.get("algo", ""))
                         if plan.feasible:
                             existing = seen.get(inst_name)
-                            if existing is None or plan.nv < existing.nv or (plan.nv == existing.nv and plan.cost < existing.cost):
+                            if (
+                                existing is None
+                                or plan.nv < existing.nv
+                                or (plan.nv == existing.nv and plan.cost < existing.cost)
+                            ):
                                 seen[inst_name] = plan
                 except Exception:
                     pass
@@ -42,10 +46,7 @@ def load_elite_plans(folders: list[str], insts_dict: dict[str, Inst]) -> list[Pl
 
 
 def pretrain_split_controller(
-    plans: list[Plan],
-    epochs: int = 120,
-    lr: float = 3e-4,
-    save_path: str | None = None
+    plans: list[Plan], epochs: int = 120, lr: float = 3e-4, save_path: str | None = None
 ) -> dict:
     """
     Behavior cloning pre-training for SplitController using elite partitions.
@@ -103,9 +104,7 @@ def pretrain_split_controller(
                     continue
 
                 # Build state for deciding split/continue at customer i
-                state, can_continue = controller._build_state(
-                    current_route, customer, tour, i, len(current_route)
-                )
+                state, can_continue = controller._build_state(current_route, customer, tour, i, len(current_route))
 
                 # If we cannot continue, the action is forced split (1),
                 # which doesn't provide a useful gradients for voluntary choice.
@@ -159,6 +158,7 @@ def pretrain_split_controller(
         # Check if safetensors is available
         try:
             from safetensors.torch import save_file
+
             save_file(weights, save_path)
             print(f"Saved pre-trained weights to safetensors → {save_path}")
         except ImportError:
@@ -176,11 +176,16 @@ def main():
         type=str,
         nargs="+",
         default=["./elite_plans", "./results/ultimate-publication-suite"],
-        help="Path(s) to elite JSON solutions"
+        help="Path(s) to elite JSON solutions",
     )
     parser.add_argument("--epochs", type=int, default=120, help="Pre-training epochs")
     parser.add_argument("--lr", type=float, default=3e-4, help="Learning rate")
-    parser.add_argument("--save-path", type=str, default="./output_split_bench/split_pretrained.safetensors", help="Path to save weights")
+    parser.add_argument(
+        "--save-path",
+        type=str,
+        default="./output_split_bench/split_pretrained.safetensors",
+        help="Path to save weights",
+    )
     args = parser.parse_args()
 
     data_path = args.data_path or default_data_path()

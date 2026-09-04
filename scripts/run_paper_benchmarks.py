@@ -47,12 +47,14 @@ def collect_solomon_instances(data_dir: Path) -> list[tuple[str, str]]:
     return instances
 
 
-def collect_homberger_instances(data_dir: Path, n_customers: int = 200, limit: int | None = None) -> list[tuple[str, str]]:
+def collect_homberger_instances(
+    data_dir: Path, n_customers: int = 200, limit: int | None = None
+) -> list[tuple[str, str]]:
     """Discovers Homberger benchmark instances."""
     instances = []
     for f in sorted(data_dir.glob("*.TXT")) + sorted(data_dir.glob("*.txt")):
         name = f.stem.lower()
-        if f"_{n_customers//100}_" in name or f"_{n_customers}_" in name:
+        if f"_{n_customers // 100}_" in name or f"_{n_customers}_" in name:
             instances.append((name, str(f)))
     if limit and len(instances) > limit:
         # Select evenly spaced representative instances
@@ -65,14 +67,17 @@ def resolve_solver_task(solver: str, base_cfg: Config) -> tuple[Any, Config]:
     if solver == "ALNS-Base":
         return ALNSSolver, base_cfg
     elif solver in ("Single-Agent RL-LNS", "Single-Agent-RL-LNS", "SA-RL-LNS"):
-        sa_cfg = copy_cfg_with_overrides(base_cfg, {
-            "macro_enabled": False,
-            "lac_enabled": False,
-            "pool_recombine_enabled": False,
-            "recombine_after_main_search": False,
-            "op_softmax_tau": 1.0,
-            "gnn_model_path": None,
-        })
+        sa_cfg = copy_cfg_with_overrides(
+            base_cfg,
+            {
+                "macro_enabled": False,
+                "lac_enabled": False,
+                "pool_recombine_enabled": False,
+                "recombine_after_main_search": False,
+                "op_softmax_tau": 1.0,
+                "gnn_model_path": None,
+            },
+        )
         return HybridDDQNSolver, sa_cfg
     elif solver in ABLATION_CONFIGS:
         conf = ABLATION_CONFIGS[solver]
@@ -175,6 +180,7 @@ def build_tasks_for_mode(
 
 def copy_cfg_with_overrides(base_cfg: Config, overrides: dict[str, Any]) -> Config:
     import copy
+
     new_cfg = copy.deepcopy(base_cfg)
     for k, v in overrides.items():
         setattr(new_cfg, k, v)
@@ -270,7 +276,9 @@ def main() -> int:
             res = execute_benchmark_task(t)
             results.append(res)
             completed_count += 1
-            print(f"  [{completed_count:3d}/{len(tasks):3d}] {res.instance:<10} {res.solver:<15} Seed {res.seed:2d} -> NV: {res.nv:2d}, TD: {res.td:7.2f} ({res.time_sec:5.1f}s)")
+            print(
+                f"  [{completed_count:3d}/{len(tasks):3d}] {res.instance:<10} {res.solver:<15} Seed {res.seed:2d} -> NV: {res.nv:2d}, TD: {res.td:7.2f} ({res.time_sec:5.1f}s)"
+            )
             if completed_count % 10 == 0:
                 pd.DataFrame([r.to_dict() for r in results]).to_csv(csv_path, index=False)
     else:
@@ -280,7 +288,9 @@ def main() -> int:
                 res = future.result()
                 results.append(res)
                 completed_count += 1
-                print(f"  [{completed_count:3d}/{len(tasks):3d}] {res.instance:<10} {res.solver:<15} Seed {res.seed:2d} -> NV: {res.nv:2d}, TD: {res.td:7.2f} ({res.time_sec:5.1f}s)")
+                print(
+                    f"  [{completed_count:3d}/{len(tasks):3d}] {res.instance:<10} {res.solver:<15} Seed {res.seed:2d} -> NV: {res.nv:2d}, TD: {res.td:7.2f} ({res.time_sec:5.1f}s)"
+                )
                 if completed_count % 10 == 0 or completed_count == len(tasks):
                     pd.DataFrame([r.to_dict() for r in results]).to_csv(csv_path, index=False)
 

@@ -83,6 +83,10 @@ class JobRequest(BaseModel):
     # Empty for custom imports. Lets the solver rebuild the instance in its
     # native Solomon frame and score the plan against the published BKS.
     dataset: str = ""
+    preset: str = Field(default="fast", description="Execution preset: fast, standard, or deep")
+    pretrained_transfer: bool = Field(default=False, description="Enable pretrained transfer weights (Hybrid-DDQN*)")
+    use_gnn: bool = Field(default=True, description="Enable GNN spatial edge guidance")
+    iterations: int | None = Field(default=None, description="Custom iteration count override")
     fleet: FleetConfig
     customers: list[Point]
 

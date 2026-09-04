@@ -95,7 +95,6 @@ def move_feasible(F: np.ndarray, insert_pos: int, delta_time: float) -> bool:
     return delta_time <= F[insert_pos]
 
 
-
 @njit(cache=True)
 def _insert_feasible_numba(
     node: int,
@@ -310,8 +309,21 @@ def _insert_costs_matrix_numba(
         arrivals, latest, first_violation = _route_timing_numba(route, dist, ready, due, service)
         for i in range(n):
             k, d, p = _best_insert_in_route_numba(
-                nodes[i], route, route_loads[r], arrivals, latest, first_violation,
-                dist, demands, capacity, ready, due, service, heatmap, gamma, use_bias,
+                nodes[i],
+                route,
+                route_loads[r],
+                arrivals,
+                latest,
+                first_violation,
+                dist,
+                demands,
+                capacity,
+                ready,
+                due,
+                service,
+                heatmap,
+                gamma,
+                use_bias,
             )
             keys[i, r] = k
             deltas[i, r] = d
@@ -348,8 +360,21 @@ def _insert_costs_column_numba(
     arrivals, latest, first_violation = _route_timing_numba(route, dist, ready, due, service)
     for i in range(n):
         k, d, p = _best_insert_in_route_numba(
-            nodes[i], route, route_load, arrivals, latest, first_violation,
-            dist, demands, capacity, ready, due, service, heatmap, gamma, use_bias,
+            nodes[i],
+            route,
+            route_load,
+            arrivals,
+            latest,
+            first_violation,
+            dist,
+            demands,
+            capacity,
+            ready,
+            due,
+            service,
+            heatmap,
+            gamma,
+            use_bias,
         )
         keys[i] = k
         deltas[i] = d
@@ -389,8 +414,21 @@ def _best_insert_over_routes_numba(
         route = routes_flat[r, : route_lens[r]]
         arrivals, latest, first_violation = _route_timing_numba(route, dist, ready, due, service)
         key, delta, pos = _best_insert_in_route_numba(
-            node, route, route_loads[r], arrivals, latest, first_violation,
-            dist, demands, capacity, ready, due, service, heatmap, gamma, use_bias,
+            node,
+            route,
+            route_loads[r],
+            arrivals,
+            latest,
+            first_violation,
+            dist,
+            demands,
+            capacity,
+            ready,
+            due,
+            service,
+            heatmap,
+            gamma,
+            use_bias,
         )
         if pos >= 0 and key < best_key:
             best_key = key
@@ -455,10 +493,19 @@ def _insert_into_cheapest_route(
     if plan.routes:
         routes_flat, route_lens, route_loads = pack_routes(plan.routes, inst)
         _delta, best_route, best_pos = _best_insert_over_routes_numba(
-            node, routes_flat, route_lens, route_loads,
-            inst.dist, inst.demands, inst.capacity,
-            inst.ready_times, inst.due_times, inst.service_times,
-            heatmap if use_bias else _NO_HEATMAP, gamma, use_bias,
+            node,
+            routes_flat,
+            route_lens,
+            route_loads,
+            inst.dist,
+            inst.demands,
+            inst.capacity,
+            inst.ready_times,
+            inst.due_times,
+            inst.service_times,
+            heatmap if use_bias else _NO_HEATMAP,
+            gamma,
+            use_bias,
         )
     else:
         best_route = -1

@@ -15,6 +15,7 @@ import torch.optim as optim
 from .config import (
     ALGO_ALNS_BASE,
     ALGO_DQN,
+    ALGO_FLAT_DDQN,
     ALGO_HYBRID_DDQN,
     ALGO_HYBRID_FIXED,
     ALGO_HYBRID_RULE,
@@ -30,7 +31,7 @@ from .config import (
     MODES,
     Config,
 )
-from .core import Inst, Plan, _avg_slack, _check_route, _fleet_fill, _plan_spread
+from .core import Inst, Plan, _avg_slack, _check_route, _fleet_fill, _plan_spread, _route_cost, _route_ok
 from .heuristics import _best_insert_position, build_greedy
 from .local_search import (
     _buffered_route_elimination,
@@ -97,6 +98,7 @@ def _gini_route_loads(plan: Plan) -> float:
     diff_sum = np.abs(loads[:, None] - loads).sum()
     return float(diff_sum / denom)
 
+
 def _route_slack_stats(plan: Plan) -> tuple[float, float]:
     if not plan.routes:
         return 0.0, 0.0
@@ -115,6 +117,7 @@ def _route_slack_stats(plan: Plan) -> tuple[float, float]:
         route_slacks.append(r_slack_sum / len(route))
     return float(np.mean(route_slacks)), float(np.std(route_slacks))
 
+
 def _fraction_at_capacity(plan: Plan) -> float:
     if not plan.routes:
         return 0.0
@@ -126,11 +129,13 @@ def _fraction_at_capacity(plan: Plan) -> float:
             count += 1
     return float(count / len(plan.routes))
 
+
 def _inter_route_dist_var(plan: Plan) -> float:
     if not plan.routes or len(plan.routes) <= 1:
         return 0.0
     inst = plan.inst
     from .core import _route_cost
+
     dists = []
     for arr in plan.route_arrays:
         if len(arr) > 0:
@@ -139,7 +144,7 @@ def _inter_route_dist_var(plan: Plan) -> float:
             dists.append(0.0)
     dists_arr = np.array(dists, dtype=np.float32)
     mean_dist = max(float(dists_arr.mean()), 1.0)
-    return float(dists_arr.var()) / (mean_dist ** 2)
+    return float(dists_arr.var()) / (mean_dist**2)
 
 
 class _StructuralFeatureCache:
@@ -237,9 +242,7 @@ class ALNSSolver:
             self.gnn_model.eval()
             with torch.no_grad():
                 node_feats, edge_feats, nbr_idx = get_gnn_features(self.inst)
-                logits = self.gnn_model(
-                    node_feats.to(DEVICE), edge_feats.to(DEVICE), nbr_idx.to(DEVICE)
-                )
+                logits = self.gnn_model(node_feats.to(DEVICE), edge_feats.to(DEVICE), nbr_idx.to(DEVICE))
                 probs = torch.sigmoid(logits)[0].cpu().numpy()
                 self.heatmap = probs
                 self.gamma = getattr(cfg, "gnn_guidance_strength", 0.45)
@@ -252,6 +255,14 @@ class ALNSSolver:
         best = cur.copy()
         temp = cfg.temp_control * cur.cost / math.log(2)
         history = [best.cost]
+        self.trajectory_log = [
+            {
+                "t_sec": 0.0,
+                "nv": int(best.nv),
+                "td": round(float(best.cost), 3),
+                "iter": 0,
+            }
+        ]
         no_imp = 0
         self.q_scale = 1.0
         for it in range(cfg.alns_iterations):
@@ -267,6 +278,14 @@ class ALNSSolver:
             if accepted:
                 if cand.dominates(best):
                     best, score, no_imp = cand.copy(), cfg.sigma1, 0
+                    self.trajectory_log.append(
+                        {
+                            "t_sec": round(time.time() - t_start, 3),
+                            "nv": int(best.nv),
+                            "td": round(float(best.cost), 3),
+                            "iter": int(it),
+                        }
+                    )
                 elif cand.dominates(cur):
                     score, no_imp = cfg.sigma2, 0
                 else:
@@ -316,6 +335,7 @@ class HybridDDQNSolver:
 
     def __init__(self, inst: Inst, cfg: Config, seed: int | None = None):
         import copy
+
         self.inst = inst
         self.base_cfg = copy.copy(cfg)
         self.cfg = copy.copy(cfg)
@@ -365,7 +385,6 @@ class HybridDDQNSolver:
         _insert_into_cheapest_route(new_plan, customer_id, self.inst)
         return new_plan
 
-
     def _out_of_time(self) -> bool:
         """True once the hard anytime deadline has passed."""
         deadline = getattr(self, "_deadline", None)
@@ -379,6 +398,7 @@ class HybridDDQNSolver:
     def _adapt_params_to_instance(self, cfg, inst):
         """Tune search parameters based on instance characteristics."""
         import copy
+
         cfg = copy.copy(cfg)
         customers = inst.n
         tw_range = max(inst.due_times[1:] - inst.ready_times[1:])
@@ -439,9 +459,9 @@ class HybridDDQNSolver:
                 getattr(self.cfg, "gnn_pruning_threshold_end", 0.003)
                 frac = min(1.0, max(0.0, it / max(1, max_it)))
 
-                recent_improving = getattr(plan, '_recent_improving', False)
-                if not hasattr(plan, '_recent_improving') and hasattr(self, 'no_imp'):
-                    recent_improving = (self.no_imp == 0)
+                recent_improving = getattr(plan, "_recent_improving", False)
+                if not hasattr(plan, "_recent_improving") and hasattr(self, "no_imp"):
+                    recent_improving = self.no_imp == 0
 
                 no_imp_cnt = getattr(self, "no_imp", 0)
                 if recent_improving and no_imp_cnt == 0:
@@ -785,7 +805,9 @@ class HybridDDQNSolver:
         return no_imp >= self.cfg.plateau_start and _fleet_fill(cur) < max(0.52, 0.80 - 0.25 * self.inst.tw_tight_frac)
 
     def _select_action(self, state_before, cur, best, no_imp, progress, pool, frozen) -> tuple[int, bool]:
-        if no_imp >= max(self.cfg.ctrl_start_floor, self.cfg.ctrl_start // 2):
+        if getattr(self.cfg, "macro_enabled", True) and no_imp >= max(
+            self.cfg.ctrl_start_floor, self.cfg.ctrl_start // 2
+        ):
             mode, flag = self.ctrl.act(state_before), (not frozen)
         else:
             mode, flag = MODE_DEFAULT, False
@@ -797,7 +819,9 @@ class HybridDDQNSolver:
         mode = MODES[action]
         refined = cand
         if (
-            mode.use_recombine
+            getattr(self.cfg, "pool_recombine_enabled", True)
+            and getattr(self.cfg, "macro_enabled", True)
+            and mode.use_recombine
             and not self._segment_recombine_used
             and no_imp >= max(self.cfg.ctrl_start, self.cfg.plateau_start // 2)
             and len(pool._routes) >= self.cfg.rl_recombine_min_routes
@@ -806,7 +830,7 @@ class HybridDDQNSolver:
             nv_cap = min(best.nv, refined.nv)
             _bks_entry = BKS.get(self.inst.name)
             _bks_nv = int(_bks_entry["nv"]) if _bks_entry else 0
-            is_at_bks_floor = (nv_cap <= _bks_nv)
+            is_at_bks_floor = nv_cap <= _bks_nv
             recombined = recombine_with_route_pool(
                 refined,
                 pool,
@@ -820,7 +844,155 @@ class HybridDDQNSolver:
                 refined = self._local_search(
                     recombined, max_passes=1, nv_ceiling=recombined.nv, max_ls_moves=self.cfg.max_ls_moves
                 )
+        if len(refined.routes) >= 2:
+            merged = _try_route_merge(refined, max_pairs=8)
+            if merged is not None and merged.feasible and merged.nv < refined.nv:
+                refined = merged
         return refined
+
+    def _try_gec_route_reduction(self, plan: Plan) -> Plan | None:
+        """3-level Generalized Ejection Chains (GEC) to eliminate a full route."""
+        if len(plan.routes) <= 1:
+            return None
+
+        routes = [list(r) for r in plan.routes]
+        # Target shortest route
+        target_idx = min(range(len(routes)), key=lambda idx: len(routes[idx]))
+        target_route = routes[target_idx]
+        other_routes = [routes[i] for i in range(len(routes)) if i != target_idx]
+
+        demands = self.inst.demands
+        capacity = self.inst.capacity
+        ready = self.inst.ready_times
+        due = self.inst.due_times
+        service = self.inst.service_times
+        dist = self.inst.dist
+
+        def can_insert(r: list[int], u: int, pos: int) -> bool:
+            new_r = np.array(r[:pos] + [u] + r[pos:], dtype=np.int64)
+            return _route_ok(new_r, demands, capacity, ready, due, service, dist)
+
+        def find_best_insert(r: list[int], u: int) -> tuple[int, float] | None:
+            best_pos = None
+            best_delta = float("inf")
+            base_cost = _route_cost(np.array(r, dtype=np.int64), dist) if r else 0.0
+            for p in range(len(r) + 1):
+                if can_insert(r, u, p):
+                    new_r = np.array(r[:p] + [u] + r[p:], dtype=np.int64)
+                    delta = _route_cost(new_r, dist) - base_cost
+                    if delta < best_delta:
+                        best_delta = delta
+                        best_pos = p
+            if best_pos is not None:
+                return best_pos, best_delta
+            return None
+
+        working_routes = [list(r) for r in other_routes]
+        success = True
+        customers_to_insert = sorted(target_route, key=lambda c: -demands[c])
+
+        for u in customers_to_insert:
+            inserted = False
+            # Level 1: Direct insertion
+            best_r_idx, best_pos, best_delta = None, None, float("inf")
+            for r_idx, r in enumerate(working_routes):
+                res = find_best_insert(r, u)
+                if res is not None:
+                    pos, delta = res
+                    if delta < best_delta:
+                        best_delta = delta
+                        best_r_idx = r_idx
+                        best_pos = pos
+
+            if best_r_idx is not None:
+                working_routes[best_r_idx].insert(best_pos, u)
+                inserted = True
+                continue
+
+            # Level 2: 1-level customer displacement
+            if getattr(self.cfg, "gec_max_depth", 3) >= 2:
+                ejection_found = False
+                for r_j_idx, r_j in enumerate(working_routes):
+                    for v_pos, v in enumerate(r_j):
+                        r_j_cand = r_j[:v_pos] + r_j[v_pos + 1 :]
+                        res_u = find_best_insert(r_j_cand, u)
+                        if res_u is None:
+                            continue
+                        pos_u, _ = res_u
+                        r_j_new = r_j_cand[:pos_u] + [u] + r_j_cand[pos_u:]
+
+                        # Try to insert displaced v into another route R_k
+                        for r_k_idx, r_k in enumerate(working_routes):
+                            if r_k_idx == r_j_idx:
+                                continue
+                            res_v = find_best_insert(r_k, v)
+                            if res_v is not None:
+                                pos_v, _ = res_v
+                                working_routes[r_j_idx] = r_j_new
+                                working_routes[r_k_idx].insert(pos_v, v)
+                                ejection_found = True
+                                break
+                        if ejection_found:
+                            break
+                    if ejection_found:
+                        inserted = True
+                        break
+
+            # Level 3: 2-level chained displacement (u -> R_j displacing v, v -> R_k displacing w, w -> R_l)
+            if not inserted and getattr(self.cfg, "gec_max_depth", 3) >= 3 and len(working_routes) <= 30:
+                ejection_found_l3 = False
+                for r_j_idx, r_j in enumerate(working_routes):
+                    for v_pos, v in enumerate(r_j):
+                        r_j_cand = r_j[:v_pos] + r_j[v_pos + 1 :]
+                        res_u = find_best_insert(r_j_cand, u)
+                        if res_u is None:
+                            continue
+                        pos_u, _ = res_u
+                        r_j_new = r_j_cand[:pos_u] + [u] + r_j_cand[pos_u:]
+
+                        # Displaced v tries to displace w in R_k
+                        for r_k_idx, r_k in enumerate(working_routes):
+                            if r_k_idx == r_j_idx:
+                                continue
+                            for w_pos, w in enumerate(r_k):
+                                r_k_cand = r_k[:w_pos] + r_k[w_pos + 1 :]
+                                res_v = find_best_insert(r_k_cand, v)
+                                if res_v is None:
+                                    continue
+                                pos_v, _ = res_v
+                                r_k_new = r_k_cand[:pos_v] + [v] + r_k_cand[pos_v:]
+
+                                # Displaced w inserts into R_l
+                                for r_l_idx, r_l in enumerate(working_routes):
+                                    if r_l_idx in (r_j_idx, r_k_idx):
+                                        continue
+                                    res_w = find_best_insert(r_l, w)
+                                    if res_w is not None:
+                                        pos_w, _ = res_w
+                                        working_routes[r_j_idx] = r_j_new
+                                        working_routes[r_k_idx] = r_k_new
+                                        working_routes[r_l_idx].insert(pos_w, w)
+                                        ejection_found_l3 = True
+                                        break
+                                if ejection_found_l3:
+                                    break
+                            if ejection_found_l3:
+                                break
+                        if ejection_found_l3:
+                            break
+                    if ejection_found_l3:
+                        inserted = True
+                        break
+
+            if not inserted:
+                success = False
+                break
+
+        if success:
+            cand_plan = Plan(working_routes, self.inst, algo="GEC_REDUCE")
+            if cand_plan.feasible and cand_plan.nv == plan.nv - 1:
+                return cand_plan
+        return None
 
     def _fixed_nv_polish(
         self,
@@ -1227,9 +1399,15 @@ class HybridDDQNSolver:
         is_adaptive = getattr(cfg, "adaptive_feasibility", True) and not getattr(self, "phase1_done", False)
         if is_lagrangian or is_adaptive or cfg.penalty_search_enabled:
             if is_lagrangian:
-                penalty_manager = LagrangianPenaltyController(inst, theta=getattr(cfg, "lagrangian_theta", 2.0), stall_limit=getattr(cfg, "lagrangian_stall_limit", 20))
+                penalty_manager = LagrangianPenaltyController(
+                    inst,
+                    theta=getattr(cfg, "lagrangian_theta", 2.0),
+                    stall_limit=getattr(cfg, "lagrangian_stall_limit", 20),
+                )
             elif is_adaptive:
-                penalty_manager = AdaptiveFeasibilityManager(inst, target_ratio=getattr(cfg, "target_feasible_ratio", 0.5))
+                penalty_manager = AdaptiveFeasibilityManager(
+                    inst, target_ratio=getattr(cfg, "target_feasible_ratio", 0.5)
+                )
             else:
                 penalty_manager = PenaltyManager(inst)
             cur = eliminate_route_infeasible(start, penalty_manager)
@@ -1296,53 +1474,55 @@ class HybridDDQNSolver:
                 pool.add_route(route)
 
             score = 0
-            if is_lagrangian or is_adaptive or cfg.penalty_search_enabled:
-                if cand.nv <= target_nv:
-                    accepted = accept_penalized(cur, cand, temp, penalty_manager)
-                    if accepted:
-                        cur = cand
-                        penalty_manager.record_solution(cand)
-                        if cand.feasible:
-                            cand = self._local_search(
-                                cand, max_passes=1, nv_ceiling=target_nv, max_ls_moves=cfg.max_ls_moves, pool=pool
-                            )
-                            pool.add_plan(cand)
-                            if best_found is None or cand.dominates(best_found) or cand.nv < best_found.nv:
-                                best_found = cand.copy()
-                                score = cfg.sigma1
-                        else:
-                            score = cfg.sigma3
+            if (is_lagrangian or is_adaptive or cfg.penalty_search_enabled) and cand.nv <= target_nv:
+                accepted = accept_penalized(cur, cand, temp, penalty_manager)
+                if accepted:
+                    cur = cand
+                    penalty_manager.record_solution(cand)
+                    if cand.feasible:
+                        cand = self._local_search(
+                            cand, max_passes=1, nv_ceiling=target_nv, max_ls_moves=cfg.max_ls_moves, pool=pool
+                        )
+                        pool.add_plan(cand)
+                        if best_found is None or cand.dominates(best_found) or cand.nv < best_found.nv:
+                            best_found = cand.copy()
+                            score = cfg.sigma1
+                    else:
+                        score = cfg.sigma3
 
                 if it > 0 and it % 100 == 0:
                     penalty_manager.update_penalties()
-            else:
-                if cand.feasible and cand.nv <= target_nv:
-                    pool.add_plan(cand)
-                    cur = cand
-                    if best_found is None or cand.dominates(best_found) or cand.nv < best_found.nv:
-                        best_found = cand.copy()
-                        score = cfg.sigma1
+            elif cand.feasible and cand.nv <= target_nv:
+                pool.add_plan(cand)
+                cur = cand
+                if best_found is None or cand.dominates(best_found) or cand.nv < best_found.nv:
+                    best_found = cand.copy()
+                    score = cfg.sigma1
 
-                elif cand.feasible and cand.nv == target_nv + 1:
-                    is_improving = cand.cost < best_cost_at_target_nv_plus_1
-                    if is_improving:
-                        best_cost_at_target_nv_plus_1 = cand.cost
+            elif cand.feasible and cand.nv == target_nv + 1:
+                is_improving = cand.cost < best_cost_at_target_nv_plus_1
+                if is_improving:
+                    best_cost_at_target_nv_plus_1 = cand.cost
 
-                    # 1. Try local search reduction (run only if improving or periodically)
-                    if is_improving or it % 15 == 0:
-                        reduced = self._local_search(
-                            cand,
-                            max_passes=1,
-                            nv_ceiling=cand.nv,
-                            max_ls_moves=cfg.max_ls_moves,
-                            pool=pool,
-                        )
-                    else:
-                        reduced = cand.copy()
+                # 1. Try local search reduction (run only if improving or periodically)
+                if is_improving or it % 15 == 0:
+                    reduced = self._local_search(
+                        cand,
+                        max_passes=2,
+                        nv_ceiling=target_nv,
+                        max_ls_moves=cfg.max_ls_moves,
+                        pool=pool,
+                    )
+                else:
+                    reduced = cand.copy()
 
-                    # 2. Try ejection chains (if local search failed)
-                    if not (reduced.feasible and reduced.nv <= target_nv):
-                        if is_improving or it % 30 == 0:
+                # 2. Try ejection chains & GEC
+                if not (reduced.feasible and reduced.nv <= target_nv):
+                    if is_improving or it % 20 == 0:
+                        gec_res = self._try_gec_route_reduction(cand)
+                        if gec_res is not None and gec_res.feasible and gec_res.nv <= target_nv:
+                            reduced = gec_res
+                        else:
                             chain = _ejection_chain_eliminate(cand)
                             if chain is not None and chain.feasible and chain.nv <= target_nv:
                                 reduced = chain
@@ -1366,7 +1546,9 @@ class HybridDDQNSolver:
                     # 3. Try MILP recombination
                     if not (reduced.feasible and reduced.nv <= target_nv):
                         if is_improving or it % 50 == 0:
-                            rec = recombine_with_route_pool(cand, pool, cfg, nv_target=target_nv, heatmap=self.heatmap, _stats=self.sp_stats)
+                            rec = recombine_with_route_pool(
+                                cand, pool, cfg, nv_target=target_nv, heatmap=self.heatmap, _stats=self.sp_stats
+                            )
                             if rec.feasible and rec.nv <= target_nv:
                                 reduced = rec
 
@@ -1379,7 +1561,9 @@ class HybridDDQNSolver:
                             score = cfg.sigma1
                     else:
                         # Accept the near-miss candidate via SA to keep exploring
-                        if cand.cost <= cur.cost or random.random() < math.exp(-(cand.cost - cur.cost) / max(temp, 1e-6)):
+                        if cand.cost <= cur.cost or random.random() < math.exp(
+                            -(cand.cost - cur.cost) / max(temp, 1e-6)
+                        ):
                             cur = cand
 
             bandit.update(di, ri, score, cfg.sigma1)
@@ -1413,6 +1597,7 @@ class HybridDDQNSolver:
             if torch.cuda.is_available():
                 torch.cuda.manual_seed_all(effective_seed)
         import copy
+
         self.cfg = copy.copy(self.base_cfg)
         cfg = self.cfg
         cfg = self._adapt_params_to_instance(cfg, self.inst)
@@ -1450,14 +1635,13 @@ class HybridDDQNSolver:
             self.gnn_model.eval()
             with torch.no_grad():
                 node_feats, edge_feats, nbr_idx = get_gnn_features(self.inst)
-                logits = self.gnn_model(
-                    node_feats.to(DEVICE), edge_feats.to(DEVICE), nbr_idx.to(DEVICE)
-                )
+                logits = self.gnn_model(node_feats.to(DEVICE), edge_feats.to(DEVICE), nbr_idx.to(DEVICE))
                 probs = torch.sigmoid(logits)[0].cpu().numpy()
                 self.heatmap = probs
                 self.gamma = getattr(cfg, "gnn_guidance_strength", 0.45)
 
         from .split_controller import SplitController
+
         self.split_ctrl = SplitController(cfg, self.inst, heatmap=self.heatmap)
         if hasattr(self, "_split_weights_to_load") and self._split_weights_to_load:
             self.split_ctrl.q.load_state_dict(self._split_weights_to_load)
@@ -1478,7 +1662,9 @@ class HybridDDQNSolver:
                 stall_limit=getattr(cfg, "lagrangian_stall_limit", 20),
             )
         elif getattr(cfg, "adaptive_feasibility", True):
-            self.penalty_manager = AdaptiveFeasibilityManager(self.inst, target_ratio=getattr(cfg, "target_feasible_ratio", 0.5))
+            self.penalty_manager = AdaptiveFeasibilityManager(
+                self.inst, target_ratio=getattr(cfg, "target_feasible_ratio", 0.5)
+            )
         elif cfg.penalty_search_enabled:
             self.penalty_manager = PenaltyManager(self.inst)
         else:
@@ -1491,11 +1677,7 @@ class HybridDDQNSolver:
         best = cur.copy()
 
         # RL-Guided Split Controller Architecture
-        if (
-            not _is_sub_solve
-            and self.inst.n >= 200
-            and getattr(cfg, "split_enabled", True)
-        ):
+        if not _is_sub_solve and self.inst.n >= 200 and getattr(cfg, "split_enabled", True):
             import copy
 
             # 1. Run local search to establish starting structure if none passed in
@@ -1561,7 +1743,10 @@ class HybridDDQNSolver:
 
                 # Run the remaining iterations on the merged plan to reconcile
                 return self.solve(
-                    init=merged_plan, seed=seed, _is_sub_solve=True, _warm_start=True,
+                    init=merged_plan,
+                    seed=seed,
+                    _is_sub_solve=True,
+                    _warm_start=True,
                     _deadline=split_deadline,
                 )
         self._init_nv = cur.nv
@@ -1581,6 +1766,14 @@ class HybridDDQNSolver:
         all_rw = np.ones((len(self.modes), N_R), dtype=np.float32)
         self.archive.update(best)
         history: list[float] = [best.cost]
+        self.trajectory_log = [
+            {
+                "t_sec": 0.0,
+                "nv": int(best.nv),
+                "td": round(float(best.cost), 3),
+                "iter": 0,
+            }
+        ]
         recent_improvements: deque[int] = deque(maxlen=cfg.segment_size)
         no_imp = 0
         self.no_imp = 0
@@ -1588,6 +1781,7 @@ class HybridDDQNSolver:
         self.q_scale = 1.0
 
         n_segments = math.ceil(cfg.hybrid_iterations / cfg.segment_size)
+        it = 0
         phase1_iters = (
             int(cfg.hybrid_iterations * getattr(cfg, "phase1_ratio", 0.60))
             if (getattr(cfg, "adaptive_feasibility", True) or getattr(cfg, "lagrangian_penalty", False))
@@ -1604,7 +1798,7 @@ class HybridDDQNSolver:
             if not self.phase1_done and best is not None:
                 if _bks_nv is not None and best.nv <= _bks_nv:
                     should_early_stop_phase1 = True
-                elif no_best_imp >= 250 and seg_idx * cfg.segment_size >= 200:
+                elif _bks_nv is None and no_best_imp >= 250 and seg_idx * cfg.segment_size >= 200:
                     should_early_stop_phase1 = True
 
             if (
@@ -1616,7 +1810,9 @@ class HybridDDQNSolver:
                 self.early_stop_triggered_iter = seg_idx * cfg.segment_size
                 self.phase1_best_nv = best.nv
                 self.phase1_best_td = best.cost
-                self.phase1_final_lambda = getattr(self.penalty_manager, "lam", getattr(self.penalty_manager, "lam_tw", None))
+                self.phase1_final_lambda = getattr(
+                    self.penalty_manager, "lam", getattr(self.penalty_manager, "lam_tw", None)
+                )
                 cur = best.copy()
 
             progress = seg_idx / max(n_segments, 1)
@@ -1688,8 +1884,17 @@ class HybridDDQNSolver:
                 best_nv_before = best.nv
                 dest, removed = self._destroy(di, cur.copy(), size)
                 cand = REPAIR[ri](dest, removed, heatmap=self.heatmap, gamma=self.gamma)
-                if action == MODE_ROUTE_REDUCE:
-                    _stats['milp_cadence_skip'] = 0
+                has_fragile_route = any(len(r) <= 4 for r in cur.routes)
+                if (
+                    action == MODE_ROUTE_REDUCE
+                    or (has_fragile_route and it % 4 == 0)
+                    or (no_imp > 0 and no_imp % 20 == 0)
+                ):
+                    _stats["milp_cadence_skip"] = 0
+                    gec_plan = self._try_gec_route_reduction(cur)
+                    if gec_plan is not None and gec_plan.feasible and gec_plan.nv < cand.nv:
+                        cand = gec_plan
+
                 cand = self._refine_candidate(cand, action, pool, cur, best, no_imp, it)
 
                 lac_decided = False
@@ -1717,8 +1922,13 @@ class HybridDDQNSolver:
                     elif cand.nv == cur.nv + 1:
                         accepted = accept(cur, cand, temp, allow_nv_increase=True)
                     else:
-                        if cfg.lac_enabled and (getattr(self, "use_op_rl", True) or getattr(self, "use_op_rule", False)) and not frozen:
+                        if (
+                            cfg.lac_enabled
+                            and (getattr(self, "use_op_rl", True) or getattr(self, "use_op_rule", False))
+                            and not frozen
+                        ):
                             t0_init = cfg.temp_control * max(best.cost, 1.0) / math.log(2)
+                            progress = it / max(cfg.hybrid_iterations, 1)
                             lac_feats = self.lac.features(
                                 cost_delta=cand.cost - cur.cost,
                                 cur_cost=cur.cost,
@@ -1727,12 +1937,15 @@ class HybridDDQNSolver:
                                 no_imp=no_imp,
                                 patience=cfg.early_stop_patience,
                                 nv_diff=cand.nv - cur.nv,
-                                progress=it / max(cfg.hybrid_iterations, 1),
+                                progress=progress,
                                 tw_tight_frac=self.inst.tw_tight_frac,
                                 fleet_fill=_fleet_fill(cur),
                                 avg_slack_val=_avg_slack(cur),
                             )
-                            accepted, _ = self.lac.decide(lac_feats, best.cost)
+                            tau_min = getattr(cfg, "lac_tau_min", 0.40)
+                            tau_max = getattr(cfg, "lac_tau_max", 0.75)
+                            lac_tau = tau_min + (tau_max - tau_min) * (progress**0.75)
+                            accepted, _ = self.lac.decide(lac_feats, best.cost, tau=lac_tau)
                             lac_decided = True
                         else:
                             accepted = random.random() < math.exp(-(cand.cost - cur.cost) / max(temp, 1e-6))
@@ -1750,7 +1963,11 @@ class HybridDDQNSolver:
                 if accepted:
                     accepted_moves += 1
                     is_new_best = cand.feasible and cand.dominates(best)
-                    if cand.feasible and not frozen and self.ls_budget.should_trigger(action, True, is_new_best, self.modes):
+                    if (
+                        cand.feasible
+                        and not frozen
+                        and self.ls_budget.should_trigger(action, True, is_new_best, self.modes)
+                    ):
                         t_ls = time.time()
                         cost_pre = cand.cost
                         nv_cap = (
@@ -1759,13 +1976,24 @@ class HybridDDQNSolver:
                             else None
                         )
                         cand = self._local_search(
-                            cand, max_passes=self.modes[action].ls_passes, nv_ceiling=nv_cap, max_ls_moves=cfg.max_ls_moves
+                            cand,
+                            max_passes=self.modes[action].ls_passes,
+                            nv_ceiling=nv_cap,
+                            max_ls_moves=cfg.max_ls_moves,
                         )
                         self.ls_budget.record(time.time() - t_ls, cost_pre, cand.cost)
                     improved = cand.dominates(cur)
                     pool.add_plan(cand)
                     if cand.feasible and cand.nv <= best.nv and cand.dominates(best):
                         best, score, no_imp = cand.copy(), cfg.sigma1, 0
+                        self.trajectory_log.append(
+                            {
+                                "t_sec": round(time.time() - self._t_start, 3),
+                                "nv": int(best.nv),
+                                "td": round(float(best.cost), 3),
+                                "iter": int(it),
+                            }
+                        )
                         pool.add_plan(best)
                         self.archive.update(best)
                         no_best_imp = 0
@@ -1781,19 +2009,22 @@ class HybridDDQNSolver:
                 self.no_imp = no_imp
 
                 # Population restart: khi stuck, restart từ diverse archive plan
-                if (no_best_imp > 0
+                if (
+                    getattr(cfg, "macro_enabled", True)
+                    and no_best_imp > 0
                     and no_best_imp % (cfg.plateau_start * 3) == 0
-                    and self.archive._plans.get(self.inst.name)):
-                    if _stats.get('milp_fired'):
-                        skip_count = _stats.get('milp_cadence_skip', 0)
+                    and self.archive._plans.get(self.inst.name)
+                ):
+                    if _stats.get("milp_fired"):
+                        skip_count = _stats.get("milp_cadence_skip", 0)
                         if skip_count < 2:
-                            _stats['milp_fired'] = False
-                            _stats['milp_cadence_skip'] = skip_count + 1
+                            _stats["milp_fired"] = False
+                            _stats["milp_cadence_skip"] = skip_count + 1
                             no_best_imp = max(0, no_best_imp - cfg.plateau_start)
                             alt = None
                         else:
-                            _stats['milp_fired'] = False
-                            _stats['milp_cadence_skip'] = 0
+                            _stats["milp_fired"] = False
+                            _stats["milp_cadence_skip"] = 0
                             alt = self.archive.sample_diverse(self.inst.name, exclude_cost=cur.cost)
                             if alt is None and len(self.archive._plans.get(self.inst.name, [])) >= 2:
                                 alt = self.archive.crossover(self.inst.name)
@@ -1801,16 +2032,20 @@ class HybridDDQNSolver:
                         alt = self.archive.sample_diverse(self.inst.name, exclude_cost=cur.cost)
                         if alt is None and len(self.archive._plans.get(self.inst.name, [])) >= 2:
                             alt = self.archive.crossover(self.inst.name)
-                    if alt is not None and alt.feasible and (alt.nv < best.nv or (alt.nv == best.nv and alt.cost <= 1.10 * best.cost)):
-                        print(f"[{self.inst.name}] Population restart triggered at iter {it} (no_best_imp={no_best_imp}): NV={cur.nv}->{alt.nv}, cost={cur.cost:.1f}->{alt.cost:.1f} (best_nv={best.nv}, best_cost={best.cost:.1f})")
+                    if (
+                        alt is not None
+                        and alt.feasible
+                        and (alt.nv < best.nv or (alt.nv == best.nv and alt.cost <= 1.10 * best.cost))
+                    ):
+                        print(
+                            f"[{self.inst.name}] Population restart triggered at iter {it} (no_best_imp={no_best_imp}): NV={cur.nv}->{alt.nv}, cost={cur.cost:.1f}->{alt.cost:.1f} (best_nv={best.nv}, best_cost={best.cost:.1f})"
+                        )
                         cur = alt
                         temp = cfg.temp_control * cur.cost / math.log(2) * _get_adaptive_reheat_mult(self.inst)
                         no_best_imp = 0
 
-
-
                 # Periodic pool recombination independent of mode selection
-                if it > 0 and it % cfg.recombine_interval == 0:
+                if getattr(cfg, "pool_recombine_enabled", True) and it > 0 and it % cfg.recombine_interval == 0:
                     if len(pool._routes) >= cfg.rl_recombine_min_routes:
                         nv_cap = best.nv
                         _bks_entry = BKS.get(self.inst.name)
@@ -1838,7 +2073,9 @@ class HybridDDQNSolver:
                 # HiGHS Supercharger: when stuck on plateau, aggressively synthesize NV-1 from route pool
                 min_cap_nv = int(math.ceil(sum(self.inst.demands) / self.inst.capacity))
                 if (
-                    getattr(cfg, "highs_plateau_synthesis", True)
+                    getattr(cfg, "pool_recombine_enabled", True)
+                    and getattr(cfg, "macro_enabled", True)
+                    and getattr(cfg, "highs_plateau_synthesis", True)
                     and no_best_imp >= cfg.plateau_start
                     and best.nv > min_cap_nv
                     and len(pool._routes) >= cfg.rl_recombine_min_routes
@@ -1951,8 +2188,6 @@ class HybridDDQNSolver:
             for mb in self.mode_bandits:
                 mb.decay(cfg.bandit_decay)
 
-
-
             # Adaptive mode_bandit reset khi plateau segment
             if no_imp > 0 and no_imp % (cfg.plateau_start * 2) == 0:
                 for mb in self.mode_bandits:
@@ -1999,7 +2234,7 @@ class HybridDDQNSolver:
         _bks_entry = BKS.get(self.inst.name)
         _bks_nv = int(_bks_entry["nv"]) if _bks_entry else 0
 
-        if cfg.recombine_after_main_search and not self._out_of_time():
+        if getattr(cfg, "pool_recombine_enabled", True) and cfg.recombine_after_main_search and not self._out_of_time():
             recombined = recombine_with_route_pool(
                 best,
                 pool,
@@ -2013,10 +2248,26 @@ class HybridDDQNSolver:
                 best = recombined
                 pool.add_plan(best)
                 history.append(best.cost)
+                self.trajectory_log.append(
+                    {
+                        "t_sec": round(time.time() - self._t_start, 3),
+                        "nv": int(best.nv),
+                        "td": round(float(best.cost), 3),
+                        "iter": int(it),
+                    }
+                )
 
         if not self._out_of_time():
             best = self._fixed_nv_polish(best, pool, inherited_bandit=self.mode_bandits[MODE_INTENSIFY])
             history.append(best.cost)
+            self.trajectory_log.append(
+                {
+                    "t_sec": round(time.time() - self._t_start, 3),
+                    "nv": int(best.nv),
+                    "td": round(float(best.cost), 3),
+                    "iter": int(it),
+                }
+            )
 
         if cfg.recombine_after_polish and not self._out_of_time():
             recombined = recombine_with_route_pool(
@@ -2033,6 +2284,14 @@ class HybridDDQNSolver:
                     recombined, max_passes=cfg.polish_ls_passes, nv_ceiling=recombined.nv, max_ls_moves=cfg.max_ls_moves
                 )
                 history.append(best.cost)
+                self.trajectory_log.append(
+                    {
+                        "t_sec": round(time.time() - self._t_start, 3),
+                        "nv": int(best.nv),
+                        "td": round(float(best.cost), 3),
+                        "iter": int(it),
+                    }
+                )
 
         # Scale post-processing search effort based on hybrid_iterations budget
         budget_scale = max(0.005, cfg.hybrid_iterations / 1200.0)
@@ -2083,7 +2342,9 @@ class HybridDDQNSolver:
             for _target_nv in range(best.nv - 1, max(_bks_nv - 1, 0), -1):
                 if self._out_of_time():
                     break
-                _rec = recombine_with_route_pool(best, pool, cfg, nv_target=_target_nv, heatmap=self.heatmap, _stats=_stats)
+                _rec = recombine_with_route_pool(
+                    best, pool, cfg, nv_target=_target_nv, heatmap=self.heatmap, _stats=_stats
+                )
                 if not _rec.feasible or _rec.nv > _target_nv:
                     break
                 _rec = self._local_search(
@@ -2126,11 +2387,7 @@ class HybridDDQNSolver:
                 pool.add_plan(best)
                 history.append(best.cost)
 
-            eliminated = (
-                _iterative_route_elimination(best, self.inst, pool=pool)
-                if not self._out_of_time()
-                else best
-            )
+            eliminated = _iterative_route_elimination(best, self.inst, pool=pool) if not self._out_of_time() else best
             if eliminated.feasible and (eliminated.nv < best.nv or eliminated.dominates(best)):
                 best = eliminated
                 pool.add_plan(best)
@@ -2158,11 +2415,9 @@ class HybridDDQNSolver:
             # Phase A: convergent intra-route sequence optimization
             # Runs 2-opt + or-opt(1,2,3) per route to convergence with no move cap.
             # Critical for wide-TW instances (RC2, R2) where routes carry 30+ customers.
-            is_wide_tw = self.inst.tw_tight_frac < 0.15
-            n_intra_passes = 35 if is_wide_tw else 20
-            best = td_converge_polish(
-                best, max_passes=n_intra_passes, deadline=getattr(self, "_deadline", None)
-            )
+            is_wide_tw = self.inst.tw_tight_frac < 0.25
+            n_intra_passes = 45 if is_wide_tw else 25
+            best = td_converge_polish(best, max_passes=n_intra_passes, deadline=getattr(self, "_deadline", None))
             if best.feasible:
                 history.append(best.cost)
 
@@ -2205,9 +2460,7 @@ class HybridDDQNSolver:
                     best, pool, inherited_bandit=self.mode_bandits[MODE_INTENSIFY], initial_temp=1.0
                 )
                 history.append(best.cost)
-                best = td_converge_polish(
-                    best, max_passes=n_intra_passes, deadline=getattr(self, "_deadline", None)
-                )
+                best = td_converge_polish(best, max_passes=n_intra_passes, deadline=getattr(self, "_deadline", None))
                 if best.feasible:
                     history.append(best.cost)
 
@@ -2219,6 +2472,25 @@ class HybridDDQNSolver:
                     deadline=getattr(self, "_deadline", None),
                     heatmap=self.heatmap,
                 )
+                if best.feasible:
+                    history.append(best.cost)
+
+            # Phase E: Final Exact Set Partitioning Recombination on Full Accumulated Pool
+            if not self._out_of_time():
+                final_rec = recombine_with_route_pool(
+                    best,
+                    pool,
+                    cfg,
+                    nv_ceiling=best.nv,
+                    td_only=True,
+                    alpha=0.0,
+                    _stats=_stats,
+                )
+                if final_rec.feasible and final_rec.cost + 1e-6 < best.cost:
+                    best = final_rec
+                    pool.add_plan(best)
+                    history.append(best.cost)
+                best = td_converge_polish(best, max_passes=15, deadline=getattr(self, "_deadline", None))
                 if best.feasible:
                     history.append(best.cost)
 
@@ -2237,12 +2509,28 @@ class HybridDDQNSolver:
                     pool.add_plan(best)
                     history.append(best.cost)
 
+        # Final Purge of Stranded / Fragmented Routes (Eliminate single-seed vehicle leaks)
+        _bks_entry = BKS.get(self.inst.name)
+        _bks_nv = int(_bks_entry["nv"]) if _bks_entry else 0
+        if best.nv > _bks_nv and len(best.routes) >= 2:
+            gec_last = self._try_gec_route_reduction(best)
+            if gec_last is not None and gec_last.feasible and gec_last.nv < best.nv:
+                best = gec_last
+                pool.add_plan(best)
+                best = td_converge_polish(best, max_passes=10)
+            merged_last = _try_route_merge(best, max_pairs=16)
+            if merged_last is not None and merged_last.feasible and merged_last.nv < best.nv:
+                best = merged_last
+                pool.add_plan(best)
+                best = td_converge_polish(best, max_passes=10)
+
         best.algo = self.algo_name
         self.archive.update(best)
 
         # Logging transition metrics for Adaptive Feasibility verification
         if getattr(cfg, "adaptive_feasibility", True) and not _is_sub_solve:
             import logging
+
             logger = logging.getLogger("vrptw.solvers")
             early_stop_iter = self.current_it if (no_imp >= cfg.early_stop_patience) else None
             log_data = {
@@ -2251,7 +2539,7 @@ class HybridDDQNSolver:
                 "phase1_final_lambda": getattr(self, "phase1_final_lambda", None),
                 "early_stop_triggered_iter": early_stop_iter,
                 "phase2_final_nv": best.nv,
-                "phase2_final_td": best.cost
+                "phase2_final_td": best.cost,
             }
             logger.info(log_data)
             print(f"[phase_transition_log] {log_data}")
@@ -2331,11 +2619,7 @@ class HybridDDQNSolver:
             raw_data[i + 1, 5] = self.inst.due_times[c]
             raw_data[i + 1, 6] = self.inst.service_times[c]
 
-        raw = {
-            "name": f"{self.inst.name}_sub_{len(cust_ids)}",
-            "capacity": self.inst.capacity,
-            "data": raw_data
-        }
+        raw = {"name": f"{self.inst.name}_sub_{len(cust_ids)}", "capacity": self.inst.capacity, "data": raw_data}
         return Inst(raw)
 
     def solve_multi_run(
@@ -2479,6 +2763,7 @@ class RuleMacroHybridSolver(HybridDDQNSolver):
     Replaces pi_macro with the deterministic rule tree.
     Micro DDQN, LAC, and HiGHS Recombination remain identical to Full Hybrid-DDQN.
     """
+
     algo_name = "Rule-Macro"
     use_op_rl = True
     use_rl = True
@@ -2498,11 +2783,7 @@ class RuleMacroHybridSolver(HybridDDQNSolver):
         ):
             mode = MODE_POOL_RECOMBINE
         # 3. elif tau_tight >= 0.18 & s_bar < 0.16 & stagnant -> a5 INFEASIBLE_DESCENT / TW_RESCUE
-        elif (
-            self.inst.tw_tight_frac >= 0.18
-            and _avg_slack(cur) < 0.16
-            and no_imp >= max(8, self.cfg.ctrl_start // 2)
-        ):
+        elif self.inst.tw_tight_frac >= 0.18 and _avg_slack(cur) < 0.16 and no_imp >= max(8, self.cfg.ctrl_start // 2):
             mode = MODE_TW_RESCUE if len(self.modes) > 3 else MODE_DEFAULT
         # 4. elif stagnant -> a2 DIVERSIFY if progress < 0.45 else a1 INTENSE_EXPLOIT (MODE_INTENSIFY)
         elif no_imp >= max(self.cfg.ctrl_start_floor, self.cfg.ctrl_start // 2):
@@ -2522,16 +2803,17 @@ class RuleMicroHybridSolver(HybridDDQNSolver):
     Replaces pi_micro with the deterministic 5-branch rule tree.
     Macro Plateau DDQN, LAC, and HiGHS Recombination remain identical to Full Hybrid-DDQN.
     """
+
     algo_name = "Rule-Micro"
     use_op_rl = False
     use_rl = True
     use_op_rule = True
 
     def _rule_micro_select(self, op_state: np.ndarray, macro_mode: int) -> tuple[int, int]:
-        s_3 = float(op_state[2])    # Prog_global
-        s_6 = float(op_state[5])    # Stag_ratio
-        s_7 = float(op_state[6])    # rb (spatial separation)
-        s_10 = float(op_state[9])   # s_bar (forward slack)
+        s_3 = float(op_state[2])  # Prog_global
+        s_6 = float(op_state[5])  # Stag_ratio
+        s_7 = float(op_state[6])  # rb (spatial separation)
+        s_10 = float(op_state[9])  # s_bar (forward slack)
         s_11 = float(op_state[10])  # rho_fill (fleet fill)
         s_16 = float(op_state[15])  # Gini_len
         s_19 = float(op_state[18])  # Frac_cap
@@ -2554,6 +2836,52 @@ class RuleMicroHybridSolver(HybridDDQNSolver):
                 return 3, 1  # (Destroy: Route Portion Removal [3], Repair: 2-Regret [1])
             else:
                 return 1, 0  # (Destroy: Worst-Cost [1], Repair: Greedy Insertion [0])
+
+
+# ---------------------------------------------------------------------------
+# Flat-DDQN (Flat Single-Agent RL-LNS Baseline without Hierarchical Macro Control)
+# ---------------------------------------------------------------------------
+class FlatDDQNSolver(HybridDDQNSolver):
+    """Flat-DDQN Baseline.
+    Capacity-matched single-agent RL controller operating directly over low-level
+    destroy/repair selections (Micro DDQN), with identical state features (20-dim),
+    LAC acceptance override, GNN spatial edge guidance, GEC route reduction,
+    and RoutePool Set Partitioning, but strictly without hierarchical macro search
+    regime switching (a_macro is pinned to MODE_DEFAULT).
+    """
+
+    algo_name = ALGO_FLAT_DDQN
+    use_op_rl = True
+    use_rl = False  # Disables Macro Plateau DDQN training
+    use_op_rule = False
+
+    def _select_action(self, state_before, cur, best, no_imp, progress, pool, frozen) -> tuple[int, bool]:
+        del state_before, cur, best, no_imp, progress, pool, frozen
+        mode = MODE_DEFAULT
+        self.mode_trace[mode] += 1
+        return mode, False
+
+    def solve(
+        self,
+        seed: int | None = None,
+        frozen: bool = True,
+        init: Plan | None = None,
+        shared_norm: WelfordRewardNormalizer | None = None,
+        _is_sub_solve: bool = False,
+        _warm_start: bool = False,
+        _deadline: float | None = None,
+    ) -> tuple[Plan, list[float]]:
+        plan, history = super().solve(
+            seed=seed,
+            frozen=frozen,
+            init=init,
+            shared_norm=shared_norm,
+            _is_sub_solve=_is_sub_solve,
+            _warm_start=_warm_start,
+            _deadline=_deadline,
+        )
+        plan.algo = self.algo_name
+        return plan, history
 
 
 def run_ortools(inst: Inst, cfg: Config) -> tuple[Plan | None, float]:
@@ -2833,4 +3161,3 @@ class DQNSolver:
             best = build_greedy(self.inst, ALGO_DQN)
         best.algo = ALGO_DQN
         return best, hist
-

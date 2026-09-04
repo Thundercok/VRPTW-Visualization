@@ -63,11 +63,41 @@ def test_reoptimize(authed_api: APIRequestContext):
     payload = {
         "fleet": {"capacity": 100, "vehicles": 2},
         "customers": [
-            {"id": 0, "name": "Depot", "lat": 10.73193, "lng": 106.69934, "demand": 0, "ready": 0, "due": 1000, "service": 0, "isDepot": True},
-            {"id": 1, "name": "Cust1", "lat": 10.73293, "lng": 106.70034, "demand": 10, "ready": 0, "due": 1000, "service": 10, "isDepot": False},
-            {"id": 2, "name": "Cust2", "lat": 10.73393, "lng": 106.70134, "demand": 15, "ready": 0, "due": 1000, "service": 10, "isDepot": False}
+            {
+                "id": 0,
+                "name": "Depot",
+                "lat": 10.73193,
+                "lng": 106.69934,
+                "demand": 0,
+                "ready": 0,
+                "due": 1000,
+                "service": 0,
+                "isDepot": True,
+            },
+            {
+                "id": 1,
+                "name": "Cust1",
+                "lat": 10.73293,
+                "lng": 106.70034,
+                "demand": 10,
+                "ready": 0,
+                "due": 1000,
+                "service": 10,
+                "isDepot": False,
+            },
+            {
+                "id": 2,
+                "name": "Cust2",
+                "lat": 10.73393,
+                "lng": 106.70134,
+                "demand": 15,
+                "ready": 0,
+                "due": 1000,
+                "service": 10,
+                "isDepot": False,
+            },
         ],
-        "routes": [[1, 2]]
+        "routes": [[1, 2]],
     }
     resp = authed_api.post("/api/reoptimize", data=payload)
     assert resp.ok, f"Expected 200, got {resp.status}: {resp.text()}"

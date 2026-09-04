@@ -56,4 +56,3 @@ async def fetch_route_geometry(coords: str) -> dict[str, Any]:
 
     _GEOMETRY_CACHE[coords] = data
     return data
-

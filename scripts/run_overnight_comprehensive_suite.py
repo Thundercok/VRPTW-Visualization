@@ -94,9 +94,9 @@ def run_single_solver(solver_cls, inst: Inst, cfg: Config, seed: int) -> dict:
 
 def phase1_small_scale_bypass(seeds: list[int]) -> pd.DataFrame:
     """Phase 1: Test Adaptive Scale Bypass on Small Instances (N=25, 50)."""
-    print("\n" + "="*80)
+    print("\n" + "=" * 80)
     print("  PHASE 1: Small-Scale Bypass Benchmark (Limitation 1: N <= 50)")
-    print("="*80)
+    print("=" * 80)
 
     records = []
     instances = ["C101", "R101", "RC101"]
@@ -108,14 +108,16 @@ def phase1_small_scale_bypass(seeds: list[int]) -> pd.DataFrame:
             raw_dict = {
                 "name": f"{name}_n{n_cust}",
                 "capacity": base_inst.capacity,
-                "data": np.column_stack([
-                    np.arange(n_cust + 1),
-                    base_inst.coords[:n_cust + 1],
-                    base_inst.demands[:n_cust + 1],
-                    base_inst.ready_times[:n_cust + 1],
-                    base_inst.due_times[:n_cust + 1],
-                    base_inst.service_times[:n_cust + 1],
-                ])
+                "data": np.column_stack(
+                    [
+                        np.arange(n_cust + 1),
+                        base_inst.coords[: n_cust + 1],
+                        base_inst.demands[: n_cust + 1],
+                        base_inst.ready_times[: n_cust + 1],
+                        base_inst.due_times[: n_cust + 1],
+                        base_inst.service_times[: n_cust + 1],
+                    ]
+                ),
             }
             inst = Inst(raw_dict)
 
@@ -127,7 +129,9 @@ def phase1_small_scale_bypass(seeds: list[int]) -> pd.DataFrame:
                 res_alns["Phase"] = "Small_Scale"
                 res_alns["Mode"] = "ALNS-Base"
                 records.append(res_alns)
-                print(f"  [P1] {inst.name:12s} ALNS-Base         Seed {seed} -> NV: {res_alns['NV']:2d}, TD: {res_alns['TD']:7.2f} ({res_alns['Time_Sec']:4.2f}s)")
+                print(
+                    f"  [P1] {inst.name:12s} ALNS-Base         Seed {seed} -> NV: {res_alns['NV']:2d}, TD: {res_alns['TD']:7.2f} ({res_alns['Time_Sec']:4.2f}s)"
+                )
 
                 # 2. Hybrid without bypass
                 cfg_std = Config()
@@ -137,7 +141,9 @@ def phase1_small_scale_bypass(seeds: list[int]) -> pd.DataFrame:
                 res_std["Phase"] = "Small_Scale"
                 res_std["Mode"] = "Hybrid_Standard"
                 records.append(res_std)
-                print(f"  [P1] {inst.name:12s} Hybrid-Standard  Seed {seed} -> NV: {res_std['NV']:2d}, TD: {res_std['TD']:7.2f} ({res_std['Time_Sec']:4.2f}s)")
+                print(
+                    f"  [P1] {inst.name:12s} Hybrid-Standard  Seed {seed} -> NV: {res_std['NV']:2d}, TD: {res_std['TD']:7.2f} ({res_std['Time_Sec']:4.2f}s)"
+                )
 
                 # 3. Hybrid WITH adaptive bypass
                 cfg_byp = Config()
@@ -148,7 +154,9 @@ def phase1_small_scale_bypass(seeds: list[int]) -> pd.DataFrame:
                 res_byp["Phase"] = "Small_Scale"
                 res_byp["Mode"] = "Hybrid_FastBypass"
                 records.append(res_byp)
-                print(f"  [P1] {inst.name:12s} Hybrid-FastBypass Seed {seed} -> NV: {res_byp['NV']:2d}, TD: {res_byp['TD']:7.2f} ({res_byp['Time_Sec']:4.2f}s)")
+                print(
+                    f"  [P1] {inst.name:12s} Hybrid-FastBypass Seed {seed} -> NV: {res_byp['NV']:2d}, TD: {res_byp['TD']:7.2f} ({res_byp['Time_Sec']:4.2f}s)"
+                )
 
     df = pd.DataFrame(records)
     df.to_csv(OUT_DIR / "phase1_small_scale.csv", index=False)
@@ -157,9 +165,9 @@ def phase1_small_scale_bypass(seeds: list[int]) -> pd.DataFrame:
 
 def phase2_ood_stress_test(seeds: list[int]) -> pd.DataFrame:
     """Phase 2: Out-of-Distribution Stress Test (Asymmetric Traffic + Squeezed TW)."""
-    print("\n" + "="*80)
+    print("\n" + "=" * 80)
     print("  PHASE 2: OOD Stress-Test & Entropy Gate Robustness (Limitation 3)")
-    print("="*80)
+    print("=" * 80)
 
     records = []
     instances = ["C101", "R101", "RC101", "c1_2_1", "r1_2_1"]
@@ -171,15 +179,17 @@ def phase2_ood_stress_test(seeds: list[int]) -> pd.DataFrame:
         raw_dict = {
             "name": f"{name}_OOD",
             "capacity": base_inst.capacity,
-            "data": np.column_stack([
-                np.arange(base_inst.n + 1),
-                base_inst.coords,
-                base_inst.demands,
-                # Squeeze ready/due time windows by 20%
-                base_inst.ready_times + 0.10 * (base_inst.due_times - base_inst.ready_times),
-                base_inst.due_times - 0.10 * (base_inst.due_times - base_inst.ready_times),
-                base_inst.service_times,
-            ])
+            "data": np.column_stack(
+                [
+                    np.arange(base_inst.n + 1),
+                    base_inst.coords,
+                    base_inst.demands,
+                    # Squeeze ready/due time windows by 20%
+                    base_inst.ready_times + 0.10 * (base_inst.due_times - base_inst.ready_times),
+                    base_inst.due_times - 0.10 * (base_inst.due_times - base_inst.ready_times),
+                    base_inst.service_times,
+                ]
+            ),
         }
         ood_inst = Inst(raw_dict)
         # Add asymmetric travel noise (10% to 30% traffic delay)
@@ -196,7 +206,9 @@ def phase2_ood_stress_test(seeds: list[int]) -> pd.DataFrame:
             res_alns["Phase"] = "OOD_Stress"
             res_alns["Variant"] = "ALNS-Base"
             records.append(res_alns)
-            print(f"  [P2-OOD] {ood_inst.name:12s} ALNS-Base            Seed {seed} -> NV: {res_alns['NV']:2d}, TD: {res_alns['TD']:7.2f}, Feas: {res_alns['Feasible']}")
+            print(
+                f"  [P2-OOD] {ood_inst.name:12s} ALNS-Base            Seed {seed} -> NV: {res_alns['NV']:2d}, TD: {res_alns['TD']:7.2f}, Feas: {res_alns['Feasible']}"
+            )
 
             # 2. Hybrid WITH Entropy Gate (w_conf blending fallback)
             cfg_gate = Config()
@@ -206,7 +218,9 @@ def phase2_ood_stress_test(seeds: list[int]) -> pd.DataFrame:
             res_gate["Phase"] = "OOD_Stress"
             res_gate["Variant"] = "Hybrid_with_EntropyGate"
             records.append(res_gate)
-            print(f"  [P2-OOD] {ood_inst.name:12s} Hybrid-EntropyGate   Seed {seed} -> NV: {res_gate['NV']:2d}, TD: {res_gate['TD']:7.2f}, Feas: {res_gate['Feasible']}")
+            print(
+                f"  [P2-OOD] {ood_inst.name:12s} Hybrid-EntropyGate   Seed {seed} -> NV: {res_gate['NV']:2d}, TD: {res_gate['TD']:7.2f}, Feas: {res_gate['Feasible']}"
+            )
 
             # 3. Hybrid WITHOUT Entropy Gate (forced neural decisions)
             cfg_nogate = Config()
@@ -216,7 +230,9 @@ def phase2_ood_stress_test(seeds: list[int]) -> pd.DataFrame:
             res_nogate["Phase"] = "OOD_Stress"
             res_nogate["Variant"] = "Hybrid_without_EntropyGate"
             records.append(res_nogate)
-            print(f"  [P2-OOD] {ood_inst.name:12s} Hybrid-NoEntropyGate Seed {seed} -> NV: {res_nogate['NV']:2d}, TD: {res_nogate['TD']:7.2f}, Feas: {res_nogate['Feasible']}")
+            print(
+                f"  [P2-OOD] {ood_inst.name:12s} Hybrid-NoEntropyGate Seed {seed} -> NV: {res_nogate['NV']:2d}, TD: {res_nogate['TD']:7.2f}, Feas: {res_nogate['Feasible']}"
+            )
 
     df = pd.DataFrame(records)
     df.to_csv(OUT_DIR / "phase2_ood_stress.csv", index=False)
@@ -225,9 +241,9 @@ def phase2_ood_stress_test(seeds: list[int]) -> pd.DataFrame:
 
 def phase3_equal_time_budget(seeds: list[int]) -> pd.DataFrame:
     """Phase 3: Equal Wall-Clock Computational Budget Comparison."""
-    print("\n" + "="*80)
+    print("\n" + "=" * 80)
     print("  PHASE 3: Equal Wall-Clock Budget Fairness (Reviewer #1 Critique)")
-    print("="*80)
+    print("=" * 80)
 
     time_caps = {
         "C101": 15.0,
@@ -255,7 +271,9 @@ def phase3_equal_time_budget(seeds: list[int]) -> pd.DataFrame:
             res_alns["Budget_Sec"] = t_cap
             res_alns["Mode"] = "ALNS-EqualTime"
             records.append(res_alns)
-            print(f"  [P3-EqTime] {inst.name:10s} (Cap {t_cap:3.0f}s) ALNS-EqualTime Seed {seed} -> NV: {res_alns['NV']:2d}, TD: {res_alns['TD']:7.2f} ({res_alns['Time_Sec']:4.1f}s)")
+            print(
+                f"  [P3-EqTime] {inst.name:10s} (Cap {t_cap:3.0f}s) ALNS-EqualTime Seed {seed} -> NV: {res_alns['NV']:2d}, TD: {res_alns['TD']:7.2f} ({res_alns['Time_Sec']:4.1f}s)"
+            )
 
             # 2. Hybrid-DDQN under Equal Time Budget
             cfg_hyb = Config()
@@ -267,7 +285,9 @@ def phase3_equal_time_budget(seeds: list[int]) -> pd.DataFrame:
             res_hyb["Budget_Sec"] = t_cap
             res_hyb["Mode"] = "Hybrid-EqualTime"
             records.append(res_hyb)
-            print(f"  [P3-EqTime] {inst.name:10s} (Cap {t_cap:3.0f}s) Hybrid-EqualTime Seed {seed} -> NV: {res_hyb['NV']:2d}, TD: {res_hyb['TD']:7.2f} ({res_hyb['Time_Sec']:4.1f}s)")
+            print(
+                f"  [P3-EqTime] {inst.name:10s} (Cap {t_cap:3.0f}s) Hybrid-EqualTime Seed {seed} -> NV: {res_hyb['NV']:2d}, TD: {res_hyb['TD']:7.2f} ({res_hyb['Time_Sec']:4.1f}s)"
+            )
 
     df = pd.DataFrame(records)
     df.to_csv(OUT_DIR / "phase3_equal_time.csv", index=False)
@@ -290,8 +310,8 @@ def main():
     phase3_equal_time_budget(args.seeds)
 
     total_time = time.time() - t_start
-    print("\n" + "="*80)
-    print(f"  ALL OVERNIGHT BENCHMARKS COMPLETED IN {total_time:.1f}s ({total_time/60.0:.1f} mins)!")
+    print("\n" + "=" * 80)
+    print(f"  ALL OVERNIGHT BENCHMARKS COMPLETED IN {total_time:.1f}s ({total_time / 60.0:.1f} mins)!")
     print(f"  Results saved to {OUT_DIR}")
     print("================================================================================")
 

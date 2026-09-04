@@ -226,9 +226,7 @@ def _milp_cache_store(cache: dict | None, key, value) -> None:
     cache[key] = value
 
 
-def _select_milp_columns(
-    route_records: list[RouteRecord], inst: Inst, max_cols: int
-) -> list[RouteRecord]:
+def _select_milp_columns(route_records: list[RouteRecord], inst: Inst, max_cols: int) -> list[RouteRecord]:
     """Truncate the SP column set, guaranteeing every customer keeps a column.
 
     Returns exactly ``route_records[:max_cols]`` — same set, same order —
@@ -547,8 +545,18 @@ def recombine_with_route_pool(
 
     tmp_cfg = _TmpCfg()
 
+    k_max = int(effective_ceiling if effective_ceiling is not None else incumbent.nv)
+    c_max_route = max((r.cost for r in recs), default=1.0)
+    eps_margin = getattr(cfg, "sp_cert_margin", 0.20)
+    lambda_cert = (1.0 + eps_margin) * k_max * c_max_route
+    enforce_cert = getattr(cfg, "sp_enforce_certified_penalty", True)
+
     for scale in penalty_scales:
-        penalty = max(cfg.sp_vehicle_penalty_scale, mean_cost * scale)
+        grid_value = max(cfg.sp_vehicle_penalty_scale, mean_cost * scale)
+        if enforce_cert and scale >= 50.0:
+            penalty = max(grid_value, lambda_cert)
+        else:
+            penalty = grid_value
         candidate = _milp_recombine(
             recs,
             incumbent.inst,

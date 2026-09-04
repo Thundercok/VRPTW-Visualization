@@ -2,6 +2,7 @@
 Verification test for Savelsbergh (1992) Forward Time Slack against brute-force full propagation.
 Tests 10,000 random routes with varying time windows, service times, and random 2-opt perturbations.
 """
+
 import numpy as np
 from numba import njit
 
@@ -125,6 +126,34 @@ def _check_two_opt_slack_vs_brute_force(
     return matches, total
 
 
+def test_peer_review_counterexample_and_formula():
+    """Verify Prop 2 peer-review counterexample values:
+    (w_i, s_i, t_iu, s_u, t_u_ip1, t_i_ip1, e_u) = (100, 10, 20, 15, 25, 30, 0)
+    True physical shift: 30
+    Buggy formula: 10
+    Corrected formula: 30
+    """
+    w_i, s_i, t_iu, s_u, t_u_ip1, t_i_ip1, e_u = 100.0, 10.0, 20.0, 15.0, 25.0, 30.0, 0.0
+
+    # Buggy formula (missing + t_iu):
+    buggy_delta = max(0.0, e_u - (w_i + s_i + t_iu)) + s_u + t_u_ip1 - t_i_ip1
+    assert buggy_delta == 10.0
+
+    # Correct formula:
+    corrected_delta = max(0.0, e_u - (w_i + s_i + t_iu)) + t_iu + s_u + t_u_ip1 - t_i_ip1
+    assert corrected_delta == 30.0
+
+    # True physical arrival shift:
+    old_arrival_ip1 = w_i + s_i + t_i_ip1  # 100 + 10 + 30 = 140
+    arr_u = w_i + s_i + t_iu  # 100 + 10 + 20 = 130
+    start_u = max(arr_u, e_u)  # max(130, 0) = 130
+    dep_u = start_u + s_u  # 130 + 15 = 145
+    new_arrival_ip1 = dep_u + t_u_ip1  # 145 + 25 = 170
+    true_shift = new_arrival_ip1 - old_arrival_ip1  # 170 - 140 = 30
+    assert true_shift == 30.0
+    assert corrected_delta == true_shift
+
+
 def test_forward_slack_correctness():
     """Verify Savelsbergh Forward Slack O(1) correctness on 10,000 routes."""
     np.random.seed(42)
@@ -159,6 +188,7 @@ def test_forward_slack_correctness():
 
 
 if __name__ == "__main__":
+    test_peer_review_counterexample_and_formula()
     test_forward_slack_correctness()
     print("✅ 100% REGRESSION TEST PASSED")
 

@@ -101,8 +101,10 @@ def run(iters: int) -> dict:
                         "wall_time": round(elapsed, 3),
                     }
                 )
-                print(f"  {label:9s} {solver_name:12s} s{seed} nv={best.nv:3d} "
-                      f"td={best.cost:10.2f} {elapsed:7.2f}s", flush=True)
+                print(
+                    f"  {label:9s} {solver_name:12s} s{seed} nv={best.nv:3d} td={best.cost:10.2f} {elapsed:7.2f}s",
+                    flush=True,
+                )
     return {"iters": iters, "seeds": SEEDS, "records": records}
 
 
@@ -133,14 +135,14 @@ def compare(before_path: str, after_path: str) -> None:
     print(f"\n{len(shared)} paired runs\n")
     print(f"{'metric':16s} {'before':>12s} {'after':>12s} {'delta':>12s}")
     print("-" * 56)
-    print(f"{'mean NV':16s} {nv_b.mean():12.3f} {nv_a.mean():12.3f} {nv_a.mean()-nv_b.mean():+12.3f}")
-    print(f"{'mean TD':16s} {td_b.mean():12.2f} {td_a.mean():12.2f} {td_a.mean()-td_b.mean():+12.2f}")
-    print(f"{'total wall(s)':16s} {wt_b.sum():12.1f} {wt_a.sum():12.1f} "
-          f"{(wt_b.sum()/max(wt_a.sum(),1e-9)):11.2f}x")
-    print(f"\nNV: better {int((nv_a<nv_b).sum())}, worse {int((nv_a>nv_b).sum())}, "
-          f"tie {int((nv_a==nv_b).sum())}")
-    print(f"TD: better {int((td_a<td_b-1e-6).sum())}, worse {int((td_a>td_b+1e-6).sum())}, "
-          f"tie {int((np.abs(td_a-td_b)<=1e-6).sum())}")
+    print(f"{'mean NV':16s} {nv_b.mean():12.3f} {nv_a.mean():12.3f} {nv_a.mean() - nv_b.mean():+12.3f}")
+    print(f"{'mean TD':16s} {td_b.mean():12.2f} {td_a.mean():12.2f} {td_a.mean() - td_b.mean():+12.2f}")
+    print(f"{'total wall(s)':16s} {wt_b.sum():12.1f} {wt_a.sum():12.1f} {(wt_b.sum() / max(wt_a.sum(), 1e-9)):11.2f}x")
+    print(f"\nNV: better {int((nv_a < nv_b).sum())}, worse {int((nv_a > nv_b).sum())}, tie {int((nv_a == nv_b).sum())}")
+    print(
+        f"TD: better {int((td_a < td_b - 1e-6).sum())}, worse {int((td_a > td_b + 1e-6).sum())}, "
+        f"tie {int((np.abs(td_a - td_b) <= 1e-6).sum())}"
+    )
     if infeasible:
         print(f"\n!! {len(infeasible)} INFEASIBLE results after: {infeasible[:5]}")
 
@@ -166,8 +168,10 @@ def compare(before_path: str, after_path: str) -> None:
         gaps_b.append((before[k]["cost"] - bks["td"]) / bks["td"] * 100)
         gaps_a.append((after[k]["cost"] - bks["td"]) / bks["td"] * 100)
     if gaps_b:
-        print(f"\nmean gap-to-BKS TD: {np.mean(gaps_b):.2f}% -> {np.mean(gaps_a):.2f}% "
-              f"({np.mean(gaps_a)-np.mean(gaps_b):+.2f} pp)")
+        print(
+            f"\nmean gap-to-BKS TD: {np.mean(gaps_b):.2f}% -> {np.mean(gaps_a):.2f}% "
+            f"({np.mean(gaps_a) - np.mean(gaps_b):+.2f} pp)"
+        )
 
 
 def main() -> None:
@@ -175,8 +179,9 @@ def main() -> None:
     sub = ap.add_subparsers(dest="cmd", required=True)
     r = sub.add_parser("run")
     r.add_argument("--out", required=True)
-    r.add_argument("--iters", type=int, default=ITERS,
-                   help="iteration budget; raise it to compare a slower variant iso-time")
+    r.add_argument(
+        "--iters", type=int, default=ITERS, help="iteration budget; raise it to compare a slower variant iso-time"
+    )
     c = sub.add_parser("compare")
     c.add_argument("before")
     c.add_argument("after")

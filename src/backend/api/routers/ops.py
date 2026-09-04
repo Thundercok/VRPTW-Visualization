@@ -316,8 +316,7 @@ async def import_text_file(
     if not is_vietnamese_text_block(text):
         raise HTTPException(
             status_code=400,
-            detail="File does not appear to be in Vietnamese text-block format. "
-                   "Use /solomon/import-csv for CSV files.",
+            detail="File does not appear to be in Vietnamese text-block format. Use /solomon/import-csv for CSV files.",
         )
 
     return await _geocode_text_block(text)
@@ -448,9 +447,7 @@ async def reoptimize(
         ) from exc
 
     try:
-        inst = build_inst(
-            body.customers, capacity=body.fleet.capacity, name="Reoptimize", dataset=body.dataset
-        )
+        inst = build_inst(body.customers, capacity=body.fleet.capacity, name="Reoptimize", dataset=body.dataset)
     except ValueError as val_err:
         raise HTTPException(status_code=400, detail=str(val_err)) from val_err
 
@@ -1001,10 +998,7 @@ async def solve_dynamic_insert(
     if not 1 <= body.customer_id <= inst.n:
         raise HTTPException(
             status_code=422,
-            detail=(
-                f"customer_id must be between 1 and {inst.n} for dataset "
-                f"{body.dataset}; got {body.customer_id}."
-            ),
+            detail=(f"customer_id must be between 1 and {inst.n} for dataset {body.dataset}; got {body.customer_id}."),
         )
     routed = {c for route in body.existing_routes for c in route}
     out_of_range = sorted(c for c in routed if not 1 <= c <= inst.n)
@@ -1012,8 +1006,7 @@ async def solve_dynamic_insert(
         raise HTTPException(
             status_code=422,
             detail=(
-                f"existing_routes contains ids outside 1..{inst.n} for dataset "
-                f"{body.dataset}: {out_of_range[:10]}."
+                f"existing_routes contains ids outside 1..{inst.n} for dataset {body.dataset}: {out_of_range[:10]}."
             ),
         )
     # Re-inserting an already-routed customer would serve it twice and report
@@ -1086,4 +1079,3 @@ async def solve_stream(
         yield f"data: {json.dumps({'event': 'complete', 'status': 'finished', 'simulated': True})}\n\n"
 
     return StreamingResponse(event_generator(), media_type="text/event-stream")
-

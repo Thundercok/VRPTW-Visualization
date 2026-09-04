@@ -165,11 +165,7 @@ def run():
             results.append((name, seed, res1, res2, res3, all_equal))
 
             print(
-                f"{name:<8} {seed:<5} | "
-                f"{b_str:<18} | "
-                f"{ob_str:<18} | "
-                f"{lo_str:<18} | "
-                f"{comp:<15}",
+                f"{name:<8} {seed:<5} | {b_str:<18} | {ob_str:<18} | {lo_str:<18} | {comp:<15}",
                 flush=True,
             )
 

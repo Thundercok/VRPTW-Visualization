@@ -505,9 +505,7 @@ DESTROY = [
 ]
 
 
-def _sequential_cheapest_insert(
-    plan: Plan, order: list[int], heatmap: np.ndarray | None, gamma: float
-) -> Plan:
+def _sequential_cheapest_insert(plan: Plan, order: list[int], heatmap: np.ndarray | None, gamma: float) -> Plan:
     """Insert ``order`` one node at a time, each at its cheapest feasible position.
 
     Behaviour-identical to calling ``_insert_into_cheapest_route`` per node, but
@@ -537,10 +535,19 @@ def _sequential_cheapest_insert(
     if n_routes > 0:
         routes_flat, route_lens, route_loads = pack_routes(plan.routes, inst)
         k0, _d0, p0 = _insert_costs_matrix_numba(
-            nodes, routes_flat, route_lens, route_loads,
-            inst.dist, inst.demands, inst.capacity,
-            inst.ready_times, inst.due_times, inst.service_times,
-            hm, gamma, use_bias,
+            nodes,
+            routes_flat,
+            route_lens,
+            route_loads,
+            inst.dist,
+            inst.demands,
+            inst.capacity,
+            inst.ready_times,
+            inst.due_times,
+            inst.service_times,
+            hm,
+            gamma,
+            use_bias,
         )
         keys[:, :n_routes] = k0
         positions[:, :n_routes] = p0
@@ -568,10 +575,18 @@ def _sequential_cheapest_insert(
             # Only the column of the modified (or newly opened) route is stale.
             new_route = np.array(plan.routes[ri], dtype=np.int64)
             col_k, _cd, col_p = _insert_costs_column_numba(
-                nodes, new_route, loads[ri],
-                inst.dist, inst.demands, inst.capacity,
-                inst.ready_times, inst.due_times, inst.service_times,
-                hm, gamma, use_bias,
+                nodes,
+                new_route,
+                loads[ri],
+                inst.dist,
+                inst.demands,
+                inst.capacity,
+                inst.ready_times,
+                inst.due_times,
+                inst.service_times,
+                hm,
+                gamma,
+                use_bias,
             )
             keys[:, ri] = col_k
             positions[:, ri] = col_p
@@ -582,9 +597,7 @@ def _sequential_cheapest_insert(
 
 def op_greedy(plan: Plan, removed: list[int], heatmap: np.ndarray | None = None, gamma: float = 0.0) -> Plan:
     inst = plan.inst
-    return _sequential_cheapest_insert(
-        plan, sorted(removed, key=lambda n: inst.due_times[n]), heatmap, gamma
-    )
+    return _sequential_cheapest_insert(plan, sorted(removed, key=lambda n: inst.due_times[n]), heatmap, gamma)
 
 
 def _regret(plan: Plan, removed: list[int], k: int, heatmap: np.ndarray | None = None, gamma: float = 0.0) -> Plan:
@@ -615,9 +628,19 @@ def _regret(plan: Plan, removed: list[int], k: int, heatmap: np.ndarray | None =
 
     routes_flat, route_lens, route_loads = pack_routes(plan.routes, inst)
     keys, _deltas, positions = _insert_costs_matrix_numba(
-        nodes, routes_flat, route_lens, route_loads,
-        inst.dist, inst.demands, inst.capacity, inst.ready_times, inst.due_times, inst.service_times,
-        hm, gamma, use_bias,
+        nodes,
+        routes_flat,
+        route_lens,
+        route_loads,
+        inst.dist,
+        inst.demands,
+        inst.capacity,
+        inst.ready_times,
+        inst.due_times,
+        inst.service_times,
+        hm,
+        gamma,
+        use_bias,
     )
 
     while remaining:
@@ -656,10 +679,18 @@ def _regret(plan: Plan, removed: list[int], k: int, heatmap: np.ndarray | None =
             route_loads[ri] += float(inst.demands[chosen])
             new_route = np.array(plan.routes[ri], dtype=np.int64)
             col_keys, col_deltas, col_pos = _insert_costs_column_numba(
-                nodes, new_route, route_loads[ri],
-                inst.dist, inst.demands, inst.capacity,
-                inst.ready_times, inst.due_times, inst.service_times,
-                hm, gamma, use_bias,
+                nodes,
+                new_route,
+                route_loads[ri],
+                inst.dist,
+                inst.demands,
+                inst.capacity,
+                inst.ready_times,
+                inst.due_times,
+                inst.service_times,
+                hm,
+                gamma,
+                use_bias,
             )
             keys[:, ri] = col_keys
             _deltas[:, ri] = col_deltas

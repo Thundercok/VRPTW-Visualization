@@ -87,6 +87,5 @@ def test_repair_covers_all_customers(label: str, rel_path: str) -> None:
         cand = repair_fn(destroyed.copy(), list(removed))
         visited = [n for r in cand.routes for n in r]
         assert sorted(visited) == list(range(1, inst.n + 1)), (
-            f"{label}/{repair_fn.__name__}: customer set corrupted "
-            f"({len(visited)} visits for {inst.n} customers)"
+            f"{label}/{repair_fn.__name__}: customer set corrupted ({len(visited)} visits for {inst.n} customers)"
         )

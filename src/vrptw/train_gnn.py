@@ -112,9 +112,7 @@ def train_gnn(epochs: int = 150, lr: float = 1e-3, save_path: str = "docs/model/
             targets = plan_to_adj_matrix(plan).to(device)  # (N+1, N+1)
 
             optimizer.zero_grad()
-            logits = model(
-                node_feats.to(device), edge_feats.to(device), nbr_idx.to(device)
-            )[0]  # (N+1, N+1)
+            logits = model(node_feats.to(device), edge_feats.to(device), nbr_idx.to(device))[0]  # (N+1, N+1)
 
             # Joint BCE + Contrastive InfoNCE Loss
             n_nodes = inst.n + 1
@@ -124,14 +122,14 @@ def train_gnn(epochs: int = 150, lr: float = 1e-3, save_path: str = "docs/model/
             loss_bce = loss_fn(logits, targets)
 
             # Extract positive and negative edge indices for contrastive learning
-            pos_mask = (targets == 1.0)
-            neg_mask = (targets == 0.0)
+            pos_mask = targets == 1.0
+            neg_mask = targets == 0.0
             pos_edges = pos_mask.nonzero()
             neg_edges = neg_mask.nonzero()
 
             # Sample subset of negative edges to balance batch
             if neg_edges.shape[0] > pos_edges.shape[0] * 3:
-                perm = torch.randperm(neg_edges.shape[0], device=device)[:pos_edges.shape[0] * 3]
+                perm = torch.randperm(neg_edges.shape[0], device=device)[: pos_edges.shape[0] * 3]
                 neg_edges = neg_edges[perm]
 
             z_src, z_dst = model.get_contrastive_embeddings(

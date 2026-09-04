@@ -89,7 +89,7 @@ def bc_pretrain_operator_controller(
 
         final_loss = epoch_loss / len(states)
         if (epoch + 1) % 5 == 0 or epoch == epochs - 1:
-            print(f"Epoch [{epoch+1}/{epochs}] - BC Loss: {final_loss:.4f}")
+            print(f"Epoch [{epoch + 1}/{epochs}] - BC Loss: {final_loss:.4f}")
 
     return final_loss
 
@@ -98,7 +98,12 @@ def main():
     parser = argparse.ArgumentParser(description="VRPTW Trajectory Collection & Behavior Cloning Distillation")
     parser.add_argument("--collect", action="store_true", help="Collect trajectory data from solver runs")
     parser.add_argument("--train", action="store_true", help="Pre-train OperatorController QNet from collected data")
-    parser.add_argument("--instances", type=str, default="data/Solomon/rc101.txt,data/Solomon/r101.txt", help="Comma-separated instance file paths")
+    parser.add_argument(
+        "--instances",
+        type=str,
+        default="data/Solomon/rc101.txt,data/Solomon/r101.txt",
+        help="Comma-separated instance file paths",
+    )
     parser.add_argument("--input", type=str, default="scratch/trajectories.pkl", help="Input file path for training")
     parser.add_argument("--output", type=str, default="scratch/operator_bc_weights.pt", help="Output weights file path")
     parser.add_argument("--epochs", type=int, default=30, help="Training epochs")

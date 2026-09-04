@@ -12,6 +12,7 @@ Instances:
   - Homberger 200: C1_2_1, C2_2_1, R1_2_1, R2_2_1, RC1_2_1, RC2_2_1
   - Homberger 400: C1_4_1, C2_4_1, R1_4_1, R2_4_1, RC1_4_1, RC2_4_1
 """
+
 import os
 import sys
 import time
@@ -66,6 +67,7 @@ BENCHMARK_STAGES = [
     },
 ]
 
+
 def main():
     print("==========================================================================")
     print(" STARTING MULTI-SCALE SIDE-BY-SIDE ABLATION (OPTION A)")
@@ -110,7 +112,6 @@ def main():
             seed=42,
         )
 
-
         stage_df = run_benchmark(
             instances=stage_insts,
             algorithms=ALGORITHMS,
@@ -132,10 +133,11 @@ def main():
 
         print("\n\n==========================================================================")
         print(" ALL STAGES COMPLETED SUCCESSFULLY!")
-        print(f" Total Elapsed Time: {(time.time() - t_start_total)/60.0:.2f} minutes")
+        print(f" Total Elapsed Time: {(time.time() - t_start_total) / 60.0:.2f} minutes")
         print(f" Master Results saved to: {master_path}")
         print("==========================================================================")
         print_summary_table(master_df)
+
 
 if __name__ == "__main__":
     main()

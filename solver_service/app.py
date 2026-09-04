@@ -40,6 +40,7 @@ app = FastAPI(title="VRPTW Solver (Hugging Face Space)")
 
 # ── Auth ──────────────────────────────────────────────────────────────────────
 
+
 def _expected_token() -> str:
     return os.getenv("SOLVER_API_TOKEN", "").strip()
 
@@ -116,6 +117,7 @@ async def _startup() -> None:
 
 # ── Schemas ───────────────────────────────────────────────────────────────────
 
+
 class SolveRequest(BaseModel):
     payload: JobRequest
     matrix: list[list[float]] | None = None
@@ -128,6 +130,7 @@ class DynamicInsertRequest(BaseModel):
 
 
 # ── Routes ────────────────────────────────────────────────────────────────────
+
 
 @app.get("/health")
 async def health() -> dict[str, Any]:
@@ -202,8 +205,7 @@ async def dynamic_insert(body: DynamicInsertRequest) -> dict[str, Any]:
         raise HTTPException(
             status_code=422,
             detail=(
-                f"existing_routes contains ids outside 1..{inst.n} for dataset "
-                f"{body.dataset}: {out_of_range[:10]}."
+                f"existing_routes contains ids outside 1..{inst.n} for dataset {body.dataset}: {out_of_range[:10]}."
             ),
         )
     if body.customer_id in routed:

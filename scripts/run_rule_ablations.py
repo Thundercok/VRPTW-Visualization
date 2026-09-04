@@ -1,128 +1,193 @@
 #!/usr/bin/env python3
-"""Runner for Config (6) Rule-Macro and Config (7) Rule-Micro Ablations.
+"""Configuration-driven 6-Tier Ablation Runner.
 
-Executes 6 representative instances across 5 seeds under strict cold-starts.
+Executes:
+  1. standard ALNS (alns)
+  2. ALNS + Granular Neighborhoods (gns)
+  3. ALNS + GNS + Route-Pool Recombination (gns_pool)
+  4. ALNS + GNS + Route-Pool + LAC (gns_pool_lac)
+  5. Micro-only Hybrid (micro)
+  6. Full Hierarchical Hybrid (full)
+
+Example:
+python scripts/run_rule_ablations.py \
+  --instances data/Solomon/c101.txt \
+  --solver "python scripts/benchmark.py" \
+  --seeds 42 43 44 45 46 \
+  --time-limit 60.0 \
+  --output results/ablation_suite
 """
 
 from __future__ import annotations
 
-import copy
-import os
-import sys
+import argparse
+import csv
+import json
+import shlex
+import subprocess
 import time
-from concurrent.futures import ProcessPoolExecutor, as_completed
 from pathlib import Path
 
-import pandas as pd
+CUMULATIVE_CONFIGS = {
+    "alns": "--ablation alns",
+    "gns": "--ablation gns",
+    "gns_pool": "--ablation gns_pool",
+    "gns_pool_lac": "--ablation gns_pool_lac",
+    "micro": "--ablation micro",
+    "full": "--ablation full",
+}
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
+LOCO_CONFIGS = {
+    "Full": "--ablation full",
+    "Full_no_Macro": "--ablation full_no_macro",
+    "Full_no_Micro": "--ablation full_no_micro",
+    "Full_no_LAC": "--ablation full_no_lac",
+    "Full_no_Pool": "--ablation full_no_pool",
+    "Full_no_GNN": "--ablation full_no_gnn",
+    "Full_no_Gate": "--ablation full_no_gate",
+}
 
-from vrptw.benchmark_suite import (
-    ABLATION_INSTANCES,
-    BenchmarkResult,
-    BenchmarkTask,
-    execute_benchmark_task,
-)
-from vrptw.config import Config
-from vrptw.solvers import RuleMacroHybridSolver, RuleMicroHybridSolver
+
+def parse_args():
+    p = argparse.ArgumentParser()
+    p.add_argument("--instances", nargs="+", required=True, help="Instance paths or text file with paths")
+    p.add_argument("--solver", required=True, help="Base solver command")
+    p.add_argument("--mode", choices=["cumulative", "loco"], default="cumulative", help="Ablation mode")
+    p.add_argument("--configs", default=None, help="Optional JSON file mapping config name -> CLI flags")
+    p.add_argument("--seeds", nargs="+", type=int, default=[42, 43, 44, 45, 46])
+    p.add_argument("--workers", type=int, default=4, help="Number of parallel solver workers")
+    p.add_argument("--time-limit", type=float, default=30.0)
+    p.add_argument("--output", required=True)
+    p.add_argument("--timeout-slack", type=float, default=20.0)
+    return p.parse_args()
+
+
+def load_instances(inputs: list[str]) -> list[str]:
+    instances = []
+    for item in inputs:
+        path = Path(item)
+        if path.is_file() and not path.stem.lower().startswith(("c1", "c2", "r1", "r2", "rc1", "rc2")):
+            for line in path.read_text(encoding="utf-8").splitlines():
+                line = line.strip()
+                if line and not line.startswith("#"):
+                    instances.append(line)
+        else:
+            instances.append(str(path))
+    return instances
+
+
+def execute_single_run(job: tuple[str, str, str, int, str, float, float, Path]) -> dict:
+    config_name, extra, instance, seed, solver_cmd, time_limit, timeout_slack, out = job
+    extra_args = shlex.split(extra or "")
+    token = f"{config_name}__{Path(instance).stem}__seed{seed}"
+    result_json = out / f"{token}.json"
+    stdout = out / f"{token}.stdout"
+    stderr = out / f"{token}.stderr"
+
+    cmd = shlex.split(solver_cmd)
+    cmd += [
+        "--instance",
+        instance,
+        "--seed",
+        str(seed),
+        "--time-limit",
+        str(time_limit),
+        "--output-json",
+        str(result_json),
+    ]
+    cmd += extra_args
+
+    start = time.perf_counter()
+    timed_out = False
+
+    try:
+        proc = subprocess.run(
+            cmd,
+            stdout=stdout.open("w", encoding="utf-8"),
+            stderr=stderr.open("w", encoding="utf-8"),
+            timeout=time_limit + timeout_slack,
+            check=False,
+        )
+        returncode = proc.returncode
+    except subprocess.TimeoutExpired:
+        timed_out = True
+        returncode = None
+
+    elapsed = time.perf_counter() - start
+
+    payload = {}
+    if result_json.exists():
+        try:
+            payload = json.loads(result_json.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            payload = {"parse_error": str(exc)}
+
+    row = {
+        "config": config_name,
+        "instance": instance,
+        "seed": seed,
+        "time_limit_sec": time_limit,
+        "wallclock_sec": elapsed,
+        "returncode": returncode,
+        "timed_out": timed_out,
+        "feasible": payload.get("feasible"),
+        "nv": payload.get("nv"),
+        "td": payload.get("td"),
+        "iterations": payload.get("iterations"),
+    }
+    print(f"  [{config_name}] {Path(instance).name} (seed {seed}) -> NV={row['nv']}, TD={row['td']} ({elapsed:.1f}s)")
+    return row
 
 
 def main():
-    solomon_dir = ROOT / "data" / "Solomon"
-    gh200_dir = ROOT / "data" / "Gehring_Homberger" / "homberger_200_customer_instances"
-    gh400_dir = ROOT / "data" / "Gehring_Homberger" / "homberger_400_customer_instances"
+    args = parse_args()
+    out = Path(args.output)
+    out.mkdir(parents=True, exist_ok=True)
+    raw = out / "ablation_raw.csv"
 
-    inst_map = {
-        "C101": str(solomon_dir / "c101.txt"),
-        "R101": str(solomon_dir / "r101.txt"),
-        "RC101": str(solomon_dir / "rc101.txt"),
-        "c2_2_1": str(gh200_dir / "C2_2_1.TXT"),
-        "r1_2_1": str(gh200_dir / "R1_2_1.TXT"),
-        "rc2_4_1": str(gh400_dir / "RC2_4_1.TXT"),
-    }
+    if args.configs:
+        configs = json.loads(Path(args.configs).read_text(encoding="utf-8"))
+    elif args.mode == "loco":
+        configs = LOCO_CONFIGS
+    else:
+        configs = CUMULATIVE_CONFIGS
 
-    seeds = [42, 43, 44, 45, 46]
-    n_iters = 2000
+    instances = load_instances(args.instances)
+    jobs = []
 
-    base_cfg = Config(
-        alns_iterations=n_iters,
-        hybrid_iterations=n_iters,
-        early_stop_patience=max(100, n_iters // 4),
-        polish_iterations=50,
-        polish_patience=25,
-        op_softmax_tau=1.0,
-        lac_enabled=True,
-        recombine_after_main_search=True,
-        plateau_start=72,
+    for config_name, extra in configs.items():
+        for instance in instances:
+            for seed in args.seeds:
+                jobs.append((config_name, extra, instance, seed, args.solver, args.time_limit, args.timeout_slack, out))
+
+    rows = []
+    import concurrent.futures
+
+    print(f"Executing {len(jobs)} ablation runs across {args.workers} workers...")
+    with concurrent.futures.ThreadPoolExecutor(max_workers=args.workers) as executor:
+        futures = [executor.submit(execute_single_run, job) for job in jobs]
+        for fut in concurrent.futures.as_completed(futures):
+            row = fut.result()
+            rows.append(row)
+            with raw.open("w", newline="", encoding="utf-8") as f:
+                writer = csv.DictWriter(f, fieldnames=rows[0].keys())
+                writer.writeheader()
+                writer.writerows(rows)
+
+    (out / "manifest.json").write_text(
+        json.dumps(
+            {
+                "instances": instances,
+                "seeds": args.seeds,
+                "time_limit_sec": args.time_limit,
+                "configs": configs,
+            },
+            indent=2,
+        ),
+        encoding="utf-8",
     )
-
-    configs_to_run = {
-        "Rule-Macro": {
-            "solver_cls": RuleMacroHybridSolver,
-            "cfg": copy.deepcopy(base_cfg),
-        },
-        "Rule-Micro": {
-            "solver_cls": RuleMicroHybridSolver,
-            "cfg": copy.deepcopy(base_cfg),
-        },
-    }
-
-    tasks: list[BenchmarkTask] = []
-    for inst_name in ABLATION_INSTANCES:
-        path = inst_map[inst_name]
-        for cfg_name, cfg_info in configs_to_run.items():
-            for seed in seeds:
-                tasks.append(
-                    BenchmarkTask(
-                        instance_name=inst_name,
-                        instance_path=path,
-                        solver_name=cfg_name,
-                        seed=seed,
-                        cfg=copy.deepcopy(cfg_info["cfg"]),
-                        solver_cls=cfg_info["solver_cls"],
-                        tag="ablation_rule",
-                    )
-                )
-
-    print("=" * 80)
-    print(f"  RUNNING RULE ABLATIONS: {len(tasks)} tasks (2 configs x 6 instances x 5 seeds)")
-    print("=" * 80)
-
-    t0 = time.time()
-    results: list[BenchmarkResult] = []
-    workers = min(8, mp.cpu_count()) if hasattr(os, "cpu_count") else 4
-
-    with ProcessPoolExecutor(max_workers=workers) as executor:
-        future_to_task = {executor.submit(execute_benchmark_task, t): t for t in tasks}
-        completed = 0
-        for future in as_completed(future_to_task):
-            res = future.result()
-            results.append(res)
-            completed += 1
-            print(
-                f"  [{completed:2d}/{len(tasks):2d}] {res.instance:<10} {res.solver:<15} "
-                f"Seed {res.seed:2d} -> NV: {res.nv:2d}, TD: {res.td:7.2f} ({res.time_sec:5.1f}s)"
-            )
-
-    elapsed = time.time() - t0
-    print(f"\nAll {len(tasks)} tasks finished in {elapsed:.1f}s ({elapsed/60:.2f} mins).")
-
-    out_dir = ROOT / "results" / "paper_benchmark_suite"
-    df_rules = pd.DataFrame([r.to_dict() for r in results])
-    df_rules.to_csv(out_dir / "benchmark_ablation_rules_raw.csv", index=False)
-    print(f"Rules raw CSV saved -> {out_dir / 'benchmark_ablation_rules_raw.csv'}")
-
-    # Merge with original 5-config ablation CSV if present
-    orig_csv = out_dir / "benchmark_ablation_raw.csv"
-    if orig_csv.exists():
-        df_orig = pd.read_csv(orig_csv)
-        df_merged = pd.concat([df_orig, df_rules], ignore_index=True)
-        merged_csv = out_dir / "benchmark_ablation_7configs_raw.csv"
-        df_merged.to_csv(merged_csv, index=False)
-        print(f"Merged 7-config raw CSV saved -> {merged_csv}")
+    print(f"\n✓ Ablation completed ({len(rows)} executions recorded in {raw})")
 
 
 if __name__ == "__main__":
-    import multiprocessing as mp
     main()

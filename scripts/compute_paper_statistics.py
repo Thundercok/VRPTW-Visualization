@@ -15,6 +15,7 @@ from __future__ import annotations
 import argparse
 import os
 import sys
+from pathlib import Path
 from typing import Any
 
 import numpy as np
@@ -186,52 +187,157 @@ def run_statistical_comparison(
 
 def format_statistical_report(stat_results: list[dict[str, Any]]) -> str:
     """Formats statistical outcomes into markdown and human-readable text."""
+
+
+def run_seed_paired_statistical_comparison(
+    df_raw: pd.DataFrame,
+    solver_a: str,
+    solver_b: str,
+    alpha: float = 0.05,
+    m_comparisons: int = 3,
+) -> dict[str, Any]:
+    """Computes exact seed-paired comparison between two solvers across identical (Instance, Seed) runs."""
+    alpha_bonferroni = alpha / max(m_comparisons, 1)
+
+    df = df_raw.copy()
+    col_map = {
+        "solver": "Algorithm",
+        "config": "Algorithm",
+        "instance": "Instance",
+        "seed": "Seed",
+        "nv": "NV",
+        "td": "TD",
+        "feasible": "Feasible",
+    }
+    df.rename(columns={k: v for k, v in col_map.items() if k in df.columns}, inplace=True)
+    df["Instance"] = df["Instance"].apply(lambda x: Path(str(x)).stem.upper())
+
+    sub_a = df[df["Algorithm"] == solver_a].set_index(["Instance", "Seed"])
+    sub_b = df[df["Algorithm"] == solver_b].set_index(["Instance", "Seed"])
+
+    common_keys = sub_a.index.intersection(sub_b.index)
+    if len(common_keys) == 0:
+        return {"error": f"No common (Instance, Seed) pairs between {solver_a} and {solver_b}"}
+
+    merged = pd.DataFrame(
+        {
+            "nv_a": sub_a.loc[common_keys, "NV"].astype(float),
+            "td_a": sub_a.loc[common_keys, "TD"].astype(float),
+            "nv_b": sub_b.loc[common_keys, "NV"].astype(float),
+            "td_b": sub_b.loc[common_keys, "TD"].astype(float),
+        },
+        index=common_keys,
+    ).dropna()
+
+    n_pairs = len(merged)
+    diff_nv = merged["nv_b"].to_numpy() - merged["nv_a"].to_numpy()
+    wins_nv = int(np.sum(diff_nv < -1e-6))
+    losses_nv = int(np.sum(diff_nv > 1e-6))
+    ties_nv = int(np.sum(np.abs(diff_nv) <= 1e-6))
+
+    # Matched-Fleet TD subset: exactly equal vehicle counts on that specific run
+    matched = merged[np.abs(merged["nv_a"] - merged["nv_b"]) <= 1e-6]
+    n_matched = len(matched)
+
+    if n_matched > 0:
+        td_a = matched["td_a"].to_numpy()
+        td_b = matched["td_b"].to_numpy()
+        diff_td = td_b - td_a
+        gap_pct = (td_b - td_a) / td_a * 100.0
+
+        wins_td = int(np.sum(diff_td < -1e-4))
+        losses_td = int(np.sum(diff_td > 1e-4))
+        ties_td = int(np.sum(np.abs(diff_td) <= 1e-4))
+
+        non_zero_td = diff_td[np.abs(diff_td) > 1e-4]
+        if len(non_zero_td) == 0:
+            w_td, p_td, _r_td = 0.0, 1.0, 0.0
+        else:
+            try:
+                res_w = stats.wilcoxon(td_b, td_a, alternative="two-sided", zero_method="pratt")
+                w_td, p_td = float(res_w.statistic), float(res_w.pvalue)
+                ranks = stats.rankdata(np.abs(non_zero_td))
+                w_pos = float(np.sum(ranks[non_zero_td > 0]))
+                w_neg = float(np.sum(ranks[non_zero_td < 0]))
+                float((w_neg - w_pos) / max(w_pos + w_neg, 1e-9))
+            except Exception:
+                w_td, p_td, _r_td = 0.0, 1.0, 0.0
+
+        sign_p = (
+            float(stats.binomtest(wins_td, n=wins_td + losses_td, p=0.5).pvalue) if (wins_td + losses_td) > 0 else 1.0
+        )
+        mean_gap = float(np.mean(gap_pct))
+        med_diff = float(np.median(diff_td))
+    else:
+        w_td, p_td, _r_td, sign_p = 0.0, 1.0, 0.0, 1.0
+        wins_td, losses_td, ties_td = 0, 0, 0
+        mean_gap, med_diff = 0.0, 0.0
+
+    return {
+        "solver_a": solver_a,
+        "solver_b": solver_b,
+        "n_seed_pairs": n_pairs,
+        "fleet_size": {
+            "wins_b": wins_nv,
+            "losses_b": losses_nv,
+            "ties": ties_nv,
+            "mean_nv_a": float(np.mean(merged["nv_a"])),
+            "mean_nv_b": float(np.mean(merged["nv_b"])),
+        },
+        "matched_fleet_distance": {
+            "n_matched_pairs": n_matched,
+            "pct_matched": round(n_matched / n_pairs * 100.0, 1) if n_pairs else 0.0,
+            "mean_td_gap_pct": round(mean_gap, 2),
+            "median_td_diff": round(med_diff, 2),
+            "wins_td": wins_td,
+            "losses_td": losses_td,
+            "ties_td": ties_td,
+            "wilcoxon_w": w_td,
+            "wilcoxon_p": p_td,
+            "sign_test_p": sign_p,
+            "significant_bonferroni": bool(p_td < alpha_bonferroni),
+        },
+    }
+
+
+def format_seed_paired_report(res: dict[str, Any]) -> str:
     lines = []
-    lines.append("# Statistical Rigor Report (Two-Tailed Wilcoxon & Exact Sign Test)")
-    lines.append(f"Significance Thresholds: Nominal $\\alpha = 0.05$, Bonferroni $\\alpha_{{\\text{{adj}}}} = {0.05/3:.4f}$ (m=3 families).\n")
-
-    for res in stat_results:
-        if "error" in res:
-            continue
-        lines.append(f"## Comparison: {res['solver_b']} vs {res['solver_a']} (N={res['n_instances']} instances)")
-        nv = res["nv_comparison"]
-        td = res["td_matched_comparison"]
-
-        lines.append("### 1. Fleet Size Reduction (NV):")
-        lines.append(f"- Mean NV: {res['solver_a']} = {nv['mean_nv_a']:.2f} vs {res['solver_b']} = {nv['mean_nv_b']:.2f}")
-        lines.append(f"- Record: {nv['wins_b']} Wins / {nv['ties']} Ties / {nv['losses_b']} Losses")
-        lines.append(f"- Wilcoxon signed-rank: $W = {nv['wilcoxon_w']:.1f}$, $p = {nv['wilcoxon_p']:.4e}$ ({'Significant' if nv['significant_bonferroni'] else 'Not Significant'})")
-        lines.append(f"- Exact Sign test: $p = {nv['sign_test_p']:.4e}\n")
-
-        lines.append("### 2. Vehicle-Matched Distance Gap (TD):")
-        lines.append(f"- Matched Instances: {td['n_matched']}/{res['n_instances']} ({td['pct_matched']}%)")
-        lines.append(f"- Mean TD Gap on Matched: {td['mean_gap_pct']:+.2f}%")
-        lines.append(f"- Record on Matched: {td['wins_b']} Wins / {td['ties']} Ties / {td['losses_b']} Losses")
-        lines.append(f"- Wilcoxon signed-rank: $W = {td['wilcoxon_w']:.1f}$, $p = {td['wilcoxon_p']:.4e}$ ({'Significant' if td['significant_bonferroni'] else 'Not Significant'})")
-        lines.append(f"- Exact Sign test: $p = {td['sign_test_p']:.4e}\n")
-        lines.append("-" * 75)
-
+    lines.append(
+        f"## Seed-Paired Matched-Fleet Analysis: {res['solver_b']} vs {res['solver_a']} (N={res['n_seed_pairs']} runs)"
+    )
+    f = res["fleet_size"]
+    m = res["matched_fleet_distance"]
+    lines.append("### 1. Primary Fleet Outcome (NV):")
+    lines.append(
+        f"- Record: {f['wins_b']} Wins / {f['ties']} Ties / {f['losses_b']} Losses (Mean NV: {f['mean_nv_b']:.2f} vs {f['mean_nv_a']:.2f})"
+    )
+    lines.append("### 2. Seed-Paired Matched-Fleet Distance (TD):")
+    lines.append(f"- Matched Fleet Runs: {m['n_matched_pairs']}/{res['n_seed_pairs']} ({m['pct_matched']}%)")
+    lines.append(f"- Matched TD Record: {m['wins_td']} Wins / {m['ties_td']} Ties / {m['losses_td']} Losses")
+    lines.append(
+        f"- Mean TD Reduction on Matched Fleets: {m['mean_td_gap_pct']:+.2f}% (Median diff: {m['median_td_diff']:+.2f})"
+    )
+    lines.append(
+        f"- Wilcoxon signed-rank: W={m['wilcoxon_w']:.1f}, p={m['wilcoxon_p']:.4e} ({'Significant' if m['significant_bonferroni'] else 'Not Significant'})"
+    )
+    lines.append(f"- Exact Sign test: p={m['sign_test_p']:.4e}")
     return "\n".join(lines)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Compute rigorous statistical tests for paper tables.")
     parser.add_argument("--csv", type=str, required=True, help="Path to raw benchmark results CSV.")
+    parser.add_argument("--solver-a", type=str, default="alns", help="Baseline solver name/config.")
+    parser.add_argument("--solver-b", type=str, default="full", help="Candidate solver name/config.")
     parser.add_argument("--out-md", type=str, default=None, help="Output markdown report path.")
     args = parser.parse_args()
 
     df = pd.read_csv(args.csv)
-    df_agg = compute_instance_aggregates(df)
-
-    solvers = df_agg["Algorithm"].unique().tolist()
-    stats_list = []
-    if "ALNS-Base" in solvers and "Hybrid-DDQN" in solvers:
-        stats_list.append(run_statistical_comparison(df_agg, "ALNS-Base", "Hybrid-DDQN"))
-
-    report = format_statistical_report(stats_list)
-    print(report)
-
-    if args.out_md:
-        with open(args.out_md, "w", encoding="utf-8") as fh:
-            fh.write(report)
-        print(f"Report saved to {args.out_md}")
+    res_paired = run_seed_paired_statistical_comparison(df, args.solver_a, args.solver_b)
+    if "error" in res_paired:
+        print(f"Paired comparison error: {res_paired['error']}")
+    else:
+        report = format_seed_paired_report(res_paired)
+        print(report)
+        if args.out_md:
+            Path(args.out_md).write_text(report, encoding="utf-8")

@@ -45,7 +45,9 @@ def cmd_solve(args):
     if use_gnn:
         gnn_path = args.gnn_path
         if gnn_path is None:
-            default_gnn = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "docs", "model", "gnn_edge_predictor.pt")
+            default_gnn = os.path.join(
+                os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "docs", "model", "gnn_edge_predictor.pt"
+            )
             if os.path.exists(default_gnn):
                 gnn_path = default_gnn
         cfg.gnn_model_path = gnn_path
@@ -102,7 +104,9 @@ def cmd_benchmark(args):
 
     gnn_path = args.gnn_path
     if gnn_path is None:
-        default_gnn = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "docs", "model", "gnn_edge_predictor.pt")
+        default_gnn = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "docs", "model", "gnn_edge_predictor.pt"
+        )
         if os.path.exists(default_gnn):
             gnn_path = default_gnn
     cfg.gnn_model_path = gnn_path
@@ -167,8 +171,14 @@ def main():
         type=str,
         default="Hybrid-DDQN",
         choices=[
-            "ALNS-Base", "Hybrid-Fixed", "Hybrid-Rule", "Hybrid-DDQN",
-            "GNN-ALNS-Base", "GNN-Hybrid-Fixed", "GNN-Hybrid-Rule", "GNN-Hybrid-DDQN"
+            "ALNS-Base",
+            "Hybrid-Fixed",
+            "Hybrid-Rule",
+            "Hybrid-DDQN",
+            "GNN-ALNS-Base",
+            "GNN-Hybrid-Fixed",
+            "GNN-Hybrid-Rule",
+            "GNN-Hybrid-DDQN",
         ],
         help="Optimization solver to run",
     )
@@ -178,7 +188,12 @@ def main():
     p_solve.add_argument("--seed", type=int, default=42, help="Random seed")
     p_solve.add_argument("--gnn-path", type=str, default=None, help="Path to pre-trained GNN model weights")
     p_solve.add_argument("--penalty-search", action="store_true", help="Enable penalty-based infeasible search")
-    p_solve.add_argument("--no-adaptive-feasibility", action="store_false", dest="adaptive_feasibility", help="Disable adaptive feasibility management")
+    p_solve.add_argument(
+        "--no-adaptive-feasibility",
+        action="store_false",
+        dest="adaptive_feasibility",
+        help="Disable adaptive feasibility management",
+    )
     p_solve.set_defaults(func=cmd_solve, adaptive_feasibility=True)
 
     # Benchmark command
@@ -202,7 +217,12 @@ def main():
     p_bench.add_argument("--output-dir", type=str, default=None, help="Directory to save logs/results")
     p_bench.add_argument("--max-workers", type=int, default=None, help="Maximum number of parallel workers")
     p_bench.add_argument("--penalty-search", action="store_true", help="Enable penalty-based infeasible search")
-    p_bench.add_argument("--no-adaptive-feasibility", action="store_false", dest="adaptive_feasibility", help="Disable adaptive feasibility management")
+    p_bench.add_argument(
+        "--no-adaptive-feasibility",
+        action="store_false",
+        dest="adaptive_feasibility",
+        help="Disable adaptive feasibility management",
+    )
     p_bench.set_defaults(func=cmd_benchmark, adaptive_feasibility=True)
 
     args = parser.parse_args()

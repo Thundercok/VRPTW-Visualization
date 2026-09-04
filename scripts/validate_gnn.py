@@ -48,9 +48,12 @@ def main() -> None:
 
     def cfg() -> Config:
         return Config(
-            hybrid_iterations=args.iters, alns_iterations=args.iters,
-            early_stop_patience=10**9, split_enabled=False,
-            time_limit=None, time_limit_per_customer=0.0,
+            hybrid_iterations=args.iters,
+            alns_iterations=args.iters,
+            early_stop_patience=10**9,
+            split_enabled=False,
+            time_limit=None,
+            time_limit_per_customer=0.0,
         )
 
     rows = []
@@ -73,9 +76,11 @@ def main() -> None:
                 rec[tag] = (best.nv, best.cost, time.time() - t0, best.feasible)
             rows.append(rec)
             (nv0, td0, _t0, _f0), (nv1, td1, _t1, _f1) = rec["off"], rec["on"]
-            print(f"  {label:8s} s{seed}  GNN off: nv={nv0:3d} td={td0:9.2f}  |  "
-                  f"on: nv={nv1:3d} td={td1:9.2f}  | dNV={nv1-nv0:+d} dTD={td1-td0:+8.2f}",
-                  flush=True)
+            print(
+                f"  {label:8s} s{seed}  GNN off: nv={nv0:3d} td={td0:9.2f}  |  "
+                f"on: nv={nv1:3d} td={td1:9.2f}  | dNV={nv1 - nv0:+d} dTD={td1 - td0:+8.2f}",
+                flush=True,
+            )
 
     if not rows:
         return
@@ -86,17 +91,23 @@ def main() -> None:
     assert all(r["off"][3] and r["on"][3] for r in rows), "infeasible result produced"
 
     def gap(td):
-        return np.mean([(t - BKS[r["instance"]]["td"]) / BKS[r["instance"]]["td"] * 100
-                        for t, r in zip(td, rows) if r["instance"] in BKS])
+        return np.mean(
+            [
+                (t - BKS[r["instance"]]["td"]) / BKS[r["instance"]]["td"] * 100
+                for t, r in zip(td, rows)
+                if r["instance"] in BKS
+            ]
+        )
 
     print(f"\n{len(rows)} paired runs")
-    print(f"  mean NV   {nv0.mean():8.3f} -> {nv1.mean():8.3f}  ({nv1.mean()-nv0.mean():+.3f})")
-    print(f"  mean TD   {td0.mean():8.2f} -> {td1.mean():8.2f}  ({td1.mean()-td0.mean():+.2f})")
-    print(f"  gap-BKS   {gap(td0):7.2f}% -> {gap(td1):7.2f}%  ({gap(td1)-gap(td0):+.2f} pp)")
-    print(f"  NV better {int((nv1<nv0).sum())}, worse {int((nv1>nv0).sum())}, tie {int((nv1==nv0).sum())}")
-    print(f"  TD better {int((td1<td0-1e-6).sum())}, worse {int((td1>td0+1e-6).sum())}")
+    print(f"  mean NV   {nv0.mean():8.3f} -> {nv1.mean():8.3f}  ({nv1.mean() - nv0.mean():+.3f})")
+    print(f"  mean TD   {td0.mean():8.2f} -> {td1.mean():8.2f}  ({td1.mean() - td0.mean():+.2f})")
+    print(f"  gap-BKS   {gap(td0):7.2f}% -> {gap(td1):7.2f}%  ({gap(td1) - gap(td0):+.2f} pp)")
+    print(f"  NV better {int((nv1 < nv0).sum())}, worse {int((nv1 > nv0).sum())}, tie {int((nv1 == nv0).sum())}")
+    print(f"  TD better {int((td1 < td0 - 1e-6).sum())}, worse {int((td1 > td0 + 1e-6).sum())}")
     try:
         from scipy.stats import wilcoxon
+
         for name, a, b in (("NV", nv0, nv1), ("TD", td0, td1)):
             if not np.allclose(a, b):
                 print(f"  Wilcoxon {name}: p={wilcoxon(a, b)[1]:.4f}")

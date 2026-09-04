@@ -20,6 +20,7 @@ from vrptw.solvers import HybridDDQNSolver
 
 class RoutePoolSlotABaseline(RoutePool):
     """Slot A sorts strictly by cost / len."""
+
     def _trim(self) -> None:
         limit = self.cfg.route_pool_limit
         if len(self._routes) <= limit + 100:
@@ -70,6 +71,7 @@ class RoutePoolSlotABaseline(RoutePool):
 
 class RoutePoolSlotACandidate(RoutePool):
     """Slot A sorts by (cost / len, -len) — breaking cost/len ties in favor of longer routes."""
+
     def _trim(self) -> None:
         limit = self.cfg.route_pool_limit
         if len(self._routes) <= limit + 100:
@@ -135,7 +137,10 @@ def run_ab():
     print("=== A/B TEST: Slot A Sorting in RoutePool ===", flush=True)
     print("Variant A: cost / len", flush=True)
     print("Variant B: (cost / len, -len)", flush=True)
-    print(f"{'Inst':<8} {'Seed':<5} | {'Var A NV':<9} {'Var A TD':<10} | {'Var B NV':<9} {'Var B TD':<10} | {'Winner':<8}", flush=True)
+    print(
+        f"{'Inst':<8} {'Seed':<5} | {'Var A NV':<9} {'Var A TD':<10} | {'Var B NV':<9} {'Var B TD':<10} | {'Winner':<8}",
+        flush=True,
+    )
     print("-" * 75, flush=True)
 
     a_wins = 0
@@ -195,7 +200,10 @@ def run_ab():
                 winner = "A (TD)"
                 a_wins += 1
 
-            print(f"{name:<8} {seed:<5} | {plan_a.nv:<9} {plan_a.cost:<10.2f} | {plan_b.nv:<9} {plan_b.cost:<10.2f} | {winner:<8}", flush=True)
+            print(
+                f"{name:<8} {seed:<5} | {plan_a.nv:<9} {plan_a.cost:<10.2f} | {plan_b.nv:<9} {plan_b.cost:<10.2f} | {winner:<8}",
+                flush=True,
+            )
 
     print("=" * 75, flush=True)
     print(f"Summary: Variant A wins = {a_wins}, Variant B wins = {b_wins}, Ties = {ties}", flush=True)

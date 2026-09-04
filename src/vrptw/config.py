@@ -193,6 +193,7 @@ ALGO_ALNS_BASE = "ALNS-Base"
 ALGO_ALNS_BASE_PLUS = "ALNS-Base+"
 ALGO_HYBRID_FIXED = "Hybrid-Fixed"
 ALGO_HYBRID_RULE = "Hybrid-Rule"
+ALGO_FLAT_DDQN = "Flat-DDQN"
 ALGO_HYBRID_DDQN = "Hybrid-DDQN"
 ALGO_HYBRID_DDQN_TRANSFER = "Hybrid-DDQN-Transfer"
 ALGO_HYBRID_DDQN_TRANSFER_RC2 = "Hybrid-DDQN-Transfer-RC2"
@@ -205,6 +206,7 @@ ALGO_ORDER = [
     ALGO_ALNS_BASE_PLUS,
     ALGO_HYBRID_FIXED,
     ALGO_HYBRID_RULE,
+    ALGO_FLAT_DDQN,
     ALGO_HYBRID_DDQN,
     ALGO_HYBRID_DDQN_TRANSFER,
     ALGO_HYBRID_DDQN_TRANSFER_RC2,
@@ -222,6 +224,8 @@ LEGACY_ALGO_LABELS = {
     "ALNS++": ALGO_HYBRID_RULE,
     "SCHED-ALNS": ALGO_HYBRID_RULE,
     "Hybrid-Rule": ALGO_HYBRID_RULE,
+    "Flat-DDQN": ALGO_FLAT_DDQN,
+    "Flat-DDQN-ALNS": ALGO_FLAT_DDQN,
     "DDQN-ALNS": ALGO_HYBRID_DDQN,
     "PLATEAU-HYBRID": ALGO_HYBRID_DDQN,
     "Hybrid-DDQN": ALGO_HYBRID_DDQN,
@@ -233,7 +237,6 @@ LEGACY_ALGO_LABELS = {
     "dqn": ALGO_DQN,
     "DQN": ALGO_DQN,
 }
-
 
 
 def canonical_algo_label(label: str) -> str:
@@ -330,6 +333,8 @@ class Config:
     ctrl_start: int = 24
     plateau_start: int = 72
     ctrl_start_floor: int = 10  # minimum non-improvement threshold floor to trigger plateau controller
+    macro_enabled: bool = True  # If False, disables Macro Plateau Controller completely (pins mode=DEFAULT)
+    pool_recombine_enabled: bool = True  # If False, disables periodic and plateau Set Partitioning recombination
     nv_increase_penalty: float = 15.0
     rl_recombine_min_routes: int = 24
     ctrl_tau: float = 0.005  # soft target update rate for PlateauController
@@ -363,18 +368,27 @@ class Config:
 
     # ── route pool / set-partitioning ─────────────────────────────────────
     route_pool_limit: int = 600
+    dynamic_pool_factor: float = 4.0  # Dynamic pool capacity scaling: max(limit, dynamic_pool_factor * N)
     route_pool_max_per_customer: int = 28
     sp_time_limit: float = 4.0
     sp_vehicle_penalty_scale: float = 200.0
+    sp_cert_margin: float = 0.20  # Analytic clearance margin over worst-case route distance disparity
+    sp_enforce_certified_penalty: bool = True  # Enforce lambda_pen^cert = max(grid, (1+eps)*K_max*c_max^route)
     recombine_interval: int = 100
     milp_max_cols: int = 800
+
+    # ── generalized ejection chains (GEC v2.0) ───────────────────────────
+    gec_max_depth: int = 3  # Depth of recursive 3-level customer displacement tree in MODE_ROUTE_REDUCE
+    gec_candidate_k: int = 15  # Candidate neighbor branching factor in GEC
+
+    # ── dynamic spatiotemporal GNN attention ──────────────────────────────
+    dynamic_gnn_tw_factor: float = 0.5  # Modulates GNN edge heatmap with dynamic TW slack
 
     # ── adaptive scale bypass (Limitation 1) ──────────────────────────────
     adaptive_scale_bypass: bool = False
     min_neural_customers: int = 50
 
     pool_cls: Any = None
-
 
     # ── polish ────────────────────────────────────────────────────────────
     polish_ls_passes: int = 2
@@ -413,12 +427,11 @@ class Config:
     split_batch: int = 32
     split_eps_start: float = 0.30
     split_eps_end: float = 0.02
-    split_tau: float = 0.005       # soft target update rate for SplitController
-    split_trigger_interval: int = 50   # try split every N iterations
-    split_trigger_after: int = 200     # don't try before iteration 200
-    split_nv_penalty: float = 5.0      # episode reward scale for NV reduction
+    split_tau: float = 0.005  # soft target update rate for SplitController
+    split_trigger_interval: int = 50  # try split every N iterations
+    split_trigger_after: int = 200  # don't try before iteration 200
+    split_nv_penalty: float = 5.0  # episode reward scale for NV reduction
     split_infeasible_penalty: float = 10.0
-
 
     # ── OR-Tools ──────────────────────────────────────────────────────────
     ortools_time_limit: float = 15.0
@@ -433,6 +446,8 @@ class Config:
     lac_train_freq: int = 20
     lac_buf_size: int = 5000
     lac_batch: int = 64  # batch size for training the learned acceptance criterion
+    lac_tau_min: float = 0.40  # Initial exploratory acceptance probability threshold
+    lac_tau_max: float = 0.75  # Final intensive exploitation acceptance threshold
     # ── domain randomization ──────────────────────────────────────────────
     domain_randomization_epochs: int = 20
     domain_randomization_batch: int = 15
@@ -458,7 +473,7 @@ class Config:
     highs_plateau_synthesis: bool = True
 
     # ── Split Controller ──────────────────────────────────────────────────
-    split_enabled: bool = True
+    split_enabled: bool = False
 
     # ── Anytime wall-clock budget ─────────────────────────────────────────
     # The search is otherwise bounded only by iteration count, which makes run
@@ -516,9 +531,7 @@ class Config:
         if self.time_limit_per_customer < 0.0:
             raise ValueError(f"time_limit_per_customer must be >= 0, got {self.time_limit_per_customer}")
         if not (0.0 < self.time_limit_main_loop_frac <= 1.0):
-            raise ValueError(
-                f"time_limit_main_loop_frac must be in (0.0, 1.0], got {self.time_limit_main_loop_frac}"
-            )
+            raise ValueError(f"time_limit_main_loop_frac must be in (0.0, 1.0], got {self.time_limit_main_loop_frac}")
 
 
 # ---------------------------------------------------------------------------

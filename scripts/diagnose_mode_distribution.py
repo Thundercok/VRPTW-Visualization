@@ -3,22 +3,23 @@
 
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
-from vrptw.solvers import HybridDDQNSolver, RuleMacroHybridSolver
+
+from vrptw.config import MODES, Config
 from vrptw.core import load_solomon_instance
-from vrptw.config import Config, MODES
+from vrptw.solvers import HybridDDQNSolver, RuleMacroHybridSolver
 
 ROOT = Path(__file__).resolve().parents[1]
-solomon_dir = ROOT / 'data' / 'Solomon'
-gh200_dir = ROOT / 'data' / 'Gehring_Homberger' / 'homberger_200_customer_instances'
-gh400_dir = ROOT / 'data' / 'Gehring_Homberger' / 'homberger_400_customer_instances'
+solomon_dir = ROOT / "data" / "Solomon"
+gh200_dir = ROOT / "data" / "Gehring_Homberger" / "homberger_200_customer_instances"
+gh400_dir = ROOT / "data" / "Gehring_Homberger" / "homberger_400_customer_instances"
 
 inst_map = {
-    'C101': str(solomon_dir / 'c101.txt'),
-    'R101': str(solomon_dir / 'r101.txt'),
-    'RC101': str(solomon_dir / 'rc101.txt'),
-    'c2_2_1': str(gh200_dir / 'C2_2_1.TXT'),
-    'r1_2_1': str(gh200_dir / 'R1_2_1.TXT'),
-    'rc2_4_1': str(gh400_dir / 'RC2_4_1.TXT'),
+    "C101": str(solomon_dir / "c101.txt"),
+    "R101": str(solomon_dir / "r101.txt"),
+    "RC101": str(solomon_dir / "rc101.txt"),
+    "c2_2_1": str(gh200_dir / "C2_2_1.TXT"),
+    "r1_2_1": str(gh200_dir / "R1_2_1.TXT"),
+    "rc2_4_1": str(gh400_dir / "RC2_4_1.TXT"),
 }
 
 
@@ -34,7 +35,7 @@ def run_one(task):
         lac_enabled=True,
         recombine_after_main_search=True,
     )
-    if solver_type == 'ddqn':
+    if solver_type == "ddqn":
         s = HybridDDQNSolver(inst, cfg, seed=42)
     else:
         s = RuleMacroHybridSolver(inst, cfg, seed=42)
@@ -47,8 +48,8 @@ def run_one(task):
 def main():
     tasks = []
     for name, path in inst_map.items():
-        tasks.append((name, path, 'ddqn'))
-        tasks.append((name, path, 'rule'))
+        tasks.append((name, path, "ddqn"))
+        tasks.append((name, path, "rule"))
 
     with ProcessPoolExecutor(max_workers=8) as executor:
         results = list(executor.map(run_one, tasks))
@@ -61,5 +62,5 @@ def main():
             print(f"  [{stype.upper():<4}] (n_modes={n_modes}) NV={nv:2d}, TD={td:7.2f} | Trace: {trace}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

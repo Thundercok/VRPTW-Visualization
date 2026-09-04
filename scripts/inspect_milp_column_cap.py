@@ -45,13 +45,15 @@ class MILPInstrumenter:
         solve_time_ms = (time.perf_counter() - t0) * 1000.0
 
         is_capped = pool_size_before > max_cols
-        self.calls.append({
-            "pool_size": pool_size_before,
-            "max_cols": max_cols,
-            "capped": is_capped,
-            "solve_time_ms": solve_time_ms,
-            "success": result is not None,
-        })
+        self.calls.append(
+            {
+                "pool_size": pool_size_before,
+                "max_cols": max_cols,
+                "capped": is_capped,
+                "solve_time_ms": solve_time_ms,
+                "success": result is not None,
+            }
+        )
         return result
 
 
@@ -94,7 +96,10 @@ def run_experiment():
         inst = load_solomon_instance(path)
 
         print(f"\n---> INSTANCE: {inst_label} (N={inst.n}, Capacity={inst.capacity})", flush=True)
-        print(f"{'Cap Variant':<22} | {'Seed':<5} | {'NV':<4} {'TD':<10} | {'SP Calls':<9} {'Capped Calls':<13} {'Max Pool':<9} | {'Avg MILP (ms)':<14} {'Total MILP (s)':<15}", flush=True)
+        print(
+            f"{'Cap Variant':<22} | {'Seed':<5} | {'NV':<4} {'TD':<10} | {'SP Calls':<9} {'Capped Calls':<13} {'Max Pool':<9} | {'Avg MILP (ms)':<14} {'Total MILP (s)':<15}",
+            flush=True,
+        )
         print("-" * 115, flush=True)
 
         for cap_label, max_cols in CAP_VARIANTS:
@@ -120,19 +125,21 @@ def run_experiment():
                 avg_ms = float(np.mean([c["solve_time_ms"] for c in calls])) if calls else 0.0
                 total_s = float(np.sum([c["solve_time_ms"] for c in calls])) / 1000.0 if calls else 0.0
 
-                summary_rows.append({
-                    "inst": inst_label,
-                    "cap": cap_label,
-                    "max_cols": max_cols,
-                    "seed": seed,
-                    "nv": best_plan.nv,
-                    "cost": best_plan.cost,
-                    "n_calls": n_calls,
-                    "capped_calls": capped_calls,
-                    "max_pool": max_pool,
-                    "avg_ms": avg_ms,
-                    "total_s": total_s,
-                })
+                summary_rows.append(
+                    {
+                        "inst": inst_label,
+                        "cap": cap_label,
+                        "max_cols": max_cols,
+                        "seed": seed,
+                        "nv": best_plan.nv,
+                        "cost": best_plan.cost,
+                        "n_calls": n_calls,
+                        "capped_calls": capped_calls,
+                        "max_pool": max_pool,
+                        "avg_ms": avg_ms,
+                        "total_s": total_s,
+                    }
+                )
 
                 print(
                     f"{cap_label:<22} | {seed:<5} | {best_plan.nv:<4} {best_plan.cost:<10.2f} | "

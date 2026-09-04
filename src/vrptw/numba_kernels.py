@@ -200,7 +200,9 @@ def _or_opt_intra_numba(
                     last_seg_node = seg[0] if rev == 1 else seg[L - 1]
 
                     # O(1) cost delta calculation
-                    delta = (dist[prev_seg, next_seg] + dist[u_rem, first_seg_node] + dist[last_seg_node, v_rem]) - (orig_edges_cost + dist[u_rem, v_rem])
+                    delta = (dist[prev_seg, next_seg] + dist[u_rem, first_seg_node] + dist[last_seg_node, v_rem]) - (
+                        orig_edges_cost + dist[u_rem, v_rem]
+                    )
 
                     if original_cost + delta >= best_cost - 1e-9:
                         continue
@@ -1382,10 +1384,16 @@ def _string_relocate_pair_pruned_numba(
                 for rev in (0, 1):
                     # GNN boundary check: check edges created by segment insertion
                     if rev == 0:
-                        if heatmap[prev2, r1[p1]] < pruning_threshold or heatmap[r1[p1 + L - 1], nxt2] < pruning_threshold:
+                        if (
+                            heatmap[prev2, r1[p1]] < pruning_threshold
+                            or heatmap[r1[p1 + L - 1], nxt2] < pruning_threshold
+                        ):
                             continue
                     else:
-                        if heatmap[prev2, r1[p1 + L - 1]] < pruning_threshold or heatmap[r1[p1], nxt2] < pruning_threshold:
+                        if (
+                            heatmap[prev2, r1[p1 + L - 1]] < pruning_threshold
+                            or heatmap[r1[p1], nxt2] < pruning_threshold
+                        ):
                             continue
 
                     # Build cand2 = r2 with r1[p1:p1+L] inserted at p2
@@ -1470,10 +1478,16 @@ def _string_relocate_pair_pruned_numba(
                 for rev in (0, 1):
                     # GNN boundary check: check edges created by segment insertion
                     if rev == 0:
-                        if heatmap[prev1, r2[p1]] < pruning_threshold or heatmap[r2[p1 + L - 1], nxt1] < pruning_threshold:
+                        if (
+                            heatmap[prev1, r2[p1]] < pruning_threshold
+                            or heatmap[r2[p1 + L - 1], nxt1] < pruning_threshold
+                        ):
                             continue
                     else:
-                        if heatmap[prev1, r2[p1 + L - 1]] < pruning_threshold or heatmap[r2[p1], nxt1] < pruning_threshold:
+                        if (
+                            heatmap[prev1, r2[p1 + L - 1]] < pruning_threshold
+                            or heatmap[r2[p1], nxt1] < pruning_threshold
+                        ):
                             continue
 
                     # Build cand1 = r1 with r2[p1:p1+L] inserted at p2
@@ -1523,4 +1537,3 @@ def _string_relocate_pair_pruned_numba(
                         best_rev = rev
 
     return best_delta, best_direction, best_p1, best_length, best_p2, best_rev
-

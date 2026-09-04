@@ -9,11 +9,14 @@ def test_adaptive_feasibility_manager_tightness_classification():
     raw_tight = {
         "name": "mock_tight",
         "capacity": 100.0,
-        "data": np.array([
-            [0, 0, 0, 0, 0, 100, 0],   # Depot: (0, 100)
-            [1, 1, 0, 10, 0, 10, 0],   # Customer 1: ready=0, due=10 (Tight: 10/100 = 0.1)
-            [2, 2, 0, 10, 5, 15, 0],   # Customer 2: ready=5, due=15 (Tight: 10/100 = 0.1)
-        ], dtype=np.float64)
+        "data": np.array(
+            [
+                [0, 0, 0, 0, 0, 100, 0],  # Depot: (0, 100)
+                [1, 1, 0, 10, 0, 10, 0],  # Customer 1: ready=0, due=10 (Tight: 10/100 = 0.1)
+                [2, 2, 0, 10, 5, 15, 0],  # Customer 2: ready=5, due=15 (Tight: 10/100 = 0.1)
+            ],
+            dtype=np.float64,
+        ),
     }
     inst_tight = Inst(raw_tight)
     mgr_tight = AdaptiveFeasibilityManager(inst_tight)
@@ -25,11 +28,14 @@ def test_adaptive_feasibility_manager_tightness_classification():
     raw_wide = {
         "name": "mock_wide",
         "capacity": 100.0,
-        "data": np.array([
-            [0, 0, 0, 0, 0, 100, 0],   # Depot: (0, 100)
-            [1, 1, 0, 10, 0, 80, 0],   # Customer 1: ready=0, due=80 (Wide: 80/100 = 0.8)
-            [2, 2, 0, 10, 0, 90, 0],   # Customer 2: ready=0, due=90 (Wide: 90/100 = 0.9)
-        ], dtype=np.float64)
+        "data": np.array(
+            [
+                [0, 0, 0, 0, 0, 100, 0],  # Depot: (0, 100)
+                [1, 1, 0, 10, 0, 80, 0],  # Customer 1: ready=0, due=80 (Wide: 80/100 = 0.8)
+                [2, 2, 0, 10, 0, 90, 0],  # Customer 2: ready=0, due=90 (Wide: 90/100 = 0.9)
+            ],
+            dtype=np.float64,
+        ),
     }
     inst_wide = Inst(raw_wide)
     mgr_wide = AdaptiveFeasibilityManager(inst_wide)
@@ -42,11 +48,14 @@ def test_adaptive_feasibility_manager_lambda_updates():
     raw = {
         "name": "mock",
         "capacity": 100.0,
-        "data": np.array([
-            [0, 0, 0, 0, 0, 100, 0],
-            [1, 1, 0, 10, 0, 80, 0],
-            [2, 2, 0, 10, 0, 90, 0],
-        ], dtype=np.float64)
+        "data": np.array(
+            [
+                [0, 0, 0, 0, 0, 100, 0],
+                [1, 1, 0, 10, 0, 80, 0],
+                [2, 2, 0, 10, 0, 90, 0],
+            ],
+            dtype=np.float64,
+        ),
     }
     inst = Inst(raw)
     mgr = AdaptiveFeasibilityManager(inst, target_ratio=0.5, alpha_ema=0.1)
@@ -76,11 +85,14 @@ def test_lagrangian_penalty_controller_tightness_classification():
     raw_tight = {
         "name": "mock_tight",
         "capacity": 100.0,
-        "data": np.array([
-            [0, 0, 0, 0, 0, 100, 0],
-            [1, 1, 0, 10, 0, 10, 0],
-            [2, 2, 0, 10, 5, 15, 0],
-        ], dtype=np.float64),
+        "data": np.array(
+            [
+                [0, 0, 0, 0, 0, 100, 0],
+                [1, 1, 0, 10, 0, 10, 0],
+                [2, 2, 0, 10, 5, 15, 0],
+            ],
+            dtype=np.float64,
+        ),
     }
     mgr_tight = LagrangianPenaltyController(Inst(raw_tight))
     assert mgr_tight.lam_tw == 50.0
@@ -90,11 +102,14 @@ def test_lagrangian_penalty_controller_tightness_classification():
     raw_wide = {
         "name": "mock_wide",
         "capacity": 100.0,
-        "data": np.array([
-            [0, 0, 0, 0, 0, 100, 0],
-            [1, 1, 0, 10, 0, 80, 0],
-            [2, 2, 0, 10, 0, 90, 0],
-        ], dtype=np.float64),
+        "data": np.array(
+            [
+                [0, 0, 0, 0, 0, 100, 0],
+                [1, 1, 0, 10, 0, 80, 0],
+                [2, 2, 0, 10, 0, 90, 0],
+            ],
+            dtype=np.float64,
+        ),
     }
     mgr_wide = LagrangianPenaltyController(Inst(raw_wide))
     assert mgr_wide.lam_tw == 1.0
@@ -108,11 +123,14 @@ def test_lagrangian_penalty_controller_outlier_scaling():
     raw = {
         "name": "mock",
         "capacity": 100.0,
-        "data": np.array([
-            [0, 0, 0, 0, 0, 100, 0],
-            [1, 1, 0, 10, 0, 80, 0],
-            [2, 2, 0, 10, 0, 90, 0],
-        ], dtype=np.float64),
+        "data": np.array(
+            [
+                [0, 0, 0, 0, 0, 100, 0],
+                [1, 1, 0, 10, 0, 80, 0],
+                [2, 2, 0, 10, 0, 90, 0],
+            ],
+            dtype=np.float64,
+        ),
     }
     inst = Inst(raw)
 
@@ -156,11 +174,14 @@ def test_lagrangian_penalty_controller_stall_decay_and_convergence():
     raw = {
         "name": "mock",
         "capacity": 100.0,
-        "data": np.array([
-            [0, 0, 0, 0, 0, 100, 0],
-            [1, 1, 0, 10, 0, 80, 0],
-            [2, 2, 0, 10, 0, 90, 0],
-        ], dtype=np.float64),
+        "data": np.array(
+            [
+                [0, 0, 0, 0, 0, 100, 0],
+                [1, 1, 0, 10, 0, 80, 0],
+                [2, 2, 0, 10, 0, 90, 0],
+            ],
+            dtype=np.float64,
+        ),
     }
     inst = Inst(raw)
     ctrl = LagrangianPenaltyController(inst, theta=2.0, stall_limit=5)
@@ -186,4 +207,3 @@ def test_lagrangian_penalty_controller_stall_decay_and_convergence():
     for _ in range(5):
         ctrl.update(worse_feasible)
     assert ctrl.theta == 0.5
-

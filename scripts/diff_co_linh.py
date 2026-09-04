@@ -111,7 +111,7 @@ In parallel, Neural Combinatorial Optimization (NCO) has emerged as a data-drive
     \item \textbf{Out-of-Distribution Sensitivity}: Pure constructive policies trained on synthetic uniform instances often experience performance degradation when applied to larger instances or heterogeneous spatial topologies without extensive fine-tuning.
 \end{enumerate}
 
-To bridge these paradigms, this paper presents Tri-Level Hybrid DDQN-ALNS, a learning-augmented optimization framework that embeds state-conditioned reinforcement learning directly inside the iterative search loop of ALNS. Rather than replacing the metaheuristic with an opaque black-box neural solver, our approach maintains hard operational constraint feasibility and interpretable neighborhood operators from operations research, while replacing stateless roulette-wheel selection with a multi-level reinforcement learning control architecture. 
+To bridge these paradigms, this paper presents Tri-Level Hybrid DDQN-ALNS, a learning-augmented optimization framework that embeds state-conditioned reinforcement learning directly inside the iterative search loop of ALNS. Rather than replacing the metaheuristic with an opaque black-box neural solver, our approach maintains hard operational constraint feasibility and interpretable neighborhood operators from operations research, while replacing stateless roulette-wheel selection with a multi-level reinforcement learning control architecture.
 
 The primary contributions of this paper are summarized as follows:
 \begin{itemize}
@@ -453,7 +453,7 @@ $\Downarrow$ \\
 \subsubsection{Macro State Representation}
 At the start of segment $k$, the macro controller observes a 12-dimensional state vector $\mathbf{s}_k^{\text{macro}} \in \mathbb{R}^{12}$, capturing convergence velocity, fleet economics, and solution topology:
 
-\begin{align}  \mathbf{s}_k^{\text{macro}} = \Big[ 
+\begin{align}  \mathbf{s}_k^{\text{macro}} = \Big[
     &\min\Big(\frac{\text{no\_imp}}{\text{patience}}, 1\Big), \;
     \min\Big(\frac{C_{\text{cur}} - C_{\text{best}}}{C_{\text{best}}}, 1\Big), \nonumber \\
     &\min\Big(\frac{T}{T_0}, 1.5\Big), \;
@@ -565,25 +565,25 @@ The model confidence weight is $w_{\text{conf}}(s) = 1.0 - \mathcal{H}(\pi_{\the
 \toprule
 \textbf{Component} & \textbf{Hyperparameter} & \textbf{Value / Specification} \\
 \midrule
-\multirow{4}{*}{\textbf{Macro DDQN}} 
+\multirow{4}{*}{\textbf{Macro DDQN}}
   & Network Architecture & MLP: Input(12) $\to$ FC(128) $\to$ LayerNorm $\to$ FC(128) $\to$ Modes(7) \\
   & Optimizer & Adam ($\text{lr} = 5 \times 10^{-4}$, Cosine Annealing to $10^{-5}$) \\
   & Buffer \& Batch Size & Prioritized Replay: 2,000 segments, Batch 16 \\
   & Target Update ($\tau_{\text{macro}}$) & Polyak soft update $\tau = 0.005$ \\
 \midrule
-\multirow{4}{*}{\textbf{Micro DDQN}} 
+\multirow{4}{*}{\textbf{Micro DDQN}}
   & Network Architecture & MLP: Input(20) $\to$ FC(128) $\to$ LayerNorm $\to$ ReLU $\to$ FC(128) $\to$ (Value / Adv) \\
   & Optimizer & Adam ($\text{lr} = 3 \times 10^{-4}$, Cosine Annealing to $10^{-5}$) \\
   & Buffer \& Batch Size & Prioritized Replay: 30,000 steps, Batch 64 \\
   & Discount Factor ($\gamma$) & 0.97 \\
 \midrule
-\multirow{4}{*}{\textbf{LAC Model}} 
+\multirow{4}{*}{\textbf{LAC Model}}
   & Architecture & MLP: Input(9) $\to$ FC(64) $\to$ ReLU $\to$ FC(32) $\to$ ReLU $\to$ FC(1) $\to$ Sigmoid \\
   & Lookahead Horizon ($H_{\text{lac}}$) & 50 iterations \\
   & Acceptance Threshold ($\tau_{\text{acc}}$) & 0.50 \\
   & Loss Function & Class-Weighted Binary Cross-Entropy \\
 \midrule
-\multirow{4}{*}{\textbf{Search Engine}} 
+\multirow{4}{*}{\textbf{Search Engine}}
   & Granular Neighbors ($k$) & 25 nearest spatiotemporal neighbors \\
   & Route Pool Limit ($|\mathcal{P}|$) & Dynamic: $\min(2000, 600 + 4n)$ \\
   & MIP Solve Time Limit & $4.0\text{s}$ per HiGHS call \\
@@ -600,7 +600,7 @@ Rather than relying strictly on monotonic geometric cooling in Simulated Anneali
 \subsubsection{Feature Representation}
 LAC operates on a 9-dimensional state vector $\mathbf{z}_t \in \mathbb{R}^9$:
 \begin{align}
-  \mathbf{z}_t = \Big[ 
+  \mathbf{z}_t = \Big[
     &\frac{\Delta C}{C_{\text{cur}}}, \; \frac{T}{T_0}, \; \frac{\text{no\_imp}}{\text{patience}}, \; \Delta \NV, \; \frac{t}{t_{\max}}, \nonumber \\
     &\tau_{\text{tight}}, \; \rho_{\text{fill}}, \; \bar{s}, \; \exp\Big(-\frac{\max(\Delta C, 0)}{T}\Big)
   \Big]
@@ -891,7 +891,7 @@ A central empirical finding emerging from our evaluation is that the performance
     \item \textbf{400-Customer Scale (Suboptimal Graceful Degradation)}: Under extreme combinatorial dimensionality ($N=400$), neither heuristic nor hybrid approaches attain BKS. However, Hybrid-DDQN demonstrates superior resistance to search stagnation, securing a vehicle reduction edge of 0.70 to 0.80 vehicles on clustered and random topologies ($c2\_4\_1$ and $r2\_4\_1$), while reducing travel distance by up to 10.66\% ($1309.67\text{ km}$ saved on $r1\_4\_1$).
 \end{itemize}
 
-Importantly, our framework is designed as a Quality-Maximizer rather than a search accelerator. While classical ALNS completes 2000 iterations in $1.0\text{s}$ to $15.0\text{s}$ due to raw heuristic evaluation, Hybrid-DDQN incurs an average runtime of $28.9\text{s}$ on Solomon-100, $58.6\text{s}$ on Homberger-200, and $160.9\text{s}$ on Homberger-400. This computational overhead stems from online neural forward/backward passes, prioritized replay buffer management, and periodic exact Set Partitioning solves via HiGHS. 
+Importantly, our framework is designed as a Quality-Maximizer rather than a search accelerator. While classical ALNS completes 2000 iterations in $1.0\text{s}$ to $15.0\text{s}$ due to raw heuristic evaluation, Hybrid-DDQN incurs an average runtime of $28.9\text{s}$ on Solomon-100, $58.6\text{s}$ on Homberger-200, and $160.9\text{s}$ on Homberger-400. This computational overhead stems from online neural forward/backward passes, prioritized replay buffer management, and periodic exact Set Partitioning solves via HiGHS.
 
 \subsubsection{Learned Control vs. Handcrafted Rule Thresholds}
 \label{sec:disc_rule_vs_learned}
@@ -981,17 +981,19 @@ p.write_text(co_linh_text, encoding="utf-8")
 
 docs_manuscript = Path("docs/manuscript.tex").read_text(encoding="utf-8")
 
-diff = list(difflib.unified_diff(
-    docs_manuscript.splitlines(keepends=True),
-    co_linh_text.splitlines(keepends=True),
-    fromfile="docs/manuscript.tex",
-    tofile="co_linh_latest.tex"
-))
+diff = list(
+    difflib.unified_diff(
+        docs_manuscript.splitlines(keepends=True),
+        co_linh_text.splitlines(keepends=True),
+        fromfile="docs/manuscript.tex",
+        tofile="co_linh_latest.tex",
+    )
+)
 
 print(f"Total diff lines: {len(diff)}")
 if diff:
     print("--- FIRST 60 LINES OF DIFF ---")
-    for l in diff[:60]:
-        print(l, end="")
+    for line in diff[:60]:
+        print(line, end="")
 else:
     print("Files are 100% identical!")

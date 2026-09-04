@@ -25,13 +25,16 @@ def test_cross_tail_basic():
     raw = {
         "name": "mock",
         "capacity": 100.0,
-        "data": np.array([
-            [0, 0, 0, 0, 0, 1000, 0], # Depot
-            [1, 1, 0, 10, 0, 1000, 0], # Node 1
-            [2, 2, 0, 10, 0, 1000, 0], # Node 2
-            [3, 0, 1, 10, 0, 1000, 0], # Node 3
-            [4, 0, 2, 10, 0, 1000, 0], # Node 4
-        ], dtype=np.float64)
+        "data": np.array(
+            [
+                [0, 0, 0, 0, 0, 1000, 0],  # Depot
+                [1, 1, 0, 10, 0, 1000, 0],  # Node 1
+                [2, 2, 0, 10, 0, 1000, 0],  # Node 2
+                [3, 0, 1, 10, 0, 1000, 0],  # Node 3
+                [4, 0, 2, 10, 0, 1000, 0],  # Node 4
+            ],
+            dtype=np.float64,
+        ),
     }
     inst = Inst(raw)
 
@@ -49,13 +52,16 @@ def test_local_search_cascade():
     raw = {
         "name": "mock",
         "capacity": 100.0,
-        "data": np.array([
-            [0, 0, 0, 0, 0, 1000, 0], # Depot
-            [1, 1, 0, 10, 0, 1000, 0], # Node 1
-            [2, 2, 0, 10, 0, 1000, 0], # Node 2
-            [3, 0, 1, 10, 0, 1000, 0], # Node 3
-            [4, 0, 2, 10, 0, 1000, 0], # Node 4
-        ], dtype=np.float64)
+        "data": np.array(
+            [
+                [0, 0, 0, 0, 0, 1000, 0],  # Depot
+                [1, 1, 0, 10, 0, 1000, 0],  # Node 1
+                [2, 2, 0, 10, 0, 1000, 0],  # Node 2
+                [3, 0, 1, 10, 0, 1000, 0],  # Node 3
+                [4, 0, 2, 10, 0, 1000, 0],  # Node 4
+            ],
+            dtype=np.float64,
+        ),
     }
     inst = Inst(raw)
 
@@ -72,13 +78,16 @@ def test_string_relocate_basic():
     raw = {
         "name": "mock",
         "capacity": 100.0,
-        "data": np.array([
-            [0, 0, 0, 0, 0, 1000, 0],   # Depot
-            [1, 10, 0, 10, 0, 1000, 0],  # Node 1: (10, 0)
-            [2, 10, 1, 10, 0, 1000, 0],  # Node 2: (10, 1)
-            [3, 10, 2, 10, 0, 1000, 0],  # Node 3: (10, 2)
-            [4, 0, 10, 10, 0, 1000, 0],  # Node 4: (0, 10)
-        ], dtype=np.float64)
+        "data": np.array(
+            [
+                [0, 0, 0, 0, 0, 1000, 0],  # Depot
+                [1, 10, 0, 10, 0, 1000, 0],  # Node 1: (10, 0)
+                [2, 10, 1, 10, 0, 1000, 0],  # Node 2: (10, 1)
+                [3, 10, 2, 10, 0, 1000, 0],  # Node 3: (10, 2)
+                [4, 0, 10, 10, 0, 1000, 0],  # Node 4: (0, 10)
+            ],
+            dtype=np.float64,
+        ),
     }
     inst = Inst(raw)
 
@@ -87,6 +96,7 @@ def test_string_relocate_basic():
     original_cost = plan.cost
 
     from vrptw.local_search import _apply_or_opt, _best_or_opt
+
     res = _best_or_opt(plan)
     assert res is not None
     move, delta = res
@@ -101,13 +111,16 @@ def test_swap_21_basic():
     raw = {
         "name": "mock",
         "capacity": 100.0,
-        "data": np.array([
-            [0, 0, 0, 0, 0, 1000, 0],   # Depot
-            [1, 10, 0, 10, 0, 1000, 0],  # Node 1: (10, 0)
-            [2, 10, 1, 10, 0, 1000, 0],  # Node 2: (10, 1)
-            [3, 0, 10, 10, 0, 1000, 0],  # Node 3: (0, 10)
-            [4, 0, 11, 10, 0, 1000, 0],  # Node 4: (0, 11)
-        ], dtype=np.float64)
+        "data": np.array(
+            [
+                [0, 0, 0, 0, 0, 1000, 0],  # Depot
+                [1, 10, 0, 10, 0, 1000, 0],  # Node 1: (10, 0)
+                [2, 10, 1, 10, 0, 1000, 0],  # Node 2: (10, 1)
+                [3, 0, 10, 10, 0, 1000, 0],  # Node 3: (0, 10)
+                [4, 0, 11, 10, 0, 1000, 0],  # Node 4: (0, 11)
+            ],
+            dtype=np.float64,
+        ),
     }
     inst = Inst(raw)
 
@@ -117,6 +130,7 @@ def test_swap_21_basic():
     assert plan.feasible
 
     from vrptw.local_search import _apply_swap_21, _best_swap_21, td_inter_route_polish
+
     res = _best_swap_21(plan)
     if res is not None:
         move, delta = res
@@ -127,6 +141,3 @@ def test_swap_21_basic():
     polished = td_inter_route_polish(plan)
     assert polished.feasible
     assert polished.cost <= plan.cost
-
-
-

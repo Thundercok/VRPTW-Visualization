@@ -99,7 +99,7 @@ def parse_vietnamese_text_block(text: str) -> list[dict[str, Any]]:
     for idx, (cust_num, start) in enumerate(markers):
         # Determine end of this block
         end = markers[idx + 1][1] if idx + 1 < len(markers) else len(lines)
-        block = lines[start : end]
+        block = lines[start:end]
 
         address = ""
         demand = 10
@@ -129,9 +129,7 @@ def parse_vietnamese_text_block(text: str) -> list[dict[str, Any]]:
             if re.match(r"^Th[ờo]i\s*gian\s*:", stripped, re.IGNORECASE):
                 if j + 1 < len(block):
                     tw_line = block[j + 1].strip()
-                    tw_match = re.match(
-                        r"(\d{1,2}:\d{2})\s*[-–—]\s*(\d{1,2}:\d{2})", tw_line
-                    )
+                    tw_match = re.match(r"(\d{1,2}:\d{2})\s*[-–—]\s*(\d{1,2}:\d{2})", tw_line)
                     if tw_match:
                         ready = _time_to_minutes(tw_match.group(1))
                         due = _time_to_minutes(tw_match.group(2))

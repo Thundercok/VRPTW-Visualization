@@ -20,20 +20,25 @@ router = APIRouter(tags=["auth"])
 
 # ── Pydantic request schemas ──────────────────────────────
 
+
 class OtpRequestBody(BaseModel):
     email: str
+
 
 class OtpVerifyBody(BaseModel):
     email: str
     otp: str
+
 
 class RegisterBody(BaseModel):
     email: str
     password: str
     otp: str
 
+
 class ForgotPasswordRequestBody(BaseModel):
     email: str
+
 
 class ForgotPasswordResetBody(BaseModel):
     token: str
@@ -41,6 +46,7 @@ class ForgotPasswordResetBody(BaseModel):
 
 
 # ── Helper: guard endpoints requiring Firestore ──────────
+
 
 def _require_firestore():
     """Raise 503 if Firestore-backed auth is not available."""
@@ -57,6 +63,7 @@ def _generate_otp(length: int = 6) -> str:
 
 
 # ── Existing endpoints ────────────────────────────────────
+
 
 @router.get("/auth/me")
 async def auth_me(user: dict[str, str] = Depends(require_user)) -> dict[str, str]:
@@ -75,6 +82,7 @@ async def auth_token(request: Request) -> dict[str, str]:
 
 
 # ── Registration OTP Flow ─────────────────────────────────
+
 
 @router.post("/auth/register/request-otp")
 async def register_request_otp(body: OtpRequestBody):
@@ -175,6 +183,7 @@ async def register(body: RegisterBody):
 
 
 # ── Forgot Password Flow ──────────────────────────────────
+
 
 @router.post("/auth/forgot-password/request")
 async def forgot_password_request(body: ForgotPasswordRequestBody):

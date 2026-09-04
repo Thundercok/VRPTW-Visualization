@@ -156,6 +156,18 @@ ABLATION_CONFIGS: dict[str, dict[str, Any]] = {
         },
         "desc": "Config (7): Replaces Micro DDQN pi_micro with deterministic 5-branch rule tree; Macro DDQN, LAC, and HiGHS remain active.",
     },
+    "Single-Agent RL-LNS": {
+        "solver_cls": HybridDDQNSolver,
+        "config_overrides": {
+            "macro_enabled": False,
+            "lac_enabled": False,
+            "pool_recombine_enabled": False,
+            "recombine_after_main_search": False,
+            "op_softmax_tau": 1.0,
+            "gnn_model_path": None,
+        },
+        "desc": "Single-Agent RL-LNS (Lu et al., 2020; Son et al., 2023): Flat Micro DDQN operator selection without Macro Plateau Controller, LAC, or RoutePool Recombination.",
+    },
 }
 
 # 6 Representative instances spanning all topology types and scales
@@ -173,7 +185,8 @@ class ColdStartScope:
 
     def __init__(self, run_id: str | None = None):
         import re
-        raw_id = run_id or f"cold_start_{int(time.time()*1000)}"
+
+        raw_id = run_id or f"cold_start_{int(time.time() * 1000)}"
         clean_id = re.sub(r"[^a-zA-Z0-9_\-]", "_", str(raw_id))
         self.run_id = clean_id
         self.temp_dir = tempfile.mkdtemp(prefix=f"vrptw_{clean_id}_")

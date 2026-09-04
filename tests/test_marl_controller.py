@@ -20,6 +20,7 @@ def test_milp_column_controller_initialization():
         assert "max_time" in spec
         assert "route_filter" in spec
 
+
 def test_milp_column_controller_forward_and_act():
     cfg = Config()
     controller = MILPColumnController(cfg, use_rl=True)
@@ -30,6 +31,7 @@ def test_milp_column_controller_forward_and_act():
 
     assert isinstance(action, int)
     assert 0 <= action < 8
+
 
 def test_milp_column_controller_replay_and_train():
     cfg = Config()

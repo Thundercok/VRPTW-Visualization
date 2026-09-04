@@ -1,187 +1,261 @@
+#!/usr/bin/env python3
+"""Anytime wall-clock benchmark harness for VRPTW solver comparisons.
+
+Design goals:
+- equal wall-clock budgets for every solver;
+- isolated process per run;
+- deterministic seed propagation;
+- checkpoint-quality recording;
+- no assumptions about the solver's internal implementation.
+
+Example:
+python scripts/benchmark_penalty_ablation.py \
+  --instances data/Solomon/c101.txt \
+  --solver "python scripts/benchmark.py" \
+  --seeds 42 43 44 45 46 \
+  --cutoffs 1 5 10 30 60 120 300 \
+  --output results/anytime
 """
-Targeted 3-Way Isolated Benchmark for Penalty Mechanism Ablation.
-Compares:
-  - Arm 2: Adaptive Feasibility (AdaptiveFeasibilityManager)
-  - Arm 3a: Lagrangian-Only (LagrangianPenaltyController without HiGHS plateau synthesis)
-  - Arm 3b: Lagrangian + HiGHS (LagrangianPenaltyController WITH HiGHS plateau synthesis)
-on representative benchmark instances under strict independent cold-starts.
-"""
+
 from __future__ import annotations
 
 import argparse
-import sys
+import csv
+import json
+import shlex
+import subprocess
 import time
 from pathlib import Path
+from typing import Any
 
-import numpy as np
-
-ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / "src"))
-
-from vrptw.config import BKS, Config
-from vrptw.core import Inst
-from vrptw.solvers import HybridDDQNSolver
+DEFAULT_CUTOFFS = [1, 5, 10, 30, 60, 120, 300]
 
 
-def load_instance(path: Path) -> Inst:
-    with open(path, encoding="utf-8") as f:
-        lines = f.readlines()
-    name = lines[0].strip()
-    capacity = float(lines[4].strip().split()[1])
-    data = []
-    for line in lines[9:]:
-        if line.strip():
-            data.append(list(map(float, line.split())))
-    return Inst({
-        "name": name,
-        "capacity": capacity,
-        "data": np.array(data, dtype=np.float64)
-    })
+def parse_args() -> argparse.Namespace:
+    p = argparse.ArgumentParser()
+    p.add_argument("--instances", nargs="+", required=True, help="Instance paths or text file with paths")
+    p.add_argument("--solver", required=True, help="Base solver command")
+    p.add_argument("--solver-name", default="solver")
+    p.add_argument("--seeds", nargs="+", type=int, default=[42, 43, 44, 45, 46])
+    p.add_argument("--cutoffs", nargs="+", type=float, default=DEFAULT_CUTOFFS)
+    p.add_argument("--output", required=True)
+    p.add_argument("--extra-args", default="")
+    p.add_argument("--timeout-slack", type=float, default=20.0)
+    p.add_argument("--resume", action="store_true")
+    return p.parse_args()
 
 
-def run_ablation(
-    instances: list[str],
-    seeds: list[int],
-    iters: int = 1000,
-    early_stop: int = 250
-):
-    print("=" * 125)
-    print("🚀 RUNNING 3-WAY ISOLATED ABLATION BENCHMARK (Strict Independent Cold-Starts)")
-    print(f"   Instances : {', '.join(instances)}")
-    print(f"   Seeds     : {seeds}")
-    print(f"   Iters     : {iters} (Early stop: {early_stop})")
-    print("=" * 125)
+def load_instances(inputs: list[str]) -> list[str]:
+    instances = []
+    for item in inputs:
+        path = Path(item)
+        if path.is_file() and not path.stem.lower().startswith(("c1", "c2", "r1", "r2", "rc1", "rc2")):
+            for line in path.read_text(encoding="utf-8").splitlines():
+                line = line.strip()
+                if line and not line.startswith("#"):
+                    instances.append(line)
+        else:
+            instances.append(str(path))
+    return instances
 
-    results = {
-        "Adaptive": {},
-        "Lagrangian-Only": {},
-        "Lagrangian+HiGHS": {}
+
+def lex_key(row: dict[str, Any]) -> tuple[int, float]:
+    return (int(row["nv"]), float(row["td"]))
+
+
+def run_one(
+    base_cmd: str,
+    solver_name: str,
+    instance: str,
+    seed: int,
+    cutoff: float,
+    output_dir: Path,
+    extra_args: str,
+    timeout_slack: float,
+) -> dict[str, Any]:
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+    token = f"{solver_name}__{Path(instance).stem}__seed{seed}__t{cutoff:g}"
+    json_path = output_dir / f"{token}.json"
+    stdout_path = output_dir / f"{token}.stdout"
+    stderr_path = output_dir / f"{token}.stderr"
+
+    cmd = shlex.split(base_cmd)
+    cmd += [
+        "--instance",
+        instance,
+        "--seed",
+        str(seed),
+        "--time-limit",
+        str(cutoff),
+        "--output-json",
+        str(json_path),
+    ]
+    if extra_args:
+        cmd += shlex.split(extra_args)
+
+    start = time.perf_counter()
+    timed_out = False
+    returncode: int | None = None
+
+    try:
+        proc = subprocess.run(
+            cmd,
+            stdout=stdout_path.open("w", encoding="utf-8"),
+            stderr=stderr_path.open("w", encoding="utf-8"),
+            timeout=cutoff + timeout_slack,
+            check=False,
+        )
+        returncode = proc.returncode
+    except subprocess.TimeoutExpired:
+        timed_out = True
+
+    wall = time.perf_counter() - start
+
+    payload: dict[str, Any] = {}
+    if json_path.exists():
+        try:
+            payload = json.loads(json_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            payload = {"parse_error": str(exc)}
+
+    row: dict[str, Any] = {
+        "solver": solver_name,
+        "instance": instance,
+        "seed": seed,
+        "cutoff_sec": cutoff,
+        "wallclock_sec": wall,
+        "returncode": returncode,
+        "timed_out": timed_out,
+        "feasible": payload.get("feasible"),
+        "nv": payload.get("nv"),
+        "td": payload.get("td"),
+        "iterations": payload.get("iterations"),
+        "solver_runtime_sec": payload.get("runtime_sec"),
+        "metadata_json": json.dumps(payload.get("metadata", {}), sort_keys=True),
     }
 
-    for inst_name in instances:
-        file_path = ROOT / "data" / "Solomon" / f"{inst_name.lower()}.txt"
-        if not file_path.exists():
-            print(f"File not found: {file_path}")
-            continue
+    if row["feasible"] is True and row["nv"] is not None and row["td"] is not None:
+        row["lex_key"] = list(lex_key(row))
+    else:
+        row["lex_key"] = None
 
-        inst = load_instance(file_path)
-        bks_ref = BKS.get(inst_name, {"nv": 0, "td": 0.0})
-        bks_nv = bks_ref["nv"]
-        bks_td = bks_ref["td"]
+    return row
 
-        results["Adaptive"][inst_name] = []
-        results["Lagrangian-Only"][inst_name] = []
-        results["Lagrangian+HiGHS"][inst_name] = []
 
-        print(f"\n▶ Instance: {inst_name} (SINTEF BKS: NV={bks_nv}, TD={bks_td:.2f})")
-        print(f"  {'Seed':<6} | {'Mode':<18} | {'NV':<6} | {'TD':<10} | {'NV Gap':<8} | {'TD Gap %':<10} | {'Time (s)':<8}")
-        print("  " + "-" * 85)
+def aggregate(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    out = []
+    groups: dict[tuple[str, float], list[dict[str, Any]]] = {}
+    for row in rows:
+        groups.setdefault((row["solver"], row["cutoff_sec"]), []).append(row)
 
-        for seed in seeds:
-            # 1. Arm 2: Adaptive Feasibility
-            cfg_adapt = Config(
-                hybrid_iterations=iters,
-                alns_iterations=iters,
-                early_stop_patience=early_stop,
-                adaptive_feasibility=True,
-                lagrangian_penalty=False,
-                penalty_search_enabled=False,
-                highs_plateau_synthesis=False,
-            )
-            t0 = time.time()
-            solver_adapt = HybridDDQNSolver(inst, cfg_adapt)
-            plan_adapt, _ = solver_adapt.solve(seed=seed)
-            t_adapt = time.time() - t0
-            nv_gap_adapt = plan_adapt.nv - bks_nv
-            td_gap_adapt = (plan_adapt.cost - bks_td) / bks_td * 100.0 if bks_td > 0 else 0.0
+    for (solver, cutoff), items in sorted(groups.items()):
+        successful = [
+            x for x in items if x.get("feasible") is True and x.get("nv") is not None and x.get("td") is not None
+        ]
+        runtimes = [float(x["wallclock_sec"]) for x in items if x.get("wallclock_sec") is not None]
+        out.append(
+            {
+                "solver": solver,
+                "cutoff_sec": cutoff,
+                "runs": len(items),
+                "successful_runs": len(successful),
+                "mean_wallclock_sec": sum(runtimes) / len(runtimes) if runtimes else None,
+            }
+        )
+    return out
 
-            results["Adaptive"][inst_name].append({
-                "seed": seed, "nv": plan_adapt.nv, "td": plan_adapt.cost, "time": t_adapt
-            })
-            print(f"  {seed:<6} | {'Adaptive':<18} | {plan_adapt.nv:<6} | {plan_adapt.cost:<10.2f} | {nv_gap_adapt:<+8} | {td_gap_adapt:<+9.2f}% | {t_adapt:<7.1f}s")
 
-            # 2. Arm 3a: Lagrangian-Only (No HiGHS plateau synthesis)
-            cfg_lag_only = Config(
-                hybrid_iterations=iters,
-                alns_iterations=iters,
-                early_stop_patience=early_stop,
-                adaptive_feasibility=False,
-                lagrangian_penalty=True,
-                lagrangian_theta=2.0,
-                lagrangian_stall_limit=20,
-                penalty_search_enabled=False,
-                highs_plateau_synthesis=False,
-            )
-            t0 = time.time()
-            solver_lag_only = HybridDDQNSolver(inst, cfg_lag_only)
-            plan_lag_only, _ = solver_lag_only.solve(seed=seed)
-            t_lag_only = time.time() - t0
-            nv_gap_lag_only = plan_lag_only.nv - bks_nv
-            td_gap_lag_only = (plan_lag_only.cost - bks_td) / bks_td * 100.0 if bks_td > 0 else 0.0
+def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if not rows:
+        return
+    fields = list(rows[0].keys())
+    with path.open("w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=fields)
+        writer.writeheader()
+        writer.writerows(rows)
 
-            results["Lagrangian-Only"][inst_name].append({
-                "seed": seed, "nv": plan_lag_only.nv, "td": plan_lag_only.cost, "time": t_lag_only
-            })
-            print(f"  {seed:<6} | {'Lagrangian-Only':<18} | {plan_lag_only.nv:<6} | {plan_lag_only.cost:<10.2f} | {nv_gap_lag_only:<+8} | {td_gap_lag_only:<+9.2f}% | {t_lag_only:<7.1f}s")
 
-            # 3. Arm 3b: Lagrangian + HiGHS Supercharger
-            cfg_lag_highs = Config(
-                hybrid_iterations=iters,
-                alns_iterations=iters,
-                early_stop_patience=early_stop,
-                adaptive_feasibility=False,
-                lagrangian_penalty=True,
-                lagrangian_theta=2.0,
-                lagrangian_stall_limit=20,
-                penalty_search_enabled=False,
-                highs_plateau_synthesis=True,
-            )
-            t0 = time.time()
-            solver_lag_highs = HybridDDQNSolver(inst, cfg_lag_highs)
-            plan_lag_highs, _ = solver_lag_highs.solve(seed=seed)
-            t_lag_highs = time.time() - t0
-            nv_gap_lag_highs = plan_lag_highs.nv - bks_nv
-            td_gap_lag_highs = (plan_lag_highs.cost - bks_td) / bks_td * 100.0 if bks_td > 0 else 0.0
+def main() -> int:
+    args = parse_args()
 
-            results["Lagrangian+HiGHS"][inst_name].append({
-                "seed": seed, "nv": plan_lag_highs.nv, "td": plan_lag_highs.cost, "time": t_lag_highs
-            })
-            print(f"  {seed:<6} | {'Lagrangian+HiGHS':<18} | {plan_lag_highs.nv:<6} | {plan_lag_highs.cost:<10.2f} | {nv_gap_lag_highs:<+8} | {td_gap_lag_highs:<+9.2f}% | {t_lag_highs:<7.1f}s")
+    instances = load_instances(args.instances)
+    output = Path(args.output)
+    raw_dir = output / "raw"
+    output.mkdir(parents=True, exist_ok=True)
 
-    # Summary Table
-    print("\n" + "=" * 135)
-    print("📊 3-WAY ISOLATED ABLATION SUMMARY (Mean over seeds)")
-    print("=" * 135)
-    print(f"{'Instance':<10} | {'BKS (NV/TD)':<16} | {'Adaptive (NV/TD)':<22} | {'Lagrangian-Only (NV/TD)':<26} | {'Lagrangian+HiGHS (NV/TD)':<26} | {'Net ΔNV':<8}")
-    print("-" * 135)
+    manifest = {
+        "solver": args.solver,
+        "solver_name": args.solver_name,
+        "instances": instances,
+        "seeds": args.seeds,
+        "cutoffs_sec": args.cutoffs,
+        "protocol": {
+            "equal_wall_clock": True,
+            "isolated_process_per_run": True,
+            "parent_timeout_slack_sec": args.timeout_slack,
+        },
+    }
+    (output / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
 
-    for inst_name in instances:
-        bks_ref = BKS.get(inst_name, {"nv": 0, "td": 0.0})
-        bks_str = f"{bks_ref['nv']} / {bks_ref['td']:.1f}"
+    rows: list[dict[str, Any]] = []
+    completed = set()
 
-        ad_nvs = [r["nv"] for r in results["Adaptive"][inst_name]]
-        ad_tds = [r["td"] for r in results["Adaptive"][inst_name]]
-        lo_nvs = [r["nv"] for r in results["Lagrangian-Only"][inst_name]]
-        lo_tds = [r["td"] for r in results["Lagrangian-Only"][inst_name]]
-        lh_nvs = [r["nv"] for r in results["Lagrangian+HiGHS"][inst_name]]
-        lh_tds = [r["td"] for r in results["Lagrangian+HiGHS"][inst_name]]
+    raw_csv = output / "anytime_raw.csv"
+    if args.resume and raw_csv.exists():
+        with raw_csv.open(newline="", encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                key = (row["solver"], row["instance"], int(row["seed"]), float(row["cutoff_sec"]))
+                completed.add(key)
+                rows.append(row)
 
-        str_ad = f"{np.mean(ad_nvs):.2f} / {np.mean(ad_tds):.2f}"
-        str_lo = f"{np.mean(lo_nvs):.2f} / {np.mean(lo_tds):.2f}"
-        str_lh = f"{np.mean(lh_nvs):.2f} / {np.mean(lh_tds):.2f}"
-        net_dnv = np.mean(lh_nvs) - np.mean(ad_nvs)
+    total = len(instances) * len(args.seeds) * len(args.cutoffs)
+    done = len(completed)
 
-        print(f"{inst_name:<10} | {bks_str:<16} | {str_ad:<22} | {str_lo:<26} | {str_lh:<26} | {net_dnv:<+8.2f}")
+    for instance in instances:
+        for seed in args.seeds:
+            for cutoff in args.cutoffs:
+                key = (args.solver_name, instance, seed, cutoff)
+                if key in completed:
+                    continue
 
-    print("=" * 135)
+                done += 1
+                print(
+                    f"[{done}/{total}] {args.solver_name} | {Path(instance).name} | seed={seed} | t={cutoff:g}s",
+                    flush=True,
+                )
+
+                row = run_one(
+                    args.solver,
+                    args.solver_name,
+                    instance,
+                    seed,
+                    cutoff,
+                    raw_dir,
+                    args.extra_args,
+                    args.timeout_slack,
+                )
+                rows.append(row)
+                write_csv(raw_csv, rows)
+
+    rows.sort(key=lambda r: (r["solver"], r["instance"], int(r["seed"]), float(r["cutoff_sec"])))
+    write_csv(raw_csv, rows)
+    write_csv(output / "computational_summary.csv", aggregate(rows))
+
+    (output / "run_complete.json").write_text(
+        json.dumps(
+            {
+                "completed_rows": len(rows),
+                "expected_rows": total,
+                "complete": len(rows) == total,
+            },
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+    return 0
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--instances", nargs="+", default=["RC101", "RC104", "RC202"])
-    parser.add_argument("--seeds", nargs="+", type=int, default=[42, 123, 7])
-    parser.add_argument("--iters", type=int, default=1000)
-    parser.add_argument("--early_stop", type=int, default=250)
-    args = parser.parse_args()
-
-    run_ablation(args.instances, args.seeds, iters=args.iters, early_stop=args.early_stop)
+    raise SystemExit(main())

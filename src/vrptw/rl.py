@@ -231,14 +231,13 @@ class EliteArchive:
         bucket.sort(key=lambda p: (p.nv, p.cost))
         self._plans[key] = bucket[: self.k]
 
-
     def sample_diverse(self, inst_name: str, exclude_cost: float | None = None) -> Plan | None:
         """Return a random plan from archive excluding current solution cost."""
         import random
+
         bucket = self._plans.get(inst_name, [])
         threshold = 1.0 if not bucket else max(0.1, 1e-4 * bucket[0].cost)
-        candidates = [p for p in bucket
-                      if exclude_cost is None or abs(p.cost - exclude_cost) >= threshold]
+        candidates = [p for p in bucket if exclude_cost is None or abs(p.cost - exclude_cost) >= threshold]
         return random.choice(candidates).copy() if candidates else None
 
     def crossover(self, inst_name: str) -> Plan | None:
@@ -275,9 +274,7 @@ class EliteArchive:
         seed_idx = _random.randrange(len(p1.routes))
         cents = [inst.coords[np.asarray(r, dtype=np.int64)].mean(axis=0) for r in p1.routes]
         seed_c = cents[seed_idx]
-        order = sorted(
-            range(len(p1.routes)), key=lambda i: float(np.sum((cents[i] - seed_c) ** 2))
-        )
+        order = sorted(range(len(p1.routes)), key=lambda i: float(np.sum((cents[i] - seed_c) ** 2)))
         removed_idx = set(order[:n_remove])
         routes = [r[:] for i, r in enumerate(p1.routes) if i not in removed_idx]
         served = {c for r in routes for c in r}
@@ -513,6 +510,7 @@ class PlateauController:
             self.q_t.load_state_dict(self.q.state_dict())
             self.opt = optim.Adam(self.q.parameters(), lr=cfg.ctrl_lr)
             from torch.optim.lr_scheduler import CosineAnnealingLR
+
             self.scheduler = CosineAnnealingLR(self.opt, T_max=5000, eta_min=1e-5)
             self.buf = PrioritizedReplayBuffer(cfg.ctrl_buffer, expected_steps=cfg.per_beta_steps)
             self.eps = cfg.ctrl_eps_start
@@ -578,6 +576,7 @@ class OperatorController:
             self.q_t.load_state_dict(self.q.state_dict())
             self.opt = optim.Adam(self.q.parameters(), lr=cfg.op_lr)
             from torch.optim.lr_scheduler import CosineAnnealingLR
+
             self.scheduler = CosineAnnealingLR(self.opt, T_max=5000, eta_min=1e-5)
             self.buf = PrioritizedReplayBuffer(cfg.op_buffer, expected_steps=cfg.per_beta_steps)
             self.eps = cfg.op_eps_start
@@ -723,6 +722,7 @@ class LearnedAcceptanceCriterion:
             ).to(DEVICE)
             self.opt = optim.Adam(self.net.parameters(), lr=cfg.lac_lr)
             self.step = 0
+            self.accept_count = 0
             self._pending: deque = deque()
             self._train_buf: deque = deque(maxlen=cfg.lac_buf_size)
 
@@ -756,15 +756,23 @@ class LearnedAcceptanceCriterion:
             dtype=np.float32,
         )
 
-    def decide(self, feats: np.ndarray, cur_best_cost: float) -> tuple[bool, float]:
+    def decide(self, feats: np.ndarray, cur_best_cost: float, tau: float | None = None) -> tuple[bool, float]:
         self.step += 1
         self._pending.append((feats.copy(), cur_best_cost, self.step))
         metro_p = float(feats[-1])
         if self.step < self.cfg.lac_warmup:
-            return random.random() < metro_p, metro_p
+            accepted = random.random() < metro_p
+            if accepted:
+                self.accept_count += 1
+            return accepted, metro_p
         with torch.no_grad():
-            p = float(self.net(torch.tensor(feats).unsqueeze(0).to(DEVICE))[0, 0])
-        return random.random() < p, p
+            x = torch.from_numpy(feats).unsqueeze(0).to(DEVICE)
+            p = float(self.net(x)[0, 0])
+        threshold = tau if tau is not None else 0.5
+        accepted = p >= threshold or (random.random() < 0.05)
+        if accepted:
+            self.accept_count += 1
+        return accepted, p
 
     def observe(self, current_best_cost: float) -> None:
         cutoff = self.step - self.cfg.lac_horizon
@@ -875,4 +883,3 @@ class MILPColumnController:
         loss.backward()
         self.opt.step()
         self.eps = max(0.05, self.eps * 0.995)
-

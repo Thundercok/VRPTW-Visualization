@@ -101,9 +101,7 @@ class _PlanCache:
             # Arrival/latest profiles are a property of the route, not of the
             # node being inserted: built once per route, reused across the whole
             # move scan instead of per (node, route) pair.
-            route_timings[i] = _route_timing_numba(
-                arr, inst.dist, inst.ready_times, inst.due_times, inst.service_times
-            )
+            route_timings[i] = _route_timing_numba(arr, inst.dist, inst.ready_times, inst.due_times, inst.service_times)
             centroids[i] = inst.coords[arr].mean(axis=0) if len(arr) > 0 else inst.coords[0]
             r = plan.routes[i]
             route_sets[i] = set(r)
@@ -119,9 +117,7 @@ class _PlanCache:
         # Pairwise centroid distances, precomputed once and compared squared. The
         # per-pair np.linalg.norm this replaces accounted for 3.8M calls / 22s at
         # n=400.
-        centroid_arr = (
-            np.asarray(centroids, dtype=np.float64) if centroids else np.zeros((0, 2), dtype=np.float64)
-        )
+        centroid_arr = np.asarray(centroids, dtype=np.float64) if centroids else np.zeros((0, 2), dtype=np.float64)
         cdiff = centroid_arr[:, None, :] - centroid_arr[None, :, :]
         centroid_sqdist = (cdiff * cdiff).sum(axis=2)
 
@@ -148,9 +144,7 @@ class _PlanCache:
             # Cache, not state: dropping it is always safe. The size cap only
             # matters if a caller chains caches across an unusually long run.
             scan_memo=(
-                prev.scan_memo
-                if prev is not None and prev.inst is inst and len(prev.scan_memo) < 100_000
-                else {}
+                prev.scan_memo if prev is not None and prev.inst is inst and len(prev.scan_memo) < 100_000 else {}
             ),
         )
 
@@ -490,9 +484,7 @@ def _cross_exchange(
             # Route-level spatial/temporal filter
             r1_ready, r1_due = route_readys[i], route_dues[i]
             r2_ready, r2_due = route_readys[j], route_dues[j]
-            if centroid_sqdist[i, j] > pair_thresh_sq and not (
-                min(r1_due, r2_due) >= max(r1_ready, r2_ready)
-            ):
+            if centroid_sqdist[i, j] > pair_thresh_sq and not (min(r1_due, r2_due) >= max(r1_ready, r2_ready)):
                 continue
             # Delegate entire (p1, p2, len1, len2) search to JIT
             if heatmap is not None and pruning_threshold > 0.0:
@@ -659,7 +651,6 @@ def _cross_tail(
         cand._ok = True
         return cand
     return None
-
 
 
 def _try_route_compact(plan: Plan, nv_ceiling: int | None = None) -> Plan | None:
@@ -1180,11 +1171,7 @@ def _guided_ejection_search(
         pool_stack.append(v)
 
     cand_plan = Plan([r for r in routes if r], inst, plan.algo)
-    if (
-        cand_plan.nv == plan.nv - 1
-        and cand_plan.feasible
-        and _covers_all_customers(cand_plan.routes, inst)
-    ):
+    if cand_plan.nv == plan.nv - 1 and cand_plan.feasible and _covers_all_customers(cand_plan.routes, inst):
         return cand_plan
     return None
 
@@ -1244,9 +1231,7 @@ def _buffered_route_elimination(
                 # Guided Ejection Search picks up exactly where the beam gave
                 # up: LIFO pool + penalty-guided ejections + perturbation.
                 ges_used += 1
-                cand = _guided_ejection_search(
-                    best, target_idx, ges_penalties, deadline=deadline
-                )
+                cand = _guided_ejection_search(best, target_idx, ges_penalties, deadline=deadline)
             if cand is None:
                 continue
             cand = local_search(cand, max_passes=1, nv_ceiling=cand.nv, max_ls_moves=10, pool=pool)
@@ -1472,7 +1457,9 @@ def local_search(
             # every route the last move didn't touch.
             cache = _PlanCache.from_plan(best, prev=cache)
             # 1. Relocate Move
-            res = _best_relocate(best, nv_ceiling=nv_ceiling, heatmap=heatmap, pruning_threshold=pruning_threshold, cache=cache)
+            res = _best_relocate(
+                best, nv_ceiling=nv_ceiling, heatmap=heatmap, pruning_threshold=pruning_threshold, cache=cache
+            )
             if res is not None:
                 move, cost_delta = res
                 cand = _apply_relocate(best, move)
@@ -1486,7 +1473,9 @@ def local_search(
                     continue
 
             # 1.5. String Relocate (Or-Opt Move)
-            res = _best_or_opt(best, nv_ceiling=nv_ceiling, heatmap=heatmap, pruning_threshold=pruning_threshold, cache=cache)
+            res = _best_or_opt(
+                best, nv_ceiling=nv_ceiling, heatmap=heatmap, pruning_threshold=pruning_threshold, cache=cache
+            )
             if res is not None:
                 move, cost_delta = res
                 cand = _apply_or_opt(best, move)
@@ -1537,7 +1526,9 @@ def local_search(
                     continue
 
             # 3.5. CROSS Tail-Swap
-            cross_tail = _cross_tail(best, nv_ceiling=nv_ceiling, heatmap=heatmap, pruning_threshold=pruning_threshold, cache=cache)
+            cross_tail = _cross_tail(
+                best, nv_ceiling=nv_ceiling, heatmap=heatmap, pruning_threshold=pruning_threshold, cache=cache
+            )
             if cross_tail is not None:
                 best, improved = cross_tail, True
                 moves += 1
@@ -1546,7 +1537,9 @@ def local_search(
                 continue
 
             # 4. Cross Exchange
-            cross = _cross_exchange(best, nv_ceiling=nv_ceiling, heatmap=heatmap, pruning_threshold=pruning_threshold, cache=cache)
+            cross = _cross_exchange(
+                best, nv_ceiling=nv_ceiling, heatmap=heatmap, pruning_threshold=pruning_threshold, cache=cache
+            )
             if cross is not None:
                 best, improved = cross, True
                 moves += 1
@@ -1788,7 +1781,7 @@ def exact_tsptw_cpsat(
     for i in range(1, m + 1):
         c_i = node_to_orig[i]
         d = int(round(float(inst.dist[c_i, 0]) * scale))
-        lit = model.NewBoolVar(f"arc_{i}_{m+1}")
+        lit = model.NewBoolVar(f"arc_{i}_{m + 1}")
         arcs.append((i, m + 1, lit))
         arc_literals[(i, m + 1)] = (lit, d)
 
@@ -1851,4 +1844,3 @@ def refine_plan_cpsat(plan: Plan, time_limit_per_route: float = 0.5) -> Plan:
             improved_routes.append(route)
 
     return Plan(improved_routes, inst, plan.algo)
-

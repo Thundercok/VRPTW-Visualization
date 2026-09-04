@@ -28,6 +28,7 @@ from .heuristics import (
 @dataclass(frozen=True)
 class CandidateInsertion:
     """Evaluated insertion position in an active route."""
+
     route_idx: int
     insert_pos: int
     cost_delta: float
@@ -38,6 +39,7 @@ class CandidateInsertion:
 @dataclass(frozen=True)
 class DynamicInsertionResult:
     """Result of an online dynamic customer insertion request."""
+
     customer_id: int
     success: bool
     route_idx: int | None
@@ -100,16 +102,19 @@ class DynamicCustomerInserter:
                     break
 
                 if _insert_feasible_numba(
-                    node, pos, route_arr, arrivals, latest,
-                    inst.dist, inst.ready_times, inst.due_times, inst.service_times
+                    node,
+                    pos,
+                    route_arr,
+                    arrivals,
+                    latest,
+                    inst.dist,
+                    inst.ready_times,
+                    inst.due_times,
+                    inst.service_times,
                 ):
                     prev = route_arr[pos - 1] if pos > 0 else 0
                     nxt = route_arr[pos] if pos < n_nodes else 0
-                    delta_dist = (
-                        inst.dist[prev, node]
-                        + inst.dist[node, nxt]
-                        - inst.dist[prev, nxt]
-                    )
+                    delta_dist = inst.dist[prev, node] + inst.dist[node, nxt] - inst.dist[prev, nxt]
 
                     t_prev_depart = (arrivals[pos - 1] + inst.service_times[prev]) if pos > 0 else 0.0
                     t_arrive_node = t_prev_depart + inst.dist[prev, node]

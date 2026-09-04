@@ -47,11 +47,13 @@ def test_granular_neighbor_matrix():
 
     # Granular neighbors computation
     c_ij = inst.dist
-    tw_overlap = np.maximum(0.0, inst.ready_times[:, None] - (inst.due_times[None, :] + inst.service_times[None, :] + c_ij))
+    tw_overlap = np.maximum(
+        0.0, inst.ready_times[:, None] - (inst.due_times[None, :] + inst.service_times[None, :] + c_ij)
+    )
     affinity = c_ij + 0.5 * tw_overlap
 
     # Sort top-k neighbors (excluding self)
-    neighbors = np.argsort(affinity[1:, 1:], axis=1)[:, 1:k+1] + 1
+    neighbors = np.argsort(affinity[1:, 1:], axis=1)[:, 1 : k + 1] + 1
 
     assert neighbors.shape == (20, k)
     # Verify neighbor indices are valid customer IDs

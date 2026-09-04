@@ -64,16 +64,10 @@ class Inst:
         self.temporal_rel = (ready_diff / max_tw_val).astype(np.float32)
         demand_diff = np.abs(self.demands[:, None] - self.demands[None, :])
         self.demand_rel = (demand_diff / self.capacity).astype(np.float32)
-        self.relatedness = (
-            0.5 * self.spatial_rel
-            + 0.4 * self.temporal_rel
-            + 0.1 * self.demand_rel
-        )
+        self.relatedness = 0.5 * self.spatial_rel + 0.4 * self.temporal_rel + 0.1 * self.demand_rel
         # Optional roadmap extensions: Multi-depot coordinates & Heterogeneous vehicle capacities
         self.multi_depots = raw.get("multi_depots", None)
         self.vehicle_capacities = raw.get("vehicle_capacities", None)
-
-
 
 
 def load_solomon_instance(path: str) -> Inst:
@@ -290,7 +284,6 @@ class Plan:
             "workload_variance": self.calculate_workload_balance(),
             "delay_risk": float(1.0 - self.on_time_rate),
         }
-
 
 
 def _invalidate(plan: Plan) -> Plan:

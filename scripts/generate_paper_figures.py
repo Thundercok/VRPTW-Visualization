@@ -29,30 +29,33 @@ os.makedirs(FIG_DIR, exist_ok=True)
 CSV_PATH = os.path.join(_REPO, "results", "ultimate-publication-suite", "combined_clean.csv")
 
 # Set publication style
-plt.rcParams.update({
-    "font.size": 10,
-    "axes.labelsize": 11,
-    "axes.titlesize": 11.5,
-    "xtick.labelsize": 9.5,
-    "ytick.labelsize": 9.5,
-    "legend.fontsize": 9.5,
-    "figure.titlesize": 13,
-    "pdf.fonttype": 42,
-    "ps.fonttype": 42,
-    "axes.spines.top": False,
-    "axes.spines.right": False,
-    "axes.grid": True,
-    "grid.alpha": 0.35,
-    "grid.linestyle": "--",
-})
+plt.rcParams.update(
+    {
+        "font.size": 10,
+        "axes.labelsize": 11,
+        "axes.titlesize": 11.5,
+        "xtick.labelsize": 9.5,
+        "ytick.labelsize": 9.5,
+        "legend.fontsize": 9.5,
+        "figure.titlesize": 13,
+        "pdf.fonttype": 42,
+        "ps.fonttype": 42,
+        "axes.spines.top": False,
+        "axes.spines.right": False,
+        "axes.grid": True,
+        "grid.alpha": 0.35,
+        "grid.linestyle": "--",
+    }
+)
 
 ALGO_ORDER = ["ALNS-Base", "Hybrid-Fixed", "Hybrid-Rule", "Hybrid-DDQN"]
 ALGO_PALETTE = {
-    "ALNS-Base": "#64748b",     # Slate
-    "Hybrid-Fixed": "#f59e0b",   # Amber
-    "Hybrid-Rule": "#3b82f6",    # Blue
-    "Hybrid-DDQN": "#10b981",    # Emerald
+    "ALNS-Base": "#64748b",  # Slate
+    "Hybrid-Fixed": "#f59e0b",  # Amber
+    "Hybrid-Rule": "#3b82f6",  # Blue
+    "Hybrid-DDQN": "#10b981",  # Emerald
 }
+
 
 def generate_nv_boxplots():
     print(f"[1/2] Generating NV distribution boxplots from {CSV_PATH}...")
@@ -72,12 +75,7 @@ def generate_nv_boxplots():
 
     df["Suite"] = df.apply(assign_suite, axis=1)
 
-    suite_order = [
-        "Solomon-100 (N=56)",
-        "Homberger-200 (N=60)",
-        "Homberger-400 (N=60)",
-        "Overall Suite (N=176)"
-    ]
+    suite_order = ["Solomon-100 (N=56)", "Homberger-200 (N=60)", "Homberger-400 (N=60)", "Overall Suite (N=176)"]
 
     fig, axes = plt.subplots(1, 4, figsize=(14, 4.0), sharey=True)
 
@@ -98,14 +96,9 @@ def generate_nv_boxplots():
             widths=0.55,
             patch_artist=True,
             showmeans=True,
-            meanprops={
-                "marker": "D",
-                "markerfacecolor": "white",
-                "markeredgecolor": "black",
-                "markersize": 5
-            },
+            meanprops={"marker": "D", "markerfacecolor": "white", "markeredgecolor": "black", "markersize": 5},
             medianprops={"color": "black", "linewidth": 1.5},
-            flierprops={"marker": "o", "markersize": 3.5, "alpha": 0.5}
+            flierprops={"marker": "o", "markersize": 3.5, "alpha": 0.5},
         )
 
         for patch, algo in zip(bp["boxes"], ALGO_ORDER):
@@ -119,14 +112,7 @@ def generate_nv_boxplots():
         np.random.seed(42)
         for i, vals in enumerate(data_to_plot, start=1):
             jitter = np.random.normal(0, 0.06, size=len(vals))
-            ax.scatter(
-                np.full_like(vals, i) + jitter,
-                vals,
-                alpha=0.35,
-                color="black",
-                s=12,
-                zorder=3
-            )
+            ax.scatter(np.full_like(vals, i) + jitter, vals, alpha=0.35, color="black", s=12, zorder=3)
 
         ax.set_title(suite_name, fontweight="bold", pad=8)
         if idx == 0:
@@ -178,7 +164,7 @@ def generate_convergence_curves():
             hybrid_iterations=iters,
             early_stop_patience=iters,
             time_limit=None,
-            time_limit_per_customer=0.0
+            time_limit_per_customer=0.0,
         )
 
         print(f"  Simulating search trajectories for {inst_label} ({iters} iters)...")

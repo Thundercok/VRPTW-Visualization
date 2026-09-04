@@ -15,6 +15,7 @@ from .config import (
     ALGO_ALNS_BASE,
     ALGO_ALNS_BASE_PLUS,
     ALGO_DQN,
+    ALGO_FLAT_DDQN,
     ALGO_HYBRID_DDQN,
     ALGO_HYBRID_DDQN_TRANSFER,
     ALGO_HYBRID_DDQN_TRANSFER_DR,
@@ -31,7 +32,15 @@ from .core import Inst, Plan
 from .generators import SyntheticVRPTWGenerator
 from .operators import op_regret_2, op_shaw
 from .rl import EliteArchive, WelfordRewardNormalizer
-from .solvers import ALNSSolver, DQNSolver, HybridDDQNSolver, HybridFixedSolver, HybridRuleSolver, run_ortools
+from .solvers import (
+    ALNSSolver,
+    DQNSolver,
+    FlatDDQNSolver,
+    HybridDDQNSolver,
+    HybridFixedSolver,
+    HybridRuleSolver,
+    run_ortools,
+)
 
 try:
     from safetensors.torch import load_file as _st_load
@@ -54,14 +63,13 @@ def _save_weights(weights: dict, stem: str) -> None:
 
 
 def _load_weights(stem: str) -> dict | None:
-    for suffix, loader in (
-        (".safetensors", _st_load if SAFETENSORS_OK else None),
-        (".pt", lambda f: torch.load(f, map_location="cpu")),
-    ):
-        p = stem + suffix
-        if os.path.exists(p) and loader is not None:
-            print(f"Weights loaded → {p}")
-            return loader(p)
+    if SAFETENSORS_OK and _st_load is not None:
+        path = stem + ".safetensors"
+        if os.path.exists(path):
+            return _st_load(path)
+    path = stem + ".pt"
+    if os.path.exists(path):
+        return torch.load(path, map_location="cpu", weights_only=True)
     return None
 
 
@@ -70,6 +78,7 @@ SOLVER_REGISTRY = {
     ALGO_ALNS_BASE_PLUS: ALNSSolver,
     ALGO_HYBRID_FIXED: HybridFixedSolver,
     ALGO_HYBRID_RULE: HybridRuleSolver,
+    ALGO_FLAT_DDQN: FlatDDQNSolver,
     ALGO_HYBRID_DDQN: HybridDDQNSolver,
     ALGO_HYBRID_DDQN_TRANSFER: HybridDDQNSolver,
     ALGO_HYBRID_DDQN_TRANSFER_RC2: HybridDDQNSolver,
@@ -89,6 +98,7 @@ def run_instance(
 ) -> tuple[dict, Plan | None]:
     import copy
     import inspect
+
     start = time.time()
     algo_canonical = canonical_algo_label(algo)
     use_gnn = algo_canonical.startswith("GNN-")
@@ -125,7 +135,11 @@ def run_instance(
         if "init" in sig.parameters and init_plan is not None:
             solve_kwargs["init"] = init_plan
 
-        is_transfer = target_algo in (ALGO_HYBRID_DDQN_TRANSFER, ALGO_HYBRID_DDQN_TRANSFER_RC2, ALGO_HYBRID_DDQN_TRANSFER_DR)
+        is_transfer = target_algo in (
+            ALGO_HYBRID_DDQN_TRANSFER,
+            ALGO_HYBRID_DDQN_TRANSFER_RC2,
+            ALGO_HYBRID_DDQN_TRANSFER_DR,
+        )
         if is_transfer:
             if transfer_weights is not None and hasattr(solver, "load_weights"):
                 solver.load_weights(transfer_weights)
@@ -179,7 +193,7 @@ def _benchmark_instance_worker(packed: tuple) -> list[dict]:
     print(f"    [PROCESSING] {inst.name}...", flush=True)
     t0 = time.time()
     try:
-    # Archive is isolated per-algorithm inside the loop below
+        # Archive is isolated per-algorithm inside the loop below
 
         dataset = (
             "RC1"
@@ -239,10 +253,13 @@ def _benchmark_instance_worker(packed: tuple) -> list[dict]:
                     print(
                         f"    [RUN] {inst.name} | {algo_label} | run {i + 1}/{n_runs_eff}: "
                         f"nv={res['nv']} cost={res['cost']:.1f} ({res['time']:.1f}s) | wall {elapsed_h:.2f}h",
-                        flush=True
+                        flush=True,
                     )
                 else:
-                    print(f"    [RUN] {inst.name} | {algo_label} | run {i + 1}/{n_runs_eff}: FAILED ({res['time']:.1f}s)", flush=True)
+                    print(
+                        f"    [RUN] {inst.name} | {algo_label} | run {i + 1}/{n_runs_eff}: FAILED ({res['time']:.1f}s)",
+                        flush=True,
+                    )
 
                 if (
                     algo_label
@@ -425,7 +442,9 @@ def run_benchmark(
                 needs_run = True
                 break
         if needs_run:
-            worker_args.append((inst, algorithms, cfg, transfer_weights, plans_folder, completed, completed_times, wall_start))
+            worker_args.append(
+                (inst, algorithms, cfg, transfer_weights, plans_folder, completed, completed_times, wall_start)
+            )
         else:
             # Already completed in checkpoint — print status for progress monitor
             print(f"    [PROCESSING] {inst.name}...", flush=True)

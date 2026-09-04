@@ -3814,6 +3814,10 @@ export class App {
 
       const payload = {
         mode: this.state.mode,
+        dataset: this.state.mode === 'sample' ? (this.el.datasetSelect?.value || 'demo') : '',
+        preset: this.state.preset || 'fast',
+        pretrained_transfer: Boolean(this.state.pretrainedTransfer),
+        use_gnn: Boolean(this.state.useGnn !== false),
         fleet: { vehicles: this.state.vehicles, capacity: this.state.capacity },
         customers: this.state.customers,
       };

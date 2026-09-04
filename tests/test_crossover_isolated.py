@@ -9,7 +9,7 @@ from vrptw.rl import EliteArchive
 
 
 def load_inst_rc202() -> Inst:
-    file_path = 'data/Solomon/RC202.txt'
+    file_path = "data/Solomon/RC202.txt"
     assert os.path.exists(file_path), f"Solomon file not found at {file_path}"
     with open(file_path, encoding="utf-8") as fh:
         lines = fh.readlines()
@@ -17,6 +17,7 @@ def load_inst_rc202() -> Inst:
     capacity = float(lines[4].strip().split()[1])
     rows = [list(map(float, ln.split())) for ln in lines[9:] if ln.strip()]
     return Inst({"name": name, "capacity": capacity, "data": np.array(rows)})
+
 
 def test_crossover_complete_plans():
     inst = load_inst_rc202()
@@ -38,6 +39,7 @@ def test_crossover_complete_plans():
     assert child.feasible
     assert len(child.routes) > 0
 
+
 def test_crossover_offspring_feasible_exact_cover():
     """SREX offspring must be a feasible exact cover. The old implementation
     produced feasible but heavily fragmented offspring (inflated route count),
@@ -51,7 +53,7 @@ def test_crossover_offspring_feasible_exact_cover():
 
     # A second parent with a different route topology: reversed route order and
     # 4 dropped customers repaired back in by the crossover itself.
-    second_half_customers = [c for r in p1.routes[len(p1.routes) // 2:] for c in r]
+    second_half_customers = [c for r in p1.routes[len(p1.routes) // 2 :] for c in r]
     assert len(second_half_customers) >= 4
     drop_set = set(second_half_customers[:4])
     routes2 = [[c for c in r if c not in drop_set] for r in p1.routes[::-1]]
@@ -70,7 +72,5 @@ def test_crossover_offspring_feasible_exact_cover():
         produced += 1
         assert child.feasible, "SREX offspring must be feasible by construction"
         served = [c for r in child.routes for c in r]
-        assert len(served) == inst.n and len(set(served)) == inst.n, (
-            "offspring must serve every customer exactly once"
-        )
+        assert len(served) == inst.n and len(set(served)) == inst.n, "offspring must serve every customer exactly once"
     assert produced > 0, "crossover must produce at least one feasible offspring in 20 tries"

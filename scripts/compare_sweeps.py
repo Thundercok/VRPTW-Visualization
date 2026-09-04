@@ -80,12 +80,18 @@ def compare_block(merged: pd.DataFrame, label: str) -> None:
     p_td = _wilcoxon(td_o, td_n)
 
     print(f"\n-- {label}  ({len(merged)} instance rows) " + "-" * max(1, 40 - len(label)))
-    print(f"  NV mean : {nv_o.mean():8.3f} -> {nv_n.mean():8.3f}  ({nv_n.mean() - nv_o.mean():+.3f})"
-          f"   Wilcoxon p={_fmt_p(p_nv)}")
-    print(f"  TD mean : {td_o.mean():8.1f} -> {td_n.mean():8.1f}  ({td_n.mean() - td_o.mean():+.1f})"
-          f"   Wilcoxon p={_fmt_p(p_td)}")
-    print(f"  NV: better {int((nv_n < nv_o - 1e-9).sum())}, worse {int((nv_n > nv_o + 1e-9).sum())}, "
-          f"tie {int((np.abs(nv_n - nv_o) <= 1e-9).sum())}")
+    print(
+        f"  NV mean : {nv_o.mean():8.3f} -> {nv_n.mean():8.3f}  ({nv_n.mean() - nv_o.mean():+.3f})"
+        f"   Wilcoxon p={_fmt_p(p_nv)}"
+    )
+    print(
+        f"  TD mean : {td_o.mean():8.1f} -> {td_n.mean():8.1f}  ({td_n.mean() - td_o.mean():+.1f})"
+        f"   Wilcoxon p={_fmt_p(p_td)}"
+    )
+    print(
+        f"  NV: better {int((nv_n < nv_o - 1e-9).sum())}, worse {int((nv_n > nv_o + 1e-9).sum())}, "
+        f"tie {int((np.abs(nv_n - nv_o) <= 1e-9).sum())}"
+    )
 
     # ── TD at matched vehicle count only ─────────────────────────────────────
     matched = merged[np.abs(merged["NV_mean_old"] - merged["NV_mean_new"]) <= 1e-9]
@@ -99,8 +105,10 @@ def compare_block(merged: pd.DataFrame, label: str) -> None:
         if gaps_o:
             go, gn = float(np.mean(gaps_o)), float(np.mean(gaps_n))
             p_m = _wilcoxon(np.array(gaps_o), np.array(gaps_n))
-            print(f"  TD at matched NV ({len(matched)} rows, {len(gaps_o)} with BKS): "
-                  f"gap {go:.2f}% -> {gn:.2f}% ({gn - go:+.2f} pp)  Wilcoxon p={_fmt_p(p_m)}")
+            print(
+                f"  TD at matched NV ({len(matched)} rows, {len(gaps_o)} with BKS): "
+                f"gap {go:.2f}% -> {gn:.2f}% ({gn - go:+.2f} pp)  Wilcoxon p={_fmt_p(p_m)}"
+            )
     else:
         print("  TD at matched NV: no rows with identical NV_mean")
 
@@ -123,8 +131,9 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("old_csv")
     ap.add_argument("new_csv")
-    ap.add_argument("--algorithms", nargs="+", default=None,
-                    help="restrict to these Algorithm labels (default: all shared)")
+    ap.add_argument(
+        "--algorithms", nargs="+", default=None, help="restrict to these Algorithm labels (default: all shared)"
+    )
     args = ap.parse_args()
 
     old = _load(args.old_csv)

@@ -6,6 +6,7 @@ Compares local configuration against official SINTEF published benchmark tables:
 - Gehring & Homberger 400 (60 instances)
 Total: 176 instances.
 """
+
 from __future__ import annotations
 
 import json
@@ -43,12 +44,14 @@ def generate_diff_report(output_md_path: str = "docs/sintef_bks_diff_report.md")
     for name, ref in sintef_bks.items():
         local = LOCAL_BKS.get(name)
         if local is None:
-            missing_in_local.append({
-                "instance": name,
-                "sintef_nv": ref["nv"],
-                "sintef_td": ref["td"],
-                "citation": ref.get("full_citation", "SINTEF")
-            })
+            missing_in_local.append(
+                {
+                    "instance": name,
+                    "sintef_nv": ref["nv"],
+                    "sintef_td": ref["td"],
+                    "citation": ref.get("full_citation", "SINTEF"),
+                }
+            )
             continue
 
         nv_diff = local["nv"] != ref["nv"]
@@ -57,24 +60,23 @@ def generate_diff_report(output_md_path: str = "docs/sintef_bks_diff_report.md")
         td_diff = abs_delta > tol_td
 
         if nv_diff or td_diff:
-            mismatches.append({
-                "instance": name,
-                "local_nv": local["nv"],
-                "sintef_nv": ref["nv"],
-                "local_td": local["td"],
-                "sintef_td": ref["td"],
-                "delta_pct": round(delta_pct, 4),
-                "nv_diff": nv_diff,
-                "td_diff": td_diff,
-                "citation": ref.get("full_citation", "SINTEF")
-            })
+            mismatches.append(
+                {
+                    "instance": name,
+                    "local_nv": local["nv"],
+                    "sintef_nv": ref["nv"],
+                    "local_td": local["td"],
+                    "sintef_td": ref["td"],
+                    "delta_pct": round(delta_pct, 4),
+                    "nv_diff": nv_diff,
+                    "td_diff": td_diff,
+                    "citation": ref.get("full_citation", "SINTEF"),
+                }
+            )
         else:
-            matched.append({
-                "instance": name,
-                "nv": ref["nv"],
-                "td": ref["td"],
-                "citation": ref.get("full_citation", "SINTEF")
-            })
+            matched.append(
+                {"instance": name, "nv": ref["nv"], "td": ref["td"], "citation": ref.get("full_citation", "SINTEF")}
+            )
 
     # Generate Markdown Report
     lines = [
@@ -128,7 +130,7 @@ def generate_diff_report(output_md_path: str = "docs/sintef_bks_diff_report.md")
         "total_sintef": total_sintef,
         "total_local": len(LOCAL_BKS),
         "mismatches": len(mismatches),
-        "missing": len(missing_in_local)
+        "missing": len(missing_in_local),
     }
 
 

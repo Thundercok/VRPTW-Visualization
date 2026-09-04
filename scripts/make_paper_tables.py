@@ -83,8 +83,7 @@ def tab_ablation(df: pd.DataFrame, out: str) -> None:
     scored = df[df["bks_nv"].notna()]
     n = scored[scored["Algorithm"] == "Hybrid-DDQN"]["Instance"].nunique()
     lines = [
-        r"\caption{Ablation Analysis: Component contributions (overall $N=" + str(n) +
-        r"$ instances). "
+        r"\caption{Ablation Analysis: Component contributions (overall $N=" + str(n) + r"$ instances). "
         r"NV Diff (mean fleet gap to BKS) drops sharply from ALNS-Base to any hybrid variant, then flattens among hybrids. "
         r"Raw TD Gap rises in lock-step --- an arithmetic consequence of fewer vehicles "
         r"covering the same customers, not a quality loss; the valid, vehicle-matched "

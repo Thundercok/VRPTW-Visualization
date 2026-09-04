@@ -69,11 +69,7 @@ async def geocode_address(q: str, limit: int) -> dict[str, Any]:
                     street = props.get("street", "")
                     city = props.get("city", "")
                     display = ", ".join(filter(bool, [name, street, city]))
-                    data.append({
-                        "display_name": display,
-                        "lat": coords[1],
-                        "lon": coords[0]
-                    })
+                    data.append({"display_name": display, "lat": coords[1], "lon": coords[0]})
                 data = data[: max(1, int(limit))]
             except httpx.HTTPError:
                 data = []
@@ -94,6 +90,7 @@ async def geocode_address(q: str, limit: int) -> dict[str, Any]:
 
 async def bulk_geocode_addresses(addresses: list[str]) -> list[dict[str, Any]]:
     import asyncio
+
     sem = asyncio.Semaphore(15)
     headers = {"User-Agent": "vrptw-dashboard/1.0"}
 
@@ -104,9 +101,7 @@ async def bulk_geocode_addresses(addresses: list[str]) -> list[dict[str, Any]]:
         async with sem:
             try:
                 resp = await client.get(
-                    "https://photon.komoot.io/api/",
-                    params={"q": f"{addr}, Vietnam", "limit": "1"},
-                    headers=headers
+                    "https://photon.komoot.io/api/", params={"q": f"{addr}, Vietnam", "limit": "1"}, headers=headers
                 )
                 resp.raise_for_status()
                 photon_data = resp.json().get("features", [])

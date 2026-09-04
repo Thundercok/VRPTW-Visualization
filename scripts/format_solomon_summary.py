@@ -30,14 +30,16 @@ def main() -> None:
         group = data[data["Dataset"].str.upper() == family]
         if group.empty:
             continue
-        rows.append({
-            "Lớp dữ liệu": f"{family} ({group['Instance'].nunique()} bài)",
-            "Thuật toán": args.algorithm,
-            "Mean NV": group["NV_mean"].mean(),
-            "Mean TD": group["TD_mean"].mean(),
-            "Gap% vs BKS": group["Gap%"].mean(),
-            "Thời gian": group["Time_s"].mean(),
-        })
+        rows.append(
+            {
+                "Lớp dữ liệu": f"{family} ({group['Instance'].nunique()} bài)",
+                "Thuật toán": args.algorithm,
+                "Mean NV": group["NV_mean"].mean(),
+                "Mean TD": group["TD_mean"].mean(),
+                "Gap% vs BKS": group["Gap%"].mean(),
+                "Thời gian": group["Time_s"].mean(),
+            }
+        )
 
     if len(rows) != len(FAMILIES):
         found = ", ".join(r["Lớp dữ liệu"].split()[0] for r in rows) or "none"
